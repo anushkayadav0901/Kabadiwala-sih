@@ -159,7 +159,9 @@ Transaction Hash: VERIF-EPR-${certificateId}
         {/* ---- certificate --------------------------------------------- */}
         <div className="rounded-[18px] bg-surface border border-line overflow-hidden shadow-[var(--shadow-card)] print:shadow-none print:border-2">
           <div className="bg-ink text-white p-5 flex items-start gap-3">
-            <BrandMark className="w-10 h-10 shrink-0" />
+            <span className="w-11 h-11 shrink-0 rounded-xl bg-white grid place-items-center p-1">
+              <BrandMark className="w-full h-full" />
+            </span>
             <div className="min-w-0">
               <p className="eyebrow text-white/45">Ministry of Mines · SIH 26229</p>
               <h1 className="text-[17px] font-bold tracking-[-0.015em] leading-tight mt-1">

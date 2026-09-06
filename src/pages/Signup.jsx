@@ -74,7 +74,7 @@ export const Signup = () => {
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.35 }}
         >
-          <BrandMark className="w-12 h-12" />
+          <BrandMark variant="full" className="w-[128px] h-auto -ml-1" />
           <h1 className="text-[26px] font-bold tracking-[-0.02em] leading-tight mt-4">
             Create your account
           </h1>

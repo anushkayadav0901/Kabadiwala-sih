@@ -229,7 +229,7 @@ export const BuyerDashboard = () => {
               Open scanner
             </span>
           </div>
-          <DepotIllustration className="absolute right-[-20px] bottom-[-6px] w-36 h-28 opacity-80 z-0" />
+          <DepotIllustration className="absolute right-1 bottom-1 w-32 h-24 opacity-90 z-0" />
         </button>
 
         {/* ---- verification result ---------------------------------------- */}

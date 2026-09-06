@@ -34,7 +34,9 @@ export const PriceCard = ({ material, onClick, onQuickAdd }) => {
       <MaterialIcon material={material} size="md" />
 
       <div className="min-w-0 flex-1">
-        <h4 className="font-semibold text-[15px] leading-snug text-ink truncate">
+        {/* Material names are long and translated — let them run to two lines
+            rather than clipping the word that identifies the material. */}
+        <h4 className="font-semibold text-[15px] leading-snug text-ink line-clamp-2">
           {getLocalizedName()}
         </h4>
         <div className="flex items-center gap-1.5 mt-1">

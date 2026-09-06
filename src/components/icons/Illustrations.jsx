@@ -233,15 +233,25 @@ export const safetyGlyphFor = (id) =>
   ({ safe_1: "no_fire", safe_2: "gloves", safe_3: "acid", safe_4: "separate" }[id] || "separate");
 
 /**
- * Monogram. A geometric K whose lower leg is set in gold — the same split the
- * whole system uses: indigo for the platform, gold for what the material is
- * worth. Built on a 56 grid so it stays crisp down to 20px.
+ * The brand lockup, served from /public/brand.
+ *
+ *   variant="full"  the complete logo with wordmark and tagline — splash and
+ *                   the auth screens, where there is room to read it.
+ *   variant="mark"  the collector on their own, cropped square — the app bar
+ *                   and anywhere the logo has to work at 40px or less.
+ *
+ * The source art is dark indigo on transparent, so on a dark surface put it in
+ * a light tile rather than dropping it straight onto the ink.
  */
-export const BrandMark = ({ className = "w-14 h-14" }) => (
-  <svg viewBox="0 0 56 56" fill="none" className={className} aria-hidden="true">
-    <rect width="56" height="56" rx="16" fill={brand} />
-    <rect x="14" y="15" width="7.5" height="26" rx="2" fill="#fff" />
-    <path d="M24.5 28 34.5 15h8.2L32.6 28z" fill="#fff" />
-    <path d="M24.5 28 34.5 41h8.2L32.6 28z" fill={gold} />
-  </svg>
+export const BrandMark = ({
+  className = "w-14 h-14",
+  variant = "mark",
+  alt = "Kabadiwala Connect"
+}) => (
+  <img
+    src={variant === "full" ? "/brand/logo-full.png" : "/brand/logo-mark.png"}
+    alt={alt}
+    draggable="false"
+    className={`${className} object-contain select-none`}
+  />
 );

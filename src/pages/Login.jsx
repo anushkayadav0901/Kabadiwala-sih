@@ -44,7 +44,7 @@ export const Login = () => {
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.35 }}
         >
-          <BrandMark className="w-14 h-14" />
+          <BrandMark variant="full" className="w-[150px] h-auto -ml-1" />
           <h1 className="text-[28px] font-bold tracking-[-0.02em] leading-tight mt-5">
             {t("login") || "Log in"}
           </h1>
