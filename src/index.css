@@ -1,0 +1,308 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   KABADIWALA CONNECT — DESIGN SYSTEM
+   --------------------------------------------------------------------------
+   Indigo carries the brand and every primary action; gold carries value —
+   rupees, weights, ratings, rate movement. Deliberately no green anywhere:
+   "verified" reads as an official indigo tick (authorised recycler), not a
+   generic success colour.
+
+   Built for the actual conditions: bright sunlight (high contrast, no
+   pastels), gloved hands (48px minimum targets), one-handed use while
+   carrying a sack (primary actions live in the bottom thumb zone).
+   ========================================================================== */
+
+@theme {
+  /* -- brand: indigo -------------------------------------------------- */
+  --color-brand-50:  #EEEDFC;
+  --color-brand-100: #DEDCF9;
+  --color-brand-200: #C2BEF4;
+  --color-brand-500: #4B45E0;
+  --color-brand-600: #3A34D4;
+  --color-brand-700: #2C27AC;
+  --color-brand-900: #1B1870;
+
+  /* -- value: gold ----------------------------------------------------- */
+  --color-gold-50:  #FEF5E4;
+  --color-gold-100: #FCE9C4;
+  --color-gold-500: #F0A020;
+  --color-gold-600: #C97F0C;
+  --color-gold-700: #8A5606;
+
+  /* -- alert: red ------------------------------------------------------ */
+  --color-alert-50:  #FDECEE;
+  --color-alert-100: #FBD9DD;
+  --color-alert-500: #E0384A;
+  --color-alert-600: #C22334;
+  --color-alert-700: #8E1725;
+
+  /* -- neutrals: cool slate, biased very slightly toward the indigo ---- */
+  --color-ink:     #0F1424;
+  --color-muted:   #4A5470;
+  --color-faint:   #7B85A0;
+  --color-line:    #E4E7F0;
+  --color-hair:    #EFF1F7;
+  --color-ground:  #F5F6FA;
+  --color-surface: #FFFFFF;
+  --color-sunken:  #F1F3F9;
+
+  /* -- type ------------------------------------------------------------ */
+  --font-sans: "Anek Latin", "Anek Devanagari", ui-sans-serif, system-ui,
+               -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* -- shape ----------------------------------------------------------- */
+  --radius-card:  14px;
+  --radius-tile:  18px;
+  --radius-sheet: 24px;
+
+  /* -- elevation: production-app subtlety, never a coloured glow ------- */
+  --shadow-card: 0 1px 2px rgba(15, 20, 36, .05), 0 1px 3px rgba(15, 20, 36, .04);
+  --shadow-lift: 0 2px 4px rgba(15, 20, 36, .05), 0 8px 20px -8px rgba(15, 20, 36, .14);
+  --shadow-bar:  0 -1px 2px rgba(15, 20, 36, .04), 0 -8px 24px -12px rgba(15, 20, 36, .12);
+  --shadow-sheet: 0 -8px 40px -8px rgba(15, 20, 36, .28);
+}
+
+@layer base {
+  :root {
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background-color: var(--color-ground);
+    color: var(--color-ink);
+    overflow-x: hidden;
+    /* Devanagari sits a touch smaller than Latin at the same size; this
+       keeps Hindi and Marathi optically matched to English. */
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  /* Money and weights line up in columns wherever they appear. */
+  .tnum, table, input[inputmode="numeric"], input[type="number"] {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+  }
+
+  button, a, [role="button"] { -webkit-tap-highlight-color: transparent; }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand-600);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  input, textarea, select { font-family: inherit; }
+  input::placeholder, textarea::placeholder { color: var(--color-faint); }
+
+  /* Hide number spinners — weight is adjusted with the steppers. */
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  input[type="number"] { -moz-appearance: textfield; }
+}
+
+@layer components {
+  /* ---- app shell ---------------------------------------------------- */
+  /* Every screen is a single mobile column; the ground shows through on
+     wide displays rather than stretching the layout. */
+  .screen {
+    min-height: 100dvh;
+    background-color: var(--color-ground);
+  }
+
+  .col {
+    width: 100%;
+    max-width: 440px;
+    margin-inline: auto;
+  }
+
+  /* Clears the bottom navigation plus the device home indicator. */
+  .pb-nav { padding-bottom: calc(84px + env(safe-area-inset-bottom, 0px)); }
+  .pb-bar { padding-bottom: calc(160px + env(safe-area-inset-bottom, 0px)); }
+
+  /* ---- surfaces ------------------------------------------------------ */
+  .card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+  }
+
+  /* ---- eyebrow / label ----------------------------------------------- */
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--color-faint);
+  }
+
+  /* ---- section heading with an optional trailing action -------------- */
+  .sec-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .sec-title {
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -.01em;
+    color: var(--color-ink);
+  }
+  .sec-link {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-brand-600);
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+  }
+
+  /* ---- chip rail ------------------------------------------------------ */
+  .rail {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    scroll-snap-type: x proximity;
+  }
+  .rail::-webkit-scrollbar { display: none; }
+  .no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+
+  .chip {
+    flex: none;
+    scroll-snap-align: start;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 36px;
+    padding-inline: 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+    background-color: var(--color-surface);
+    color: var(--color-muted);
+    border: 1px solid var(--color-line);
+    transition: background-color .15s, color .15s, border-color .15s;
+  }
+  .chip[data-on="true"] {
+    background-color: var(--color-ink);
+    color: #fff;
+    border-color: var(--color-ink);
+  }
+
+  /* ---- micro badge ---------------------------------------------------- */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 7px;
+    border-radius: 5px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    line-height: 1.3;
+    white-space: nowrap;
+  }
+
+  /* ---- fields --------------------------------------------------------- */
+  .field {
+    width: 100%;
+    height: 52px;
+    padding-inline: 14px;
+    border-radius: 12px;
+    border: 1.5px solid var(--color-line);
+    background-color: var(--color-surface);
+    color: var(--color-ink);
+    font-size: 16px; /* 16px stops iOS zooming the page on focus */
+    font-weight: 500;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  .field:focus {
+    outline: none;
+    border-color: var(--color-brand-600);
+    box-shadow: 0 0 0 3px var(--color-brand-50);
+  }
+
+  /* ---- sticky bottom action bar (the cart pattern) -------------------- */
+  .actionbar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+    z-index: 30;
+    padding: 10px 16px;
+    background: linear-gradient(to top,
+      var(--color-ground) 55%,
+      color-mix(in srgb, var(--color-ground) 0%, transparent));
+  }
+  .actionbar-solo { bottom: 0; padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px)); }
+
+  /* ---- skeleton -------------------------------------------------------- */
+  .skel {
+    background: linear-gradient(90deg,
+      var(--color-sunken) 25%,
+      var(--color-hair) 37%,
+      var(--color-sunken) 63%);
+    background-size: 400% 100%;
+    animation: skel 1.4s ease infinite;
+    border-radius: 8px;
+  }
+  @keyframes skel { 0% { background-position: 100% 50%; } 100% { background-position: 0 50%; } }
+
+  /* ---- hazard tape, used only on genuinely hazardous material --------- */
+  .tape {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      var(--color-gold-500) 0 8px,
+      var(--color-ink) 8px 16px);
+  }
+}
+
+@layer utilities {
+  .tap { touch-action: manipulation; }
+  .safe-b { padding-bottom: env(safe-area-inset-bottom, 0px); }
+}
+
+/* Leaflet sits inside a rounded card and must not paint over sticky chrome. */
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  background: var(--color-sunken);
+  z-index: 0;
+  font-family: var(--font-sans);
+}
+.leaflet-control-attribution {
+  font-size: 9px !important;
+  background: rgba(255, 255, 255, .82) !important;
+}
+.leaflet-popup-content-wrapper {
+  border-radius: 12px !important;
+  box-shadow: var(--shadow-lift) !important;
+}
+.leaflet-popup-content { margin: 12px 14px !important; }
+.leaflet-bar a {
+  border-radius: 8px !important;
+  color: var(--color-ink) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+@media print {
+  .no-print { display: none !important; }
+  body { background: #fff; }
+}
