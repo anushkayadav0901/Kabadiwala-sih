@@ -1,17 +1,28 @@
-# Kabadiwala Connect API
+# Backend — Kabadiwala Connect
 
-Express + MongoDB backend for the collector and recycler portals. It uses JWT bearer
-tokens, Mongoose models, and local image uploads in `uploads/`.
+The Express + MongoDB API uses JWT authentication, Mongoose models, signed Kabadi Passport handovers, price/recycler APIs, and local development uploads.
 
-## Run
+For the complete project setup, deployment instructions, and current limitations, see the [root README](../README.md).
 
-1. Ensure MongoDB is running, then update `.env` if needed.
-2. Run `npm install` and `npm run seed`.
-3. Run `npm run dev` (or `npm start`). The API starts on port 5000 by default.
-4. In `../frontend`, copy `.env.example` to `.env` and set `VITE_API_URL` if the API
-   is not at `http://localhost:5000/api`.
+## Quick start
 
-The seed includes ten CPCB-authorized Delhi NCR recyclers. Their shared demo login
-password is `Recycler@123`.
+```powershell
+npm install
+Copy-Item .env.example .env
+# Edit .env with MONGODB_URI and JWT_SECRET
+npm run seed
+npm run dev
+```
 
-`setup.sql` remains only as legacy Supabase reference material and is no longer used.
+The default API URL is `http://localhost:5000/api`.
+
+## Seeded recycler login
+
+| Field | Value |
+| --- | --- |
+| Email | `delhi.ewaste@example.com` |
+| Password | `Recycler@123` |
+
+All seed recyclers share the same password. They are demo records only; validate recycler authorization before production use.
+
+`setup.sql` is legacy Supabase reference material and is not used by this API.
