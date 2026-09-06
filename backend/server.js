@@ -1,0 +1,232 @@
+import "dotenv/config";
+import crypto from "node:crypto";
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import bcrypt from "bcryptjs";
+import cors from "cors";
+import express from "express";
+import jwt from "jsonwebtoken";
+import mongoose from "mongoose";
+import multer from "multer";
+import Collector from "./models/Collector.js";
+import Lot from "./models/Lot.js";
+import Price from "./models/Price.js";
+import Recycler from "./models/Recycler.js";
+import Transaction from "./models/Transaction.js";
+import { requireAuth, requireRole } from "./middleware/auth.js";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const uploadsDir = path.join(__dirname, "uploads");
+fs.mkdirSync(uploadsDir, { recursive: true });
+
+const app = express();
+const port = Number(process.env.PORT || 5000);
+app.use(cors({ origin: process.env.CLIENT_ORIGIN?.split(",") || true }));
+app.use(express.json());
+app.use("/uploads", express.static(uploadsDir));
+
+const storage = multer.diskStorage({
+  destination: (_req, _file, done) => done(null, uploadsDir),
+  filename: (_req, file, done) => done(null, `${crypto.randomUUID()}${path.extname(file.originalname)}`)
+});
+const upload = multer({
+  storage,
+  limits: { fileSize: 5 * 1024 * 1024 },
+  fileFilter: (_req, file, done) => done(null, file.mimetype.startsWith("image/"))
+});
+
+const publicUser = (user, role) => ({
+  id: user._id.toString(),
+  name: user.name,
+  email: user.email,
+  phone: user.phone || user.contact,
+  preferredLanguage: user.preferredLanguage || "en",
+  locationLat: user.locationLat,
+  locationLng: user.locationLng,
+  role,
+  isLoggedIn: true
+});
+const signToken = (user, role) => jwt.sign({ sub: user._id.toString(), role }, process.env.JWT_SECRET, { expiresIn: "7d" });
+const asObjectId = (id) => mongoose.isValidObjectId(id);
+const lotDto = (lot) => ({
+  id: lot._id.toString(),
+  collector_id: lot.collector?._id?.toString() || lot.collector?.toString(),
+  collectors: lot.collector?.name ? { id: lot.collector._id.toString(), name: lot.collector.name, phone: lot.collector.phone } : undefined,
+  materials: lot.materials.map((item) => ({ ...item.toObject?.() || item, weight_kg: item.weightKg, price_per_kg: item.pricePerKg })),
+  total_weight: lot.totalWeight,
+  estimated_value: lot.estimatedValue,
+  photo_urls: lot.photoUrls,
+  gps_lat: lot.gpsLat,
+  gps_lng: lot.gpsLng,
+  status: lot.status,
+  recycler_id: lot.matchedRecycler?._id?.toString() || lot.matchedRecycler?.toString(),
+  handover_reference: lot.handoverReference,
+  created_at: lot.createdAt,
+  updated_at: lot.updatedAt
+});
+const recyclerDto = (recycler, lat, lng) => {
+  const source = recycler.toObject ? recycler.toObject() : recycler;
+  let distanceKm = null;
+  if (Number.isFinite(lat) && Number.isFinite(lng)) {
+    const radians = (value) => (value * Math.PI) / 180;
+    const dLat = radians(source.locationLat - lat);
+    const dLng = radians(source.locationLng - lng);
+    const a = Math.sin(dLat / 2) ** 2 + Math.cos(radians(lat)) * Math.cos(radians(source.locationLat)) * Math.sin(dLng / 2) ** 2;
+    distanceKm = Number((6371 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))).toFixed(2));
+  }
+  return {
+    id: source._id.toString(), name: source.name, ownerName: source.ownerName, rating: source.rating,
+    reviewsCount: source.reviewsCount, distanceKm, lat: source.locationLat, lng: source.locationLng,
+    address: source.address, phone: source.contact, openHours: source.openHours,
+    pickupAvailable: source.pickupAvailable, minPickupWeightKg: source.minPickupWeightKg,
+    acceptedCategories: source.materialsAccepted, offeredRates: source.offeredRates,
+    verified: source.authorized, authorized: source.authorized,
+    cpcbRegistrationNumber: source.cpcbRegistrationNumber,
+    cpcbAuthorizationValidUntil: source.cpcbAuthorizationValidUntil
+  };
+};
+
+app.get("/api/health", (_req, res) => res.json({ ok: true }));
+
+app.post("/api/auth/register", async (req, res, next) => {
+  try {
+    const { role = "collector", name, email, phone, password, preferredLanguage, locationLat, locationLng, contact, registrationId, materialsAccepted, offeredRates, pickupAvailable } = req.body;
+    if (!name || !password || password.length < 6 || !["collector", "recycler"].includes(role)) {
+      return res.status(400).json({ message: "Name, a 6+ character password, and a valid role are required" });
+    }
+    const passwordHash = await bcrypt.hash(password, 12);
+    let user;
+    if (role === "collector") {
+      if (!phone) return res.status(400).json({ message: "Phone number is required for collectors" });
+      if (await Collector.exists({ phone })) return res.status(409).json({ message: "An account already exists for this phone number" });
+      user = await Collector.create({ name, phone, email, passwordHash, preferredLanguage, locationLat, locationLng });
+    } else {
+      if (!email) return res.status(400).json({ message: "Email is required for recyclers" });
+      if (await Recycler.exists({ email: email.toLowerCase() })) return res.status(409).json({ message: "An account already exists for this email" });
+      user = await Recycler.create({ name, email, passwordHash, contact: contact || email, cpcbRegistrationNumber: registrationId, locationLat, locationLng, materialsAccepted, offeredRates, pickupAvailable, authorized: false });
+    }
+    res.status(201).json({ token: signToken(user, role), user: publicUser(user, role) });
+  } catch (error) { next(error); }
+});
+
+app.post("/api/auth/login", async (req, res, next) => {
+  try {
+    const { phone, email, password, role } = req.body;
+    const isRecycler = role === "recycler" || Boolean(email);
+    const user = isRecycler
+      ? await Recycler.findOne({ email: String(email || "").toLowerCase() }).select("+passwordHash")
+      : await Collector.findOne({ phone }).select("+passwordHash");
+    if (!user || !(await bcrypt.compare(password || "", user.passwordHash))) return res.status(401).json({ message: "Incorrect login details" });
+    const userRole = isRecycler ? "recycler" : "collector";
+    res.json({ token: signToken(user, userRole), user: publicUser(user, userRole) });
+  } catch (error) { next(error); }
+});
+
+app.post("/api/lots", requireAuth, requireRole("collector"), upload.single("photo"), async (req, res, next) => {
+  try {
+    const body = req.body;
+    const materials = typeof body.materials === "string" ? JSON.parse(body.materials) : (body.materials || []);
+    const photoUrls = typeof body.photoUrls === "string" ? JSON.parse(body.photoUrls) : (body.photoUrls || []);
+    if (req.file) photoUrls.push(`/uploads/${req.file.filename}`);
+    const lot = await Lot.create({
+      collector: req.auth.sub, materials: materials.map((item) => ({ name: item.name, category: item.category, weightKg: item.weightKg ?? item.weight_kg, pricePerKg: item.pricePerKg ?? item.price_per_kg })),
+      totalWeight: Number(body.totalWeight ?? body.total_weight), estimatedValue: Number(body.estimatedValue ?? body.estimated_value),
+      photoUrls, gpsLat: body.gpsLat ?? body.gps_lat, gpsLng: body.gpsLng ?? body.gps_lng
+    });
+    res.status(201).json({ lot: lotDto(lot) });
+  } catch (error) { next(error); }
+});
+
+app.get("/api/lots", requireAuth, requireRole("recycler"), async (_req, res, next) => {
+  try {
+    const lots = await Lot.find({ status: { $in: ["created", "matched"] } }).populate("collector", "name phone").sort({ createdAt: -1 });
+    res.json({ lots: lots.map(lotDto) });
+  } catch (error) { next(error); }
+});
+
+app.get("/api/lots/collector/:id", requireAuth, async (req, res, next) => {
+  try {
+    if (req.auth.role !== "collector" || req.auth.sub !== req.params.id) return res.status(403).json({ message: "You can only view your own lots" });
+    const lots = await Lot.find({ collector: req.params.id }).sort({ createdAt: -1 });
+    res.json({ lots: lots.map(lotDto) });
+  } catch (error) { next(error); }
+});
+
+app.put("/api/lots/:id/match", requireAuth, requireRole("recycler"), async (req, res, next) => {
+  try {
+    if (!asObjectId(req.params.id)) return res.status(400).json({ message: "Invalid lot id" });
+    const lot = await Lot.findById(req.params.id);
+    if (!lot || lot.status !== "created") return res.status(404).json({ message: "Pending lot not found" });
+    lot.status = "matched"; lot.matchedRecycler = req.auth.sub; await lot.save();
+    const handoverReference = req.body.handoverRef || `HO-${Date.now()}-${lot._id.toString().slice(-5)}`;
+    const transaction = await Transaction.create({ lot: lot._id, collector: lot.collector, recycler: req.auth.sub, quotedPrice: req.body.quotedPrice ?? lot.estimatedValue, handoverReference });
+    res.json({ lot: lotDto(lot), transaction });
+  } catch (error) { next(error); }
+});
+
+app.post("/api/lots/:id/handover", requireAuth, async (req, res, next) => {
+  try {
+    const lot = await Lot.findById(req.params.id);
+    if (!lot) return res.status(404).json({ message: "Lot not found" });
+    const recyclerId = req.auth.role === "recycler" ? req.auth.sub : req.body.recyclerId;
+    if (!recyclerId || !asObjectId(recyclerId)) return res.status(400).json({ message: "A recycler is required to complete handover" });
+    if (req.auth.role === "collector" && lot.collector.toString() !== req.auth.sub) return res.status(403).json({ message: "You can only complete your own handover" });
+    const handoverReference = req.body.handoverRef || lot.handoverReference || `HO-${Date.now()}-${lot._id.toString().slice(-5)}`;
+    const transaction = await Transaction.findOneAndUpdate(
+      { lot: lot._id },
+      { lot: lot._id, collector: lot.collector, recycler: recyclerId, quotedPrice: req.body.quotedPrice ?? lot.estimatedValue, finalPrice: Number(req.body.finalPrice ?? lot.estimatedValue), handoverReference, paymentMethod: req.body.paymentMethod || "cash", paymentStatus: "paid", status: "completed", completedAt: new Date() },
+      { new: true, upsert: true, runValidators: true }
+    );
+    lot.status = "paid"; lot.matchedRecycler = recyclerId; lot.handoverReference = handoverReference; lot.handedOverAt = new Date(); await lot.save();
+    res.json({ lot: lotDto(lot), transaction });
+  } catch (error) { next(error); }
+});
+
+app.get("/api/recyclers", async (req, res, next) => {
+  try {
+    const { material, location, lat, lng } = req.query;
+    const query = { authorized: true };
+    if (material && material !== "all") query.materialsAccepted = material;
+    if (location) query.address = new RegExp(location, "i");
+    const recyclers = await Recycler.find(query).sort({ rating: -1 });
+    const mapped = recyclers.map((recycler) => recyclerDto(recycler, Number(lat), Number(lng))).sort((a, b) => (a.distanceKm ?? Infinity) - (b.distanceKm ?? Infinity));
+    res.json({ recyclers: mapped });
+  } catch (error) { next(error); }
+});
+
+app.get("/api/prices", async (req, res, next) => {
+  try {
+    const match = req.query.location ? { location: req.query.location } : {};
+    const prices = await Price.aggregate([{ $match: match }, { $sort: { priceDate: -1 } }, { $group: { _id: "$materialCategory", price: { $first: "$$ROOT" } } }, { $replaceRoot: { newRoot: "$price" } }, { $sort: { materialCategory: 1 } }]);
+    res.json({ prices: prices.map((price) => ({ id: price._id.toString(), materialCategory: price.materialCategory, location: price.location, priceDate: price.priceDate, buyingPrice: price.buyingPrice, quotedPrice: price.quotedPrice, unit: price.unit })) });
+  } catch (error) { next(error); }
+});
+
+app.get("/api/prices/:category/trend", async (req, res, next) => {
+  try {
+    const limit = Math.min(Number(req.query.days) || 30, 365);
+    const prices = await Price.find({ materialCategory: req.params.category, ...(req.query.location ? { location: req.query.location } : {}) }).sort({ priceDate: -1 }).limit(limit).sort({ priceDate: 1 });
+    res.json({ prices });
+  } catch (error) { next(error); }
+});
+
+app.get("/api/collector/:id/ledger", requireAuth, requireRole("collector"), async (req, res, next) => {
+  try {
+    if (req.auth.sub !== req.params.id) return res.status(403).json({ message: "You can only view your own ledger" });
+    const transactions = await Transaction.find({ collector: req.params.id, paymentStatus: "paid" }).populate("lot").populate("recycler", "name").sort({ completedAt: -1 });
+    const now = new Date(); const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate()); const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const sum = (list) => list.reduce((total, transaction) => total + Number(transaction.finalPrice || 0), 0);
+    res.json({ summary: { totalEarnings: sum(transactions), todayEarnings: sum(transactions.filter((tx) => tx.completedAt >= startOfToday)), monthlyEarnings: sum(transactions.filter((tx) => tx.completedAt >= startOfMonth)), completedDeals: transactions.length }, transactions: transactions.map((tx) => ({ id: tx._id.toString(), date: tx.completedAt || tx.createdAt, materialName: tx.lot?.materials?.map((material) => material.name).filter(Boolean).join(", ") || "Scrap lot", weightKg: tx.lot?.totalWeight || 0, pricePerKg: tx.lot?.totalWeight ? Number((tx.finalPrice / tx.lot.totalWeight).toFixed(2)) : 0, totalAmount: tx.finalPrice, recyclerName: tx.recycler?.name || "Authorized recycler", status: "Paid", handoverRef: tx.handoverReference })) });
+  } catch (error) { next(error); }
+});
+
+app.use((error, _req, res, _next) => {
+  console.error(error);
+  if (error instanceof multer.MulterError) return res.status(400).json({ message: error.message });
+  if (error.name === "ValidationError") return res.status(400).json({ message: error.message });
+  if (error.code === 11000) return res.status(409).json({ message: "That record already exists" });
+  res.status(500).json({ message: "Something went wrong on the server" });
+});
+
+mongoose.connect(process.env.MONGODB_URI).then(() => app.listen(port, () => console.log(`API listening on http://localhost:${port}`))).catch((error) => { console.error("MongoDB connection failed:", error.message); process.exit(1); });

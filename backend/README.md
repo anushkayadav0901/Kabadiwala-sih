@@ -1,11 +1,17 @@
-# Backend
+# Kabadiwala Connect API
 
-This directory contains the current database reference material for Kabadiwala Connect.
-The application backend is not implemented yet.
+Express + MongoDB backend for the collector and recycler portals. It uses JWT bearer
+tokens, Mongoose models, and local image uploads in `uploads/`.
 
-- `setup.sql` is the Supabase schema reference.
-- Backend services, authentication, and API routes can be added here later without
-  changing the frontend project boundary.
+## Run
 
-The current frontend runs independently with mock/service-layer data. Use the guide in
-`../docs/backend-db-auth-guide.md` when backend implementation begins.
+1. Ensure MongoDB is running, then update `.env` if needed.
+2. Run `npm install` and `npm run seed`.
+3. Run `npm run dev` (or `npm start`). The API starts on port 5000 by default.
+4. In `../frontend`, copy `.env.example` to `.env` and set `VITE_API_URL` if the API
+   is not at `http://localhost:5000/api`.
+
+The seed includes ten CPCB-authorized Delhi NCR recyclers. Their shared demo login
+password is `Recycler@123`.
+
+`setup.sql` remains only as legacy Supabase reference material and is no longer used.

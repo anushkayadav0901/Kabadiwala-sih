@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Navbar } from "../components/Navbar";
@@ -8,10 +8,10 @@ import { Button } from "../components/Button";
 import { StatusBadge } from "../components/StatusBadge";
 import { MaterialIcon } from "../components/icons/MaterialIcon";
 import { useApp } from "../context/AppContext";
-import { mockRecyclers } from "../data/mockData";
 import { SCRAP_CATEGORIES } from "../utils/constants";
 import { formatDistance } from "../utils/helpers";
 import { getRecyclerRatingStats, addRecyclerReview } from "../services/reviewService";
+import { getRecyclerDetails } from "../services/recyclerService";
 import { FaStar } from "react-icons/fa";
 import {
   HiOutlinePhone, HiOutlineMapPin, HiOutlineClock, HiOutlineTruck,
@@ -23,18 +23,19 @@ export const RecyclerDetails = () => {
   const navigate = useNavigate();
   const { selectedRecycler, activeLot, user, t } = useApp();
 
-  // selectedRecycler is set when arriving from the list; on a direct load or
-  // refresh fall back to looking the id up.
-  const recycler =
-    (selectedRecycler?.id === id ? selectedRecycler : null) ||
-    mockRecyclers.find((r) => r.id === id) ||
-    selectedRecycler;
+  const [loadedRecycler, setLoadedRecycler] = useState(null);
+  const recycler = (selectedRecycler?.id === id ? selectedRecycler : null) || loadedRecycler;
 
   const [ratingModalOpen, setRatingModalOpen] = useState(false);
   const [userStars, setUserStars] = useState(5);
   const [userTags, setUserTags] = useState(["Fair Weight ⚖️", "Instant Cash ⚡"]);
   const [userComment, setUserComment] = useState("");
   const [submittedToast, setSubmittedToast] = useState(false);
+
+  useEffect(() => {
+    if (selectedRecycler?.id === id) return;
+    getRecyclerDetails(id).then(setLoadedRecycler).catch(() => setLoadedRecycler(null));
+  }, [id, selectedRecycler?.id]);
 
   const stats = getRecyclerRatingStats(
     recycler?.id,

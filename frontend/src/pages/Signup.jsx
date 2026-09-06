@@ -10,15 +10,16 @@ import { useApp } from "../context/AppContext";
 import { DEFAULT_COUNTRY_CODE } from "../utils/constants";
 import { BrandMark } from "../components/icons/Illustrations";
 import {
-  HiOutlineUser, HiOutlineMapPin, HiArrowRight,
+  HiOutlineUser, HiOutlineMapPin, HiOutlineLockClosed, HiArrowRight,
   HiOutlineExclamationCircle, HiCheck
 } from "react-icons/hi2";
 
 export const Signup = () => {
   const navigate = useNavigate();
-  const { changeLanguage, language, t } = useApp();
+  const { changeLanguage, language, t, setUser } = useApp();
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [location, setLocation] = useState(null);
@@ -46,19 +47,23 @@ export const Signup = () => {
       setError("Please enter a valid 10-digit mobile number");
       return;
     }
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters");
+      return;
+    }
 
     setLoading(true);
     try {
       const res = await registerCollector({
         name: name.trim(),
         phone,
+        password,
         preferredLanguage: language,
         locationLat: location?.lat ?? null,
         locationLng: location?.lng ?? null
       });
-      navigate("/otp", {
-        state: { phone, isNewUser: true, demoPin: res.demoPin, name: name.trim() }
-      });
+      setUser(res.user);
+      navigate("/dashboard");
     } catch (err) {
       setError(err.message || "Sign up failed. Please try again.");
     } finally {
@@ -122,6 +127,22 @@ export const Signup = () => {
           </div>
 
           <div>
+            <label htmlFor="su-password" className="eyebrow block mb-2">Password</label>
+            <div className="relative">
+              <HiOutlineLockClosed className="absolute left-4 top-1/2 -translate-y-1/2 text-faint text-lg pointer-events-none" />
+              <input
+                id="su-password"
+                type="password"
+                autoComplete="new-password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="At least 6 characters"
+                className="field pl-11"
+              />
+            </div>
+          </div>
+
+          <div>
             <span className="eyebrow block mb-2">
               {t("selectLanguage") || "Preferred language"}
             </span>
@@ -180,10 +201,10 @@ export const Signup = () => {
             variant="primary"
             size="lg"
             loading={loading}
-            disabled={!name.trim() || phone.length !== 10}
+            disabled={!name.trim() || phone.length !== 10 || password.length < 6}
             icon={HiArrowRight}
           >
-            Send verification code
+            Create account
           </Button>
         </form>
       </div>

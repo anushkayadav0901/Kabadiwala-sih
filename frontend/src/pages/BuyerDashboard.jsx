@@ -8,9 +8,9 @@ import { Loader } from "../components/Loader";
 import { QRScannerModal } from "../components/QRScannerModal";
 import { DepotIllustration } from "../components/icons/Illustrations";
 import { getCurrentBuyer, logoutBuyer } from "../services/authService";
-import { getOpenLots, updateLotStatus } from "../services/lotService";
+import { getOpenLots, matchLot, updateLotStatus } from "../services/lotService";
 import { getAllRecyclers } from "../services/recyclerService";
-import { createTransaction, confirmHandover } from "../services/transactionService";
+import { confirmHandover } from "../services/transactionService";
 import { getRecyclerRatingStats } from "../services/reviewService";
 import { formatCurrency, formatWeight } from "../utils/helpers";
 import { FaStar } from "react-icons/fa";
@@ -130,14 +130,7 @@ export const BuyerDashboard = () => {
   const handleAcceptLot = async (lot) => {
     if (!buyer.id) return;
     try {
-      await createTransaction({
-        lotId: lot.id,
-        recyclerId: buyer.id,
-        quotedPrice: lot.estimated_value,
-        finalPrice: null,
-        handoverRef: `HO-${Date.now()}`
-      });
-      await updateLotStatus(lot.id, "matched");
+      await matchLot(lot.id, lot.estimated_value);
       await loadData();
     } catch (err) {
       alert(err.message);
@@ -146,10 +139,6 @@ export const BuyerDashboard = () => {
 
   const handleConfirmPayment = async (lot) => {
     try {
-      // BACKEND (disabled): look up the newest transaction for this lot.
-      // const { data: txs } = await supabase.from("transactions").select("*")
-      //   .eq("lot_id", lot.id).order("created_at", { ascending: false }).limit(1);
-      // const tx = txs?.[0];
       await confirmHandover(lot.id, lot.estimated_value);
       await updateLotStatus(lot.id, "paid");
       await loadData();

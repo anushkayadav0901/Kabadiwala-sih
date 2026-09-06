@@ -3,16 +3,17 @@ import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "../components/Button";
 import { validatePhoneNumber } from "../utils/helpers";
-import { sendOTP } from "../services/authService";
+import { loginCollector } from "../services/authService";
 import { useApp } from "../context/AppContext";
 import { DEFAULT_COUNTRY_CODE } from "../utils/constants";
 import { BrandMark } from "../components/icons/Illustrations";
-import { HiArrowRight, HiOutlineExclamationCircle } from "react-icons/hi2";
+import { HiArrowRight, HiOutlineExclamationCircle, HiOutlineLockClosed } from "react-icons/hi2";
 
 export const Login = () => {
   const navigate = useNavigate();
-  const { t } = useApp();
+  const { t, setUser } = useApp();
   const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -27,8 +28,9 @@ export const Login = () => {
 
     setLoading(true);
     try {
-      const res = await sendOTP(phone);
-      navigate("/otp", { state: { phone, demoPin: res.demoPin } });
+      const res = await loginCollector(phone, password);
+      setUser(res.user);
+      navigate("/dashboard");
     } catch (err) {
       setError(err.message || "Failed to send OTP. Please try again.");
     } finally {
@@ -91,15 +93,31 @@ export const Login = () => {
             )}
           </div>
 
+          <div>
+            <label htmlFor="login-password" className="eyebrow block mb-2">Password</label>
+            <div className="relative">
+              <HiOutlineLockClosed className="absolute left-4 top-1/2 -translate-y-1/2 text-faint text-lg pointer-events-none" />
+              <input
+                id="login-password"
+                type="password"
+                autoComplete="current-password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="field pl-11"
+                placeholder="Your password"
+              />
+            </div>
+          </div>
+
           <Button
             type="submit"
             variant="primary"
             size="lg"
             loading={loading}
-            disabled={phone.length !== 10}
+            disabled={phone.length !== 10 || !password}
             icon={HiArrowRight}
           >
-            {t("sendOTP") || "Continue"}
+            {t("login") || "Log in"}
           </Button>
         </form>
 

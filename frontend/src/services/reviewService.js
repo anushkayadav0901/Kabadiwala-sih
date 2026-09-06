@@ -97,10 +97,5 @@ export const addRecyclerReview = async ({
   const updated = [newReview, ...all];
   localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
 
-  // BACKEND (disabled):
-  // await supabase.from("buyer_reviews").insert({
-  //   recycler_id: recyclerId, collector_name: collectorName, rating, comment, tags
-  // });
-
   return newReview;
 };

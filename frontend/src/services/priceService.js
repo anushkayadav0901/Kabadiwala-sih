@@ -1,41 +1,27 @@
-// ---------------------------------------------------------------------------
-// PRICE SERVICE — LOCAL-ONLY MODE
-//
-// Prices come from the static catalogue in src/data/mockData.js. The historical
-// price series and per-location lookups need a backend; those calls are
-// preserved in `BACKEND (disabled)` blocks.
-// ---------------------------------------------------------------------------
-
 import { mockMaterials } from "../data/mockData";
 import { formatDateLabel } from "../utils/helpers";
+import { api } from "./api";
+
+const categoryFor = (material) => {
+  const text = `${material.id} ${material.name}`.toLowerCase();
+  if (text.includes("copper")) return "copper";
+  if (text.includes("pcb")) return "PCB";
+  if (text.includes("battery")) return "batteries";
+  if (text.includes("television") || text.includes("lcd")) return "LCD";
+  if (text.includes("plastic")) return "mixed_plastic";
+  if (text.includes("aluminum")) return "aluminum";
+  if (text.includes("brass")) return "brass";
+  if (text.includes("steel")) return "steel";
+  return null;
+};
 
 export const getPriceBoard = async () => {
-  return [...mockMaterials];
-
-  // BACKEND (disabled) ------------------------------------------------------
-  // Reads the `prices` table for the collector's location, keeps the newest row
-  // per material_category, and overrides pricePerKg on the catalogue entries.
-  //
-  // const { data: prices, error } = await supabase
-  //   .from("prices")
-  //   .select("*")
-  //   .eq("location", location)
-  //   .order("price_date", { ascending: false });
-  // if (error || !prices?.length) return [...mockMaterials];
-  // ... map latest price per category onto mockMaterials ...
-  // -------------------------------------------------------------------------
+  const { prices } = await api("/prices");
+  const byCategory = new Map(prices.map((price) => [price.materialCategory, price]));
+  return mockMaterials.map((material) => {
+    const price = byCategory.get(categoryFor(material));
+    return price ? { ...material, pricePerKg: price.quotedPrice, unit: price.unit, updatedAt: price.priceDate } : material;
+  });
 };
-
-export const getPriceHistory = async () => {
-  // BACKEND (disabled): the 30-day trend series that the price board should
-  // chart. Returns an empty series until a backend supplies it.
-  //
-  // await supabase.from("prices")
-  //   .select("price_date, quoted_price, buying_price")
-  //   .eq("material_category", materialCategory)
-  //   .order("price_date", { ascending: true })
-  //   .limit(days);
-  return [];
-};
-
+export const getPriceHistory = async (materialCategory, days = 30) => (await api(`/prices/${encodeURIComponent(materialCategory)}/trend?days=${days}`)).prices;
 export { formatDateLabel };

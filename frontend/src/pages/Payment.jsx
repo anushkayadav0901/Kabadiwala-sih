@@ -7,8 +7,7 @@ import { Card } from "../components/Card";
 import { Button } from "../components/Button";
 import { useApp } from "../context/AppContext";
 import { formatCurrency, formatWeight } from "../utils/helpers";
-import { createTransaction, confirmHandover } from "../services/transactionService";
-import { updateLotStatus, updateTraceabilityStatus } from "../services/lotService";
+import { completeHandover } from "../services/lotService";
 import {
   HiOutlineBanknotes, HiOutlineDevicePhoneMobile, HiOutlineBuildingLibrary,
   HiOutlineSpeakerWave, HiCheckCircle, HiOutlineLockClosed,
@@ -110,17 +109,19 @@ export const Payment = () => {
       setProcessingStep("Issuing handover record…");
       const handoverRef = state?.certificateId || `HO-${Date.now()}`;
 
-      const transaction = await createTransaction({
-        lotId: lot.id,
+      const { transaction } = await completeHandover(lot.id, {
         recyclerId: recycler.id,
         quotedPrice: payableAmount,
         finalPrice: payableAmount,
-        handoverRef
+        handoverRef,
+        paymentMethod: method
       });
-
-      const paid = await confirmHandover(transaction.id, payableAmount);
-      await updateLotStatus(lot.id, "paid");
-      await updateTraceabilityStatus(lot.id, "paid");
+      const paid = {
+        id: transaction._id,
+        final_price: transaction.finalPrice,
+        payment_status: transaction.paymentStatus,
+        updated_at: transaction.updatedAt
+      };
 
       // Signal Soundbox & Confetti
       if (method === "upi") {
