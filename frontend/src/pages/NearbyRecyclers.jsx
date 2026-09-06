@@ -126,7 +126,7 @@ export const NearbyRecyclers = () => {
             <h3 className="sec-title">
               {loading ? "Finding depots" : `${recyclers.length} depots`}
             </h3>
-            <span className="text-[12.5px] font-medium text-faint">Nearest first</span>
+            <span className="text-[12.5px] font-medium text-faint">Best match first</span>
           </div>
 
           {loading ? (

@@ -49,6 +49,27 @@ const publicUser = (user, role) => ({
 });
 const signToken = (user, role) => jwt.sign({ sub: user._id.toString(), role }, process.env.JWT_SECRET, { expiresIn: "7d" });
 const asObjectId = (id) => mongoose.isValidObjectId(id);
+const passportFor = (lot, collector = null, recycler = null) => {
+  const payload = {
+    version: "kabadi-passport-v1",
+    reference: lot.handoverReference,
+    lotId: lot._id.toString(),
+    collectorId: lot.collector?._id?.toString() || lot.collector?.toString(),
+    collectorName: collector?.name,
+    recyclerId: lot.matchedRecycler?._id?.toString() || lot.matchedRecycler?.toString(),
+    recyclerName: recycler?.name,
+    materialSummary: lot.materials.map((material) => ({ name: material.name, category: material.category, weightKg: material.weightKg })),
+    totalWeight: lot.totalWeight,
+    estimatedValue: lot.estimatedValue,
+    collectionGps: { lat: lot.gpsLat, lng: lot.gpsLng },
+    createdAt: lot.createdAt,
+    // This stays stable after creation; otherwise Mongoose's updatedAt would
+    // invalidate a QR signature immediately after it is saved.
+    issuedAt: lot.createdAt
+  };
+  const signature = crypto.createHmac("sha256", process.env.JWT_SECRET).update(JSON.stringify(payload)).digest("hex");
+  return { payload, signature };
+};
 const lotDto = (lot) => ({
   id: lot._id.toString(),
   collector_id: lot.collector?._id?.toString() || lot.collector?.toString(),
@@ -62,6 +83,11 @@ const lotDto = (lot) => ({
   status: lot.status,
   recycler_id: lot.matchedRecycler?._id?.toString() || lot.matchedRecycler?.toString(),
   handover_reference: lot.handoverReference,
+  handover_signature: lot.handoverSignature,
+  handover_photos: lot.handoverPhotos,
+  collection_location: lot.collectionLocation,
+  handover_location: lot.handoverLocation,
+  recycler_confirmed_at: lot.recyclerConfirmedAt,
   created_at: lot.createdAt,
   updated_at: lot.updatedAt
 });
@@ -83,7 +109,10 @@ const recyclerDto = (recycler, lat, lng) => {
     acceptedCategories: source.materialsAccepted, offeredRates: source.offeredRates,
     verified: source.authorized, authorized: source.authorized,
     cpcbRegistrationNumber: source.cpcbRegistrationNumber,
-    cpcbAuthorizationValidUntil: source.cpcbAuthorizationValidUntil
+    cpcbAuthorizationValidUntil: source.cpcbAuthorizationValidUntil,
+    authorizationSource: source.authorizationSource,
+    authorizationLastVerifiedAt: source.authorizationLastVerifiedAt,
+    serviceArea: source.serviceArea || []
   };
 };
 
@@ -130,17 +159,29 @@ app.post("/api/lots", requireAuth, requireRole("collector"), upload.single("phot
     const photoUrls = typeof body.photoUrls === "string" ? JSON.parse(body.photoUrls) : (body.photoUrls || []);
     if (req.file) photoUrls.push(`/uploads/${req.file.filename}`);
     const lot = await Lot.create({
-      collector: req.auth.sub, materials: materials.map((item) => ({ name: item.name, category: item.category, weightKg: item.weightKg ?? item.weight_kg, pricePerKg: item.pricePerKg ?? item.price_per_kg })),
+      collector: req.auth.sub,
+      materials: materials.map((item) => ({ name: item.name, category: item.category, subCategory: item.subCategory ?? item.sub_category, description: item.description, condition: item.condition || "unknown", sourceType: item.sourceType || "collector", weightKg: item.weightKg ?? item.weight_kg, pricePerKg: item.pricePerKg ?? item.price_per_kg })),
       totalWeight: Number(body.totalWeight ?? body.total_weight), estimatedValue: Number(body.estimatedValue ?? body.estimated_value),
-      photoUrls, gpsLat: body.gpsLat ?? body.gps_lat, gpsLng: body.gpsLng ?? body.gps_lng
+      photoUrls, gpsLat: body.gpsLat ?? body.gps_lat, gpsLng: body.gpsLng ?? body.gps_lng,
+      collectionLocation: body.collectionLocation ?? body.collection_location,
+      handoverReference: `KBC-${crypto.randomUUID().replace(/-/g, "").slice(0, 12).toUpperCase()}`
     });
-    res.status(201).json({ lot: lotDto(lot) });
+    const collector = await Collector.findById(req.auth.sub).select("name");
+    const { payload, signature } = passportFor(lot, collector);
+    lot.handoverSignature = signature;
+    await lot.save();
+    res.status(201).json({ lot: lotDto(lot), passport: { ...payload, signature } });
   } catch (error) { next(error); }
 });
 
 app.get("/api/lots", requireAuth, requireRole("recycler"), async (_req, res, next) => {
   try {
-    const lots = await Lot.find({ status: { $in: ["created", "matched"] } }).populate("collector", "name phone").sort({ createdAt: -1 });
+    const lots = await Lot.find({
+      $or: [
+        { status: "created" },
+        { status: { $in: ["matched", "handover"] }, matchedRecycler: _req.auth.sub }
+      ]
+    }).populate("collector", "name phone").sort({ createdAt: -1 });
     res.json({ lots: lots.map(lotDto) });
   } catch (error) { next(error); }
 });
@@ -153,14 +194,53 @@ app.get("/api/lots/collector/:id", requireAuth, async (req, res, next) => {
   } catch (error) { next(error); }
 });
 
+app.get("/api/lots/:id/passport", requireAuth, async (req, res, next) => {
+  try {
+    const lot = await Lot.findById(req.params.id).populate("collector", "name phone").populate("matchedRecycler", "name cpcbRegistrationNumber authorized");
+    if (!lot) return res.status(404).json({ message: "Lot not found" });
+    const collectorId = lot.collector?._id?.toString() || lot.collector?.toString();
+    const recyclerId = lot.matchedRecycler?._id?.toString() || lot.matchedRecycler?.toString();
+    if (req.auth.sub !== collectorId && req.auth.sub !== recyclerId) return res.status(403).json({ message: "You cannot view this Kabadi Passport" });
+    const { payload, signature } = passportFor(lot, lot.collector, lot.matchedRecycler);
+    res.json({ passport: { ...payload, signature, status: lot.status, recyclerConfirmedAt: lot.recyclerConfirmedAt } });
+  } catch (error) { next(error); }
+});
+
+// A collector chooses the depot before showing the QR. The resulting signed
+// payload is therefore bound to that one recycler, not merely to a browser tab.
+app.post("/api/lots/:id/passport", requireAuth, requireRole("collector"), async (req, res, next) => {
+  try {
+    const lot = await Lot.findById(req.params.id);
+    if (!lot) return res.status(404).json({ message: "Lot not found" });
+    if (lot.collector.toString() !== req.auth.sub) return res.status(403).json({ message: "You can only prepare your own handover" });
+    if (["handover", "completed", "cancelled"].includes(lot.status)) return res.status(409).json({ message: "This lot can no longer be prepared for handover" });
+    if (!asObjectId(req.body.recyclerId)) return res.status(400).json({ message: "Choose an authorized recycler" });
+    const recycler = await Recycler.findOne({ _id: req.body.recyclerId, authorized: true }).select("name");
+    if (!recycler) return res.status(400).json({ message: "The selected recycler is not currently authorized" });
+    lot.matchedRecycler = recycler._id;
+    lot.status = "matched";
+    const collector = await Collector.findById(lot.collector).select("name");
+    const { payload, signature } = passportFor(lot, collector, recycler);
+    lot.handoverSignature = signature;
+    await lot.save();
+    res.json({ passport: { ...payload, signature, status: lot.status, recyclerConfirmedAt: lot.recyclerConfirmedAt }, lot: lotDto(lot) });
+  } catch (error) { next(error); }
+});
+
 app.put("/api/lots/:id/match", requireAuth, requireRole("recycler"), async (req, res, next) => {
   try {
     if (!asObjectId(req.params.id)) return res.status(400).json({ message: "Invalid lot id" });
     const lot = await Lot.findById(req.params.id);
     if (!lot || lot.status !== "created") return res.status(404).json({ message: "Pending lot not found" });
-    lot.status = "matched"; lot.matchedRecycler = req.auth.sub; await lot.save();
-    const handoverReference = req.body.handoverRef || `HO-${Date.now()}-${lot._id.toString().slice(-5)}`;
-    const transaction = await Transaction.create({ lot: lot._id, collector: lot.collector, recycler: req.auth.sub, quotedPrice: req.body.quotedPrice ?? lot.estimatedValue, handoverReference });
+    const recyclerAccount = await Recycler.findOne({ _id: req.auth.sub, authorized: true }).select("name");
+    if (!recyclerAccount) return res.status(403).json({ message: "Only an authorized recycler account can accept a lot" });
+    lot.status = "matched"; lot.matchedRecycler = req.auth.sub;
+    const recycler = recyclerAccount;
+    const collector = await Collector.findById(lot.collector).select("name");
+    const { signature } = passportFor(lot, collector, recycler);
+    lot.handoverSignature = signature;
+    await lot.save();
+    const transaction = await Transaction.create({ lot: lot._id, collector: lot.collector, recycler: req.auth.sub, quotedPrice: req.body.quotedPrice ?? lot.estimatedValue, handoverReference: lot.handoverReference, materialCategory: lot.materials[0]?.category, collectionLocation: lot.collectionLocation, collectionGps: { lat: lot.gpsLat, lng: lot.gpsLng }, signature });
     res.json({ lot: lotDto(lot), transaction });
   } catch (error) { next(error); }
 });
@@ -169,29 +249,71 @@ app.post("/api/lots/:id/handover", requireAuth, async (req, res, next) => {
   try {
     const lot = await Lot.findById(req.params.id);
     if (!lot) return res.status(404).json({ message: "Lot not found" });
-    const recyclerId = req.auth.role === "recycler" ? req.auth.sub : req.body.recyclerId;
+    const recyclerId = req.auth.role === "recycler" ? req.auth.sub : req.body.recyclerId || lot.matchedRecycler?.toString();
     if (!recyclerId || !asObjectId(recyclerId)) return res.status(400).json({ message: "A recycler is required to complete handover" });
     if (req.auth.role === "collector" && lot.collector.toString() !== req.auth.sub) return res.status(403).json({ message: "You can only complete your own handover" });
-    const handoverReference = req.body.handoverRef || lot.handoverReference || `HO-${Date.now()}-${lot._id.toString().slice(-5)}`;
-    const transaction = await Transaction.findOneAndUpdate(
-      { lot: lot._id },
-      { lot: lot._id, collector: lot.collector, recycler: recyclerId, quotedPrice: req.body.quotedPrice ?? lot.estimatedValue, finalPrice: Number(req.body.finalPrice ?? lot.estimatedValue), handoverReference, paymentMethod: req.body.paymentMethod || "cash", paymentStatus: "paid", status: "completed", completedAt: new Date() },
-      { new: true, upsert: true, runValidators: true }
-    );
-    lot.status = "paid"; lot.matchedRecycler = recyclerId; lot.handoverReference = handoverReference; lot.handedOverAt = new Date(); await lot.save();
-    res.json({ lot: lotDto(lot), transaction });
+    if (req.auth.role === "recycler" && !(await Recycler.exists({ _id: req.auth.sub, authorized: true }))) return res.status(403).json({ message: "Only an authorized recycler can confirm handover" });
+    if (lot.matchedRecycler && lot.matchedRecycler.toString() !== recyclerId) return res.status(409).json({ message: "This lot is already matched to another recycler" });
+    if (req.auth.role === "recycler" && (!req.body.signature || req.body.signature !== lot.handoverSignature)) return res.status(400).json({ message: "A valid Kabadi Passport signature is required for recycler confirmation" });
+    if (req.body.signature && lot.handoverSignature && req.body.signature !== lot.handoverSignature) return res.status(400).json({ message: "Invalid Kabadi Passport signature" });
+    const handoverReference = lot.handoverReference || `KBC-${crypto.randomUUID().replace(/-/g, "").slice(0, 12).toUpperCase()}`;
+    const isRecyclerConfirmation = req.auth.role === "recycler";
+    const handoverPhotos = req.body.handoverPhotos || lot.handoverPhotos || [];
+    const update = {
+      lot: lot._id, collector: lot.collector, recycler: recyclerId, quotedPrice: req.body.quotedPrice ?? lot.estimatedValue,
+      handoverReference, paymentMethod: req.body.paymentMethod || "cash", materialCategory: lot.materials[0]?.category,
+      collectionLocation: lot.collectionLocation, handoverLocation: req.body.handoverLocation,
+      collectionGps: { lat: lot.gpsLat, lng: lot.gpsLng }, handoverGps: req.body.handoverGps,
+      handoverPhotos, signature: lot.handoverSignature,
+      ...(isRecyclerConfirmation ? { finalPrice: Number(req.body.finalPrice ?? lot.estimatedValue), paymentStatus: "paid", status: "completed", recyclerConfirmedAt: new Date(), completedAt: new Date() } : { paymentStatus: "pending", status: "handover" })
+    };
+    const transaction = await Transaction.findOneAndUpdate({ lot: lot._id }, update, { new: true, upsert: true, runValidators: true, setDefaultsOnInsert: true });
+    lot.status = isRecyclerConfirmation ? "completed" : "handover";
+    lot.matchedRecycler = recyclerId; lot.handoverReference = handoverReference; lot.handedOverAt = new Date();
+    lot.handoverLocation = req.body.handoverLocation || lot.handoverLocation; lot.handoverPhotos = handoverPhotos;
+    if (isRecyclerConfirmation) lot.recyclerConfirmedAt = new Date();
+    await lot.save();
+    res.json({ lot: lotDto(lot), transaction, verification: { verified: isRecyclerConfirmation, signature: lot.handoverSignature } });
   } catch (error) { next(error); }
 });
 
 app.get("/api/recyclers", async (req, res, next) => {
   try {
-    const { material, location, lat, lng } = req.query;
+    const { material, location, lat, lng, weight } = req.query;
     const query = { authorized: true };
-    if (material && material !== "all") query.materialsAccepted = material;
+    const groupForMaterial = (value = "") => {
+      const normalized = value.toLowerCase();
+      if (["pcb", "lcd", "crt", "mobile", "television", "keyboard", "mouse", "printer", "microwave", "player"].includes(normalized)) return "e_waste";
+      if (["batteries", "battery", "motors"].includes(normalized)) return "hazardous";
+      if (["mixed_plastic", "plastic"].includes(normalized)) return "plastic";
+      if (["copper", "aluminum", "brass", "steel", "cables", "metal"].includes(normalized)) return "metal";
+      return normalized;
+    };
+    const materialGroup = material && material !== "all" ? groupForMaterial(material) : null;
+    if (materialGroup) query.materialsAccepted = materialGroup;
     if (location) query.address = new RegExp(location, "i");
     const recyclers = await Recycler.find(query).sort({ rating: -1 });
-    const mapped = recyclers.map((recycler) => recyclerDto(recycler, Number(lat), Number(lng))).sort((a, b) => (a.distanceKm ?? Infinity) - (b.distanceKm ?? Infinity));
-    res.json({ recyclers: mapped });
+    const mapped = recyclers.map((recycler) => recyclerDto(recycler, Number(lat), Number(lng)));
+    const offeredRates = mapped.map((recycler) => Number(recycler.offeredRates?.[material] || 0)).filter(Boolean);
+    const topRate = Math.max(...offeredRates, 1);
+    const requestedWeight = Number(weight || 0);
+    const ranked = mapped.map((recycler) => {
+      const rate = Number(recycler.offeredRates?.[material] || 0);
+      const materialFit = !materialGroup || recycler.acceptedCategories.includes(materialGroup);
+      const distanceScore = recycler.distanceKm == null ? 10 : Math.max(0, 20 - (recycler.distanceKm / 20) * 20);
+      const rateScore = rate ? (rate / topRate) * 20 : 8;
+      const pickupEligible = recycler.pickupAvailable && (!requestedWeight || requestedWeight >= Number(recycler.minPickupWeightKg || 0));
+      const score = Math.round((recycler.authorized ? 25 : 0) + (materialFit ? 25 : 0) + distanceScore + rateScore + (pickupEligible ? 10 : 0));
+      const matchReasons = [
+        recycler.authorized && "CPCB-authorized recycler",
+        materialFit && `Accepts ${materialGroup || "your material"}`,
+        rate && `Offers ₹${rate}/kg`,
+        recycler.distanceKm != null && `${recycler.distanceKm} km away`,
+        pickupEligible && "Pickup available for this lot"
+      ].filter(Boolean);
+      return { ...recycler, offeredRate: rate || null, matchScore: score, matchReasons, pickupEligible };
+    }).sort((a, b) => b.matchScore - a.matchScore || (a.distanceKm ?? Infinity) - (b.distanceKm ?? Infinity));
+    res.json({ recyclers: ranked, scoring: { material: material || "all", weights: { authorization: 25, materialFit: 25, distance: 20, offeredRate: 20, pickup: 10 } } });
   } catch (error) { next(error); }
 });
 
@@ -199,7 +321,7 @@ app.get("/api/prices", async (req, res, next) => {
   try {
     const match = req.query.location ? { location: req.query.location } : {};
     const prices = await Price.aggregate([{ $match: match }, { $sort: { priceDate: -1 } }, { $group: { _id: "$materialCategory", price: { $first: "$$ROOT" } } }, { $replaceRoot: { newRoot: "$price" } }, { $sort: { materialCategory: 1 } }]);
-    res.json({ prices: prices.map((price) => ({ id: price._id.toString(), materialCategory: price.materialCategory, location: price.location, priceDate: price.priceDate, buyingPrice: price.buyingPrice, quotedPrice: price.quotedPrice, unit: price.unit })) });
+    res.json({ prices: prices.map((price) => ({ id: price._id.toString(), materialCategory: price.materialCategory, location: price.location, priceDate: price.priceDate, buyingPrice: price.buyingPrice, quotedPrice: price.quotedPrice, marketRangeMin: price.marketRangeMin ?? price.buyingPrice, marketRangeMax: price.marketRangeMax ?? price.quotedPrice, unit: price.unit, source: price.source, confidence: price.confidence })) });
   } catch (error) { next(error); }
 });
 
@@ -214,10 +336,13 @@ app.get("/api/prices/:category/trend", async (req, res, next) => {
 app.get("/api/collector/:id/ledger", requireAuth, requireRole("collector"), async (req, res, next) => {
   try {
     if (req.auth.sub !== req.params.id) return res.status(403).json({ message: "You can only view your own ledger" });
-    const transactions = await Transaction.find({ collector: req.params.id, paymentStatus: "paid" }).populate("lot").populate("recycler", "name").sort({ completedAt: -1 });
+    const transactions = await Transaction.find({ collector: req.params.id }).populate("lot").populate("recycler", "name").sort({ createdAt: -1 });
     const now = new Date(); const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate()); const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
     const sum = (list) => list.reduce((total, transaction) => total + Number(transaction.finalPrice || 0), 0);
-    res.json({ summary: { totalEarnings: sum(transactions), todayEarnings: sum(transactions.filter((tx) => tx.completedAt >= startOfToday)), monthlyEarnings: sum(transactions.filter((tx) => tx.completedAt >= startOfMonth)), completedDeals: transactions.length }, transactions: transactions.map((tx) => ({ id: tx._id.toString(), date: tx.completedAt || tx.createdAt, materialName: tx.lot?.materials?.map((material) => material.name).filter(Boolean).join(", ") || "Scrap lot", weightKg: tx.lot?.totalWeight || 0, pricePerKg: tx.lot?.totalWeight ? Number((tx.finalPrice / tx.lot.totalWeight).toFixed(2)) : 0, totalAmount: tx.finalPrice, recyclerName: tx.recycler?.name || "Authorized recycler", status: "Paid", handoverRef: tx.handoverReference })) });
+    const paid = transactions.filter((tx) => tx.paymentStatus === "paid");
+    const pending = transactions.filter((tx) => tx.paymentStatus !== "paid");
+    const pendingDues = pending.reduce((total, tx) => total + Number(tx.finalPrice ?? tx.quotedPrice ?? 0), 0);
+    res.json({ summary: { totalEarnings: sum(paid), todayEarnings: sum(paid.filter((tx) => tx.completedAt >= startOfToday)), monthlyEarnings: sum(paid.filter((tx) => tx.completedAt >= startOfMonth)), completedDeals: paid.length, pendingDues, pendingDeals: pending.length, formalWeightKg: Number(transactions.reduce((total, tx) => total + Number(tx.lot?.totalWeight || 0), 0).toFixed(2)) }, transactions: transactions.map((tx) => { const amount = tx.finalPrice ?? tx.quotedPrice ?? 0; return ({ id: tx._id.toString(), date: tx.completedAt || tx.createdAt, materialName: tx.lot?.materials?.map((material) => material.name).filter(Boolean).join(", ") || "Scrap lot", weightKg: tx.lot?.totalWeight || 0, pricePerKg: tx.lot?.totalWeight ? Number((amount / tx.lot.totalWeight).toFixed(2)) : 0, totalAmount: amount, recyclerName: tx.recycler?.name || "Authorized recycler", status: tx.paymentStatus === "paid" ? "Paid" : "Pending confirmation", handoverRef: tx.handoverReference }); }) });
   } catch (error) { next(error); }
 });
 

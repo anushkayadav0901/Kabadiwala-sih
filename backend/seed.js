@@ -17,8 +17,8 @@ const recyclers = [
   ["South Delhi Resource Recovery", "Anjali Rao", "southdelhi.rr@example.com", "Kalkaji Industrial Area, New Delhi", 28.5412, 77.2600, ["e_waste", "hazardous", "metal"], { PCB: 200, batteries: 110, copper: 730 }, true]
 ];
 const rates = [
-  ["copper", 700, 750], ["PCB", 180, 220], ["batteries", 80, 120], ["LCD", 40, 60],
-  ["mixed_plastic", 15, 25], ["aluminum", 170, 200], ["brass", 400, 450], ["steel", 25, 35]
+  ["copper", 680, 750], ["PCB", 180, 220], ["PCB_Grade_B", 60, 100], ["batteries", 80, 120], ["LCD", 40, 60],
+  ["mixed_plastic", 15, 25], ["aluminum", 170, 200], ["brass", 400, 450], ["steel", 25, 35], ["motors", 35, 55], ["cables", 130, 170], ["CRT", 3, 8], ["e_waste", 40, 80]
 ];
 
 const run = async () => {
@@ -26,17 +26,17 @@ const run = async () => {
   const passwordHash = await bcrypt.hash("Recycler@123", 12);
   await Recycler.deleteMany({});
   await Price.deleteMany({});
-  await Recycler.insertMany(recyclers.map(([name, ownerName, email, address, locationLat, locationLng, materialsAccepted, offeredRates, pickupAvailable], index) => ({ name, ownerName, email, address, locationLat, locationLng, materialsAccepted, offeredRates, pickupAvailable, contact: `+91 98${String(10000000 + index).slice(-8)}`, authorized: true, cpcbRegistrationNumber: `CPCB/EW/DEL/${2026 - (index % 3)}/${1040 + index}`, cpcbAuthorizationValidUntil: new Date("2028-12-31"), openHours: "09:00 AM - 07:00 PM", minPickupWeightKg: pickupAvailable ? 25 : 0, rating: 4.4 + (index % 5) / 10, reviewsCount: 26 + index * 9, passwordHash })));
+  await Recycler.insertMany(recyclers.map(([name, ownerName, email, address, locationLat, locationLng, materialsAccepted, offeredRates, pickupAvailable], index) => ({ name, ownerName, email, address, locationLat, locationLng, materialsAccepted, offeredRates, pickupAvailable, contact: `+91 98${String(10000000 + index).slice(-8)}`, authorized: true, cpcbRegistrationNumber: `CPCB/EW/DEL/${2026 - (index % 3)}/${1040 + index}`, cpcbAuthorizationValidUntil: new Date("2028-12-31"), authorizationSource: "Demo seed data — verify against CPCB E-Waste EPR portal before production", authorizationLastVerifiedAt: new Date(), serviceArea: ["Delhi NCR", address.split(",").at(-1)?.trim()].filter(Boolean), openHours: "09:00 AM - 07:00 PM", minPickupWeightKg: pickupAvailable ? 25 : 0, rating: 4.4 + (index % 5) / 10, reviewsCount: 26 + index * 9, passwordHash })));
   const priceRows = [];
   for (const [materialCategory, low, high] of rates) {
     for (let day = 29; day >= 0; day -= 1) {
       const midpoint = (low + high) / 2;
       const variation = ((day * 7 + materialCategory.length) % 9) - 4;
-      priceRows.push({ materialCategory, location: "Delhi NCR", priceDate: new Date(Date.now() - day * 86400000), buyingPrice: Math.max(low, midpoint + variation - 3), quotedPrice: Math.min(high, midpoint + variation), unit: "kg" });
+      priceRows.push({ materialCategory, location: "Delhi NCR", priceDate: new Date(Date.now() - day * 86400000), buyingPrice: Math.max(low, midpoint + variation - 3), quotedPrice: Math.min(high, midpoint + variation), marketRangeMin: low, marketRangeMax: high, unit: "kg", source: "Demo seed data — replace with verified recycler/market submissions", confidence: "low" });
     }
   }
   await Price.insertMany(priceRows);
-  console.log(`Seeded 10 CPCB-authorized recyclers and ${priceRows.length} price records. Recycler login password: Recycler@123`);
+  console.log(`Seeded 10 demo recyclers and ${priceRows.length} price records. Recycler login password: Recycler@123`);
   await mongoose.disconnect();
 };
 run().catch((error) => { console.error(error); mongoose.disconnect(); process.exit(1); });

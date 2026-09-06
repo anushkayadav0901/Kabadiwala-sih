@@ -5,6 +5,7 @@ import { BottomNavigation } from "../components/BottomNavigation";
 import { Button } from "../components/Button";
 import { MaterialIcon } from "../components/icons/MaterialIcon";
 import { scanMaterial } from "../services/estimateService";
+import { getCurrentMaterialPrice } from "../services/priceService";
 import { useApp } from "../context/AppContext";
 import { formatCurrency, calculateTotalValue } from "../utils/helpers";
 import {
@@ -40,8 +41,25 @@ export const ScanItem = () => {
     setScanning(true);
     try {
       const res = await scanMaterial(imagePreview);
-      setScanResult(res);
-      setActiveItem(res.detectedMaterial);
+      let material = res.detectedMaterial;
+      try {
+        const currentPrice = await getCurrentMaterialPrice(material);
+        if (currentPrice) {
+          material = {
+            ...material,
+            pricePerKg: currentPrice.quotedPrice,
+            marketRangeMin: currentPrice.marketRangeMin,
+            marketRangeMax: currentPrice.marketRangeMax,
+            priceSource: currentPrice.source,
+            priceConfidence: currentPrice.confidence
+          };
+        }
+      } catch {
+        // The on-device classification remains available when price data cannot be reached.
+      }
+      const resultWithPrice = { ...res, detectedMaterial: material };
+      setScanResult(resultWithPrice);
+      setActiveItem(material);
       setAddedToBag(false);
     } catch (err) {
       console.error(err);

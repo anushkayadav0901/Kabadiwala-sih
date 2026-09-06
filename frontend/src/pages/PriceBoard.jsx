@@ -7,7 +7,7 @@ import { PriceCard } from "../components/PriceCard";
 import { Button } from "../components/Button";
 import { Loader } from "../components/Loader";
 import { MaterialIcon } from "../components/icons/MaterialIcon";
-import { getPriceBoard } from "../services/priceService";
+import { getPriceBoard, getPriceHistory, categoryFor } from "../services/priceService";
 import { SCRAP_CATEGORIES } from "../utils/constants";
 import { useApp } from "../context/AppContext";
 import { formatCurrency, calculateTotalValue } from "../utils/helpers";
@@ -27,6 +27,7 @@ export const PriceBoard = () => {
   const [modalMaterial, setModalMaterial] = useState(null);
   const [modalWeight, setModalWeight] = useState(5.0);
   const [addedToast, setAddedToast] = useState("");
+  const [priceHistory, setPriceHistory] = useState([]);
 
   useEffect(() => {
     getPriceBoard()
@@ -34,6 +35,13 @@ export const PriceBoard = () => {
       .catch(console.error)
       .finally(() => setLoading(false));
   }, []);
+
+  useEffect(() => {
+    if (!modalMaterial) return;
+    getPriceHistory(categoryFor(modalMaterial))
+      .then(setPriceHistory)
+      .catch(() => setPriceHistory([]));
+  }, [modalMaterial]);
 
   const filteredMaterials = materials.filter((m) =>
     selectedCategory === "all" ? true : m.category === selectedCategory
@@ -63,6 +71,12 @@ export const PriceBoard = () => {
   );
 
   const topRate = Math.max(...materials.map((m) => m.pricePerKg), 1);
+  const chartPoints = (() => {
+    if (priceHistory.length < 2) return "";
+    const values = priceHistory.map((row) => Number(row.quotedPrice));
+    const min = Math.min(...values); const max = Math.max(...values); const span = max - min || 1;
+    return values.map((value, index) => `${(index / (values.length - 1)) * 240},${68 - ((value - min) / span) * 58}`).join(" ");
+  })();
 
   return (
     <div className="screen pb-nav">
@@ -89,13 +103,13 @@ export const PriceBoard = () => {
       <main className="col px-4 pt-4 flex flex-col gap-4">
         {/* ---- board header --------------------------------------------- */}
         <section className="rounded-[18px] bg-ink text-white p-5">
-          <p className="eyebrow text-white/50">Reference rates · Mumbai</p>
+          <p className="eyebrow text-white/50">Reference rates · Delhi NCR</p>
           <h2 className="text-[22px] font-bold tracking-[-0.02em] leading-tight mt-1.5">
             What your scrap is worth today
           </h2>
           <p className="text-[12.5px] text-white/55 mt-2 flex items-start gap-1.5">
             <HiOutlineInformationCircle className="text-sm shrink-0 mt-px" />
-            Guide prices, not a live market feed. Depots quote their own rate.
+            Fair-price guide with a spoken rate button. Final payment is confirmed by the recycler.
           </p>
         </section>
 
@@ -231,7 +245,24 @@ export const PriceBoard = () => {
                 </button>
               </div>
 
-              <div className="px-4">
+                <div className="px-4">
+                {modalMaterial.marketRangeMin != null && (
+                  <div className="mb-4 p-3 rounded-xl bg-brand-50 border border-brand-100">
+                    <p className="eyebrow text-brand-700">Fair-price shield</p>
+                    <p className="font-bold text-brand-700 tnum text-[17px] mt-1">
+                      {formatCurrency(modalMaterial.marketRangeMin)}–{formatCurrency(modalMaterial.marketRangeMax)} / kg
+                    </p>
+                    <p className="text-[11.5px] text-brand-700/75 mt-1">Today’s location benchmark; compare depot offers before selling.</p>
+                  </div>
+                )}
+                {chartPoints && (
+                  <div className="mb-4 p-3 rounded-xl bg-sunken">
+                    <div className="flex items-center justify-between"><p className="eyebrow">30-day trend</p><span className="text-[11px] text-faint">Guide rate</span></div>
+                    <svg viewBox="0 0 240 72" className="w-full h-20 mt-1" role="img" aria-label="Thirty day price trend">
+                      <polyline points={chartPoints} fill="none" stroke="#3A34D4" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </div>
+                )}
                 <div className="flex items-center gap-3">
                   <button
                     type="button"
@@ -285,6 +316,11 @@ export const PriceBoard = () => {
                     {formatCurrency(calculateTotalValue(modalMaterial.pricePerKg, modalWeight))}
                   </span>
                 </div>
+                {modalMaterial.marketRangeMin != null && (
+                  <p className="text-[12px] text-faint text-right mt-1 tnum">
+                    Fair estimate: {formatCurrency(modalMaterial.marketRangeMin * modalWeight)}–{formatCurrency(modalMaterial.marketRangeMax * modalWeight)}
+                  </p>
+                )}
               </div>
 
               <div className="p-4">

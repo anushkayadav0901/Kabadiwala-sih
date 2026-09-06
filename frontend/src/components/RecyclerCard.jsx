@@ -78,12 +78,20 @@ export const RecyclerCard = ({ recycler }) => {
           </p>
 
           <div className="flex flex-wrap items-center gap-1.5 mt-2.5">
+            {Number.isFinite(recycler.matchScore) && (
+              <span className="badge bg-brand-600 text-white tnum">
+                Best match {recycler.matchScore}/100
+              </span>
+            )}
             <span className="badge bg-ink text-white tnum">
               {formatDistance(recycler.distanceKm)}
             </span>
             {recycler.verified && <StatusBadge type="verified" />}
             {recycler.pickupAvailable && <StatusBadge type="pickup" />}
           </div>
+          {recycler.authorizationSource?.toLowerCase().includes("demo") && (
+            <p className="text-[10.5px] text-faint mt-1.5">Authorization data: demo seed, validation pending</p>
+          )}
         </div>
       </div>
 
@@ -92,6 +100,16 @@ export const RecyclerCard = ({ recycler }) => {
           <p className="text-[12.5px] font-semibold text-gold-700 bg-gold-50 rounded-lg px-2.5 py-1.5 inline-block">
             {recycler.rateBonus}
           </p>
+        </div>
+      )}
+
+      {Array.isArray(recycler.matchReasons) && recycler.matchReasons.length > 0 && (
+        <div className="px-4 pb-3 -mt-1 flex flex-wrap gap-1.5">
+          {recycler.matchReasons.slice(0, 3).map((reason) => (
+            <span key={reason} className="text-[11.5px] font-medium text-brand-700 bg-brand-50 rounded-md px-2 py-1">
+              {reason}
+            </span>
+          ))}
         </div>
       )}
 

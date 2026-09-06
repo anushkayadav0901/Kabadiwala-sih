@@ -3,7 +3,7 @@ import { StatusBadge } from "./StatusBadge";
 import { MaterialIcon } from "./icons/MaterialIcon";
 import { formatCurrency } from "../utils/helpers";
 import { useApp } from "../context/AppContext";
-import { HiOutlinePlus } from "react-icons/hi2";
+import { HiOutlinePlus, HiOutlineSpeakerWave } from "react-icons/hi2";
 
 /**
  * A rate row. The number is the reason anyone opens this screen, so it gets
@@ -24,6 +24,24 @@ export const PriceCard = ({ material, onClick, onQuickAdd }) => {
     e.stopPropagation();
     if (onQuickAdd) onQuickAdd(material);
   };
+  const speakPrice = (e) => {
+    e.stopPropagation();
+    if (!("speechSynthesis" in window)) return;
+    const name = getLocalizedName();
+    const price = Math.round(Number(material.pricePerKg || 0));
+    const range = material.marketRangeMin != null && material.marketRangeMax != null
+      ? ` ${Math.round(material.marketRangeMin)} से ${Math.round(material.marketRangeMax)} रुपये प्रति किलो की सीमा में है।`
+      : "";
+    const text = language === "hi"
+      ? `${name} का आज का गाइड रेट ${price} रुपये प्रति किलो है।${range}`
+      : language === "mr"
+        ? `${name} चा आजचा मार्गदर्शक दर ${price} रुपये प्रति किलो आहे.${range}`
+        : `Today's guide rate for ${name} is ${price} rupees per kilogram.${range}`;
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = language === "hi" ? "hi-IN" : language === "mr" ? "mr-IN" : "en-IN";
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(utterance);
+  };
 
   return (
     <div
@@ -42,6 +60,11 @@ export const PriceCard = ({ material, onClick, onQuickAdd }) => {
         <div className="flex items-center gap-1.5 mt-1">
           <StatusBadge type={material.trend} text={material.change} />
         </div>
+        {material.marketRangeMin != null && material.marketRangeMax != null && (
+          <p className="text-[11.5px] text-faint tnum mt-1">
+            Fair range: {formatCurrency(material.marketRangeMin)}–{formatCurrency(material.marketRangeMax)}/kg
+          </p>
+        )}
       </div>
 
       <div className="text-right shrink-0">
@@ -52,6 +75,16 @@ export const PriceCard = ({ material, onClick, onQuickAdd }) => {
           per {material.unit || "kg"}
         </div>
       </div>
+
+      <button
+        type="button"
+        onClick={speakPrice}
+        className="w-9 h-9 shrink-0 rounded-lg grid place-items-center border border-line text-brand-600 hover:bg-brand-50 tap"
+        aria-label={`Speak the ${material.name} price`}
+        title="Bol ke batao"
+      >
+        <HiOutlineSpeakerWave className="text-lg" />
+      </button>
 
       {onQuickAdd && (
         <button

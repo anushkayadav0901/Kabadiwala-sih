@@ -9,9 +9,10 @@ import { Button } from "../components/Button";
 import { ScaleIllustration } from "../components/icons/Illustrations";
 import { useApp } from "../context/AppContext";
 import { formatCurrency, formatWeight } from "../utils/helpers";
+import { getLotPassport, prepareLotPassport } from "../services/lotService";
 import {
   HiArrowRight, HiCheckCircle, HiOutlineClipboard, HiOutlineClock,
-  HiOutlineMapPin, HiOutlineQrCode, HiCheck, HiBolt
+  HiOutlineMapPin, HiOutlineQrCode, HiCheck
 } from "react-icons/hi2";
 
 export const Handover = () => {
@@ -21,7 +22,8 @@ export const Handover = () => {
 
   const lot = state?.lot || activeLot;
   const recycler = state?.recycler || selectedRecycler;
-  const certificateId = state?.certificateId || `KBC-${lot?.id || Date.now()}`;
+  const [passport, setPassport] = useState(null);
+  const certificateId = passport?.reference || state?.certificateId || `KBC-${lot?.id || Date.now()}`;
 
   const [copied, setCopied] = useState(false);
   const [isVerifiedByBuyer, setIsVerifiedByBuyer] = useState(false);
@@ -29,7 +31,7 @@ export const Handover = () => {
   const formattedWeight = Number(lot?.total_weight || 0).toFixed(2);
   const formattedValue = Number(lot?.estimated_value || 0).toFixed(2);
 
-  const verificationPayloadObj = {
+  const fallbackPayload = {
     type: "kabadiwala-handover-v2",
     certificateId,
     lotId: lot?.id,
@@ -43,37 +45,52 @@ export const Handover = () => {
     timestamp: new Date().toISOString(),
     gps: { lat: lot?.gps_lat || 19.076, lng: lot?.gps_lng || 72.8777 },
     materials: lot?.materials || [{ name: "Mixed E-Waste", weight_kg: formattedWeight }],
-    securityHash: `VERIF-${(lot?.id || "LOT").slice(0, 8)}-${Date.now().toString(36).toUpperCase()}`
+    securityHash: `UNVERIFIED-${(lot?.id || "LOT").slice(0, 8)}`
   };
+
+  const verificationPayloadObj = passport
+    ? {
+        type: "kabadiwala-handover-v2",
+        certificateId: passport.reference,
+        lotId: passport.lotId,
+        collectorId: passport.collectorId,
+        collectorName: passport.collectorName,
+        recyclerId: passport.recyclerId,
+        recyclerName: passport.recyclerName,
+        totalWeight: passport.totalWeight,
+        estimatedValue: passport.estimatedValue,
+        timestamp: passport.issuedAt,
+        gps: passport.collectionGps,
+        materials: lot?.materials || [],
+        securityHash: passport.signature,
+        signature: passport.signature,
+        serverVerified: true
+      }
+    : fallbackPayload;
 
   const verificationPayloadString = JSON.stringify(verificationPayloadObj);
 
-  // Store in localStorage so buyer portal on same machine can detect or scan
   useEffect(() => {
-    if (lot) {
-      localStorage.setItem("kabadi_active_handover_payload", verificationPayloadString);
-      localStorage.setItem("kabadi_active_handover_id", certificateId);
-    }
-  }, [lot, certificateId, verificationPayloadString]);
-
-  // Listen for buyer verification in real-time via storage event or polling
-  useEffect(() => {
-    const checkVerification = () => {
-      const verifiedId = localStorage.getItem("kabadi_verified_certificate_id");
-      if (verifiedId === certificateId) {
-        setIsVerifiedByBuyer(true);
+    if (!lot?.id) return undefined;
+    let live = true;
+    let shouldPrepare = Boolean(recycler?.id);
+    const refreshPassport = async () => {
+      try {
+        const next = shouldPrepare && recycler?.id
+          ? await prepareLotPassport(lot.id, recycler.id)
+          : await getLotPassport(lot.id);
+        shouldPrepare = false;
+        if (!live) return;
+        setPassport(next);
+        setIsVerifiedByBuyer(Boolean(next.recyclerConfirmedAt));
+      } catch {
+        // The pass still renders offline; only a server pass can be approved.
       }
     };
-
-    checkVerification();
-    const interval = setInterval(checkVerification, 1500);
-    window.addEventListener("storage", checkVerification);
-
-    return () => {
-      clearInterval(interval);
-      window.removeEventListener("storage", checkVerification);
-    };
-  }, [certificateId]);
+    refreshPassport();
+    const interval = window.setInterval(refreshPassport, 8000);
+    return () => { live = false; window.clearInterval(interval); };
+  }, [lot?.id, recycler?.id]);
 
   const handleCopyPayload = () => {
     navigator.clipboard.writeText(verificationPayloadString);
@@ -81,20 +98,9 @@ export const Handover = () => {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleManualSimulateVerify = () => {
-    localStorage.setItem("kabadi_verified_certificate_id", certificateId);
-    setIsVerifiedByBuyer(true);
-  };
-
   const handleProceed = () => {
-    navigate("/payment", {
-      state: {
-        lot,
-        recycler,
-        certificateId,
-        verificationData: verificationPayloadObj
-      }
-    });
+    if (!isVerifiedByBuyer) return;
+    navigate("/certificate", { state: { lot, recycler, certificateId, verificationData: verificationPayloadObj, viewRole: "collector" } });
   };
 
   if (!lot) {
@@ -149,7 +155,7 @@ export const Handover = () => {
                 isVerifiedByBuyer ? "text-brand-700" : "text-gold-700"
               }`}
             >
-              {isVerifiedByBuyer ? "Verified by the depot" : "Waiting for the depot to scan"}
+              {isVerifiedByBuyer ? "Verified by the depot" : passport ? "Secure pass ready for scanning" : "Waiting for a server-issued pass"}
             </p>
             <p
               className={`text-[12.5px] mt-0.5 truncate ${
@@ -158,7 +164,7 @@ export const Handover = () => {
             >
               {isVerifiedByBuyer
                 ? `${recycler?.name} approved this handover`
-                : "Show this screen at the counter"}
+                : passport ? "Show this signed QR at the counter" : "Reconnect to create a secure pass"}
             </p>
           </div>
         </motion.div>
@@ -185,10 +191,10 @@ export const Handover = () => {
             </div>
 
             <p className="text-[11.5px] font-mono text-muted mt-3 text-center break-all px-2">
-              {verificationPayloadObj.securityHash}
+              {passport ? `Server signature: ${verificationPayloadObj.securityHash.slice(0, 18)}…` : "Server signature required"}
             </p>
             <p className="text-[12px] text-faint mt-1 text-center max-w-[30ch]">
-              Carries the lot reference, timestamp and GPS coordinates
+              {passport ? "Signed by the Kabadiwala server: reference, weight and GPS are protected." : "Reconnect once to issue the signed handover pass."}
             </p>
 
             <button
@@ -232,23 +238,12 @@ export const Handover = () => {
           </div>
         </div>
 
-        {!isVerifiedByBuyer && (
-          <button
-            type="button"
-            onClick={handleManualSimulateVerify}
-            className="card p-3.5 flex items-center justify-center gap-2 text-[13px]
-                       font-semibold text-muted tap active:bg-sunken/50 transition-colors"
-          >
-            <HiBolt className="text-gold-500 text-base" />
-            Simulate the depot scanning this (demo)
-          </button>
-        )}
       </main>
 
       <div className="actionbar">
         <div className="col">
-          <Button size="lg" variant="primary" onClick={handleProceed} icon={HiArrowRight}>
-            {isVerifiedByBuyer ? "Settle payment" : "Continue to payment"}
+          <Button size="lg" variant="primary" onClick={handleProceed} icon={HiArrowRight} disabled={!isVerifiedByBuyer}>
+            {isVerifiedByBuyer ? "View verified certificate" : "Waiting for recycler confirmation"}
           </Button>
         </div>
       </div>

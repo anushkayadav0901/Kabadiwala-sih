@@ -16,8 +16,11 @@ const recyclerSchema = new mongoose.Schema(
     cpcbRegistrationNumber: { type: String, trim: true },
     cpcbAuthorizationValidUntil: Date,
     cpcbCertificateUrl: String,
+    authorizationSource: { type: String, default: "Seed data — validation required" },
+    authorizationLastVerifiedAt: Date,
     pickupAvailable: { type: Boolean, default: false },
     minPickupWeightKg: { type: Number, default: 0 },
+    serviceArea: [{ type: String, trim: true }],
     openHours: { type: String, default: "09:00 AM - 06:00 PM" },
     rating: { type: Number, default: 4.5 },
     reviewsCount: { type: Number, default: 0 }

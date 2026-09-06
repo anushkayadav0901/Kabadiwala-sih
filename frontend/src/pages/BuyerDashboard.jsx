@@ -8,9 +8,8 @@ import { Loader } from "../components/Loader";
 import { QRScannerModal } from "../components/QRScannerModal";
 import { DepotIllustration } from "../components/icons/Illustrations";
 import { getCurrentBuyer, logoutBuyer } from "../services/authService";
-import { getOpenLots, matchLot, updateLotStatus } from "../services/lotService";
+import { getOpenLots, matchLot, completeHandover } from "../services/lotService";
 import { getAllRecyclers } from "../services/recyclerService";
-import { confirmHandover } from "../services/transactionService";
 import { getRecyclerRatingStats } from "../services/reviewService";
 import { formatCurrency, formatWeight } from "../utils/helpers";
 import { FaStar } from "react-icons/fa";
@@ -68,12 +67,18 @@ export const BuyerDashboard = () => {
     if (!scannedData) return;
 
     try {
+      if (!scannedData.lotId || !scannedData.signature || !scannedData.serverVerified) {
+        throw new Error("This QR is not a server-issued Kabadi Passport. Ask the collector to reconnect and reopen the handover pass.");
+      }
       const certId = scannedData.certificateId || `KBC-${Date.now()}`;
       const certWeight = Number(scannedData.totalWeight || 10).toFixed(2);
       const certValue = Number(scannedData.estimatedValue || 1500).toFixed(2);
-
-      // Signal collector app in real-time
-      localStorage.setItem("kabadi_verified_certificate_id", certId);
+      const handover = await completeHandover(scannedData.lotId, {
+        finalPrice: Number(scannedData.estimatedValue || 0),
+        paymentMethod: "cash",
+        signature: scannedData.signature,
+        handoverGps: scannedData.gps
+      });
 
       const newCert = {
         certificateId: certId,
@@ -85,20 +90,14 @@ export const BuyerDashboard = () => {
         totalWeight: certWeight,
         estimatedValue: certValue,
         materials: scannedData.materials || [{ name: "Mixed E-Waste Scrap", weight_kg: certWeight }],
-        securityHash: scannedData.securityHash || `VERIF-${Date.now().toString(36).toUpperCase()}`,
-        verifiedAt: new Date().toISOString()
+        securityHash: handover.verification?.signature || scannedData.signature,
+        verifiedAt: handover.transaction?.recyclerConfirmedAt || new Date().toISOString(),
+        serverVerified: Boolean(handover.verification?.verified)
       };
 
       const updatedCerts = [newCert, ...issuedCertificates];
       setIssuedCertificates(updatedCerts);
       localStorage.setItem("kabadi_issued_certificates", JSON.stringify(updatedCerts));
-
-      // Update lot status if lotId is in DB
-      if (scannedData.lotId) {
-        try {
-          await updateLotStatus(scannedData.lotId, "paid");
-        } catch {}
-      }
 
       setVerificationSuccess(newCert);
       setScannedData(null);
@@ -131,16 +130,6 @@ export const BuyerDashboard = () => {
     if (!buyer.id) return;
     try {
       await matchLot(lot.id, lot.estimated_value);
-      await loadData();
-    } catch (err) {
-      alert(err.message);
-    }
-  };
-
-  const handleConfirmPayment = async (lot) => {
-    try {
-      await confirmHandover(lot.id, lot.estimated_value);
-      await updateLotStatus(lot.id, "paid");
       await loadData();
     } catch (err) {
       alert(err.message);
@@ -350,8 +339,8 @@ export const BuyerDashboard = () => {
                       </Button>
                     )}
                     {lot.status === "matched" && (
-                      <Button size="sm" variant="outline" fullWidth={false} onClick={() => handleConfirmPayment(lot)}>
-                        Confirm payment
+                      <Button size="sm" variant="outline" fullWidth={false} onClick={() => setIsScannerOpen(true)}>
+                        Scan handover pass
                       </Button>
                     )}
                   </div>

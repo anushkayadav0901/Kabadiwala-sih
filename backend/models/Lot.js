@@ -3,16 +3,21 @@ import mongoose from "mongoose";
 const lotSchema = new mongoose.Schema(
   {
     collector: { type: mongoose.Schema.Types.ObjectId, ref: "Collector", required: true, index: true },
-    materials: [{ name: String, category: String, weightKg: Number, pricePerKg: Number }],
+    materials: [{ name: String, category: String, subCategory: String, description: String, condition: String, sourceType: String, weightKg: Number, pricePerKg: Number }],
     totalWeight: { type: Number, required: true },
     estimatedValue: { type: Number, required: true },
     photoUrls: [String],
     gpsLat: Number,
     gpsLng: Number,
-    status: { type: String, enum: ["created", "matched", "paid", "cancelled"], default: "created", index: true },
+    status: { type: String, enum: ["created", "quoted", "matched", "handover", "completed", "cancelled"], default: "created", index: true },
     matchedRecycler: { type: mongoose.Schema.Types.ObjectId, ref: "Recycler", default: null },
     handoverReference: String,
-    handedOverAt: Date
+    handoverSignature: String,
+    handoverPhotos: [String],
+    collectionLocation: String,
+    handoverLocation: String,
+    handedOverAt: Date,
+    recyclerConfirmedAt: Date
   },
   { timestamps: true }
 );

@@ -7,8 +7,12 @@ const priceSchema = new mongoose.Schema(
     priceDate: { type: Date, default: Date.now, index: true },
     buyingPrice: { type: Number, required: true },
     quotedPrice: { type: Number, required: true },
+    marketRangeMin: Number,
+    marketRangeMax: Number,
     unit: { type: String, default: "kg" },
-    recycler: { type: mongoose.Schema.Types.ObjectId, ref: "Recycler", default: null }
+    recycler: { type: mongoose.Schema.Types.ObjectId, ref: "Recycler", default: null },
+    source: { type: String, default: "Seed data — validation required" },
+    confidence: { type: String, enum: ["low", "medium", "high"], default: "low" }
   },
   { timestamps: true }
 );

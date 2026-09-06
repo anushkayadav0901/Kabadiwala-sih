@@ -8,7 +8,8 @@ const collectorSchema = new mongoose.Schema(
     passwordHash: { type: String, required: true, select: false },
     preferredLanguage: { type: String, default: "en" },
     locationLat: Number,
-    locationLng: Number
+    locationLng: Number,
+    operatingLocation: String
   },
   { timestamps: true }
 );

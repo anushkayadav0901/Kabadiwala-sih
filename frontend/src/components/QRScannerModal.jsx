@@ -3,7 +3,7 @@ import { Html5Qrcode } from "html5-qrcode";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   HiOutlineCamera, HiOutlineArrowUpTray, HiOutlineCommandLine,
-  HiXMark, HiBolt, HiCheck
+  HiXMark, HiCheck
 } from "react-icons/hi2";
 
 /**
@@ -15,7 +15,6 @@ export const QRScannerModal = ({ isOpen, onClose, onScanSuccess }) => {
   const [activeTab, setActiveTab] = useState("camera"); // "camera" | "upload" | "manual"
   const [errorMsg, setErrorMsg] = useState("");
   const [manualText, setManualText] = useState("");
-  const [hasCamera, setHasCamera] = useState(true);
   const scannerRef = useRef(null);
   const isScanningRef = useRef(false);
 
@@ -47,7 +46,6 @@ export const QRScannerModal = ({ isOpen, onClose, onScanSuccess }) => {
         isScanningRef.current = true;
       } catch (err) {
         console.warn("Camera start failed, falling back to upload/demo mode", err);
-        setHasCamera(false);
         setErrorMsg("Camera unavailable or permission denied. Upload a QR photo or paste the code instead.");
       }
     };
@@ -100,31 +98,6 @@ export const QRScannerModal = ({ isOpen, onClose, onScanSuccess }) => {
   const handleManualSubmit = () => {
     if (!manualText.trim()) return;
     handleSuccessfulScan(manualText);
-  };
-
-  const handleFastDemoScan = () => {
-    const activePayload = localStorage.getItem("kabadi_active_handover_payload");
-    if (activePayload) {
-      handleSuccessfulScan(activePayload);
-    } else {
-      // Generate standard mock handover payload
-      const mockPayload = JSON.stringify({
-        type: "kabadiwala-handover-v2",
-        certificateId: `KBC-DEMO-${Date.now()}`,
-        lotId: `lot_${Date.now()}`,
-        collectorName: "Sanjay Pawar (Local Collector)",
-        collectorPhone: "+91 98201 23456",
-        totalWeight: "12.50",
-        estimatedValue: "1875.00",
-        materials: [
-          { name: "Printed Circuit Boards (PCBs)", weight_kg: 7.5 },
-          { name: "Copper Wire Scrap", weight_kg: 5.0 }
-        ],
-        timestamp: new Date().toISOString(),
-        securityHash: `VERIF-SEC-${Date.now().toString(36).toUpperCase()}`
-      });
-      handleSuccessfulScan(mockPayload);
-    }
   };
 
   const tabs = [
@@ -267,15 +240,6 @@ export const QRScannerModal = ({ isOpen, onClose, onScanSuccess }) => {
                 </div>
               )}
 
-              <button
-                onClick={handleFastDemoScan}
-                type="button"
-                className="h-11 rounded-xl border border-line bg-surface text-ink font-semibold text-[13px]
-                           flex items-center justify-center gap-2 tap hover:bg-sunken transition-colors"
-              >
-                <HiBolt className="text-gold-500 text-base" />
-                Read the active handover (demo)
-              </button>
             </div>
 
             <div className="safe-b" />

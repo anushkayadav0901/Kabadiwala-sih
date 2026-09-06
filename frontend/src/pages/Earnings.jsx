@@ -83,12 +83,29 @@ export const Earnings = () => {
           </Card>
         </div>
 
-        {/* ---- honest state note ------------------------------------------ */}
+        <div className="grid grid-cols-2 gap-2.5">
+          <Card>
+            <p className="eyebrow">Pending dues</p>
+            <p className="font-bold text-[20px] tnum tracking-[-0.02em] mt-1.5 text-gold-700">
+              {formatCurrency(summary?.pendingDues || 0)}
+            </p>
+            <p className="text-[11.5px] text-faint mt-1">{summary?.pendingDeals || 0} awaiting confirmation</p>
+          </Card>
+          <Card>
+            <p className="eyebrow">Traceable weight</p>
+            <p className="font-bold text-[20px] tnum tracking-[-0.02em] mt-1.5">
+              {Number(summary?.formalWeightKg || 0).toFixed(2)} kg
+            </p>
+            <p className="text-[11.5px] text-faint mt-1">Recorded on Kabadi Passbook</p>
+          </Card>
+        </div>
+
+        {/* ---- ledger state ------------------------------------------------ */}
         <div className="flex items-start gap-2.5 px-1">
           <HiOutlineInformationCircle className="text-faint text-base shrink-0 mt-0.5" />
           <p className="text-[12.5px] text-faint leading-snug">
-            Sample history. Completed sales are not written to the ledger yet — that needs a
-            backend or a local store.
+            Your Kabadi Passbook records confirmed recycler handovers. Pending payments remain
+            visible until the recycler confirms them.
           </p>
         </div>
 
@@ -126,7 +143,7 @@ export const Earnings = () => {
                     <p className="font-bold text-[16px] tnum text-ink">
                       +{formatCurrency(tx.totalAmount)}
                     </p>
-                    <p className="text-[11.5px] font-semibold text-brand-600 flex items-center justify-end gap-1 mt-0.5">
+                    <p className={`text-[11.5px] font-semibold flex items-center justify-end gap-1 mt-0.5 ${tx.status === "Paid" ? "text-brand-600" : "text-gold-700"}`}>
                       <HiCheckCircle className="text-[12px]" />
                       {tx.status}
                     </p>

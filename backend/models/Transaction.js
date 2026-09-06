@@ -10,7 +10,15 @@ const transactionSchema = new mongoose.Schema(
     handoverReference: { type: String, required: true, unique: true },
     paymentMethod: { type: String, enum: ["cash", "upi", "bank", "pending"], default: "pending" },
     paymentStatus: { type: String, enum: ["pending", "paid"], default: "pending" },
-    status: { type: String, enum: ["matched", "completed"], default: "matched" },
+    status: { type: String, enum: ["quoted", "matched", "handover", "completed", "cancelled"], default: "matched" },
+    materialCategory: String,
+    collectionLocation: String,
+    handoverLocation: String,
+    collectionGps: { lat: Number, lng: Number },
+    handoverGps: { lat: Number, lng: Number },
+    handoverPhotos: [String],
+    recyclerConfirmedAt: Date,
+    signature: String,
     completedAt: Date
   },
   { timestamps: true }

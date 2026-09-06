@@ -39,6 +39,15 @@ export const EstimatedValue = () => {
   const totalEstimate = bagItems?.length
     ? bagItems.reduce((sum, item) => sum + calculateTotalValue(item.pricePerKg, item.weightKg), 0)
     : calculateTotalValue(currentMaterial.pricePerKg, weightKg);
+  const fairEstimate = bagItems?.length
+    ? bagItems.reduce((sum, item) => ({
+        min: sum.min + Number(item.marketRangeMin ?? item.pricePerKg) * Number(item.weightKg || 0),
+        max: sum.max + Number(item.marketRangeMax ?? item.pricePerKg) * Number(item.weightKg || 0)
+      }), { min: 0, max: 0 })
+    : {
+        min: Number(currentMaterial.marketRangeMin ?? currentMaterial.pricePerKg) * weightKg,
+        max: Number(currentMaterial.marketRangeMax ?? currentMaterial.pricePerKg) * weightKg
+      };
 
   const handleIncrement = (amount) => {
     setWeightKg((prev) => Math.max(0.1, Number((prev + amount).toFixed(2))));
@@ -218,6 +227,14 @@ export const EstimatedValue = () => {
               ? `${formatWeight(totalWeight)} across ${bagItems.length} items`
               : `${formatWeight(weightKg)} × ${formatCurrency(currentMaterial.pricePerKg)}`}
           </p>
+        </section>
+
+        <section className="rounded-[18px] bg-brand-50 border border-brand-100 p-4">
+          <p className="eyebrow text-brand-700">Fair-Price Shield</p>
+          <p className="font-bold text-[20px] text-brand-700 tnum mt-1">
+            {formatCurrency(fairEstimate.min)}–{formatCurrency(fairEstimate.max)}
+          </p>
+          <p className="text-[12.5px] text-brand-700/75 mt-1">Today’s Delhi NCR benchmark for this weight. Compare any counter offer before confirming.</p>
         </section>
 
         <p className="text-[12.5px] text-faint flex items-start gap-2 px-1">

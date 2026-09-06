@@ -174,6 +174,18 @@ export const RecyclerDetails = () => {
           {recycler.rateBonus && (
             <p className="text-[13px] font-semibold text-gold-500 mt-3">{recycler.rateBonus}</p>
           )}
+
+          {Number.isFinite(recycler.matchScore) && (
+            <div className="mt-3 pt-3 border-t border-white/10">
+              <p className="eyebrow text-white/50">Why this recycler is recommended</p>
+              <p className="text-[15px] font-bold mt-1">Match score {recycler.matchScore}/100</p>
+              <div className="flex flex-wrap gap-1.5 mt-2">
+                {(recycler.matchReasons || []).map((reason) => (
+                  <span key={reason} className="text-[11px] bg-white/10 rounded-md px-2 py-1">{reason}</span>
+                ))}
+              </div>
+            </div>
+          )}
         </section>
 
         {/* ---- contact ----------------------------------------------------- */}
@@ -207,6 +219,20 @@ export const RecyclerDetails = () => {
               value: recycler.pickupAvailable
                 ? `Available above ${recycler.minPickupWeightKg} kg`
                 : "Bring to the depot",
+              sub: null
+            },
+            {
+              icon: HiCheckCircle,
+              label: "Authorization data",
+              value: recycler.authorizationSource?.toLowerCase().includes("demo")
+                ? "Demo CPCB-style record — validation pending"
+                : recycler.verified ? "Authorization recorded" : "Not yet authorized",
+              sub: recycler.cpcbRegistrationNumber || null
+            },
+            {
+              icon: HiOutlineMapPin,
+              label: "Service area",
+              value: (recycler.serviceArea || ["Delhi NCR"]).join(", "),
               sub: null
             }
           ].map((row) => (
