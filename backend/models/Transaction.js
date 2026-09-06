@@ -7,6 +7,7 @@ const transactionSchema = new mongoose.Schema(
     recycler: { type: mongoose.Schema.Types.ObjectId, ref: "Recycler", required: true },
     quotedPrice: { type: Number, required: true },
     finalPrice: Number,
+    finalWeight: Number,
     handoverReference: { type: String, required: true, unique: true },
     paymentMethod: { type: String, enum: ["cash", "upi", "bank", "pending"], default: "pending" },
     paymentStatus: { type: String, enum: ["pending", "paid"], default: "pending" },
@@ -18,6 +19,8 @@ const transactionSchema = new mongoose.Schema(
     handoverGps: { lat: Number, lng: Number },
     handoverPhotos: [String],
     recyclerConfirmedAt: Date,
+    destinationStatus: { type: String, enum: ["awaiting_handover", "received_by_authorized_recycler", "sorting", "recycled"], default: "awaiting_handover" },
+    destinationNote: String,
     signature: String,
     completedAt: Date
   },

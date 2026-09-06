@@ -21,6 +21,7 @@ export const createLot = async ({ collectorId: _collectorId, materials, totalWei
 };
 export const getCollectorLots = async (collectorId) => (await api(`/lots/collector/${collectorId}`, { auth: true })).lots;
 export const getLotPassport = async (lotId) => (await api(`/lots/${lotId}/passport`, { auth: true })).passport;
+export const getScrapDna = async (lotId) => (await api(`/lots/${lotId}/scrap-dna`, { auth: true })).dna;
 export const prepareLotPassport = async (lotId, recyclerId) => (await api(`/lots/${lotId}/passport`, { method: "POST", body: { recyclerId }, auth: true })).passport;
 export const getOpenLots = async () => (await api("/lots", { auth: true })).lots;
 export const matchLot = async (lotId, quotedPrice) => api(`/lots/${lotId}/match`, { method: "PUT", body: { quotedPrice }, auth: true });

@@ -75,6 +75,7 @@ export const BuyerDashboard = () => {
       const certValue = Number(scannedData.estimatedValue || 1500).toFixed(2);
       const handover = await completeHandover(scannedData.lotId, {
         finalPrice: Number(scannedData.estimatedValue || 0),
+        finalWeight: Number(scannedData.totalWeight || 0),
         paymentMethod: "cash",
         signature: scannedData.signature,
         handoverGps: scannedData.gps

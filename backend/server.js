@@ -72,6 +72,49 @@ const passportFor = (lot, collector = null, recycler = null) => {
   const signature = crypto.createHmac("sha256", process.env.JWT_SECRET).update(JSON.stringify(payload)).digest("hex");
   return { payload, signature };
 };
+const scrapDnaFor = async (lot, transaction, recycler) => {
+  const materials = lot.materials || [];
+  const classificationConfidence = Math.max(0, ...materials.map((item) => Number(item.classificationConfidence || 0)));
+  const hasPriceRange = materials.some((item) => Number.isFinite(item.marketRangeMin) && Number.isFinite(item.marketRangeMax));
+  const initialWeight = Number(lot.totalWeight || 0);
+  const finalWeight = transaction?.finalWeight == null ? null : Number(transaction.finalWeight);
+  const weightMismatchPercent = finalWeight == null || !initialWeight
+    ? null
+    : Number((Math.abs(finalWeight - initialWeight) / initialWeight * 100).toFixed(1));
+  const checks = [
+    { label: "Original item photo", complete: Boolean(lot.photoUrls?.length), points: 12 },
+    { label: "AI material classification", complete: classificationConfidence > 0, points: 8 },
+    { label: "Initial weight", complete: initialWeight > 0, points: 10 },
+    { label: "Fair-price range snapshot", complete: hasPriceRange, points: 10 },
+    { label: "Collection GPS", complete: Number.isFinite(lot.gpsLat) && Number.isFinite(lot.gpsLng), points: 10 },
+    { label: "Authorized recycler selected", complete: Boolean(recycler?.authorized), points: 10 },
+    { label: "Server-signed Kabadi Passport", complete: Boolean(lot.handoverSignature), points: 15 },
+    { label: "Recycler confirmation", complete: Boolean(transaction?.recyclerConfirmedAt), points: 12 },
+    { label: "Final depot weight", complete: finalWeight != null, points: 5 },
+    { label: "Handover photo", complete: Boolean(transaction?.handoverPhotos?.length || lot.handoverPhotos?.length), points: 4 },
+    { label: "Destination status", complete: Boolean(transaction?.destinationStatus && transaction.destinationStatus !== "awaiting_handover"), points: 4 }
+  ];
+  const score = checks.reduce((total, check) => total + (check.complete ? check.points : 0), 0);
+  const destination = transaction?.destinationStatus || "awaiting_handover";
+  return {
+    passportVersion: "Kabadi Passport 2.0",
+    reference: lot.handoverReference,
+    lotId: lot._id.toString(),
+    traceabilityScore: score,
+    verificationLabel: score >= 85 ? "Traceability verified" : score >= 55 ? "Evidence in progress" : "Lot created — evidence pending",
+    checks,
+    material: materials.map((item) => ({ name: item.name, category: item.category, condition: item.condition || "unknown", classificationConfidence: item.classificationConfidence || null, initialWeightKg: item.weightKg, fairRange: item.marketRangeMin != null ? { min: item.marketRangeMin, max: item.marketRangeMax } : null })),
+    originalPhotos: lot.photoUrls || [],
+    handoverPhotos: transaction?.handoverPhotos || lot.handoverPhotos || [],
+    weights: { initialKg: initialWeight, finalKg: finalWeight, mismatchPercent: weightMismatchPercent, status: finalWeight == null ? "Final weight pending recycler confirmation" : weightMismatchPercent <= 2 ? "Weight matched" : "Weight mismatch needs review" },
+    price: { estimatedValue: lot.estimatedValue, quotedPrice: transaction?.quotedPrice ?? null, finalBid: transaction?.finalPrice ?? null },
+    collection: { gps: Number.isFinite(lot.gpsLat) && Number.isFinite(lot.gpsLng) ? { lat: lot.gpsLat, lng: lot.gpsLng } : null, location: lot.collectionLocation || null, createdAt: lot.createdAt },
+    handover: { gps: transaction?.handoverGps || null, location: transaction?.handoverLocation || lot.handoverLocation || null, signedAt: lot.handedOverAt || null, recyclerConfirmedAt: transaction?.recyclerConfirmedAt || null, signature: lot.handoverSignature ? `${lot.handoverSignature.slice(0, 16)}…` : null },
+    recycler: recycler ? { id: recycler._id.toString(), name: recycler.name, authorized: recycler.authorized, registration: recycler.cpcbRegistrationNumber || null } : null,
+    destination: { status: destination, note: transaction?.destinationNote || null, label: destination === "recycled" ? "Recycled" : destination === "sorting" ? "At recycler sorting stage" : destination === "received_by_authorized_recycler" ? "Received by authorized recycler" : "Awaiting secure handover" },
+    tamperCheck: { status: (transaction?.handoverPhotos?.length || lot.handoverPhotos?.length) ? "Photo evidence captured — AI comparison can be added" : "Handover photo not captured", score: finalWeight == null ? null : Math.max(0, 100 - Math.round(weightMismatchPercent || 0)), note: "Evidence score is based on signed records and weight comparison; it is not a forensic image verdict." }
+  };
+};
 const lotDto = (lot) => ({
   id: lot._id.toString(),
   collector_id: lot.collector?._id?.toString() || lot.collector?.toString(),
@@ -162,7 +205,7 @@ app.post("/api/lots", requireAuth, requireRole("collector"), upload.single("phot
     if (req.file) photoUrls.push(`/uploads/${req.file.filename}`);
     const lot = await Lot.create({
       collector: req.auth.sub,
-      materials: materials.map((item) => ({ name: item.name, category: item.category, subCategory: item.subCategory ?? item.sub_category, description: item.description, condition: item.condition || "unknown", sourceType: item.sourceType || "collector", weightKg: item.weightKg ?? item.weight_kg, pricePerKg: item.pricePerKg ?? item.price_per_kg })),
+      materials: materials.map((item) => ({ name: item.name, category: item.category, subCategory: item.subCategory ?? item.sub_category, description: item.description, condition: item.condition || "unknown", sourceType: item.sourceType || "collector", weightKg: item.weightKg ?? item.weight_kg, pricePerKg: item.pricePerKg ?? item.price_per_kg, marketRangeMin: item.marketRangeMin ?? item.market_range_min, marketRangeMax: item.marketRangeMax ?? item.market_range_max, classificationConfidence: item.classificationConfidence ?? item.classification_confidence })),
       totalWeight: Number(body.totalWeight ?? body.total_weight), estimatedValue: Number(body.estimatedValue ?? body.estimated_value),
       photoUrls, gpsLat: body.gpsLat ?? body.gps_lat, gpsLng: body.gpsLng ?? body.gps_lng,
       collectionLocation: body.collectionLocation ?? body.collection_location,
@@ -267,7 +310,7 @@ app.post("/api/lots/:id/handover", requireAuth, async (req, res, next) => {
       collectionLocation: lot.collectionLocation, handoverLocation: req.body.handoverLocation,
       collectionGps: { lat: lot.gpsLat, lng: lot.gpsLng }, handoverGps: req.body.handoverGps,
       handoverPhotos, signature: lot.handoverSignature,
-      ...(isRecyclerConfirmation ? { finalPrice: Number(req.body.finalPrice ?? lot.estimatedValue), paymentStatus: "paid", status: "completed", recyclerConfirmedAt: new Date(), completedAt: new Date() } : { paymentStatus: "pending", status: "handover" })
+      ...(isRecyclerConfirmation ? { finalPrice: Number(req.body.finalPrice ?? lot.estimatedValue), finalWeight: Number(req.body.finalWeight ?? lot.totalWeight), paymentStatus: "paid", status: "completed", recyclerConfirmedAt: new Date(), completedAt: new Date(), destinationStatus: "received_by_authorized_recycler" } : { paymentStatus: "pending", status: "handover", destinationStatus: "awaiting_handover" })
     };
     const transaction = await Transaction.findOneAndUpdate({ lot: lot._id }, update, { new: true, upsert: true, runValidators: true, setDefaultsOnInsert: true });
     lot.status = isRecyclerConfirmation ? "completed" : "handover";
@@ -280,6 +323,31 @@ app.post("/api/lots/:id/handover", requireAuth, async (req, res, next) => {
       try { anomaly = await detectAnomalies(transaction, lot); } catch (_) { /* non-blocking */ }
     }
     res.json({ lot: lotDto(lot), transaction, verification: { verified: isRecyclerConfirmation, signature: lot.handoverSignature }, anomaly });
+  } catch (error) { next(error); }
+});
+
+app.get("/api/lots/:id/scrap-dna", requireAuth, async (req, res, next) => {
+  try {
+    const lot = await Lot.findById(req.params.id).populate("collector", "name phone").populate("matchedRecycler", "name authorized cpcbRegistrationNumber");
+    if (!lot) return res.status(404).json({ message: "Lot not found" });
+    const collectorId = lot.collector?._id?.toString() || lot.collector?.toString();
+    const recyclerId = lot.matchedRecycler?._id?.toString() || lot.matchedRecycler?.toString();
+    if (req.auth.sub !== collectorId && req.auth.sub !== recyclerId) return res.status(403).json({ message: "You cannot view this Scrap DNA record" });
+    const transaction = await Transaction.findOne({ lot: lot._id });
+    const dna = await scrapDnaFor(lot, transaction, lot.matchedRecycler);
+    res.json({ dna });
+  } catch (error) { next(error); }
+});
+
+app.put("/api/lots/:id/destination", requireAuth, requireRole("recycler"), async (req, res, next) => {
+  try {
+    const allowed = ["received_by_authorized_recycler", "sorting", "recycled"];
+    if (!allowed.includes(req.body.destinationStatus)) return res.status(400).json({ message: "Invalid destination status" });
+    const lot = await Lot.findById(req.params.id);
+    if (!lot || lot.matchedRecycler?.toString() !== req.auth.sub) return res.status(404).json({ message: "Matched lot not found" });
+    const transaction = await Transaction.findOneAndUpdate({ lot: lot._id }, { destinationStatus: req.body.destinationStatus, destinationNote: req.body.destinationNote || "" }, { new: true });
+    if (!transaction) return res.status(404).json({ message: "Transaction not found" });
+    res.json({ transaction });
   } catch (error) { next(error); }
 });
 

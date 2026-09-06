@@ -3,7 +3,11 @@ import mongoose from "mongoose";
 const lotSchema = new mongoose.Schema(
   {
     collector: { type: mongoose.Schema.Types.ObjectId, ref: "Collector", required: true, index: true },
-    materials: [{ name: String, category: String, subCategory: String, description: String, condition: String, sourceType: String, weightKg: Number, pricePerKg: Number }],
+    materials: [{
+      name: String, category: String, subCategory: String, description: String,
+      condition: String, sourceType: String, weightKg: Number, pricePerKg: Number,
+      marketRangeMin: Number, marketRangeMax: Number, classificationConfidence: Number
+    }],
     totalWeight: { type: Number, required: true },
     estimatedValue: { type: Number, required: true },
     photoUrls: [String],

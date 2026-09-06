@@ -67,7 +67,11 @@ export const EstimatedValue = () => {
           category: mapFrontendMaterialToDbCategory(material),
           name: material.name,
           weight_kg: Number(material.weightKg || 0),
-          price_per_kg: material.pricePerKg
+          price_per_kg: material.pricePerKg,
+          market_range_min: material.marketRangeMin,
+          market_range_max: material.marketRangeMax,
+          classification_confidence: bagItems?.length ? null : scanState.scanResult?.confidence ?? null,
+          condition: material.condition || "unknown"
         })),
         totalWeight,
         estimatedValue: totalEstimate,
