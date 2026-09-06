@@ -18,6 +18,7 @@ export const AppProvider = ({ children }) => {
   const [activeWeight, setActiveWeight] = useState(1);
   const [selectedRecycler, setSelectedRecycler] = useState(null);
   const [activeLot, setActiveLot] = useState(null);
+  const [isOnline, setIsOnline] = useState(() => navigator.onLine);
   const [bagItems, setBagItems] = useState(() => {
     try {
       return JSON.parse(localStorage.getItem("kabadi_bag") || "[]");
@@ -76,6 +77,14 @@ export const AppProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    const goOnline = () => setIsOnline(true);
+    const goOffline = () => setIsOnline(false);
+    window.addEventListener("online", goOnline);
+    window.addEventListener("offline", goOffline);
+    return () => { window.removeEventListener("online", goOnline); window.removeEventListener("offline", goOffline); };
+  }, []);
+
+  useEffect(() => {
     localStorage.setItem("kabadi_bag", JSON.stringify(bagItems));
   }, [bagItems]);
 
@@ -126,7 +135,8 @@ export const AppProvider = ({ children }) => {
         addToBag,
         updateBagItem,
         removeFromBag,
-        clearBag
+        clearBag,
+        isOnline
       }}
     >
       {children}

@@ -12,6 +12,8 @@ import { SCRAP_CATEGORIES } from "../utils/constants";
 import { formatDistance } from "../utils/helpers";
 import { getRecyclerRatingStats, addRecyclerReview } from "../services/reviewService";
 import { getRecyclerDetails } from "../services/recyclerService";
+import { getCurrentMaterialPrice, evaluateFairOffer } from "../services/priceService";
+import { FairPriceShield } from "../components/FairPriceShield";
 import { FaStar } from "react-icons/fa";
 import {
   HiOutlinePhone, HiOutlineMapPin, HiOutlineClock, HiOutlineTruck,
@@ -31,6 +33,20 @@ export const RecyclerDetails = () => {
   const [userTags, setUserTags] = useState(["Fair Weight ⚖️", "Instant Cash ⚡"]);
   const [userComment, setUserComment] = useState("");
   const [submittedToast, setSubmittedToast] = useState(false);
+  const [fairPrice, setFairPrice] = useState(null);
+
+  useEffect(() => {
+    if (!activeLot || !recycler) return;
+    const material = activeLot.materials?.[0];
+    if (!material) return;
+    getCurrentMaterialPrice(material).then((price) => {
+      if (!price) return;
+      const offeredRate = recycler.offeredRates?.[material.category] || recycler.offeredRate;
+      if (offeredRate) {
+        setFairPrice({ evaluation: evaluateFairOffer(offeredRate, price), offerPrice: offeredRate, fairMin: price.marketRangeMin ?? price.buyingPrice, fairMax: price.marketRangeMax ?? price.quotedPrice, materialName: material.name || material.category });
+      }
+    }).catch(() => {});
+  }, [activeLot, recycler]);
 
   useEffect(() => {
     if (selectedRecycler?.id === id) return;
@@ -269,6 +285,17 @@ export const RecyclerDetails = () => {
             })}
           </div>
         </Card>
+
+        {/* ---- fair-price shield ------------------------------------------------ */}
+        {fairPrice?.evaluation && (
+          <FairPriceShield
+            evaluation={fairPrice.evaluation}
+            offerPrice={fairPrice.offerPrice}
+            fairMin={fairPrice.fairMin}
+            fairMax={fairPrice.fairMax}
+            materialName={fairPrice.materialName}
+          />
+        )}
 
         {/* ---- reviews ---------------------------------------------------------- */}
         <Card>

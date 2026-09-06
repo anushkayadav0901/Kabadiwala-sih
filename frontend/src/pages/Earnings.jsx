@@ -10,7 +10,8 @@ import {
 } from "../services/transactionService";
 import { formatCurrency } from "../utils/helpers";
 import { useApp } from "../context/AppContext";
-import { HiOutlineWallet, HiCheckCircle, HiOutlineInformationCircle } from "react-icons/hi2";
+import { HiOutlineWallet, HiCheckCircle, HiOutlineInformationCircle, HiOutlineDocumentArrowDown } from "react-icons/hi2";
+import { generateInvoice } from "../utils/generateInvoice";
 
 export const Earnings = () => {
   const { t, user } = useApp();
@@ -139,14 +140,25 @@ export const Earnings = () => {
                     </p>
                     <p className="text-[11.5px] text-faint mt-0.5">{tx.date}</p>
                   </div>
-                  <div className="text-right shrink-0">
-                    <p className="font-bold text-[16px] tnum text-ink">
-                      +{formatCurrency(tx.totalAmount)}
-                    </p>
-                    <p className={`text-[11.5px] font-semibold flex items-center justify-end gap-1 mt-0.5 ${tx.status === "Paid" ? "text-brand-600" : "text-gold-700"}`}>
-                      <HiCheckCircle className="text-[12px]" />
-                      {tx.status}
-                    </p>
+                  <div className="text-right shrink-0 flex items-center gap-2">
+                    <div>
+                      <p className="font-bold text-[16px] tnum text-ink">
+                        +{formatCurrency(tx.totalAmount)}
+                      </p>
+                      <p className={`text-[11.5px] font-semibold flex items-center justify-end gap-1 mt-0.5 ${tx.status === "Paid" ? "text-brand-600" : "text-gold-700"}`}>
+                        <HiCheckCircle className="text-[12px]" />
+                        {tx.status}
+                      </p>
+                    </div>
+                    {tx.status === "Paid" && (
+                      <button
+                        onClick={(e) => { e.stopPropagation(); generateInvoice(tx, user); }}
+                        className="w-8 h-8 grid place-items-center rounded-lg bg-sunken text-muted hover:text-brand-600 tap transition-colors"
+                        title="Download invoice"
+                      >
+                        <HiOutlineDocumentArrowDown className="text-base" />
+                      </button>
+                    )}
                   </div>
                 </div>
               ))}

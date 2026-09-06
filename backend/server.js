@@ -15,6 +15,8 @@ import Price from "./models/Price.js";
 import Recycler from "./models/Recycler.js";
 import Transaction from "./models/Transaction.js";
 import { requireAuth, requireRole } from "./middleware/auth.js";
+import { detectAnomalies } from "./services/anomalyDetector.js";
+import { classifyImage as geminiClassify, estimatePrice as geminiEstimate, compareHandoverImages, isGeminiConfigured } from "./services/geminiService.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const uploadsDir = path.join(__dirname, "uploads");
@@ -273,7 +275,50 @@ app.post("/api/lots/:id/handover", requireAuth, async (req, res, next) => {
     lot.handoverLocation = req.body.handoverLocation || lot.handoverLocation; lot.handoverPhotos = handoverPhotos;
     if (isRecyclerConfirmation) lot.recyclerConfirmedAt = new Date();
     await lot.save();
-    res.json({ lot: lotDto(lot), transaction, verification: { verified: isRecyclerConfirmation, signature: lot.handoverSignature } });
+    let anomaly = null;
+    if (isRecyclerConfirmation) {
+      try { anomaly = await detectAnomalies(transaction, lot); } catch (_) { /* non-blocking */ }
+    }
+    res.json({ lot: lotDto(lot), transaction, verification: { verified: isRecyclerConfirmation, signature: lot.handoverSignature }, anomaly });
+  } catch (error) { next(error); }
+});
+
+app.post("/api/classify", requireAuth, upload.single("photo"), async (req, res, next) => {
+  try {
+    if (!req.file) return res.status(400).json({ message: "A photo is required" });
+    const filePath = req.file.path;
+    if (isGeminiConfigured()) {
+      const result = await geminiClassify(filePath);
+      if (result) return res.json({ source: "gemini", ...result });
+    }
+    res.json({ source: "none", message: "No AI classification backend configured. Use the on-device TF.js model." });
+  } catch (error) { next(error); }
+});
+
+app.post("/api/estimate", requireAuth, upload.single("photo"), async (req, res, next) => {
+  try {
+    const { weight, category, condition } = req.body;
+    if (isGeminiConfigured() && req.file) {
+      const result = await geminiEstimate(req.file.path, weight, category, condition);
+      if (result) return res.json({ source: "gemini", ...result });
+    }
+    const prices = await Price.findOne({ materialCategory: category }).sort({ priceDate: -1 });
+    if (prices) {
+      const mid = (prices.marketRangeMin + prices.marketRangeMax) / 2;
+      const condFactor = { good: 1, fair: 0.85, poor: 0.7 }[condition] || 0.8;
+      const w = Number(weight) || 1;
+      return res.json({ source: "price_db", estMin: Math.round(prices.marketRangeMin * condFactor * w), estMax: Math.round(prices.marketRangeMax * condFactor * w), reasoning: `Based on ${category} price data with ${condition} condition factor` });
+    }
+    res.json({ source: "none", message: "No pricing data available" });
+  } catch (error) { next(error); }
+});
+
+app.get("/api/transactions/:id/anomaly", requireAuth, async (req, res, next) => {
+  try {
+    const transaction = await Transaction.findById(req.params.id).populate("lot");
+    if (!transaction) return res.status(404).json({ message: "Transaction not found" });
+    const anomaly = await detectAnomalies(transaction, transaction.lot);
+    res.json(anomaly);
   } catch (error) { next(error); }
 });
 

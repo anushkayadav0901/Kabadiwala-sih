@@ -109,13 +109,15 @@ export const Payment = () => {
       setProcessingStep("Issuing handover record…");
       const handoverRef = state?.certificateId || `HO-${Date.now()}`;
 
-      const { transaction } = await completeHandover(lot.id, {
+      const result = await completeHandover(lot.id, {
         recyclerId: recycler.id,
         quotedPrice: payableAmount,
         finalPrice: payableAmount,
         handoverRef,
         paymentMethod: method
       });
+      const transaction = result.transaction;
+      const anomalyData = result.anomaly || null;
       const paid = {
         id: transaction._id,
         final_price: transaction.finalPrice,
@@ -139,7 +141,8 @@ export const Payment = () => {
             certificateId: handoverRef,
             method,
             settledAmount: payableAmount,
-            viewRole: "collector"
+            viewRole: "collector",
+            anomaly: anomalyData
           }
         });
       }, 1000);

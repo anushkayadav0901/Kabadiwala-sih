@@ -9,6 +9,8 @@ import { BrandMark } from "../components/icons/Illustrations";
 import { useApp } from "../context/AppContext";
 import { formatCurrency, formatWeight } from "../utils/helpers";
 import { addRecyclerReview } from "../services/reviewService";
+import { generateInvoice } from "../utils/generateInvoice";
+import { AnomalyAlert } from "../components/AnomalyAlert";
 import { FaStar } from "react-icons/fa";
 import {
   HiOutlineArrowDownTray, HiOutlinePrinter, HiCheckCircle,
@@ -23,6 +25,7 @@ export const Certificate = () => {
   const certificateId = state?.certificateId || `KBC-${Date.now()}`;
   const lot = state?.lot;
   const recycler = state?.recycler;
+  const anomaly = state?.anomaly;
   const initialRole = state?.viewRole || "collector"; // "collector" | "buyer"
 
   const [activeRole, setActiveRole] = useState(initialRole);
@@ -242,13 +245,23 @@ Transaction Hash: VERIF-EPR-${certificateId}
           </div>
         </div>
 
+        {/* ---- anomaly shield --------------------------------------------- */}
+        {anomaly?.isAnomalous && <AnomalyAlert anomaly={anomaly} />}
+
         {/* ---- actions -------------------------------------------------- */}
-        <div className="grid grid-cols-2 gap-2.5 no-print">
+        <div className="grid grid-cols-3 gap-2.5 no-print">
           <Button variant="outline" size="md" onClick={downloadCertificate} icon={HiOutlineArrowDownTray}>
             Download
           </Button>
           <Button variant="outline" size="md" onClick={handlePrint} icon={HiOutlinePrinter}>
-            Print / PDF
+            Print
+          </Button>
+          <Button variant="outline" size="md" onClick={() => {
+            const tx = { materialName: lot?.materials?.map((m) => m.name).join(", ") || "Scrap", weightKg: lot?.total_weight || lot?.totalWeight || 0, totalAmount: lot?.estimated_value || lot?.estimatedValue || 0, pricePerKg: 0, handoverRef: lot?.handover_reference || certificateId, recyclerName: recycler?.name || "Recycler", status: "Paid", date: new Date().toISOString() };
+            if (tx.weightKg && tx.totalAmount) tx.pricePerKg = Math.round(tx.totalAmount / tx.weightKg);
+            generateInvoice(tx, user);
+          }} icon={HiOutlineArrowDownTray}>
+            Invoice
           </Button>
         </div>
 

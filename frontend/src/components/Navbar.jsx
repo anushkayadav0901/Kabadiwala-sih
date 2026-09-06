@@ -14,7 +14,7 @@ import { BrandMark } from "./icons/Illustrations";
 export const Navbar = ({ title = null, showBack = true }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { language, changeLanguage, bagItems } = useApp();
+  const { language, changeLanguage, bagItems, isOnline } = useApp();
 
   const isHome = location.pathname === "/dashboard" || location.pathname === "/";
   const currentLangObj = LANGUAGES.find((l) => l.id === language) || LANGUAGES[0];
@@ -80,6 +80,11 @@ export const Navbar = ({ title = null, showBack = true }) => {
           )}
         </button>
       </div>
+      {!isOnline && (
+        <div className="bg-gold-500 text-ink text-[11.5px] font-semibold text-center py-1 px-3">
+          You're offline — scans and saved data still work
+        </div>
+      )}
     </header>
   );
 };
