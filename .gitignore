@@ -20,4 +20,5 @@ Thumbs.db
 
 # Local AI/editor tooling
 .claude/
+.cursor/
 .vite/
