@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { ProtectedRoute } from "../components/ProtectedRoute";
 
@@ -80,6 +80,7 @@ export const AppRoutes = () => {
         {/* Buyer / Recycler portal */}
         <Route path="/buyer/login" element={<PageWrapper><BuyerLogin /></PageWrapper>} />
         <Route path="/buyer/register" element={<PageWrapper><BuyerRegister /></PageWrapper>} />
+        <Route path="/buyer" element={<Navigate to="/buyer/dashboard" replace />} />
         <Route path="/buyer/dashboard" element={<BuyerRoute><BuyerDashboard /></BuyerRoute>} />
 
         <Route path="*" element={<PageWrapper><NotFound /></PageWrapper>} />

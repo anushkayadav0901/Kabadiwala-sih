@@ -58,16 +58,14 @@ export const QRScannerModal = ({ isOpen, onClose, onScanSuccess }) => {
     };
   }, [isOpen, activeTab]);
 
-  const stopCamera = () => {
-    if (scannerRef.current && isScanningRef.current) {
-      scannerRef.current
-        .stop()
-        .catch(() => {})
-        .finally(() => {
-          scannerRef.current?.clear();
-          scannerRef.current = null;
-          isScanningRef.current = false;
-        });
+  const stopCamera = async () => {
+    const scanner = scannerRef.current;
+    scannerRef.current = null;
+    const wasScanning = isScanningRef.current;
+    isScanningRef.current = false;
+    if (scanner && wasScanning) {
+      try { await scanner.stop(); } catch { /* camera may already be closed */ }
+      try { await scanner.clear(); } catch { /* best-effort cleanup */ }
     }
   };
 
@@ -87,8 +85,10 @@ export const QRScannerModal = ({ isOpen, onClose, onScanSuccess }) => {
 
     setErrorMsg("");
     try {
+      await stopCamera();
       const html5QrCode = new Html5Qrcode("buyer-file-reader");
       const decoded = await html5QrCode.scanFile(file, true);
+      try { await html5QrCode.clear(); } catch { /* decoder is already finished */ }
       handleSuccessfulScan(decoded);
     } catch (err) {
       setErrorMsg("No QR code found in that image. Try another photo.");
@@ -170,6 +170,12 @@ export const QRScannerModal = ({ isOpen, onClose, onScanSuccess }) => {
             </div>
 
             <div className="px-4 py-4 overflow-y-auto flex flex-col gap-3">
+              {/* html5-qrcode needs a mounted, measurable element for scanFile. */}
+              <div
+                id="buyer-file-reader"
+                aria-hidden="true"
+                style={{ position: "fixed", left: "-10000px", top: 0, width: 1, height: 1, overflow: "hidden" }}
+              />
               {errorMsg && (
                 <p className="text-[12.5px] font-medium text-gold-700 bg-gold-50 border border-gold-100 rounded-xl px-3 py-2.5">
                   {errorMsg}
@@ -194,12 +200,16 @@ export const QRScannerModal = ({ isOpen, onClose, onScanSuccess }) => {
                   <p className="text-[12.5px] text-faint text-center">
                     Hold the collector's QR code inside the frame
                   </p>
+                  <label className="h-11 rounded-xl border border-line bg-surface text-ink font-semibold text-[13px] flex items-center justify-center gap-2 cursor-pointer tap hover:bg-sunken transition-colors">
+                    <HiOutlineArrowUpTray className="text-base text-brand-600" />
+                    Upload QR screenshot instead
+                    <input type="file" accept="image/*" onChange={handleFileUpload} className="hidden" />
+                  </label>
                 </div>
               )}
 
               {activeTab === "upload" && (
                 <div>
-                  <div id="buyer-file-reader" className="hidden" />
                   <label
                     className="block p-8 rounded-2xl border-[1.5px] border-dashed border-line
                                bg-sunken text-center cursor-pointer tap hover:bg-line/40 transition-colors"

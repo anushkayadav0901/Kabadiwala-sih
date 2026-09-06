@@ -36,15 +36,21 @@ export const AppProvider = ({ children }) => {
       setLanguageState(user.preferredLanguage);
       localStorage.setItem("kabadi_lang", user.preferredLanguage);
     }
-    if (user?.locationLat && user?.locationLng) {
-      setUserLocation({
-        lat: user.locationLat,
-        lng: user.locationLng,
-        address: "Saved location"
-      });
-    } else {
-      getCurrentLocation().then(setUserLocation);
-    }
+    // Prefer fresh device GPS for matching. A profile coordinate is only a
+    // fallback because a collector may travel to a different collection area.
+    getCurrentLocation().then((liveLocation) => {
+      if (liveLocation.address === "Current Live Location") {
+        setUserLocation(liveLocation);
+      } else if (user?.locationLat && user?.locationLng) {
+        setUserLocation({
+          lat: user.locationLat,
+          lng: user.locationLng,
+          address: "Saved location"
+        });
+      } else {
+        setUserLocation(liveLocation);
+      }
+    });
   }, [user?.id]);
 
   useEffect(() => {

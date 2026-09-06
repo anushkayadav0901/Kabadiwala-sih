@@ -187,7 +187,7 @@ export const Handover = () => {
 
           <div className="p-6 flex flex-col items-center bg-sunken/40">
             <div className="p-3 bg-white rounded-2xl border border-line">
-              <QRCodeCanvas value={verificationPayloadString} size={196} level="H" includeMargin />
+              <QRCodeCanvas value={verificationPayloadString} size={280} level="M" includeMargin />
             </div>
 
             <p className="text-[11.5px] font-mono text-muted mt-3 text-center break-all px-2">

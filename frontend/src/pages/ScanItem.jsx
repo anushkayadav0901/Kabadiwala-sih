@@ -21,6 +21,7 @@ export const ScanItem = () => {
   const [imagePreview, setImagePreview] = useState(null);
   const [scanning, setScanning] = useState(false);
   const [scanResult, setScanResult] = useState(null);
+  const [scanError, setScanError] = useState("");
   const [addedToBag, setAddedToBag] = useState(false);
   const [weightKg, setWeightKg] = useState(1.0);
 
@@ -31,6 +32,7 @@ export const ScanItem = () => {
       reader.onloadend = () => {
         setImagePreview(reader.result);
         setScanResult(null);
+        setScanError("");
         setAddedToBag(false);
       };
       reader.readAsDataURL(file);
@@ -38,6 +40,7 @@ export const ScanItem = () => {
   };
 
   const handleTriggerScan = async () => {
+    setScanError("");
     setScanning(true);
     try {
       const res = await scanMaterial(imagePreview);
@@ -63,6 +66,7 @@ export const ScanItem = () => {
       setAddedToBag(false);
     } catch (err) {
       console.error(err);
+      setScanError("The local AI model could not load. Refresh this page while connected once, wait a few seconds, then tap Identify again.");
     } finally {
       setScanning(false);
     }
@@ -129,6 +133,11 @@ export const ScanItem = () => {
                 {scanResult ? "Scan again" : "Identify"}
               </Button>
             </div>
+            {scanError && (
+              <p className="text-[12.5px] text-alert-600 bg-alert-50 rounded-xl px-3 py-2.5 leading-snug">
+                {scanError}
+              </p>
+            )}
           </div>
         ) : (
           <div className="card p-6 text-center">
