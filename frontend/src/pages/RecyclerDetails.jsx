@@ -17,7 +17,8 @@ import { FairPriceShield } from "../components/FairPriceShield";
 import { FaStar } from "react-icons/fa";
 import {
   HiOutlinePhone, HiOutlineMapPin, HiOutlineClock, HiOutlineTruck,
-  HiOutlineQrCode, HiXMark, HiCheck, HiCheckCircle
+  HiOutlineQrCode, HiXMark, HiCheck, HiCheckCircle,
+  HiOutlineScale, HiOutlineCurrencyRupee, HiOutlineUserGroup, HiOutlineShieldCheck
 } from "react-icons/hi2";
 
 export const RecyclerDetails = () => {
@@ -30,7 +31,7 @@ export const RecyclerDetails = () => {
 
   const [ratingModalOpen, setRatingModalOpen] = useState(false);
   const [userStars, setUserStars] = useState(5);
-  const [userTags, setUserTags] = useState(["Fair Weight ⚖️", "Instant Cash ⚡"]);
+  const [userTags, setUserTags] = useState(["Fair Weight", "Instant Cash"]);
   const [userComment, setUserComment] = useState("");
   const [submittedToast, setSubmittedToast] = useState(false);
   const [fairPrice, setFairPrice] = useState(null);
@@ -69,11 +70,11 @@ export const RecyclerDetails = () => {
   };
 
   const availableTags = [
-    "Fair Weight ⚖️",
-    "Instant Cash ⚡",
-    "Official EPR 🌿",
-    "Respectful Staff 👍",
-    "Best Price 💰"
+    "Fair Weight",
+    "Instant Cash",
+    "Official EPR",
+    "Respectful Staff",
+    "Best Price"
   ];
 
   const toggleTag = (tag) => {
@@ -297,49 +298,98 @@ export const RecyclerDetails = () => {
           />
         )}
 
-        {/* ---- reviews ---------------------------------------------------------- */}
+        {/* ---- reviews & criteria breakdown ----------------------------------- */}
         <Card>
           <div className="sec-head">
-            <h4 className="sec-title">Collector reviews</h4>
+            <div>
+              <h4 className="sec-title">Trust & Rating Breakdown</h4>
+              <p className="text-[12px] text-faint mt-0.5">Cab-style evaluation from verified collectors</p>
+            </div>
             <button onClick={() => setRatingModalOpen(true)} className="sec-link tap">
-              Rate this buyer
+              Rate depot
             </button>
           </div>
 
-          {stats.reviews.length === 0 ? (
-            <p className="text-[13.5px] text-faint">
-              No written reviews yet. Be the first after your handover.
-            </p>
-          ) : (
-            <div className="flex flex-col gap-2.5">
-              {stats.reviews.map((rev) => (
-                <div key={rev.id} className="p-3 rounded-xl bg-sunken">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="text-[13.5px] font-semibold text-ink truncate">
-                      {rev.collectorName}
-                    </span>
-                    <span className="flex gap-0.5 shrink-0" aria-label={`${rev.rating} out of 5`}>
-                      {[...Array(rev.rating)].map((_, idx) => (
-                        <FaStar key={idx} className="text-gold-500 text-[10px]" />
-                      ))}
-                    </span>
-                  </div>
-                  {rev.comment && (
-                    <p className="text-[13px] text-muted mt-1 leading-snug">{rev.comment}</p>
-                  )}
-                  {rev.tags?.length > 0 && (
-                    <div className="flex flex-wrap gap-1.5 mt-2">
-                      {rev.tags.map((tag, idx) => (
-                        <span key={idx} className="badge bg-surface text-muted normal-case tracking-normal">
-                          {tag}
-                        </span>
-                      ))}
+          {/* Criteria Breakdown Bars */}
+          {stats.criteriaBreakdown && (
+            <div className="flex flex-col gap-2 p-3 rounded-xl bg-sunken/50 mb-3 border border-line">
+              {[
+                { label: "Weighing Scale Accuracy", icon: HiOutlineScale, pct: stats.criteriaBreakdown.weighingAccuracy || 96 },
+                { label: "Fair Transparent Pricing", icon: HiOutlineCurrencyRupee, pct: stats.criteriaBreakdown.fairPricing || 94 },
+                { label: "Turnaround & Unloading Speed", icon: HiOutlineClock, pct: stats.criteriaBreakdown.speedPunctuality || 92 },
+                { label: "Staff Dignity & Respect", icon: HiOutlineUserGroup, pct: stats.criteriaBreakdown.staffBehaviour || 95 },
+                { label: "Safe Handling & EPR Disposal", icon: HiOutlineShieldCheck, pct: stats.criteriaBreakdown.ecoSafety || 98 }
+              ].map((c) => {
+                const IconComp = c.icon;
+                return (
+                  <div key={c.label} className="flex flex-col gap-1">
+                    <div className="flex items-center justify-between text-[11.5px]">
+                      <span className="font-semibold text-ink flex items-center gap-1.5">
+                        <IconComp className="text-brand-600 text-sm shrink-0" />
+                        <span>{c.label}</span>
+                      </span>
+                      <span className="font-extrabold text-brand-700 tnum">{c.pct}%</span>
                     </div>
-                  )}
-                </div>
+                    <div className="h-1.5 rounded-full bg-line overflow-hidden">
+                      <div
+                        className="h-full rounded-full bg-brand-600"
+                        style={{ width: `${c.pct}%` }}
+                      />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          {/* Highlights tags */}
+          {stats.topTags?.length > 0 && (
+            <div className="flex flex-wrap gap-1.5 mb-3">
+              {stats.topTags.map((t, idx) => (
+                <span key={idx} className="badge bg-gold-50 text-gold-800 border border-gold-200 font-semibold text-[11px]">
+                  {t}
+                </span>
               ))}
             </div>
           )}
+
+          <div className="border-t border-hair pt-3">
+            <h5 className="font-bold text-[13px] text-ink mb-2">Recent Collector Reviews</h5>
+            {stats.reviews.length === 0 ? (
+              <p className="text-[13.5px] text-faint">
+                No written reviews yet. Be the first after your handover.
+              </p>
+            ) : (
+              <div className="flex flex-col gap-2.5">
+                {stats.reviews.map((rev) => (
+                  <div key={rev.id} className="p-3 rounded-xl bg-sunken">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-[13.5px] font-semibold text-ink truncate">
+                        {rev.collectorName}
+                      </span>
+                      <span className="flex gap-0.5 shrink-0" aria-label={`${rev.rating} out of 5`}>
+                        {[...Array(rev.rating)].map((_, idx) => (
+                          <FaStar key={idx} className="text-gold-500 text-[10px]" />
+                        ))}
+                      </span>
+                    </div>
+                    {rev.comment && (
+                      <p className="text-[13px] text-muted mt-1 leading-snug">{rev.comment}</p>
+                    )}
+                    {rev.tags?.length > 0 && (
+                      <div className="flex flex-wrap gap-1.5 mt-2">
+                        {rev.tags.map((tag, idx) => (
+                          <span key={idx} className="badge bg-surface text-muted normal-case tracking-normal">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </Card>
       </main>
 

@@ -12,8 +12,11 @@ import { formatCurrency, calculateTotalValue } from "../utils/helpers";
 import {
   HiOutlineCamera, HiOutlineTag, HiOutlineMapPin, HiOutlineWallet,
   HiOutlineShieldCheck, HiOutlineUser, HiOutlineMagnifyingGlass,
-  HiChevronRight, HiArrowRight
+  HiChevronRight, HiArrowRight, HiOutlineTrophy, HiOutlineSparkles
 } from "react-icons/hi2";
+import { RewardsModal } from "../components/RewardsModal";
+import { GamificationSection } from "../components/GamificationSection";
+import { getTokenBalance } from "../services/tokenService";
 
 export const Dashboard = () => {
   const navigate = useNavigate();
@@ -21,6 +24,8 @@ export const Dashboard = () => {
   const [materials, setMaterials] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
+  const [isRewardsOpen, setIsRewardsOpen] = useState(false);
+  const [tokenBalance, setTokenBalance] = useState(() => getTokenBalance());
 
   useEffect(() => {
     getPriceBoard()
@@ -34,6 +39,7 @@ export const Dashboard = () => {
   const featureCards = [
     { id: "prices", title: t("todayPrices"), desc: "Live rates", icon: HiOutlineTag, path: "/prices" },
     { id: "recyclers", title: t("nearbyRecyclers"), desc: "Authorized depots", icon: HiOutlineMapPin, path: "/recyclers" },
+    { id: "leaderboard", title: "Leaderboard", desc: "Top collectors", icon: HiOutlineTrophy, path: "/leaderboard" },
     { id: "earnings", title: t("earnings"), desc: "Sales & payouts", icon: HiOutlineWallet, path: "/earnings" },
     { id: "safety", title: t("safetyGuide"), desc: "Handling rules", icon: HiOutlineShieldCheck, path: "/safety" },
     { id: "profile", title: t("profile"), desc: "Account settings", icon: HiOutlineUser, path: "/profile" }
@@ -61,10 +67,22 @@ export const Dashboard = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
         >
-          <p className="eyebrow">Namaste, {greetingName}</p>
-          <h2 className="text-[24px] font-bold tracking-[-0.02em] leading-tight mt-1">
-            What did you collect today?
-          </h2>
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <p className="eyebrow">Namaste, {greetingName}</p>
+              <h2 className="text-[24px] font-bold tracking-[-0.02em] leading-tight mt-1">
+                What did you collect today?
+              </h2>
+            </div>
+            <button
+              onClick={() => setIsRewardsOpen(true)}
+              className="h-10 px-3 rounded-2xl bg-gold-50 border border-gold-200 text-gold-800 font-extrabold text-[13px] flex items-center gap-1.5 shrink-0 tap shadow-sm hover:bg-gold-100 transition-colors"
+              title="Open Rewards Store"
+            >
+              <HiOutlineSparkles className="text-gold-600 text-base" />
+              <span className="tnum font-black text-[14px]">{tokenBalance}</span>
+            </button>
+          </div>
           {userLocation?.address && (
             <p className="text-[13px] text-faint mt-1.5 flex items-center gap-1">
               <HiOutlineMapPin className="text-sm shrink-0" />
@@ -72,6 +90,9 @@ export const Dashboard = () => {
             </p>
           )}
         </motion.section>
+
+        {/* ---- gamification section (streak, levels, badges) ------------ */}
+        <GamificationSection totalWeightKg={185} onOpenRewards={() => setIsRewardsOpen(true)} />
 
         {/* ---- search -------------------------------------------------- */}
         <section>
@@ -262,6 +283,12 @@ export const Dashboard = () => {
           <HiChevronRight className="text-faint shrink-0" />
         </button>
       </main>
+
+      <RewardsModal
+        isOpen={isRewardsOpen}
+        onClose={() => setIsRewardsOpen(false)}
+        onBalanceChange={setTokenBalance}
+      />
 
       <BottomNavigation />
     </div>

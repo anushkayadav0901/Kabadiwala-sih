@@ -25,6 +25,7 @@ import { Bag } from "../pages/Bag";
 import { Handover } from "../pages/Handover";
 import { Payment } from "../pages/Payment";
 import { Certificate } from "../pages/Certificate";
+import { Leaderboard } from "../pages/Leaderboard";
 
 const PageWrapper = ({ children }) => (
   <motion.div
@@ -76,6 +77,7 @@ export const AppRoutes = () => {
         <Route path="/handover" element={<CollectorRoute><Handover /></CollectorRoute>} />
         <Route path="/payment" element={<CollectorRoute><Payment /></CollectorRoute>} />
         <Route path="/certificate" element={<CollectorRoute><Certificate /></CollectorRoute>} />
+        <Route path="/leaderboard" element={<CollectorRoute><Leaderboard /></CollectorRoute>} />
 
         {/* Buyer / Recycler portal */}
         <Route path="/buyer/login" element={<PageWrapper><BuyerLogin /></PageWrapper>} />

@@ -1,38 +1,59 @@
-// Reviews are stored in localStorage. This is the one dataset that was already
-// local-first, so it keeps working unchanged with no backend connected.
+// Reviews & Ratings Service for Kabadiwala Connect
+// Cab-style multi-criteria rating (Weighing Accuracy, Fair Pricing, Speed, Behaviour, Eco-Safety)
 
 const STORAGE_KEY = "kabadi_buyer_reviews";
 
-// Seed default reviews for demo realism
+// Seed default reviews with multi-criteria scores
 const DEFAULT_REVIEWS = [
   {
     id: "rev_1",
     recyclerId: "rec_1",
-    buyerName: "EcoRecycle India Hub",
+    buyerName: "Delhi E-Waste Recovery Centre",
     collectorName: "Ramesh Pawar",
     rating: 5,
-    comment: "Fair digital weight scale and instant cash payment without any deductions.",
-    tags: ["Fair Weight ⚖️", "Instant Cash ⚡"],
+    criteria: {
+      weighingAccuracy: 5,
+      fairPricing: 5,
+      speedPunctuality: 4,
+      staffBehaviour: 5,
+      ecoSafety: 5
+    },
+    comment: "Accurate digital scale without arbitrary deductions. Instant payment via cash at counter.",
+    tags: ["Fair Digital Scale", "Instant Cash", "Official EPR"],
     createdAt: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
   },
   {
     id: "rev_2",
     recyclerId: "rec_1",
-    buyerName: "EcoRecycle India Hub",
+    buyerName: "Delhi E-Waste Recovery Centre",
     collectorName: "Sanjay Gupta",
     rating: 5,
-    comment: "Very respectful staff. Accepted all e-waste PCBs and gave green certificate.",
-    tags: ["Official EPR 🌿", "Polite Staff 👍"],
+    criteria: {
+      weighingAccuracy: 5,
+      fairPricing: 4,
+      speedPunctuality: 5,
+      staffBehaviour: 5,
+      ecoSafety: 5
+    },
+    comment: "Very respectful staff. Accepted all PCB boards without hassle and gave stamped certificate.",
+    tags: ["Polite Staff", "Official EPR"],
     createdAt: new Date(Date.now() - 48 * 60 * 60 * 1000).toISOString()
   },
   {
     id: "rev_3",
     recyclerId: "rec_2",
-    buyerName: "Maharashtra E-Waste Recyclers",
+    buyerName: "Gurugram Green Metals",
     collectorName: "Abdul Khan",
     rating: 4,
-    comment: "Good wholesale prices for copper wire scrap.",
-    tags: ["Best Price 💰"],
+    criteria: {
+      weighingAccuracy: 4,
+      fairPricing: 5,
+      speedPunctuality: 4,
+      staffBehaviour: 4,
+      ecoSafety: 4
+    },
+    comment: "Best wholesale prices for copper wire scrap.",
+    tags: ["Best Price", "Fast Unloading"],
     createdAt: new Date(Date.now() - 72 * 60 * 60 * 1000).toISOString()
   }
 ];
@@ -61,15 +82,58 @@ export const getRecyclerRatingStats = (recyclerId, defaultRating = 4.7, defaultC
     return {
       averageRating: Number(defaultRating).toFixed(1),
       reviewsCount: defaultCount,
+      criteriaBreakdown: {
+        weighingAccuracy: 96,
+        fairPricing: 94,
+        speedPunctuality: 92,
+        staffBehaviour: 95,
+        ecoSafety: 98
+      },
+      topTags: ["Fair Digital Scale", "Instant Cash", "Official EPR"],
       reviews: []
     };
   }
 
   const sum = reviews.reduce((acc, r) => acc + Number(r.rating || 5), 0);
   const avg = (sum / reviews.length).toFixed(1);
+
+  const cSum = { weighingAccuracy: 0, fairPricing: 0, speedPunctuality: 0, staffBehaviour: 0, ecoSafety: 0 };
+  let cCount = 0;
+
+  reviews.forEach((r) => {
+    if (r.criteria) {
+      cSum.weighingAccuracy += (r.criteria.weighingAccuracy || r.rating || 5);
+      cSum.fairPricing += (r.criteria.fairPricing || r.rating || 5);
+      cSum.speedPunctuality += (r.criteria.speedPunctuality || r.rating || 4);
+      cSum.staffBehaviour += (r.criteria.staffBehaviour || r.rating || 5);
+      cSum.ecoSafety += (r.criteria.ecoSafety || r.rating || 5);
+      cCount++;
+    }
+  });
+
+  const criteriaBreakdown = cCount > 0 ? {
+    weighingAccuracy: Math.round((cSum.weighingAccuracy / (cCount * 5)) * 100),
+    fairPricing: Math.round((cSum.fairPricing / (cCount * 5)) * 100),
+    speedPunctuality: Math.round((cSum.speedPunctuality / (cCount * 5)) * 100),
+    staffBehaviour: Math.round((cSum.staffBehaviour / (cCount * 5)) * 100),
+    ecoSafety: Math.round((cSum.ecoSafety / (cCount * 5)) * 100)
+  } : {
+    weighingAccuracy: 96,
+    fairPricing: 94,
+    speedPunctuality: 90,
+    staffBehaviour: 95,
+    ecoSafety: 97
+  };
+
+  const tagCounts = {};
+  reviews.forEach((r) => (r.tags || []).forEach((t) => { tagCounts[t] = (tagCounts[t] || 0) + 1; }));
+  const topTags = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]).map(([t]) => t);
+
   return {
     averageRating: avg,
     reviewsCount: defaultCount + reviews.length,
+    criteriaBreakdown,
+    topTags: topTags.length ? topTags : ["Fair Digital Scale", "Instant Cash", "Official EPR"],
     reviews
   };
 };
@@ -79,6 +143,13 @@ export const addRecyclerReview = async ({
   buyerName = "Authorized Recycler",
   collectorName = "Kabadiwala Partner",
   rating = 5,
+  criteria = {
+    weighingAccuracy: 5,
+    fairPricing: 5,
+    speedPunctuality: 4,
+    staffBehaviour: 5,
+    ecoSafety: 5
+  },
   comment = "",
   tags = []
 }) => {
@@ -88,6 +159,7 @@ export const addRecyclerReview = async ({
     buyerName,
     collectorName,
     rating: Number(rating),
+    criteria,
     comment: comment.trim(),
     tags,
     createdAt: new Date().toISOString()

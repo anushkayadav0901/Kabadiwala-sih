@@ -19,8 +19,13 @@ import {
   HiOutlineUser, HiOutlineBuildingOffice2, HiArrowRight, HiCheck,
   HiOutlineFingerPrint, HiOutlineShieldCheck, HiOutlineCamera,
   HiOutlineScale, HiOutlineMapPin, HiOutlineClock, HiOutlineCube,
-  HiOutlineDocumentCheck, HiMiniChevronDown, HiMiniChevronUp
+  HiOutlineDocumentCheck, HiMiniChevronDown, HiMiniChevronUp,
+  HiStar, HiOutlineSparkles
 } from "react-icons/hi2";
+import { calculateTokensForLot, awardTokens } from "../services/tokenService";
+import { RatingModal } from "../components/RatingModal";
+import { RewardsModal } from "../components/RewardsModal";
+import { incrementStreak, unlockBadge } from "../services/gamificationService";
 
 const ScoreRing = ({ score }) => {
   const r = 36;
@@ -70,6 +75,9 @@ export const Certificate = () => {
   const [dna, setDna] = useState(null);
   const [dnaExpanded, setDnaExpanded] = useState(false);
   const [dnaLoading, setDnaLoading] = useState(false);
+  const [isRatingModalOpen, setIsRatingModalOpen] = useState(false);
+  const [isRewardsModalOpen, setIsRewardsModalOpen] = useState(false);
+  const [earnedTokensData, setEarnedTokensData] = useState(null);
 
   const formattedWeight = Number(lot?.total_weight || lot?.totalWeight || 10).toFixed(2);
   const formattedPayout = Number(lot?.estimated_value || lot?.estimatedValue || 1500).toFixed(2);
@@ -80,6 +88,22 @@ export const Certificate = () => {
     setDnaLoading(true);
     getScrapDna(lotId).then(setDna).catch(() => {}).finally(() => setDnaLoading(false));
   }, [lot?.id, lot?._id]);
+
+  useEffect(() => {
+    const lotId = lot?.id || lot?._id || certificateId;
+    const tokenAwardKey = `kabadi_awarded_tokens_${lotId}`;
+    if (!localStorage.getItem(tokenAwardKey)) {
+      const calc = calculateTokensForLot(lot, dna?.traceabilityScore);
+      if (calc.totalTokens > 0) {
+        awardTokens(calc.totalTokens, `Formal Handover Verified: ${lotId}`, { lotId });
+        localStorage.setItem(tokenAwardKey, "true");
+        setEarnedTokensData(calc);
+        incrementStreak();
+        unlockBadge("badge_first_handover");
+        if (dna?.traceabilityScore >= 90) unlockBadge("badge_perfect_dna");
+      }
+    }
+  }, [lot?.id, dna?.traceabilityScore]);
 
   const payload = JSON.stringify({
     type: "kabadi-passport-v2",
@@ -499,53 +523,57 @@ ${(dna?.checks || []).map((c) => `${c.complete ? "[PASS]" : "[    ]"} ${c.label}
           </Button>
         </div>
 
-        {/* ---- rate the buyer -------------------------------------------- */}
-        {activeRole === "collector" && (
-          <Card className="no-print">
-            <div className="sec-head">
-              <h4 className="sec-title">Rate {recycler?.name || "this depot"}</h4>
-              <FaStar className="text-gold-500" />
+        {/* ---- token award celebration banner ---- */}
+        <div className="card p-4 bg-gradient-to-r from-gold-50 via-surface to-gold-50 border-2 border-gold-300 no-print flex items-center justify-between gap-3 shadow-sm">
+          <div className="flex items-center gap-3">
+            <span className="w-12 h-12 rounded-2xl bg-gold-500 text-ink grid place-items-center shadow-sm">
+              <HiOutlineSparkles className="text-2xl" />
+            </span>
+            <div>
+              <span className="badge bg-gold-200 text-gold-900 font-bold text-[10px] uppercase tracking-wider">
+                Recycling Reward Earned
+              </span>
+              <h4 className="font-extrabold text-[16px] text-ink mt-0.5">
+                +{earnedTokensData?.totalTokens || 95} Kabadi Tokens
+              </h4>
+              <p className="text-[11.5px] text-faint mt-0.5">
+                Added to wallet · Redeem safety gear & mobile recharge
+              </p>
             </div>
+          </div>
+          <Button
+            size="sm"
+            variant="primary"
+            onClick={() => setIsRewardsModalOpen(true)}
+          >
+            Rewards
+          </Button>
+        </div>
 
-            {reviewSubmitted ? (
-              <div className="p-3 rounded-xl bg-brand-50 flex items-center gap-2.5">
-                <HiCheckCircle className="text-brand-600 text-lg shrink-0" />
-                <span className="text-[13.5px] font-medium text-brand-700">
-                  Thanks — your rating helps other collectors.
+        {/* ---- cab-style rate the buyer -------------------------------------------- */}
+        {activeRole === "collector" && (
+          <Card className="no-print p-4">
+            <div className="flex items-center justify-between gap-2">
+              <div>
+                <span className="badge bg-brand-50 text-brand-700 font-bold text-[10px] uppercase">
+                  Cab-Style Driver Rating
                 </span>
+                <h4 className="font-bold text-[16px] text-ink mt-0.5">
+                  Rate {recycler?.name || "this depot"}
+                </h4>
+                <p className="text-[12px] text-faint mt-0.5">
+                  Rate weighing scale accuracy, fair price, and staff respect
+                </p>
               </div>
-            ) : (
-              <form onSubmit={handleReviewSubmit} className="flex flex-col gap-3.5">
-                <div className="flex items-center justify-center gap-2 py-1">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <button key={star} type="button" onClick={() => setRating(star)} className="tap p-1" aria-label={`${star} star${star > 1 ? "s" : ""}`}>
-                      <FaStar className={`text-[28px] transition-colors ${star <= rating ? "text-gold-500" : "text-line"}`} />
-                    </button>
-                  ))}
-                </div>
-
-                <div className="flex flex-wrap gap-2">
-                  {availableTags.map((tag) => (
-                    <button key={tag} type="button" onClick={() => toggleTag(tag)} data-on={selectedTags.includes(tag)} className="chip tap">
-                      {selectedTags.includes(tag) && <HiCheck className="text-[13px]" />}
-                      {tag}
-                    </button>
-                  ))}
-                </div>
-
-                <input
-                  type="text"
-                  value={reviewComment}
-                  onChange={(e) => setReviewComment(e.target.value)}
-                  placeholder="Fair weight? Quick payment?"
-                  className="field text-[14px]"
-                />
-
-                <Button type="submit" size="md" variant="primary">
-                  Submit rating
-                </Button>
-              </form>
-            )}
+              <Button
+                size="sm"
+                variant="outline"
+                icon={HiStar}
+                onClick={() => setIsRatingModalOpen(true)}
+              >
+                Rate Depot
+              </Button>
+            </div>
           </Card>
         )}
 
@@ -558,6 +586,18 @@ ${(dna?.checks || []).map((c) => `${c.complete ? "[PASS]" : "[    ]"} ${c.label}
           </Button>
         </div>
       </main>
+
+      <RatingModal
+        isOpen={isRatingModalOpen}
+        onClose={() => setIsRatingModalOpen(false)}
+        recycler={recycler}
+        lot={lot}
+      />
+
+      <RewardsModal
+        isOpen={isRewardsModalOpen}
+        onClose={() => setIsRewardsModalOpen(false)}
+      />
 
       <div className="no-print">
         <BottomNavigation />

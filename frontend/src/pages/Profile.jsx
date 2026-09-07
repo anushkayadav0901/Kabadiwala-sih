@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Navbar } from "../components/Navbar";
 import { BottomNavigation } from "../components/BottomNavigation";
@@ -9,14 +9,23 @@ import { logoutUser } from "../services/authService";
 import { LANGUAGES, HELPLINE_NUMBER } from "../utils/constants";
 import {
   HiOutlineGlobeAlt, HiOutlinePhone, HiOutlineShieldCheck,
-  HiArrowRightOnRectangle, HiChevronRight
+  HiArrowRightOnRectangle, HiChevronRight, HiOutlineTrophy,
+  HiFire, HiOutlineSparkles, HiOutlineStar
 } from "react-icons/hi2";
+import { RewardsModal } from "../components/RewardsModal";
+import { getTokenBalance } from "../services/tokenService";
+import { getCollectorLevel, getRecyclingStreak, getEarnedBadges } from "../services/gamificationService";
 
 export const Profile = () => {
   const navigate = useNavigate();
   const { user, setUser, language, t } = useApp();
 
   const currentLangObj = LANGUAGES.find((l) => l.id === language) || LANGUAGES[0];
+  const [tokenBalance, setTokenBalance] = useState(() => getTokenBalance());
+  const [isRewardsOpen, setIsRewardsOpen] = useState(false);
+  const level = getCollectorLevel(185);
+  const streak = getRecyclingStreak();
+  const badges = getEarnedBadges();
 
   const handleLogout = async () => {
     await logoutUser();
@@ -59,7 +68,7 @@ export const Profile = () => {
                            font-bold text-[22px] tracking-tight">
             {initials}
           </span>
-          <div className="min-w-0">
+          <div className="min-w-0 flex-1">
             <h2 className="text-[19px] font-bold tracking-[-0.015em] leading-tight truncate">
               {user?.name || "Collector"}
             </h2>
@@ -67,6 +76,52 @@ export const Profile = () => {
               +91 {user?.phone || "—"}
             </p>
             <span className="badge bg-brand-50 text-brand-700 mt-2">Registered collector</span>
+          </div>
+        </section>
+
+        {/* ---- digital tokens & gamification card ----------------------- */}
+        <section className="card p-4 bg-gradient-to-br from-gold-50/60 to-surface border border-gold-200">
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-2.5">
+              <span className="w-10 h-10 rounded-xl bg-gold-100 text-gold-700 grid place-items-center">
+                <HiOutlineSparkles className="text-xl" />
+              </span>
+              <div>
+                <span className="text-[11px] font-bold uppercase tracking-wider text-gold-800">
+                  Kabadi Tokens
+                </span>
+                <p className="text-[22px] font-extrabold text-ink tnum leading-tight">
+                  {tokenBalance} <span className="text-[13px] font-medium text-faint">Tokens</span>
+                </p>
+              </div>
+            </div>
+            <Button size="sm" variant="primary" onClick={() => setIsRewardsOpen(true)}>
+              Redeem Rewards
+            </Button>
+          </div>
+
+          <div className="grid grid-cols-3 gap-2 mt-3.5 pt-3 border-t border-gold-200/60 text-center">
+            <div className="bg-surface/80 p-2 rounded-xl border border-line">
+              <span className="text-[11px] font-bold text-faint block uppercase">Tier</span>
+              <span className="text-[13.5px] font-bold text-brand-700 block mt-0.5 truncate">
+                Level {level.level}
+              </span>
+            </div>
+            <div className="bg-surface/80 p-2 rounded-xl border border-line">
+              <span className="text-[11px] font-bold text-faint block uppercase">Streak</span>
+              <span className="text-[13.5px] font-bold text-orange-600 block mt-0.5 flex items-center justify-center gap-1">
+                <HiFire className="text-sm" /> {streak.weeks} wks
+              </span>
+            </div>
+            <div
+              onClick={() => navigate("/leaderboard")}
+              className="bg-surface/80 p-2 rounded-xl border border-line cursor-pointer tap hover:bg-sunken"
+            >
+              <span className="text-[11px] font-bold text-faint block uppercase">Leaderboard</span>
+              <span className="text-[13.5px] font-bold text-ink block mt-0.5 flex items-center justify-center gap-1">
+                <HiOutlineTrophy className="text-gold-600 text-sm" /> #4
+              </span>
+            </div>
           </div>
         </section>
 
@@ -124,6 +179,12 @@ export const Profile = () => {
           Kabadiwala Connect · SIH 26229
         </p>
       </main>
+
+      <RewardsModal
+        isOpen={isRewardsOpen}
+        onClose={() => setIsRewardsOpen(false)}
+        onBalanceChange={setTokenBalance}
+      />
 
       <BottomNavigation />
     </div>
