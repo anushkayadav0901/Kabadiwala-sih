@@ -1,10 +1,11 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { FaChevronLeft } from "react-icons/fa";
-import { HiOutlineShoppingBag } from "react-icons/hi2";
+import { HiOutlineShoppingBag, HiFire, HiOutlineChartBar } from "react-icons/hi2";
 import { useApp } from "../context/AppContext";
 import { LANGUAGES } from "../utils/constants";
 import { BrandMark } from "./icons/Illustrations";
+import { getRecyclingStreak } from "../services/gamificationService";
 
 /**
  * Compact app bar — 56px, white, hairline base. On the home screen it shows
@@ -17,6 +18,7 @@ export const Navbar = ({ title = null, showBack = true }) => {
   const { language, changeLanguage, bagItems, isOnline } = useApp();
 
   const isHome = location.pathname === "/dashboard" || location.pathname === "/";
+  const streak = isHome ? getRecyclingStreak() : null;
   const currentLangObj = LANGUAGES.find((l) => l.id === language) || LANGUAGES[0];
   const bagCount = bagItems?.length || 0;
 
@@ -52,6 +54,34 @@ export const Navbar = ({ title = null, showBack = true }) => {
             </p>
           )}
         </div>
+
+        {/* Streak & Ranks pills — home screen */}
+        {isHome && (
+          <div className="flex items-center gap-1.5 shrink-0">
+            {streak != null && (
+              <button
+                onClick={() => navigate("/leaderboard")}
+                className="flex items-center gap-1 h-8 px-2 shrink-0 rounded-full border border-hair tap transition-transform hover:scale-105 active:scale-95"
+                style={{ background: "var(--color-gold-50)", borderColor: "var(--color-gold-100)" }}
+                title={`Recycling streak: ${streak.weeks ?? 0} weeks`}
+                aria-label={`Recycling streak: ${streak.weeks ?? 0} weeks`}
+              >
+                <HiFire className={`text-[14px] ${streak.weeks > 0 ? "text-gold-600" : "text-faint"}`} />
+                <span className="text-[12.5px] font-bold tnum text-gold-700">{streak.weeks ?? 0}</span>
+              </button>
+            )}
+
+            <button
+              onClick={() => navigate("/leaderboard")}
+              className="flex items-center gap-1 h-8 px-2 shrink-0 rounded-full border border-brand-200 bg-brand-50 text-brand-700 tap transition-transform hover:scale-105 active:scale-95"
+              title="View Leaderboard & Rankings"
+              aria-label="View Leaderboard & Rankings"
+            >
+              <HiOutlineChartBar className="text-[14px] text-brand-600" />
+              <span className="text-[12px] font-bold">#4</span>
+            </button>
+          </div>
+        )}
 
         <button
           onClick={cycleLanguage}

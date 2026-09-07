@@ -11,19 +11,29 @@ import { formatCurrency, calculateTotalValue } from "../utils/helpers";
 import {
   HiOutlineCamera, HiOutlineArrowUpTray, HiOutlineArrowPath,
   HiOutlineShoppingBag, HiCheck, HiMinus, HiPlus, HiArrowRight,
-  HiOutlineExclamationTriangle
+  HiOutlineExclamationTriangle, HiArrowPath
 } from "react-icons/hi2";
+import { LiveCamera } from "../components/LiveCamera";
 
 export const ScanItem = () => {
   const navigate = useNavigate();
   const { setActiveItem, addToBag, bagItems, t } = useApp();
 
   const [imagePreview, setImagePreview] = useState(null);
+  const [isCameraOpen, setIsCameraOpen] = useState(false);
   const [scanning, setScanning] = useState(false);
   const [scanResult, setScanResult] = useState(null);
   const [scanError, setScanError] = useState("");
   const [addedToBag, setAddedToBag] = useState(false);
   const [weightKg, setWeightKg] = useState(1.0);
+
+  const handleCapturedImage = (dataUrl) => {
+    setImagePreview(dataUrl);
+    setIsCameraOpen(false);
+    setScanResult(null);
+    setScanError("");
+    setAddedToBag(false);
+  };
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -31,6 +41,7 @@ export const ScanItem = () => {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result);
+        setIsCameraOpen(false);
         setScanResult(null);
         setScanError("");
         setAddedToBag(false);
@@ -101,9 +112,17 @@ export const ScanItem = () => {
 
       <main className="col px-4 pt-4 flex flex-col gap-4">
         {/* ---- capture -------------------------------------------------- */}
-        {imagePreview ? (
+        {isCameraOpen && !imagePreview ? (
           <div className="flex flex-col gap-3">
-            <div className="relative rounded-[18px] overflow-hidden bg-ink aspect-[4/3]">
+            <LiveCamera
+              onCapture={handleCapturedImage}
+              onClose={() => setIsCameraOpen(false)}
+              onFallbackUpload={true}
+            />
+          </div>
+        ) : imagePreview ? (
+          <div className="flex flex-col gap-3">
+            <div className="relative rounded-[18px] overflow-hidden bg-ink aspect-[4/3] shadow-md border border-line">
               <img
                 src={imagePreview}
                 alt="The scrap you photographed"
@@ -119,18 +138,35 @@ export const ScanItem = () => {
               )}
             </div>
 
-            <div className="grid grid-cols-2 gap-2.5">
+            <div className="grid grid-cols-3 gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setImagePreview(null);
+                  setIsCameraOpen(true);
+                  setScanResult(null);
+                  setScanError("");
+                }}
+                className="h-11 rounded-xl border border-line bg-surface text-ink font-semibold
+                           text-[13px] flex items-center justify-center gap-1.5 tap
+                           hover:bg-sunken active:bg-sunken transition-colors"
+                title="Open live camera"
+              >
+                <HiOutlineCamera className="text-base text-brand-600 shrink-0" />
+                <span>Camera</span>
+              </button>
               <label
                 className="h-11 rounded-xl border border-line bg-surface text-ink font-semibold
-                           text-[14px] flex items-center justify-center gap-2 cursor-pointer tap
+                           text-[13px] flex items-center justify-center gap-1.5 cursor-pointer tap
                            hover:bg-sunken active:bg-sunken transition-colors"
+                title="Choose photo from device gallery"
               >
-                <HiOutlineArrowPath className="text-base" />
-                Retake
+                <HiOutlineArrowUpTray className="text-base text-muted shrink-0" />
+                <span>Gallery</span>
                 <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
               </label>
               <Button variant="primary" size="md" onClick={handleTriggerScan} loading={scanning}>
-                {scanResult ? "Scan again" : "Identify"}
+                {scanResult ? "Re-scan" : "Identify"}
               </Button>
             </div>
             {scanError && (
@@ -140,45 +176,40 @@ export const ScanItem = () => {
             )}
           </div>
         ) : (
-          <div className="card p-6 text-center">
+          <div className="card p-6 text-center shadow-sm">
             <span className="w-16 h-16 rounded-2xl bg-brand-50 text-brand-600 grid place-items-center mx-auto">
               <HiOutlineCamera className="text-3xl" />
             </span>
             <h3 className="font-bold text-[18px] tracking-[-0.01em] mt-4">
-              Take a photo of your scrap
+              Photograph your scrap
             </h3>
-            <p className="text-[13.5px] text-muted mt-1.5 max-w-[30ch] mx-auto leading-snug">
-              Circuit boards, batteries, wire, appliances — one item at a time works best.
+            <p className="text-[13.5px] text-muted mt-1.5 max-w-[32ch] mx-auto leading-snug">
+              Circuit boards, copper wire, batteries, or appliances. Use live camera viewfinder or upload a picture.
             </p>
 
-            <div className="grid grid-cols-2 gap-2.5 mt-5">
-              <label
+            <div className="flex flex-col sm:grid sm:grid-cols-2 gap-2.5 mt-5">
+              <button
+                type="button"
+                onClick={() => setIsCameraOpen(true)}
                 className="h-12 rounded-xl bg-brand-600 text-white font-semibold text-[14px]
-                           flex items-center justify-center gap-2 cursor-pointer tap
+                           flex items-center justify-center gap-2 tap shadow-sm
                            hover:bg-brand-700 active:bg-brand-700 transition-colors"
               >
                 <HiOutlineCamera className="text-lg" />
-                Camera
-                <input
-                  type="file"
-                  accept="image/*"
-                  capture="environment"
-                  onChange={handleImageUpload}
-                  className="hidden"
-                />
-              </label>
+                Open Live Camera
+              </button>
               <label
                 className="h-12 rounded-xl border border-line bg-surface text-ink font-semibold
                            text-[14px] flex items-center justify-center gap-2 cursor-pointer tap
                            hover:bg-sunken active:bg-sunken transition-colors"
               >
-                <HiOutlineArrowUpTray className="text-lg" />
-                Gallery
+                <HiOutlineArrowUpTray className="text-lg text-muted" />
+                Choose from Gallery
                 <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
               </label>
             </div>
 
-            <p className="eyebrow mt-5">Works without internet</p>
+            <p className="eyebrow mt-4">Offline AI · Works without internet</p>
           </div>
         )}
 

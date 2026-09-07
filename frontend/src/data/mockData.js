@@ -434,6 +434,8 @@ export const translations = {
     priceTrend: "Price Trend",
     pickupAvailable: "Home Pickup Available",
     verifiedBuyer: "Verified Buyer",
+    leaderboard: "Leaderboard",
+    ranks: "Ranks",
     logout: "Log Out"
   },
   hi: {
@@ -465,6 +467,8 @@ export const translations = {
     priceTrend: "भाव रुझान",
     pickupAvailable: "पिकअप उपलब्ध",
     verifiedBuyer: "सत्यापित खरीदार",
+    leaderboard: "लीडरबोर्ड",
+    ranks: "रैंकिंग",
     logout: "लॉग आउट"
   },
   mr: {
@@ -496,6 +500,8 @@ export const translations = {
     priceTrend: "किंमत कल",
     pickupAvailable: "पिकअप उपलब्ध",
     verifiedBuyer: "सत्यापित व्यापारी",
+    leaderboard: "लीडरबोर्ड",
+    ranks: "रँकिंग",
     logout: "लॉग आउट"
   }
 };
