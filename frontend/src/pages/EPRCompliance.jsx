@@ -17,27 +17,67 @@ import {
   HiArrowRight
 } from "react-icons/hi2";
 
-const BRAND = {
-  samsung:  { color: "#1428A0", bg: "#E8EAFF", letter: "S" },
-  apple:    { color: "#555555", bg: "#F0F0F0", letter: "A" },
-  lg:       { color: "#A50034", bg: "#FDEAEF", letter: "LG" },
-  hp:       { color: "#0096D6", bg: "#E5F5FC", letter: "hp" },
-  dell:     { color: "#007DB8", bg: "#E5F3FA", letter: "D" },
-  xiaomi:   { color: "#FF6900", bg: "#FFF0E5", letter: "Mi" },
-  voltas:   { color: "#E31E24", bg: "#FDEAEB", letter: "V" },
-  boat:     { color: "#1A1A1A", bg: "#F0F0F0", letter: "b" }
-};
-
 const BrandLogo = ({ producerId }) => {
-  const b = BRAND[producerId] || { color: "#666", bg: "#eee", letter: "?" };
-  return (
-    <span
-      className="inline-flex items-center justify-center w-7 h-7 rounded-lg shrink-0 font-black text-[11px] leading-none"
-      style={{ background: b.bg, color: b.color }}
-    >
-      {b.letter}
-    </span>
-  );
+  const s = 28;
+  const logos = {
+    samsung: (
+      <svg width={s} height={s} viewBox="0 0 28 28" fill="none">
+        <rect width="28" height="28" rx="7" fill="#1428A0"/>
+        <path d="M7.5 15.8c0 1.4 1.2 2.3 3.1 2.3 2.2 0 3.3-1 3.3-2.5 0-1.2-.7-1.9-2.5-2.3l-1-.3c-.9-.2-1.2-.5-1.2-.9 0-.5.5-.9 1.3-.9.9 0 1.4.4 1.5 1h1.8c-.1-1.4-1.2-2.3-3.2-2.3-1.9 0-3.1 1-3.1 2.4 0 1.2.8 1.9 2.4 2.3l1 .2c1 .3 1.3.5 1.3 1 0 .6-.5.9-1.4.9-1 0-1.6-.4-1.7-1.1H7.5z" fill="#fff"/>
+        <path d="M15.2 18h1.8v-4.3l2.7 4.3h1.8V10h-1.8v4.3L17 10h-1.8v8z" fill="#fff"/>
+      </svg>
+    ),
+    apple: (
+      <svg width={s} height={s} viewBox="0 0 28 28" fill="none">
+        <rect width="28" height="28" rx="7" fill="#1a1a1a"/>
+        <path d="M18.3 14.7c0-2.1 1.7-3.1 1.8-3.2-1-1.4-2.5-1.6-3-1.7-1.3-.1-2.5.8-3.1.8-.7 0-1.7-.7-2.8-.7-1.4 0-2.7.8-3.5 2.1-1.5 2.6-.4 6.4 1.1 8.5.7 1 1.5 2.2 2.7 2.1 1.1 0 1.5-.7 2.8-.7 1.3 0 1.6.7 2.8.7 1.1 0 1.9-1.1 2.6-2.1.8-1.2 1.1-2.3 1.2-2.4-.1 0-2.2-.8-2.3-3.3l-.3-.1zM16.4 8.5c.6-.7 1-1.7.9-2.7-1 0-2.1.6-2.7 1.4-.6.7-1.1 1.7-.9 2.6 1 .1 2-.5 2.7-1.3z" fill="#fff"/>
+      </svg>
+    ),
+    lg: (
+      <svg width={s} height={s} viewBox="0 0 28 28" fill="none">
+        <rect width="28" height="28" rx="7" fill="#A50034"/>
+        <circle cx="14" cy="14" r="7.5" stroke="#fff" strokeWidth="1.5" fill="none"/>
+        <path d="M11 10.5v7h3.5v-1.5H12.5v-5.5H11z" fill="#fff"/>
+        <path d="M15.5 17.5v-3.5h2v-1.3h-3.3v4.8h1.3z" fill="#fff"/>
+        <circle cx="17" cy="12" r=".8" fill="#fff"/>
+      </svg>
+    ),
+    hp: (
+      <svg width={s} height={s} viewBox="0 0 28 28" fill="none">
+        <rect width="28" height="28" rx="7" fill="#0096D6"/>
+        <path d="M6 9l2.8 10h2.2l1-3.8h2.3L13 19h2.2l2.8-10h-2.2l-1.6 6.3L13 9h-2l-1.2 6.3L8.2 9H6z" fill="#fff"/>
+      </svg>
+    ),
+    dell: (
+      <svg width={s} height={s} viewBox="0 0 28 28" fill="none">
+        <rect width="28" height="28" rx="7" fill="#007DB8"/>
+        <circle cx="14" cy="14" r="8" stroke="#fff" strokeWidth="1.5" fill="none"/>
+        <text x="14" y="17.5" textAnchor="middle" fill="#fff" fontSize="10" fontWeight="800" fontFamily="Arial,sans-serif">DELL</text>
+      </svg>
+    ),
+    xiaomi: (
+      <svg width={s} height={s} viewBox="0 0 28 28" fill="none">
+        <rect width="28" height="28" rx="7" fill="#FF6900"/>
+        <rect x="6" y="10" width="5" height="8" rx="1" fill="#fff"/>
+        <rect x="13" y="6" width="5" height="12" rx="1" fill="#fff"/>
+        <rect x="20" y="10" width="2.5" height="8" rx="1" fill="#fff"/>
+        <circle cx="21.2" cy="7.5" r="1.3" fill="#fff"/>
+      </svg>
+    ),
+    voltas: (
+      <svg width={s} height={s} viewBox="0 0 28 28" fill="none">
+        <rect width="28" height="28" rx="7" fill="#E31E24"/>
+        <path d="M8 9l6 11 6-11h-2.8l-3.2 6.2L10.8 9H8z" fill="#fff"/>
+      </svg>
+    ),
+    boat: (
+      <svg width={s} height={s} viewBox="0 0 28 28" fill="none">
+        <rect width="28" height="28" rx="7" fill="#1a1a1a"/>
+        <text x="14" y="17.5" textAnchor="middle" fill="#fff" fontSize="9.5" fontWeight="900" fontFamily="Arial,sans-serif" letterSpacing="-0.5">boAt</text>
+      </svg>
+    )
+  };
+  return <span className="shrink-0 inline-flex rounded-lg overflow-hidden">{logos[producerId] || <span className="w-7 h-7 rounded-lg bg-sunken grid place-items-center text-[10px] font-bold text-muted">?</span>}</span>;
 };
 
 const ProgressRing = ({ pct, size = 48, stroke = 4.5 }) => {
