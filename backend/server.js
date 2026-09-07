@@ -21,6 +21,7 @@ import { classifyImage as geminiClassify, estimatePrice as geminiEstimate, compa
 import { bountyQuote, calculateCriticalMineralBounty } from "./services/criticalMineralBounty.js";
 import { processWhatsAppMessage } from "./services/whatsappService.js";
 import { getLiveScrapRates, syncLiveScrapRates } from "./services/metalMandiService.js";
+import { getEprDashboard, getCollectorEprContribution } from "./services/eprComplianceService.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const uploadsDir = path.join(__dirname, "uploads");
@@ -167,7 +168,9 @@ const recyclerDto = (recycler, lat, lng) => {
       criticalMineralCertified: source.criticalMineralCertified,
       criticalMineralsCertified: source.criticalMineralsCertified || [],
       criticalMineralCertificationAuthority: source.criticalMineralCertificationAuthority,
-    serviceArea: source.serviceArea || []
+    serviceArea: source.serviceArea || [],
+    eprPartners: source.eprPartners || [],
+    proNetwork: source.proNetwork || null
   };
 };
 
@@ -428,9 +431,10 @@ app.get("/api/transactions/:id/anomaly", requireAuth, async (req, res, next) => 
 
 app.get("/api/recyclers", async (req, res, next) => {
   try {
-    const { material, location, lat, lng, weight, lotId } = req.query;
+    const { material, location, lat, lng, weight, lotId, eprProducer } = req.query;
     const lot = asObjectId(lotId) ? await Lot.findById(lotId).select("materials criticalMineralBounty") : null;
     const query = { authorized: true };
+    if (eprProducer) query.eprPartners = eprProducer.toLowerCase();
     const groupForMaterial = (value = "") => {
       const normalized = value.toLowerCase();
       if (["pcb", "lcd", "crt", "mobile", "television", "keyboard", "mouse", "printer", "microwave", "player"].includes(normalized)) return "e_waste";
@@ -455,16 +459,18 @@ app.get("/api/recyclers", async (req, res, next) => {
       const rateScore = rate ? (rate / topRate) * 20 : 8;
       const pickupEligible = recycler.pickupAvailable && (!requestedWeight || requestedWeight >= Number(recycler.minPickupWeightKg || 0));
       const certifiedForBounty = Boolean(lot?.criticalMineralBounty?.eligible && recycler.criticalMineralCertified && lot.criticalMineralBounty.minerals.some((mineral) => recycler.criticalMineralsCertified.includes(mineral)));
-      const score = Math.round((recycler.authorized ? 25 : 0) + (materialFit ? 25 : 0) + distanceScore + rateScore + (pickupEligible ? 10 : 0) + (certifiedForBounty ? 25 : 0));
+      const eprMatch = eprProducer && recycler.eprPartners?.includes(eprProducer.toLowerCase());
+      const score = Math.round((recycler.authorized ? 25 : 0) + (materialFit ? 25 : 0) + distanceScore + rateScore + (pickupEligible ? 10 : 0) + (certifiedForBounty ? 25 : 0) + (eprMatch ? 20 : 0));
       const matchReasons = [
         recycler.authorized && "CPCB-authorized recycler",
+        eprMatch && `EPR partner: ${eprProducer} via ${recycler.proNetwork || "PRO network"}`,
         materialFit && `Accepts ${materialGroup || "your material"}`,
         rate && `Offers ₹${rate}/kg`,
         recycler.distanceKm != null && `${recycler.distanceKm} km away`,
         pickupEligible && "Pickup available for this lot",
         certifiedForBounty && "Certified critical-mineral extraction"
       ].filter(Boolean);
-      return { ...recycler, offeredRate: rate || null, matchScore: score, matchReasons, pickupEligible, rateBonus: certifiedForBounty ? lot.criticalMineralBounty.label : null, criticalMineralBounty: lot ? { ...lot.criticalMineralBounty, certifiedForBounty } : null };
+      return { ...recycler, offeredRate: rate || null, matchScore: score, matchReasons, pickupEligible, eprMatch: !!eprMatch, rateBonus: certifiedForBounty ? lot.criticalMineralBounty.label : null, criticalMineralBounty: lot ? { ...lot.criticalMineralBounty, certifiedForBounty } : null };
     }).sort((a, b) => b.matchScore - a.matchScore || (a.distanceKm ?? Infinity) - (b.distanceKm ?? Infinity));
     res.json({ recyclers: ranked, scoring: { material: requestedMaterial || "all", weights: { authorization: 25, materialFit: 25, distance: 20, offeredRate: 20, pickup: 10, criticalMineralCertification: 25 } } });
   } catch (error) { next(error); }
@@ -483,6 +489,20 @@ app.post("/api/prices/sync", async (req, res, next) => {
     const cityName = req.body?.cityName || "Central Delhi, Delhi NCR";
     const data = await syncLiveScrapRates(cityId, cityName);
     res.json({ success: true, message: "MetalMandi scrap rates synchronized successfully", data });
+  } catch (error) { next(error); }
+});
+
+// ── EPR Producer Compliance ──────────────────────────────────────────
+app.get("/api/epr/dashboard", (req, res, next) => {
+  try {
+    res.json(getEprDashboard());
+  } catch (error) { next(error); }
+});
+
+app.get("/api/epr/my-contribution", requireAuth, async (req, res, next) => {
+  try {
+    const data = await getCollectorEprContribution(req.auth.sub);
+    res.json(data);
   } catch (error) { next(error); }
 });
 

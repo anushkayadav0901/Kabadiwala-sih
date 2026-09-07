@@ -26,7 +26,19 @@ const run = async () => {
   const passwordHash = await bcrypt.hash("Recycler@123", 12);
   await Recycler.deleteMany({});
   await Price.deleteMany({});
-  await Recycler.insertMany(recyclers.map(([name, ownerName, email, address, locationLat, locationLng, materialsAccepted, offeredRates, pickupAvailable], index) => ({ name, ownerName, email, address, locationLat, locationLng, materialsAccepted, offeredRates, pickupAvailable, contact: `+91 98${String(10000000 + index).slice(-8)}`, authorized: true, criticalMineralCertified: [0, 2, 7].includes(index), criticalMineralsCertified: [0, 2, 7].includes(index) ? ["lithium", "cobalt", "neodymium", "tantalum", "gallium", "indium"] : [], criticalMineralCertificationAuthority: [0, 2, 7].includes(index) ? "Ministry of Mines partner certification (demo)" : undefined, cpcbRegistrationNumber: `CPCB/EW/DEL/${2026 - (index % 3)}/${1040 + index}`, cpcbAuthorizationValidUntil: new Date("2028-12-31"), authorizationSource: "Demo seed data — verify against CPCB E-Waste EPR portal before production", authorizationLastVerifiedAt: new Date(), serviceArea: ["Delhi NCR", address.split(",").at(-1)?.trim()].filter(Boolean), openHours: "09:00 AM - 07:00 PM", minPickupWeightKg: pickupAvailable ? 25 : 0, rating: 4.4 + (index % 5) / 10, reviewsCount: 26 + index * 9, passwordHash })));
+  const eprMap = [
+    { eprPartners: ["samsung", "lg", "xiaomi"], proNetwork: "Karo Sambhav" },
+    { eprPartners: [], proNetwork: null },
+    { eprPartners: ["apple", "dell", "hp"], proNetwork: "Ecoreco" },
+    { eprPartners: ["samsung", "xiaomi", "boat"], proNetwork: "Karo Sambhav" },
+    { eprPartners: [], proNetwork: null },
+    { eprPartners: ["hp", "dell", "apple"], proNetwork: "E-Waste Recyclers India" },
+    { eprPartners: [], proNetwork: null },
+    { eprPartners: ["samsung", "lg", "voltas", "xiaomi"], proNetwork: "Karo Sambhav" },
+    { eprPartners: [], proNetwork: null },
+    { eprPartners: ["apple", "samsung", "boat", "hp"], proNetwork: "Ecoreco" }
+  ];
+  await Recycler.insertMany(recyclers.map(([name, ownerName, email, address, locationLat, locationLng, materialsAccepted, offeredRates, pickupAvailable], index) => ({ name, ownerName, email, address, locationLat, locationLng, materialsAccepted, offeredRates, pickupAvailable, contact: `+91 98${String(10000000 + index).slice(-8)}`, authorized: true, criticalMineralCertified: [0, 2, 7].includes(index), criticalMineralsCertified: [0, 2, 7].includes(index) ? ["lithium", "cobalt", "neodymium", "tantalum", "gallium", "indium"] : [], criticalMineralCertificationAuthority: [0, 2, 7].includes(index) ? "Ministry of Mines partner certification (demo)" : undefined, cpcbRegistrationNumber: `CPCB/EW/DEL/${2026 - (index % 3)}/${1040 + index}`, cpcbAuthorizationValidUntil: new Date("2028-12-31"), authorizationSource: "Demo seed data — verify against CPCB E-Waste EPR portal before production", authorizationLastVerifiedAt: new Date(), serviceArea: ["Delhi NCR", address.split(",").at(-1)?.trim()].filter(Boolean), openHours: "09:00 AM - 07:00 PM", minPickupWeightKg: pickupAvailable ? 25 : 0, rating: 4.4 + (index % 5) / 10, reviewsCount: 26 + index * 9, eprPartners: eprMap[index].eprPartners, proNetwork: eprMap[index].proNetwork, passwordHash })));
   const priceRows = [];
   for (const [materialCategory, low, high] of rates) {
     for (let day = 29; day >= 0; day -= 1) {

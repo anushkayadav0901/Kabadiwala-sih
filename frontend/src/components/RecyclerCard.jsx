@@ -88,6 +88,7 @@ export const RecyclerCard = ({ recycler }) => {
             </span>
             {recycler.verified && <StatusBadge type="verified" />}
             {recycler.pickupAvailable && <StatusBadge type="pickup" />}
+            {recycler.eprMatch && <StatusBadge type="epr" />}
           </div>
           {recycler.authorizationSource?.toLowerCase().includes("demo") && (
             <p className="text-[10.5px] text-faint mt-1.5">Authorization data: demo seed, validation pending</p>

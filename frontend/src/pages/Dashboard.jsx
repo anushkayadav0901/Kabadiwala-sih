@@ -13,7 +13,7 @@ import {
   HiOutlineCamera, HiOutlineTag, HiOutlineMapPin, HiOutlineWallet,
   HiOutlineShieldCheck, HiOutlineUser, HiOutlineMagnifyingGlass,
   HiChevronRight, HiArrowRight, HiOutlineTrophy, HiOutlineSparkles,
-  HiOutlineChartBar
+  HiOutlineChartBar, HiOutlineBuildingOffice2
 } from "react-icons/hi2";
 import { RewardsModal } from "../components/RewardsModal";
 import { GamificationSection } from "../components/GamificationSection";
@@ -41,7 +41,8 @@ export const Dashboard = () => {
     { id: "prices",    title: t("todayPrices"),      desc: "Live rates",        icon: HiOutlineTag,        path: "/prices" },
     { id: "recyclers", title: t("nearbyRecyclers"),  desc: "Authorized depots", icon: HiOutlineMapPin,     path: "/recyclers" },
     { id: "earnings",  title: t("earnings"),          desc: "Sales & payouts",   icon: HiOutlineWallet,     path: "/earnings" },
-    { id: "safety",    title: t("safetyGuide"),       desc: "Handling rules",    icon: HiOutlineShieldCheck,path: "/safety" }
+    { id: "safety",    title: t("safetyGuide"),       desc: "Handling rules",    icon: HiOutlineShieldCheck,path: "/safety" },
+    { id: "epr",       title: "EPR Compliance",        desc: "Producer targets",  icon: HiOutlineBuildingOffice2, path: "/epr" }
   ];
 
   const filteredMaterials = materials.filter(

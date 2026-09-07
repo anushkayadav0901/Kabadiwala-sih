@@ -19,6 +19,17 @@ export const StatusBadge = ({ type, text, className = "" }) => {
     );
   }
 
+  if (type === "epr") {
+    return (
+      <span className={`badge bg-green-50 text-green-700 ${className}`}>
+        <span className="w-3.5 h-3.5 rounded-full bg-green-600 text-white grid place-items-center">
+          <FaCheck className="text-[7px]" />
+        </span>
+        <span>{text || "EPR Partner"}</span>
+      </span>
+    );
+  }
+
   if (type === "pickup") {
     return (
       <span className={`badge bg-gold-50 text-gold-700 ${className}`}>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useLocation as useRouterLocation } from "react-router-dom";
 import { Navbar } from "../components/Navbar";
 import { BottomNavigation } from "../components/BottomNavigation";
 import { RecyclerCard } from "../components/RecyclerCard";
@@ -8,7 +9,7 @@ import { SCRAP_CATEGORIES } from "../utils/constants";
 import { useApp } from "../context/AppContext";
 import { MapContainer, TileLayer, Marker, Popup, CircleMarker } from "react-leaflet";
 import L from "leaflet";
-import { HiOutlineMapPin } from "react-icons/hi2";
+import { HiOutlineMapPin, HiOutlineBuildingOffice2, HiXMark } from "react-icons/hi2";
 
 /* A depot pin drawn to match the design system rather than Leaflet's default
    blue teardrop — indigo body, white core, soft drop shadow. */
@@ -29,15 +30,21 @@ const depotPin = new L.DivIcon({
 
 export const NearbyRecyclers = () => {
   const { userLocation, activeLot, t } = useApp();
+  const routerLocation = useRouterLocation();
+  const eprState = routerLocation.state;
   const [recyclers, setRecyclers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedCategory, setSelectedCategory] = useState(
+    eprState?.eprCategories ? "e_waste" : "all"
+  );
+  const [eprBanner, setEprBanner] = useState(!!eprState?.eprProducer);
 
   useEffect(() => {
     const fetchRecyclers = async () => {
       setLoading(true);
       try {
-        const list = await getNearbyRecyclers(userLocation, selectedCategory, null, activeLot?.id);
+        const eprProducerId = eprBanner ? eprState?.eprProducerId : null;
+        const list = await getNearbyRecyclers(userLocation, selectedCategory, null, activeLot?.id, eprProducerId);
         setRecyclers(list);
       } catch (err) {
         console.error(err);
@@ -53,6 +60,25 @@ export const NearbyRecyclers = () => {
       <Navbar title={t("nearbyRecyclers") || "Nearby recyclers"} />
 
       <main className="col px-4 pt-4 flex flex-col gap-4">
+        {/* ---- EPR context banner --------------------------------------- */}
+        {eprBanner && eprState?.eprProducer && (
+          <div className="flex items-start gap-2.5 p-3 bg-green-50 border border-green-200 rounded-2xl">
+            <HiOutlineBuildingOffice2 className="text-green-600 text-lg mt-0.5 shrink-0" />
+            <div className="flex-1 min-w-0">
+              <p className="text-[12.5px] font-bold text-green-800 leading-snug">
+                EPR Network — {eprState.eprProducer}
+              </p>
+              <p className="text-[11px] text-green-700 mt-0.5 leading-relaxed">
+                Sell e-waste ({eprState.eprCategories?.join(", ")}) to these authorized recyclers
+                and earn <strong>+{eprState.eprPremium}% EPR premium</strong> over market rate.
+              </p>
+            </div>
+            <button onClick={() => setEprBanner(false)} className="shrink-0 text-green-600 tap">
+              <HiXMark className="text-base" />
+            </button>
+          </div>
+        )}
+
         {/* ---- map ------------------------------------------------------- */}
         <div className="relative h-56 rounded-[18px] overflow-hidden border border-line">
           <MapContainer

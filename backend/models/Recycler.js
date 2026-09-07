@@ -26,7 +26,9 @@ const recyclerSchema = new mongoose.Schema(
     serviceArea: [{ type: String, trim: true }],
     openHours: { type: String, default: "09:00 AM - 06:00 PM" },
     rating: { type: Number, default: 4.5 },
-    reviewsCount: { type: Number, default: 0 }
+    reviewsCount: { type: Number, default: 0 },
+    eprPartners: [{ type: String, trim: true }],
+    proNetwork: { type: String, trim: true }
   },
   { timestamps: true }
 );
