@@ -18,11 +18,11 @@ export const BottomNavigation = () => {
   const { t } = useApp();
 
   const navItems = [
-    { path: "/dashboard", label: t("dashboard") || "Home", icon: HiOutlineHome, active: HiHome },
-    { path: "/prices", label: t("todayPrices") || "Prices", icon: HiOutlineTag, active: HiTag },
-    { path: "/scan", label: t("scanItem") || "Scan", icon: HiOutlineCamera, active: HiCamera, highlight: true },
-    { path: "/recyclers", label: t("nearbyRecyclers") || "Buyers", icon: HiOutlineMapPin, active: HiMapPin },
-    { path: "/profile", label: t("profile") || "Profile", icon: HiOutlineUser, active: HiUser }
+    { path: "/dashboard",   label: t("dashboard") || "Home",       icon: HiOutlineHome,     active: HiHome },
+    { path: "/prices",      label: t("todayPrices") || "Prices",   icon: HiOutlineTag,      active: HiTag },
+    { path: "/scan",        label: t("scanItem") || "Scan",         icon: HiOutlineCamera,   active: HiCamera, highlight: true },
+    { path: "/recyclers",   label: t("nearbyRecyclers") || "Buyers", icon: HiOutlineMapPin,   active: HiMapPin },
+    { path: "/profile",     label: t("profile") || "Profile",      icon: HiOutlineUser,     active: HiUser }
   ];
 
   return (

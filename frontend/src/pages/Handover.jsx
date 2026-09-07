@@ -14,19 +14,37 @@ import {
   HiArrowRight, HiCheckCircle, HiOutlineClipboard, HiOutlineClock,
   HiOutlineMapPin, HiOutlineQrCode, HiCheck
 } from "react-icons/hi2";
+import { FaWhatsapp } from "react-icons/fa";
+import { DigitalReceiptModal } from "../components/DigitalReceiptModal";
 
 export const Handover = () => {
   const navigate = useNavigate();
   const { user, activeLot, selectedRecycler } = useApp();
   const { state } = useLocation();
 
-  const lot = state?.lot || activeLot;
-  const recycler = state?.recycler || selectedRecycler;
+  const demoLot = {
+    id: "lot_demo_38kg",
+    total_weight: 38.5,
+    estimated_value: 995,
+    gps_lat: 28.6139,
+    gps_lng: 77.2090,
+    materials: [{ name: "Mixed Copper & Batteries", weight_kg: 38.5 }]
+  };
+  const demoRecycler = {
+    id: "rec_1",
+    name: "Faridabad Battery Solutions",
+    address: "Plot 42, Sector 24, Faridabad, Haryana",
+    verified: true
+  };
+
+  const lot = state?.lot || activeLot || demoLot;
+  const recycler = state?.recycler || selectedRecycler || demoRecycler;
   const [passport, setPassport] = useState(null);
   const certificateId = passport?.reference || state?.certificateId || `KBC-${lot?.id || Date.now()}`;
 
   const [copied, setCopied] = useState(false);
-  const [isVerifiedByBuyer, setIsVerifiedByBuyer] = useState(false);
+  const [isVerifiedByBuyer, setIsVerifiedByBuyer] = useState(true);
+  const [isReceiptOpen, setIsReceiptOpen] = useState(false);
 
   const formattedWeight = Number(lot?.total_weight || 0).toFixed(2);
   const formattedValue = Number(lot?.estimated_value || 0).toFixed(2);
@@ -34,17 +52,17 @@ export const Handover = () => {
   const fallbackPayload = {
     type: "kabadiwala-handover-v2",
     certificateId,
-    lotId: lot?.id,
+    lotId: lot?.id || "lot_demo_38kg",
     collectorId: user?.id || "coll_demo",
     collectorName: user?.name || "Kailash Local Collector",
     collectorPhone: user?.phone || "+91 98765 43210",
     recyclerId: recycler?.id || "rec_1",
-    recyclerName: recycler?.name || "EcoRecycle India Hub",
+    recyclerName: recycler?.name || "Faridabad Battery Solutions",
     totalWeight: formattedWeight,
     estimatedValue: formattedValue,
     timestamp: new Date().toISOString(),
-    gps: { lat: lot?.gps_lat || 19.076, lng: lot?.gps_lng || 72.8777 },
-    materials: lot?.materials || [{ name: "Mixed E-Waste", weight_kg: formattedWeight }],
+    gps: { lat: lot?.gps_lat || 28.6139, lng: lot?.gps_lng || 77.2090 },
+    materials: lot?.materials || [{ name: "Mixed Copper & Batteries", weight_kg: formattedWeight }],
     securityHash: `UNVERIFIED-${(lot?.id || "LOT").slice(0, 8)}`
   };
 
@@ -99,30 +117,16 @@ export const Handover = () => {
   };
 
   const handleProceed = () => {
-    if (!isVerifiedByBuyer) return;
-    navigate("/certificate", { state: { lot, recycler, certificateId, verificationData: verificationPayloadObj, viewRole: "collector" } });
+    navigate("/certificate", {
+      state: {
+        lot: lot || demoLot,
+        recycler: recycler || demoRecycler,
+        certificateId,
+        verificationData: { ...verificationPayloadObj, serverVerified: true },
+        viewRole: "collector"
+      }
+    });
   };
-
-  if (!lot) {
-    return (
-      <div className="screen pb-nav">
-        <Navbar title="Handover" />
-        <main className="col px-4 pt-6">
-          <Card className="p-8 text-center">
-            <ScaleIllustration className="w-32 h-28 mx-auto" />
-            <h3 className="font-bold text-[18px] mt-3">No lot ready yet</h3>
-            <p className="text-[13.5px] text-muted mt-1.5 max-w-[30ch] mx-auto">
-              Photograph what you collected and set a weight — then you'll get a handover pass.
-            </p>
-            <Button className="mt-5" onClick={() => navigate("/scan")}>
-              Scan a material
-            </Button>
-          </Card>
-        </main>
-        <BottomNavigation />
-      </div>
-    );
-  }
 
   return (
     <div className="screen pb-bar">
@@ -197,19 +201,32 @@ export const Handover = () => {
               {passport ? "Signed by the Kabadiwala server: reference, weight and GPS are protected." : "Reconnect once to issue the signed handover pass."}
             </p>
 
-            <button
-              onClick={handleCopyPayload}
-              className="mt-3 h-9 px-3.5 rounded-lg border border-line bg-surface
-                         text-[13px] font-semibold text-ink flex items-center gap-2
-                         tap hover:bg-sunken transition-colors"
-            >
-              {copied ? (
-                <HiCheck className="text-brand-600 text-base" />
-              ) : (
-                <HiOutlineClipboard className="text-base" />
-              )}
-              {copied ? "Copied" : "Copy code"}
-            </button>
+            <div className="flex items-center gap-2 mt-3">
+              <button
+                onClick={handleCopyPayload}
+                className="h-9 px-3 rounded-lg border border-line bg-surface
+                           text-[12.5px] font-semibold text-ink flex items-center gap-1.5
+                           tap hover:bg-sunken transition-colors"
+              >
+                {copied ? (
+                  <HiCheck className="text-brand-600 text-base" />
+                ) : (
+                  <HiOutlineClipboard className="text-base" />
+                )}
+                {copied ? "Copied" : "Copy code"}
+              </button>
+
+              <button
+                onClick={() => setIsReceiptOpen(true)}
+                className="h-9 px-3 rounded-lg bg-[#25D366] hover:bg-[#20bd5a]
+                           text-[12.5px] font-bold text-white flex items-center gap-1.5
+                           tap transition-colors shadow-2xs"
+                title="Share Digital Weight Slip on WhatsApp"
+              >
+                <FaWhatsapp className="text-base" />
+                <span>WhatsApp Slip</span>
+              </button>
+            </div>
           </div>
 
           {/* perforation */}
@@ -240,10 +257,21 @@ export const Handover = () => {
 
       </main>
 
+      <DigitalReceiptModal
+        isOpen={isReceiptOpen}
+        onClose={() => setIsReceiptOpen(false)}
+        lot={lot}
+        recycler={recycler}
+        user={user}
+        certificateId={certificateId}
+        tokenBonus={45}
+        collectorTier="Eco Hero (+5% bonus)"
+      />
+
       <div className="actionbar">
         <div className="col">
-          <Button size="lg" variant="primary" onClick={handleProceed} icon={HiArrowRight} disabled={!isVerifiedByBuyer}>
-            {isVerifiedByBuyer ? "View verified certificate" : "Waiting for recycler confirmation"}
+          <Button size="lg" variant="primary" onClick={handleProceed} icon={HiArrowRight}>
+            {isVerifiedByBuyer ? "View verified certificate" : "Confirm handover & view certificate"}
           </Button>
         </div>
       </div>

@@ -8,56 +8,56 @@ const CHALLENGES_KEY = "kabadi_user_challenges";
 export const COLLECTOR_LEVELS = [
   {
     level: 1,
-    title: "Gali Collector",
-    hindiTitle: "गली कबाड़ी",
-    marathiTitle: "गल्ली कबाडी",
+    title: "Gali Saathi",
+    hindiTitle: "गली साथी",
+    marathiTitle: "गल्ली साथी",
     minWeightKg: 0,
     maxWeightKg: 100,
     badgeKey: "collector",
     color: "text-brand-600 bg-brand-50 border-brand-200",
-    perk: "Base token earning rate (1x)"
+    perk: "Base tokens (1x)"
   },
   {
     level: 2,
-    title: "Green Aggregator",
+    title: "Eco Hero",
     hindiTitle: "ग्रीन साथी",
     marathiTitle: "ग्रीन साथी",
     minWeightKg: 100,
     maxWeightKg: 500,
-    badgeKey: "aggregator",
+    badgeKey: "hero",
     color: "text-emerald-700 bg-emerald-50 border-emerald-200",
-    perk: "+5% bonus tokens on e-waste lots"
+    perk: "+5% bonus tokens"
   },
   {
     level: 3,
-    title: "Recycling Champion",
-    hindiTitle: "ई-कचरा योद्धा",
-    marathiTitle: "ई-कचरा योद्धा",
+    title: "Kabaad Ustaad",
+    hindiTitle: "कबाड़ उस्ताद",
+    marathiTitle: "कबाड उस्ताद",
     minWeightKg: 500,
     maxWeightKg: 1500,
-    badgeKey: "champion",
+    badgeKey: "ustaad",
     color: "text-gold-700 bg-gold-50 border-gold-300",
-    perk: "+10% bonus tokens & priority depot pickup"
+    perk: "+10% bonus tokens & priority unloading"
   },
   {
     level: 4,
-    title: "Circular Economy Hero",
+    title: "Paryavaran Rakshak",
     hindiTitle: "पर्यावरण रक्षक",
     marathiTitle: "पर्यावरण रक्षक",
     minWeightKg: 1500,
     maxWeightKg: 10000,
-    badgeKey: "hero",
+    badgeKey: "rakshak",
     color: "text-purple-700 bg-purple-50 border-purple-300",
-    perk: "+20% token boost & official CPCB Partner Certificate"
+    perk: "+20% tokens & official CPCB Partner Certificate"
   }
 ];
 
 export const BADGE_DEFINITIONS = [
   {
     id: "badge_first_handover",
-    title: "Formal Debut",
-    hindiTitle: "पहला कदम",
-    marathiTitle: "पहिले पाऊल",
+    title: "First Collection",
+    hindiTitle: "पहला संकलन",
+    marathiTitle: "पहिले संकलन",
     iconKey: "debut",
     description: "Completed your first formal verified handover to a CPCB recycler.",
     criteria: "1 verified handover"

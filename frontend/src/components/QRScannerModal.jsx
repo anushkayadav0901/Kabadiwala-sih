@@ -3,7 +3,7 @@ import { Html5Qrcode } from "html5-qrcode";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   HiOutlineCamera, HiOutlineArrowUpTray, HiOutlineCommandLine,
-  HiXMark, HiCheck
+  HiXMark, HiCheck, HiArrowPath
 } from "react-icons/hi2";
 
 /**
@@ -13,6 +13,7 @@ import {
  */
 export const QRScannerModal = ({ isOpen, onClose, onScanSuccess }) => {
   const [activeTab, setActiveTab] = useState("camera"); // "camera" | "upload" | "manual"
+  const [facingMode, setFacingMode] = useState("environment"); // "environment" | "user"
   const [errorMsg, setErrorMsg] = useState("");
   const [manualText, setManualText] = useState("");
   const scannerRef = useRef(null);
@@ -27,11 +28,12 @@ export const QRScannerModal = ({ isOpen, onClose, onScanSuccess }) => {
     const startCamera = async () => {
       setErrorMsg("");
       try {
+        await stopCamera();
         const html5QrCode = new Html5Qrcode("buyer-qr-reader");
         scannerRef.current = html5QrCode;
 
         await html5QrCode.start(
-          { facingMode: "environment" },
+          { facingMode: facingMode },
           {
             fps: 10,
             qrbox: { width: 250, height: 250 }
@@ -56,7 +58,7 @@ export const QRScannerModal = ({ isOpen, onClose, onScanSuccess }) => {
       clearTimeout(timer);
       stopCamera();
     };
-  }, [isOpen, activeTab]);
+  }, [isOpen, activeTab, facingMode]);
 
   const stopCamera = async () => {
     const scanner = scannerRef.current;
@@ -185,6 +187,15 @@ export const QRScannerModal = ({ isOpen, onClose, onScanSuccess }) => {
               {activeTab === "camera" && (
                 <div className="flex flex-col gap-2.5">
                   <div className="relative rounded-2xl overflow-hidden bg-ink aspect-square">
+                    <button
+                      type="button"
+                      onClick={() => setFacingMode((prev) => (prev === "environment" ? "user" : "environment"))}
+                      className="absolute top-3 right-3 z-20 w-9 h-9 rounded-full bg-ink/80 backdrop-blur-md text-white grid place-items-center tap active:scale-90 transition-all border border-white/20 shadow-md hover:bg-ink"
+                      title="Flip camera"
+                      aria-label="Flip camera"
+                    >
+                      <HiArrowPath className="text-base" />
+                    </button>
                     <div id="buyer-qr-reader" className="w-full h-full" />
                     {/* corner brackets so the frame reads even before the feed starts */}
                     <div className="pointer-events-none absolute inset-8">

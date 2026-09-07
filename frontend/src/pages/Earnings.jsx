@@ -11,13 +11,16 @@ import {
 import { formatCurrency } from "../utils/helpers";
 import { useApp } from "../context/AppContext";
 import { HiOutlineWallet, HiCheckCircle, HiOutlineInformationCircle, HiOutlineDocumentArrowDown } from "react-icons/hi2";
+import { FaWhatsapp } from "react-icons/fa";
 import { generateInvoice } from "../utils/generateInvoice";
+import { DigitalReceiptModal } from "../components/DigitalReceiptModal";
 
 export const Earnings = () => {
   const { t, user } = useApp();
   const [summary, setSummary] = useState(null);
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedSlipTx, setSelectedSlipTx] = useState(null);
 
   useEffect(() => {
     if (!user?.id) return;
@@ -151,13 +154,25 @@ export const Earnings = () => {
                       </p>
                     </div>
                     {tx.status === "Paid" && (
-                      <button
-                        onClick={(e) => { e.stopPropagation(); generateInvoice(tx, user); }}
-                        className="w-8 h-8 grid place-items-center rounded-lg bg-sunken text-muted hover:text-brand-600 tap transition-colors"
-                        title="Download invoice"
-                      >
-                        <HiOutlineDocumentArrowDown className="text-base" />
-                      </button>
+                      <div className="flex items-center gap-1.5">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedSlipTx(tx);
+                          }}
+                          className="w-8 h-8 grid place-items-center rounded-lg bg-emerald-50 text-emerald-700 hover:bg-[#25D366] hover:text-white tap transition-colors"
+                          title="Share Digital Slip on WhatsApp"
+                        >
+                          <FaWhatsapp className="text-base" />
+                        </button>
+                        <button
+                          onClick={(e) => { e.stopPropagation(); generateInvoice(tx, user); }}
+                          className="w-8 h-8 grid place-items-center rounded-lg bg-sunken text-muted hover:text-brand-600 tap transition-colors"
+                          title="Download invoice"
+                        >
+                          <HiOutlineDocumentArrowDown className="text-base" />
+                        </button>
+                      </div>
                     )}
                   </div>
                 </div>
@@ -166,6 +181,28 @@ export const Earnings = () => {
           )}
         </section>
       </main>
+
+      <DigitalReceiptModal
+        isOpen={Boolean(selectedSlipTx)}
+        onClose={() => setSelectedSlipTx(null)}
+        lot={
+          selectedSlipTx
+            ? {
+                id: selectedSlipTx.id || selectedSlipTx.handoverRef,
+                total_weight: selectedSlipTx.weightKg,
+                estimated_value: selectedSlipTx.totalAmount,
+                materials: [{ name: selectedSlipTx.materialName, weight_kg: selectedSlipTx.weightKg }]
+              }
+            : null
+        }
+        recycler={{
+          name: selectedSlipTx?.recyclerName || "Authorized Depot"
+        }}
+        user={user}
+        certificateId={selectedSlipTx?.handoverRef || `KBC-${selectedSlipTx?.id || "REC"}`}
+        tokenBonus={45}
+        collectorTier="Eco Hero (+5% bonus)"
+      />
 
       <BottomNavigation />
     </div>

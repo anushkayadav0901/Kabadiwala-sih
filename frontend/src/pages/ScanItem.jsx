@@ -4,26 +4,54 @@ import { Navbar } from "../components/Navbar";
 import { BottomNavigation } from "../components/BottomNavigation";
 import { Button } from "../components/Button";
 import { MaterialIcon } from "../components/icons/MaterialIcon";
-import { scanMaterial } from "../services/estimateService";
+import { classifyWithGemini, getSupportedMaterials, scanMaterial } from "../services/estimateService";
 import { getCurrentMaterialPrice } from "../services/priceService";
 import { useApp } from "../context/AppContext";
 import { formatCurrency, calculateTotalValue } from "../utils/helpers";
 import {
   HiOutlineCamera, HiOutlineArrowUpTray, HiOutlineArrowPath,
   HiOutlineShoppingBag, HiCheck, HiMinus, HiPlus, HiArrowRight,
-  HiOutlineExclamationTriangle
+  HiOutlineExclamationTriangle, HiArrowPath
 } from "react-icons/hi2";
+import { LiveCamera } from "../components/LiveCamera";
 
 export const ScanItem = () => {
   const navigate = useNavigate();
   const { setActiveItem, addToBag, bagItems, t } = useApp();
 
   const [imagePreview, setImagePreview] = useState(null);
+  const [isCameraOpen, setIsCameraOpen] = useState(false);
   const [scanning, setScanning] = useState(false);
   const [scanResult, setScanResult] = useState(null);
   const [scanError, setScanError] = useState("");
   const [addedToBag, setAddedToBag] = useState(false);
   const [weightKg, setWeightKg] = useState(1.0);
+  const [classificationConfirmed, setClassificationConfirmed] = useState(false);
+  const [geminiLoading, setGeminiLoading] = useState(false);
+
+  const withCurrentPrice = async (material) => {
+    try {
+      const currentPrice = await getCurrentMaterialPrice(material);
+      return currentPrice ? {
+        ...material,
+        pricePerKg: currentPrice.quotedPrice,
+        marketRangeMin: currentPrice.marketRangeMin,
+        marketRangeMax: currentPrice.marketRangeMax,
+        priceSource: currentPrice.source,
+        priceConfidence: currentPrice.confidence
+      } : material;
+    } catch {
+      return material;
+    }
+  };
+
+  const handleCapturedImage = (dataUrl) => {
+    setImagePreview(dataUrl);
+    setIsCameraOpen(false);
+    setScanResult(null);
+    setScanError("");
+    setAddedToBag(false);
+  };
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -31,9 +59,11 @@ export const ScanItem = () => {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result);
+        setIsCameraOpen(false);
         setScanResult(null);
         setScanError("");
         setAddedToBag(false);
+        setClassificationConfirmed(false);
       };
       reader.readAsDataURL(file);
     }
@@ -44,25 +74,23 @@ export const ScanItem = () => {
     setScanning(true);
     try {
       const res = await scanMaterial(imagePreview);
-      let material = res.detectedMaterial;
-      try {
-        const currentPrice = await getCurrentMaterialPrice(material);
-        if (currentPrice) {
-          material = {
-            ...material,
-            pricePerKg: currentPrice.quotedPrice,
-            marketRangeMin: currentPrice.marketRangeMin,
-            marketRangeMax: currentPrice.marketRangeMax,
-            priceSource: currentPrice.source,
-            priceConfidence: currentPrice.confidence
-          };
-        }
-      } catch {
-        // The on-device classification remains available when price data cannot be reached.
+      if (res.needsRetake) {
+        setScanResult(null);
+        setScanError(res.message);
+        return;
       }
+      if (res.needsConfirmation) {
+        setScanResult({ ...res, detectedMaterial: res.candidateMaterial });
+        setClassificationConfirmed(false);
+        setScanError("");
+        return;
+      }
+      const material = await withCurrentPrice(res.detectedMaterial);
       const resultWithPrice = { ...res, detectedMaterial: material };
       setScanResult(resultWithPrice);
-      setActiveItem(material);
+      // The model can be confidently wrong when the image is outside its
+      // trained classes, so every prediction must be confirmed by the user.
+      setClassificationConfirmed(false);
       setAddedToBag(false);
     } catch (err) {
       console.error(err);
@@ -70,6 +98,41 @@ export const ScanItem = () => {
     } finally {
       setScanning(false);
     }
+  };
+
+  const handleGeminiFallback = async () => {
+    setGeminiLoading(true);
+    setScanError("");
+    try {
+      const result = await classifyWithGemini(imagePreview);
+      const category = result.category || result.label;
+      if (result.source !== "gemini" || !category) throw new Error("Online AI is not configured. Choose the category manually.");
+      const aliases = { battery: "Battery", batteries: "Battery", pcb: "PCB", mobile: "Mobile", phone: "Mobile", television: "Television", lcd: "Television", microwave: "Microwave", keyboard: "Keyboard", mouse: "Mouse", printer: "Printer", player: "Player", "washing machine": "Washing Machine" };
+      const matched = getSupportedMaterials().find((item) => item.label === aliases[String(category).toLowerCase()]);
+      if (!matched) throw new Error("Online AI returned an unsupported category. Choose the category manually.");
+      const pricedMaterial = await withCurrentPrice(matched);
+      setScanResult((previous) => ({ ...previous, detectedMaterial: pricedMaterial, detectedLabel: matched.label, confidence: Math.round(Number(result.confidence || 0) * 100), source: "gemini" }));
+      setClassificationConfirmed(false);
+    } catch (error) {
+      setScanError(error.message || "Online AI could not classify this image.");
+    } finally {
+      setGeminiLoading(false);
+    }
+  };
+
+  const confirmClassification = async () => {
+    if (!scanResult?.detectedMaterial) return;
+    const pricedMaterial = await withCurrentPrice(scanResult.detectedMaterial);
+    setScanResult((previous) => ({ ...previous, detectedMaterial: pricedMaterial }));
+    setClassificationConfirmed(true);
+    setActiveItem(pricedMaterial);
+  };
+
+  const chooseManualClassification = (event) => {
+    const selected = getSupportedMaterials().find((item) => item.label === event.target.value);
+    if (!selected) return;
+    setScanResult((previous) => ({ ...previous, detectedMaterial: selected, detectedLabel: selected.label, source: "manual" }));
+    setClassificationConfirmed(false);
   };
 
   const handleProceedToValue = () => {
@@ -101,9 +164,17 @@ export const ScanItem = () => {
 
       <main className="col px-4 pt-4 flex flex-col gap-4">
         {/* ---- capture -------------------------------------------------- */}
-        {imagePreview ? (
+        {isCameraOpen && !imagePreview ? (
           <div className="flex flex-col gap-3">
-            <div className="relative rounded-[18px] overflow-hidden bg-ink aspect-[4/3]">
+            <LiveCamera
+              onCapture={handleCapturedImage}
+              onClose={() => setIsCameraOpen(false)}
+              onFallbackUpload={true}
+            />
+          </div>
+        ) : imagePreview ? (
+          <div className="flex flex-col gap-3">
+            <div className="relative rounded-[18px] overflow-hidden bg-ink aspect-[4/3] shadow-md border border-line">
               <img
                 src={imagePreview}
                 alt="The scrap you photographed"
@@ -119,18 +190,35 @@ export const ScanItem = () => {
               )}
             </div>
 
-            <div className="grid grid-cols-2 gap-2.5">
+            <div className="grid grid-cols-3 gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setImagePreview(null);
+                  setIsCameraOpen(true);
+                  setScanResult(null);
+                  setScanError("");
+                }}
+                className="h-11 rounded-xl border border-line bg-surface text-ink font-semibold
+                           text-[13px] flex items-center justify-center gap-1.5 tap
+                           hover:bg-sunken active:bg-sunken transition-colors"
+                title="Open live camera"
+              >
+                <HiOutlineCamera className="text-base text-brand-600 shrink-0" />
+                <span>Camera</span>
+              </button>
               <label
                 className="h-11 rounded-xl border border-line bg-surface text-ink font-semibold
-                           text-[14px] flex items-center justify-center gap-2 cursor-pointer tap
+                           text-[13px] flex items-center justify-center gap-1.5 cursor-pointer tap
                            hover:bg-sunken active:bg-sunken transition-colors"
+                title="Choose photo from device gallery"
               >
-                <HiOutlineArrowPath className="text-base" />
-                Retake
+                <HiOutlineArrowUpTray className="text-base text-muted shrink-0" />
+                <span>Gallery</span>
                 <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
               </label>
               <Button variant="primary" size="md" onClick={handleTriggerScan} loading={scanning}>
-                {scanResult ? "Scan again" : "Identify"}
+                {scanResult ? "Re-scan" : "Identify"}
               </Button>
             </div>
             {scanError && (
@@ -140,45 +228,40 @@ export const ScanItem = () => {
             )}
           </div>
         ) : (
-          <div className="card p-6 text-center">
+          <div className="card p-6 text-center shadow-sm">
             <span className="w-16 h-16 rounded-2xl bg-brand-50 text-brand-600 grid place-items-center mx-auto">
               <HiOutlineCamera className="text-3xl" />
             </span>
             <h3 className="font-bold text-[18px] tracking-[-0.01em] mt-4">
-              Take a photo of your scrap
+              Photograph your scrap
             </h3>
-            <p className="text-[13.5px] text-muted mt-1.5 max-w-[30ch] mx-auto leading-snug">
-              Circuit boards, batteries, wire, appliances — one item at a time works best.
+            <p className="text-[13.5px] text-muted mt-1.5 max-w-[32ch] mx-auto leading-snug">
+              Circuit boards, copper wire, batteries, or appliances. Use live camera viewfinder or upload a picture.
             </p>
 
-            <div className="grid grid-cols-2 gap-2.5 mt-5">
-              <label
+            <div className="flex flex-col sm:grid sm:grid-cols-2 gap-2.5 mt-5">
+              <button
+                type="button"
+                onClick={() => setIsCameraOpen(true)}
                 className="h-12 rounded-xl bg-brand-600 text-white font-semibold text-[14px]
-                           flex items-center justify-center gap-2 cursor-pointer tap
+                           flex items-center justify-center gap-2 tap shadow-sm
                            hover:bg-brand-700 active:bg-brand-700 transition-colors"
               >
                 <HiOutlineCamera className="text-lg" />
-                Camera
-                <input
-                  type="file"
-                  accept="image/*"
-                  capture="environment"
-                  onChange={handleImageUpload}
-                  className="hidden"
-                />
-              </label>
+                Open Live Camera
+              </button>
               <label
                 className="h-12 rounded-xl border border-line bg-surface text-ink font-semibold
                            text-[14px] flex items-center justify-center gap-2 cursor-pointer tap
                            hover:bg-sunken active:bg-sunken transition-colors"
               >
-                <HiOutlineArrowUpTray className="text-lg" />
-                Gallery
+                <HiOutlineArrowUpTray className="text-lg text-muted" />
+                Choose from Gallery
                 <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
               </label>
             </div>
 
-            <p className="eyebrow mt-5">Works without internet</p>
+            <p className="eyebrow mt-4">Offline AI · Works without internet</p>
           </div>
         )}
 
@@ -189,8 +272,8 @@ export const ScanItem = () => {
               <div className="p-4 flex items-start gap-3">
                 <MaterialIcon material={scanResult.detectedMaterial} size="lg" />
                 <div className="min-w-0 flex-1">
-                  <span className="badge bg-brand-50 text-brand-700 tnum">
-                    {scanResult.confidence}% match
+                  <span className={`badge tnum ${classificationConfirmed ? "bg-brand-50 text-brand-700" : "bg-gold-50 text-gold-700"}`}>
+                    {scanResult.source === "manual" ? "Manual selection" : `${scanResult.confidence}% match`}
                   </span>
                   <h3 className="font-bold text-[18px] tracking-[-0.01em] leading-tight mt-1.5">
                     {scanResult.detectedMaterial.name}
@@ -203,6 +286,22 @@ export const ScanItem = () => {
                   </p>
                 </div>
               </div>
+
+              {!classificationConfirmed && (
+                <div className="mx-4 mb-4 p-3 rounded-xl bg-gold-50 flex flex-col gap-2.5">
+                  <p className="text-[12.5px] text-gold-700 leading-snug">
+                    Confirm the category before continuing. The AI result is only a suggestion.
+                  </p>
+                  <select value={scanResult.detectedLabel || ""} onChange={chooseManualClassification} className="h-10 rounded-lg border border-line bg-surface px-2 text-[13px]">
+                    <option value="" disabled>Choose the correct category</option>
+                    {getSupportedMaterials().map((item) => <option key={item.label} value={item.label}>{item.label}</option>)}
+                  </select>
+                  <div className="grid grid-cols-2 gap-2">
+                    <Button size="sm" variant="outline" onClick={handleGeminiFallback} loading={geminiLoading}>Online AI check</Button>
+                    <Button size="sm" variant="primary" onClick={confirmClassification}>Confirm category</Button>
+                  </div>
+                </div>
+              )}
 
               {scanResult.detectedMaterial.safetyWarning && (
                 <div className="mx-4 mb-4 p-3 rounded-xl bg-alert-50 flex items-start gap-2.5">
@@ -312,7 +411,7 @@ export const ScanItem = () => {
       </main>
 
       {/* ---- sticky actions -------------------------------------------- */}
-      {scanResult && (
+      {scanResult && classificationConfirmed && (
         <div className="actionbar">
           <div className="col grid grid-cols-2 gap-2.5">
             <Button

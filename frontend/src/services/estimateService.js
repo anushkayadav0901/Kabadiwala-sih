@@ -10,8 +10,11 @@
 // hard-coded placeholders, not live market rates.
 // ---------------------------------------------------------------------------
 import * as tmImage from "@teachablemachine/image";
+import { api } from "./api";
 
 const MODEL_BASE_URL = "/AI_Model/";
+const MIN_CONFIDENCE = 65;
+const MIN_CONFIDENCE_MARGIN = 8;
 let modelPromise;
 
 const modelMaterials = {
@@ -114,6 +117,56 @@ const modelMaterials = {
     icon: "🖨️",
     shortDescription: "Printer detected by the AI model.",
     safetyWarning: "Avoid toner dust and wear a mask while handling."
+  },
+  CRT: {
+    id: "sih_crt",
+    name: "CRT Glass and Display Scrap",
+    category: "CRT",
+    pricePerKg: 8,
+    unit: "kg",
+    icon: "📺",
+    shortDescription: "CRT display material selected from the SIH category list.",
+    safetyWarning: "Handle CRT glass carefully. Do not break or dismantle it without protection."
+  },
+  LCD: {
+    id: "sih_lcd",
+    name: "LCD Panel Scrap",
+    category: "LCD",
+    pricePerKg: 50,
+    unit: "kg",
+    icon: "🖥️",
+    shortDescription: "LCD panel material selected from the SIH category list.",
+    safetyWarning: "Handle panels carefully and avoid broken glass or sharp edges."
+  },
+  Cables: {
+    id: "sih_cables",
+    name: "Mixed Cable Scrap",
+    category: "cables",
+    pricePerKg: 150,
+    unit: "kg",
+    icon: "🔌",
+    shortDescription: "Cable material selected from the SIH category list.",
+    safetyWarning: "Never burn cable insulation. Sort and send cables to an authorized recycler."
+  },
+  Motors: {
+    id: "sih_motors",
+    name: "Motor and Magnet Assembly Scrap",
+    category: "motors",
+    pricePerKg: 45,
+    unit: "kg",
+    icon: "⚙️",
+    shortDescription: "Motor or magnet-bearing assembly selected from the SIH category list.",
+    safetyWarning: "Watch for sharp metal edges and keep strong magnets away from sensitive devices."
+  },
+  "Mixed Plastics": {
+    id: "sih_mixed_plastic",
+    name: "Mixed Plastic Scrap",
+    category: "mixed_plastic",
+    pricePerKg: 20,
+    unit: "kg",
+    icon: "♻️",
+    shortDescription: "Mixed plastic material selected from the SIH category list.",
+    safetyWarning: "Do not burn plastic. Keep it separated for formal recycling."
   }
 };
 
@@ -135,6 +188,29 @@ const imageFromDataUrl = (imageSrc) =>
     image.src = imageSrc;
   });
 
+const checkImageQuality = (image) => {
+  const canvas = document.createElement("canvas");
+  const size = 64;
+  canvas.width = size;
+  canvas.height = size;
+  const context = canvas.getContext("2d", { willReadFrequently: true });
+  context.drawImage(image, 0, 0, size, size);
+  const pixels = context.getImageData(0, 0, size, size).data;
+  const brightness = [];
+  for (let index = 0; index < pixels.length; index += 4) {
+    brightness.push((pixels[index] * 0.299) + (pixels[index + 1] * 0.587) + (pixels[index + 2] * 0.114));
+  }
+  const average = brightness.reduce((sum, value) => sum + value, 0) / brightness.length;
+  const variance = brightness.reduce((sum, value) => sum + ((value - average) ** 2), 0) / brightness.length;
+  const reasons = [];
+  // Teachable Machine resizes inputs to 224px, so reject only genuinely tiny files.
+  if (image.naturalWidth < 224 || image.naturalHeight < 160) reasons.push("Use a larger image.");
+  if (average < 28) reasons.push("The image is too dark.");
+  if (average > 238) reasons.push("The image is overexposed.");
+  if (variance < 180) reasons.push("Move closer to the material and reduce the plain background.");
+  return { valid: reasons.length === 0, reasons };
+};
+
 export const scanMaterial = async (imageSrc) => {
   if (!imageSrc) throw new Error("Please take or upload a photo first.");
 
@@ -142,6 +218,17 @@ export const scanMaterial = async (imageSrc) => {
     loadScanModel(),
     imageFromDataUrl(imageSrc)
   ]);
+
+  const quality = checkImageQuality(image);
+  if (!quality.valid) {
+    return {
+      success: false,
+      needsRetake: true,
+      quality,
+      predictions: [],
+      message: `Please retake the photo. ${quality.reasons.join(" ")}`
+    };
+  }
 
   const predictions = (await model.predict(image))
     .map(({ className, probability }) => ({
@@ -151,6 +238,21 @@ export const scanMaterial = async (imageSrc) => {
     .sort((a, b) => b.confidence - a.confidence);
 
   const topPrediction = predictions[0];
+  const secondPrediction = predictions[1];
+  const confidenceMargin = topPrediction.confidence - (secondPrediction?.confidence || 0);
+  const accepted = topPrediction.confidence >= MIN_CONFIDENCE && confidenceMargin >= MIN_CONFIDENCE_MARGIN;
+
+  if (!accepted) {
+    return {
+      success: false,
+      needsConfirmation: true,
+      candidateMaterial: modelMaterials[topPrediction.label],
+      detectedLabel: topPrediction.label,
+      confidence: topPrediction.confidence,
+      predictions: predictions.slice(0, 3),
+      message: "The AI is uncertain. Confirm the suggested category or choose the correct one before creating a lot."
+    };
+  }
 
   // Every label in metadata.json has an entry above. This guard only fires if
   // the model is retrained with new classes and this map is not updated — in
@@ -175,4 +277,13 @@ export const scanMaterial = async (imageSrc) => {
     predictions: predictions.slice(0, 3),
     imagePreview: imageSrc || null
   };
+};
+
+export const getSupportedMaterials = () => Object.entries(modelMaterials).map(([label, material]) => ({ label, ...material }));
+
+export const classifyWithGemini = async (imageSrc) => {
+  const blob = await fetch(imageSrc).then((response) => response.blob());
+  const form = new FormData();
+  form.append("photo", blob, "material.jpg");
+  return api("/classify", { method: "POST", body: form, auth: true });
 };

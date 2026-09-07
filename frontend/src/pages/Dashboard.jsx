@@ -12,7 +12,8 @@ import { formatCurrency, calculateTotalValue } from "../utils/helpers";
 import {
   HiOutlineCamera, HiOutlineTag, HiOutlineMapPin, HiOutlineWallet,
   HiOutlineShieldCheck, HiOutlineUser, HiOutlineMagnifyingGlass,
-  HiChevronRight, HiArrowRight, HiOutlineTrophy, HiOutlineSparkles
+  HiChevronRight, HiArrowRight, HiOutlineTrophy, HiOutlineSparkles,
+  HiOutlineChartBar
 } from "react-icons/hi2";
 import { RewardsModal } from "../components/RewardsModal";
 import { GamificationSection } from "../components/GamificationSection";
@@ -37,12 +38,10 @@ export const Dashboard = () => {
   const greetingName = user?.name?.split(" ")[0] || "Collector";
 
   const featureCards = [
-    { id: "prices", title: t("todayPrices"), desc: "Live rates", icon: HiOutlineTag, path: "/prices" },
-    { id: "recyclers", title: t("nearbyRecyclers"), desc: "Authorized depots", icon: HiOutlineMapPin, path: "/recyclers" },
-    { id: "leaderboard", title: "Leaderboard", desc: "Top collectors", icon: HiOutlineTrophy, path: "/leaderboard" },
-    { id: "earnings", title: t("earnings"), desc: "Sales & payouts", icon: HiOutlineWallet, path: "/earnings" },
-    { id: "safety", title: t("safetyGuide"), desc: "Handling rules", icon: HiOutlineShieldCheck, path: "/safety" },
-    { id: "profile", title: t("profile"), desc: "Account settings", icon: HiOutlineUser, path: "/profile" }
+    { id: "prices",    title: t("todayPrices"),      desc: "Live rates",        icon: HiOutlineTag,        path: "/prices" },
+    { id: "recyclers", title: t("nearbyRecyclers"),  desc: "Authorized depots", icon: HiOutlineMapPin,     path: "/recyclers" },
+    { id: "earnings",  title: t("earnings"),          desc: "Sales & payouts",   icon: HiOutlineWallet,     path: "/earnings" },
+    { id: "safety",    title: t("safetyGuide"),       desc: "Handling rules",    icon: HiOutlineShieldCheck,path: "/safety" }
   ];
 
   const filteredMaterials = materials.filter(
@@ -74,14 +73,28 @@ export const Dashboard = () => {
                 What did you collect today?
               </h2>
             </div>
-            <button
-              onClick={() => setIsRewardsOpen(true)}
-              className="h-10 px-3 rounded-2xl bg-gold-50 border border-gold-200 text-gold-800 font-extrabold text-[13px] flex items-center gap-1.5 shrink-0 tap shadow-sm hover:bg-gold-100 transition-colors"
-              title="Open Rewards Store"
-            >
-              <HiOutlineSparkles className="text-gold-600 text-base" />
-              <span className="tnum font-black text-[14px]">{tokenBalance}</span>
-            </button>
+            <div className="flex items-center gap-2 shrink-0">
+              {/* Leaderboard Rank Pill */}
+              <button
+                onClick={() => navigate("/leaderboard")}
+                className="h-10 px-3 rounded-2xl border flex items-center gap-1.5 tap shadow-xs bg-brand-50/90 border-brand-200 text-brand-800 hover:bg-brand-100/70 transition-colors"
+                title="View Leaderboard & Rankings"
+              >
+                <HiOutlineChartBar className="text-brand-600 text-[15px]" />
+                <span className="tnum font-black text-[13.5px]">#4 Rank</span>
+              </button>
+
+              {/* Tokens Pill */}
+              <button
+                onClick={() => setIsRewardsOpen(true)}
+                className="h-10 px-3 rounded-2xl border flex items-center gap-1.5 tap shadow-xs hover:opacity-90 transition-opacity"
+                style={{ background: "#FEF5E4", borderColor: "#FDE68A" }}
+                title="Open Rewards Store"
+              >
+                <HiOutlineSparkles style={{ color: "#D97706", fontSize: 14 }} />
+                <span className="tnum font-black text-[14px]" style={{ color: "#92400E" }}>{tokenBalance}</span>
+              </button>
+            </div>
           </div>
           {userLocation?.address && (
             <p className="text-[13px] text-faint mt-1.5 flex items-center gap-1">
@@ -91,51 +104,7 @@ export const Dashboard = () => {
           )}
         </motion.section>
 
-        {/* ---- gamification section (streak, levels, badges) ------------ */}
-        <GamificationSection totalWeightKg={185} onOpenRewards={() => setIsRewardsOpen(true)} />
-
-        {/* ---- search -------------------------------------------------- */}
-        <section>
-          <div className="relative">
-            <HiOutlineMagnifyingGlass className="absolute left-4 top-1/2 -translate-y-1/2 text-faint text-xl pointer-events-none" />
-            <input
-              type="text"
-              placeholder="Search a material rate…"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="field pl-12 text-[15px]"
-            />
-          </div>
-
-          {searchQuery && (
-            <div className="card mt-2 divide-y divide-hair overflow-hidden">
-              {filteredMaterials.length === 0 ? (
-                <p className="p-4 text-[13.5px] text-faint">
-                  No material matches “{searchQuery}”.
-                </p>
-              ) : (
-                filteredMaterials.map((m) => (
-                  <button
-                    key={m.id}
-                    onClick={() => navigate("/prices")}
-                    className="w-full p-3 flex items-center gap-3 text-left tap
-                               hover:bg-sunken active:bg-sunken transition-colors"
-                  >
-                    <MaterialIcon material={m} size="sm" />
-                    <span className="flex-1 min-w-0 text-[14px] font-semibold truncate">
-                      {m.name}
-                    </span>
-                    <span className="text-[14px] font-bold tnum shrink-0">
-                      {formatCurrency(m.pricePerKg)}
-                    </span>
-                  </button>
-                ))
-              )}
-            </div>
-          )}
-        </section>
-
-        {/* ---- hero action --------------------------------------------- */}
+        {/* ---- hero action (primary — comes first) -------------------- */}
         <section>
           <button
             onClick={() => navigate("/scan")}
@@ -158,6 +127,50 @@ export const Dashboard = () => {
             </div>
             <ScaleIllustration className="absolute right-[-14px] bottom-[-8px] w-36 h-32 opacity-90 z-0" />
           </button>
+        </section>
+
+        {/* ---- gamification section (streak, levels, badges) ------------ */}
+        <GamificationSection totalWeightKg={185} onOpenRewards={() => setIsRewardsOpen(true)} />
+
+        {/* ---- search -------------------------------------------------- */}
+        <section>
+          <div className="relative">
+            <HiOutlineMagnifyingGlass className="absolute left-4 top-1/2 -translate-y-1/2 text-faint text-xl pointer-events-none" />
+            <input
+              type="text"
+              placeholder="Search a material rate…"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="field pl-12 text-[15px]"
+            />
+          </div>
+
+          {searchQuery && (
+            <div className="card mt-2 divide-y divide-hair overflow-hidden">
+              {filteredMaterials.length === 0 ? (
+                <p className="p-4 text-[13.5px] text-faint">
+                  No material matches "{searchQuery}".
+                </p>
+              ) : (
+                filteredMaterials.map((m) => (
+                  <button
+                    key={m.id}
+                    onClick={() => navigate("/prices")}
+                    className="w-full p-3 flex items-center gap-3 text-left tap
+                               hover:bg-sunken active:bg-sunken transition-colors"
+                  >
+                    <MaterialIcon material={m} size="sm" />
+                    <span className="flex-1 min-w-0 text-[14px] font-semibold truncate">
+                      {m.name}
+                    </span>
+                    <span className="text-[14px] font-bold tnum shrink-0">
+                      {formatCurrency(m.pricePerKg)}
+                    </span>
+                  </button>
+                ))
+              )}
+            </div>
+          )}
         </section>
 
         {/* ---- bag summary --------------------------------------------- */}
