@@ -20,6 +20,7 @@ import { detectAnomalies } from "./services/anomalyDetector.js";
 import { classifyImage as geminiClassify, estimatePrice as geminiEstimate, compareHandoverImages, isGeminiConfigured } from "./services/geminiService.js";
 import { bountyQuote, calculateCriticalMineralBounty } from "./services/criticalMineralBounty.js";
 import { processWhatsAppMessage } from "./services/whatsappService.js";
+import { getLiveScrapRates, syncLiveScrapRates } from "./services/metalMandiService.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const uploadsDir = path.join(__dirname, "uploads");
@@ -469,11 +470,48 @@ app.get("/api/recyclers", async (req, res, next) => {
   } catch (error) { next(error); }
 });
 
+app.get("/api/prices/live", async (req, res, next) => {
+  try {
+    const data = await getLiveScrapRates();
+    res.json(data);
+  } catch (error) { next(error); }
+});
+
+app.post("/api/prices/sync", async (req, res, next) => {
+  try {
+    const cityId = req.body?.cityId ? Number(req.body.cityId) : 113;
+    const cityName = req.body?.cityName || "Central Delhi, Delhi NCR";
+    const data = await syncLiveScrapRates(cityId, cityName);
+    res.json({ success: true, message: "MetalMandi scrap rates synchronized successfully", data });
+  } catch (error) { next(error); }
+});
+
 app.get("/api/prices", async (req, res, next) => {
   try {
     const match = req.query.location ? { location: req.query.location } : {};
     const prices = await Price.aggregate([{ $match: match }, { $sort: { priceDate: -1 } }, { $group: { _id: "$materialCategory", price: { $first: "$$ROOT" } } }, { $replaceRoot: { newRoot: "$price" } }, { $sort: { materialCategory: 1 } }]);
-    res.json({ prices: prices.map((price) => ({ id: price._id.toString(), materialCategory: price.materialCategory, location: price.location, priceDate: price.priceDate, buyingPrice: price.buyingPrice, quotedPrice: price.quotedPrice, marketRangeMin: price.marketRangeMin ?? price.buyingPrice, marketRangeMax: price.marketRangeMax ?? price.quotedPrice, unit: price.unit, source: price.source, confidence: price.confidence })) });
+    
+    // If prices collection has records, return them; otherwise return live master document
+    if (prices && prices.length > 0) {
+      return res.json({ prices: prices.map((price) => ({ id: price._id.toString(), materialCategory: price.materialCategory, location: price.location, priceDate: price.priceDate, buyingPrice: price.buyingPrice, quotedPrice: price.quotedPrice, marketRangeMin: price.marketRangeMin ?? price.buyingPrice, marketRangeMax: price.marketRangeMax ?? price.quotedPrice, unit: price.unit, source: price.source, confidence: price.confidence })) });
+    }
+
+    const liveDoc = await getLiveScrapRates();
+    res.json({
+      prices: liveDoc.materials.map((m) => ({
+        id: m.id,
+        materialCategory: m.id,
+        location: m.city,
+        priceDate: m.lastSyncedAt,
+        buyingPrice: m.marketRangeMin,
+        quotedPrice: m.pricePerKg,
+        marketRangeMin: m.marketRangeMin,
+        marketRangeMax: m.marketRangeMax,
+        unit: m.unit,
+        source: m.source,
+        confidence: "high"
+      }))
+    });
   } catch (error) { next(error); }
 });
 

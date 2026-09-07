@@ -16,7 +16,7 @@ export const SCRAP_CATEGORIES = [
   { id: "e_waste", name: "E-Waste", icon: "💻" },
   { id: "plastic", name: "Plastics", icon: "🍾" },
   { id: "paper", name: "Paper", icon: "📰" },
-  { id: "hazardous", name: "Batteries & Motors", icon: "🔋" }
+  { id: "batteries", name: "Batteries", icon: "🔋" }
 ];
 
 export const DEFAULT_LOCATION = {

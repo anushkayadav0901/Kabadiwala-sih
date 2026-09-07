@@ -7,14 +7,26 @@ import { PriceCard } from "../components/PriceCard";
 import { Button } from "../components/Button";
 import { Loader } from "../components/Loader";
 import { MaterialIcon } from "../components/icons/MaterialIcon";
-import { getPriceBoard, getPriceHistory, categoryFor } from "../services/priceService";
+import { getPriceBoard, getPriceHistory, categoryFor, getLiveMasterDoc, syncMetalMandiRates } from "../services/priceService";
 import { SCRAP_CATEGORIES } from "../utils/constants";
 import { useApp } from "../context/AppContext";
 import { formatCurrency, calculateTotalValue } from "../utils/helpers";
 import {
   HiMinus, HiPlus, HiXMark, HiCheck, HiArrowRight,
-  HiOutlineShoppingBag, HiOutlineInformationCircle
+  HiOutlineShoppingBag, HiOutlineInformationCircle,
+  HiOutlineArrowPath, HiOutlineMapPin, HiOutlineSignal
 } from "react-icons/hi2";
+
+const BENCHMARK_CITIES = [
+  { id: 113, name: "Central Delhi, Delhi NCR" },
+  { id: 412, name: "Mumbai, Maharashtra" },
+  { id: 6, name: "Ahmedabad, Gujarat" },
+  { id: 77, name: "Bengaluru Urban, Karnataka" },
+  { id: 260, name: "Hyderabad, Telangana" },
+  { id: 326, name: "Kolkata, West Bengal" },
+  { id: 512, name: "Pune, Maharashtra" },
+  { id: 278, name: "Jaipur, Rajasthan" }
+];
 
 export const PriceBoard = () => {
   const navigate = useNavigate();
@@ -22,6 +34,9 @@ export const PriceBoard = () => {
   const [materials, setMaterials] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedCity, setSelectedCity] = useState(BENCHMARK_CITIES[0]);
+  const [liveMeta, setLiveMeta] = useState(null);
+  const [syncing, setSyncing] = useState(false);
 
   // Quick Add to Bag Modal State
   const [modalMaterial, setModalMaterial] = useState(null);
@@ -29,12 +44,57 @@ export const PriceBoard = () => {
   const [addedToast, setAddedToast] = useState("");
   const [priceHistory, setPriceHistory] = useState([]);
 
+  const loadRates = async () => {
+    try {
+      const doc = await getLiveMasterDoc();
+      if (doc) {
+        setLiveMeta({
+          source: doc.source,
+          cityName: doc.cityName,
+          lastSyncedAt: doc.lastSyncedAt,
+          itemCount: doc.itemCount
+        });
+        if (doc.materials && doc.materials.length > 0) {
+          setMaterials(doc.materials);
+        }
+      }
+      const board = await getPriceBoard();
+      setMaterials(board);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    getPriceBoard()
-      .then(setMaterials)
-      .catch(console.error)
-      .finally(() => setLoading(false));
+    loadRates();
   }, []);
+
+  const handleSyncCity = async (city) => {
+    setSyncing(true);
+    setSelectedCity(city);
+    try {
+      const freshDoc = await syncMetalMandiRates(city.id, city.name);
+      if (freshDoc?.materials && freshDoc.materials.length > 0) {
+        setMaterials(freshDoc.materials);
+        setLiveMeta({
+          source: freshDoc.source,
+          cityName: freshDoc.cityName || city.name,
+          lastSyncedAt: freshDoc.lastSyncedAt,
+          itemCount: freshDoc.itemCount
+        });
+        setAddedToast(`Live rates synced with MetalMandi for ${city.name}!`);
+      } else {
+        setAddedToast(`Synced MetalMandi benchmark for ${city.name}!`);
+      }
+    } catch (err) {
+      setAddedToast("Using cached benchmark rates");
+    } finally {
+      setSyncing(false);
+      setTimeout(() => setAddedToast(""), 3500);
+    }
+  };
 
   useEffect(() => {
     if (!modalMaterial) return;
@@ -43,9 +103,37 @@ export const PriceBoard = () => {
       .catch(() => setPriceHistory([]));
   }, [modalMaterial]);
 
-  const filteredMaterials = materials.filter((m) =>
-    selectedCategory === "all" ? true : m.category === selectedCategory
-  );
+  const formatSyncTime = (isoString) => {
+    if (!isoString) return "Updated today";
+    try {
+      const d = new Date(isoString);
+      if (isNaN(d.getTime())) return "Updated today";
+      return `Updated ${d.toLocaleTimeString("en-IN", { hour: "numeric", minute: "2-digit" })}`;
+    } catch {
+      return "Updated today";
+    }
+  };
+
+  const filteredMaterials = materials.filter((m) => {
+    if (selectedCategory === "all") return true;
+    if (selectedCategory === "batteries") {
+      return (
+        m.id?.includes("battery") ||
+        m.name?.toLowerCase().includes("battery") ||
+        m.category === "batteries" ||
+        m.mandiCategory?.toLowerCase().includes("battery")
+      );
+    }
+    if (selectedCategory === "paper") {
+      return (
+        m.category === "paper" ||
+        m.name?.toLowerCase().includes("paper") ||
+        m.name?.toLowerCase().includes("cardboard") ||
+        m.name?.toLowerCase().includes("raddi")
+      );
+    }
+    return m.category === selectedCategory;
+  });
 
   const handleSelectMaterial = (material) => {
     setActiveItem(material);
@@ -102,15 +190,61 @@ export const PriceBoard = () => {
 
       <main className="col px-4 pt-4 flex flex-col gap-4">
         {/* ---- board header --------------------------------------------- */}
-        <section className="rounded-[18px] bg-ink text-white p-5">
-          <p className="eyebrow text-white/50">Reference rates · Delhi NCR</p>
-          <h2 className="text-[22px] font-bold tracking-[-0.02em] leading-tight mt-1.5">
-            What your scrap is worth today
-          </h2>
-          <p className="text-[12.5px] text-white/55 mt-2 flex items-start gap-1.5">
-            <HiOutlineInformationCircle className="text-sm shrink-0 mt-px" />
-            Fair-price guide with a spoken rate button. Final payment is confirmed by the recycler.
-          </p>
+        <section className="rounded-2xl bg-ink text-white p-4.5 shadow-sm border border-white/10">
+          {/* Main Title & Action Row */}
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <h1 className="text-[20px] font-bold tracking-[-0.02em] leading-snug text-white">
+                Real-Time Scrap Rates
+              </h1>
+              <p className="text-[12.5px] text-white/65 mt-0.5 leading-relaxed">
+                Benchmark market rates across India. Final rate is confirmed at depot weigh-in.
+              </p>
+            </div>
+
+            {/* Sync Live Rates Action */}
+            <button
+              onClick={() => handleSyncCity(selectedCity)}
+              disabled={syncing}
+              className="shrink-0 px-2.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/15 active:bg-white/20 text-white text-[12px] font-medium flex items-center gap-1.5 transition-colors tap border border-white/10"
+              title="Sync live scrap rates"
+            >
+              <HiOutlineArrowPath className={`text-xs ${syncing ? "animate-spin text-emerald-400" : "text-white/70"}`} />
+              <span>{syncing ? "Syncing…" : "Sync Rates"}</span>
+            </button>
+          </div>
+
+          {/* Location & Secondary Verified Metadata Row */}
+          <div className="mt-3.5 pt-3 border-t border-white/10 flex items-center justify-between gap-2 flex-wrap">
+            {/* Location Selector */}
+            <div className="flex items-center gap-1.5">
+              <HiOutlineMapPin className="text-white/50 text-sm shrink-0" />
+              <label htmlFor="benchmark-city-select" className="sr-only">Benchmark Location</label>
+              <select
+                id="benchmark-city-select"
+                value={selectedCity.id}
+                onChange={(e) => {
+                  const found = BENCHMARK_CITIES.find(c => c.id === Number(e.target.value));
+                  if (found) handleSyncCity(found);
+                }}
+                className="bg-white/10 text-white text-[12px] font-medium rounded-md px-2 py-1 outline-none border border-white/10 cursor-pointer hover:bg-white/15 transition-colors"
+              >
+                {BENCHMARK_CITIES.map(c => (
+                  <option key={c.id} value={c.id} className="bg-ink text-white">
+                    {c.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Secondary Metadata */}
+            <div className="text-[11px] text-white/55 flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0" />
+              <span>MetalMandi benchmark</span>
+              <span>·</span>
+              <span>{formatSyncTime(liveMeta?.lastSyncedAt)}</span>
+            </div>
+          </div>
         </section>
 
         {/* ---- bag strip -------------------------------------------------- */}
@@ -135,25 +269,33 @@ export const PriceBoard = () => {
         )}
 
         {/* ---- category rail ---------------------------------------------- */}
-        <div className="rail -mx-4 px-4">
+        <div className="overflow-x-auto no-scrollbar -mx-4 px-4 flex items-center gap-2 py-0.5 scroll-smooth">
           {SCRAP_CATEGORIES.map((cat) => (
             <button
               key={cat.id}
               onClick={() => setSelectedCategory(cat.id)}
               data-on={selectedCategory === cat.id}
-              className="chip tap"
+              className="chip tap shrink-0"
             >
               {cat.name}
             </button>
           ))}
+          <div className="w-2 shrink-0" aria-hidden="true" />
         </div>
 
         {/* ---- rows -------------------------------------------------------- */}
         {loading ? (
           <Loader message="Loading rates" />
         ) : filteredMaterials.length === 0 ? (
-          <div className="card p-8 text-center">
-            <p className="text-[14px] text-muted">No materials in this category.</p>
+          <div className="card p-6 text-center">
+            <p className="text-[14px] font-semibold text-ink">No items under {SCRAP_CATEGORIES.find(c => c.id === selectedCategory)?.name || "this category"} today.</p>
+            <p className="text-[12.5px] text-muted mt-1">Rates are updated regularly as market quotes become available.</p>
+            <button
+              onClick={() => setSelectedCategory("all")}
+              className="mt-3 inline-flex items-center text-[12.5px] font-semibold text-brand-600 hover:text-brand-700"
+            >
+              View all materials →
+            </button>
           </div>
         ) : (
           <div className="flex flex-col gap-2.5">

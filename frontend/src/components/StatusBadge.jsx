@@ -46,9 +46,10 @@ export const StatusBadge = ({ type, text, className = "" }) => {
     );
   }
 
+  const label = !text || text.toLowerCase() === "stable" ? "No change today" : text;
   return (
-    <span className={`badge bg-sunken text-faint tnum ${className}`}>
-      <span>{text || "Stable"}</span>
+    <span className={`badge normal-case tracking-normal font-medium bg-sunken text-muted text-[11px] tnum ${className}`}>
+      <span>{label}</span>
     </span>
   );
 };
