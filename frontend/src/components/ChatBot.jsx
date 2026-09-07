@@ -27,6 +27,28 @@ import { sendChatMessage, SPEECH_LOCALES } from "../services/chatService";
 import { useApp } from "../context/AppContext";
 import { LANGUAGES } from "../utils/constants";
 
+/**
+ * Strip markdown syntax so plain text renders cleanly in chat bubbles
+ * and reads naturally when spoken by TTS.
+ */
+function stripMarkdown(text) {
+  return text
+    .replace(/<think>[\s\S]*?<\/think>/gi, "") // remove think blocks
+    .replace(/^#{1,6}\s+/gm, "")              // ## headings
+    .replace(/\*\*([^*]+)\*\*/g, "$1")         // **bold**
+    .replace(/\*([^*]+)\*/g, "$1")             // *italic*
+    .replace(/__([^_]+)__/g, "$1")             // __bold__
+    .replace(/_([^_]+)_/g, "$1")              // _italic_
+    .replace(/`{1,3}[^`]*`{1,3}/g, "")         // `code` / ```blocks```
+    .replace(/^\|.*\|$/gm, "")                // table rows
+    .replace(/^[-*+]\s+/gm, "")              // bullet dashes
+    .replace(/^\d+\.\s+/gm, (m) => m)         // keep numbered lists as-is
+    .replace(/^>{1,}\s/gm, "")               // blockquotes
+    .replace(/---+/g, "")                     // horizontal rules
+    .replace(/\n{3,}/g, "\n\n")               // collapse excess blank lines
+    .trim();
+}
+
 /* ── greeting text per language ─────────────────────────────────────────── */
 const GREETINGS = {
   en: "Hi! I'm Kabadi Mitra, your recycling assistant. How can I help you today?",
@@ -103,21 +125,72 @@ export function ChatBot() {
     if (open) setTimeout(() => inputRef.current?.focus(), 320);
   }, [open]);
 
+  /* ── voice picker — prefers Google neural voices ─────────────────── */
+  const pickVoice = useCallback((targetLang) => {
+    const voices = window.speechSynthesis?.getVoices() || [];
+    if (!voices.length) return null;
+
+    // Priority lists per language: most preferred locale first
+    const priorities = {
+      hi: ["hi-IN", "hi"],
+      mr: ["mr-IN", "mr", "hi-IN"],
+      en: ["en-IN", "en-GB", "en-US", "en"],
+    };
+    const prefs = priorities[targetLang] || priorities.en;
+
+    // Score each voice: +100 for Google, +50 for locale match, +10 for lang match
+    let best = null;
+    let bestScore = -1;
+    for (const v of voices) {
+      let score = 0;
+      const vLang = v.lang.toLowerCase();
+      const vName = v.name.toLowerCase();
+      if (vName.includes("google")) score += 100;
+      // Locale match (e.g. "hi-in")
+      const prefIdx = prefs.findIndex((p) => vLang.startsWith(p.toLowerCase()));
+      if (prefIdx !== -1) score += 50 - prefIdx * 5; // higher priority = higher score
+      // Avoid marked "novelty" or "compact" voices
+      if (vName.includes("compact") || vName.includes("whisper")) score -= 30;
+      if (score > bestScore) { bestScore = score; best = v; }
+    }
+    return best;
+  }, []);
+
   /* ── speak helper ────────────────────────────────────────────────── */
   const speak = useCallback(
     (text) => {
       if (!ttsEnabled || !window.speechSynthesis) return;
       window.speechSynthesis.cancel();
-      const utt = new SpeechSynthesisUtterance(text);
-      utt.lang = SPEECH_LOCALES[chatLang] || "en-IN";
-      utt.rate = 0.95;
-      utt.onstart = () => setIsSpeaking(true);
-      utt.onend = () => setIsSpeaking(false);
-      utt.onerror = () => setIsSpeaking(false);
-      utteranceRef.current = utt;
-      window.speechSynthesis.speak(utt);
+
+      const doSpeak = () => {
+        const utt = new SpeechSynthesisUtterance(text);
+        const voice = pickVoice(chatLang);
+        if (voice) {
+          utt.voice = voice;
+          utt.lang = voice.lang;
+        } else {
+          utt.lang = SPEECH_LOCALES[chatLang] || "en-IN";
+        }
+        // Natural-sounding tuning
+        utt.rate  = chatLang === "en" ? 0.92 : 0.88; // slightly slower for Indic
+        utt.pitch = 1.0;
+        utt.volume = 1.0;
+        utt.onstart = () => setIsSpeaking(true);
+        utt.onend   = () => setIsSpeaking(false);
+        utt.onerror = () => setIsSpeaking(false);
+        utteranceRef.current = utt;
+        window.speechSynthesis.speak(utt);
+      };
+
+      // Voices may not be loaded yet — wait for the list if needed
+      const voices = window.speechSynthesis.getVoices();
+      if (voices.length > 0) {
+        doSpeak();
+      } else {
+        window.speechSynthesis.addEventListener("voiceschanged", doSpeak, { once: true });
+      }
     },
-    [ttsEnabled, chatLang]
+    [ttsEnabled, chatLang, pickVoice]
   );
 
   const stopSpeaking = () => {
@@ -144,7 +217,8 @@ export function ChatBot() {
           role,
           content,
         }));
-        const reply = await sendChatMessage(apiMessages, chatLang);
+        const rawReply = await sendChatMessage(apiMessages, chatLang);
+        const reply = stripMarkdown(rawReply);
         const assistantMsg = {
           role: "assistant",
           content: reply,
