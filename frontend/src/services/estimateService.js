@@ -42,7 +42,7 @@ const modelMaterials = {
     pricePerKg: 120,
     unit: "kg",
     icon: "📺",
-    shortDescription: "Television detected by the AI model.",
+    shortDescription: "LCD/LED television detected by the AI model; backlight recovery may contain gallium and indium.",
     safetyWarning: "Handle screens carefully and avoid broken glass."
   },
   "Washing Machine": {

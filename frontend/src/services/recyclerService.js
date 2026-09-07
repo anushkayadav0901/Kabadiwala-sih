@@ -8,13 +8,17 @@ const normalizeRecycler = (recycler, location) => ({
   pickupAvailable: Boolean(recycler.pickupAvailable),
   distanceKm: recycler.distanceKm ?? (location ? haversineKm(location.lat, location.lng, recycler.lat, recycler.lng) : null)
 });
-export const getNearbyRecyclers = async (location = null, categoryFilter = "all", weight = null) => {
+export const getNearbyRecyclers = async (location = null, categoryFilter = "all", weight = null, lotId = null) => {
   const params = new URLSearchParams();
   if (categoryFilter !== "all") params.set("material", categoryFilter);
   if (weight != null) params.set("weight", weight);
+  if (lotId) params.set("lotId", lotId);
   if (location?.lat != null && location?.lng != null) { params.set("lat", location.lat); params.set("lng", location.lng); }
   const { recyclers } = await api(`/recyclers${params.size ? `?${params}` : ""}`);
-  return recyclers.map((recycler) => normalizeRecycler(recycler, location)).sort((a, b) => (a.distanceKm ?? Infinity) - (b.distanceKm ?? Infinity));
+  return recyclers.map((recycler) => normalizeRecycler(recycler, location)).sort((a, b) =>
+    (Number.isFinite(b.matchScore) ? b.matchScore - (a.matchScore || 0) : 0) ||
+    (a.distanceKm ?? Infinity) - (b.distanceKm ?? Infinity)
+  );
 };
 export const getAllRecyclers = async () => (await api("/recyclers")).recyclers.map((recycler) => normalizeRecycler(recycler));
 export const getRecyclerDetails = async (id) => {

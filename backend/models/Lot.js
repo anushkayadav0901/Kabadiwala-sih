@@ -10,6 +10,14 @@ const lotSchema = new mongoose.Schema(
     }],
     totalWeight: { type: Number, required: true },
     estimatedValue: { type: Number, required: true },
+    criticalMineralBounty: {
+      eligible: { type: Boolean, default: false },
+      minerals: [{ type: String }],
+      triggers: [{ type: String }],
+      bonusRatePct: { type: Number, default: 0 },
+      bonusValue: { type: Number, default: 0 },
+      label: { type: String, default: null }
+    },
     photoUrls: [String],
     gpsLat: Number,
     gpsLng: Number,

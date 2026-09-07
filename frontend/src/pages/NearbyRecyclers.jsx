@@ -28,7 +28,7 @@ const depotPin = new L.DivIcon({
 });
 
 export const NearbyRecyclers = () => {
-  const { userLocation, t } = useApp();
+  const { userLocation, activeLot, t } = useApp();
   const [recyclers, setRecyclers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -37,7 +37,7 @@ export const NearbyRecyclers = () => {
     const fetchRecyclers = async () => {
       setLoading(true);
       try {
-        const list = await getNearbyRecyclers(userLocation, selectedCategory);
+        const list = await getNearbyRecyclers(userLocation, selectedCategory, null, activeLot?.id);
         setRecyclers(list);
       } catch (err) {
         console.error(err);
@@ -46,7 +46,7 @@ export const NearbyRecyclers = () => {
       }
     };
     fetchRecyclers();
-  }, [selectedCategory, userLocation]);
+  }, [selectedCategory, userLocation, activeLot?.id]);
 
   return (
     <div className="screen pb-nav">

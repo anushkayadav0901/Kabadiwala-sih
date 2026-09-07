@@ -66,6 +66,8 @@ export const EstimatedValue = () => {
         materials: materialsToSell.map((material) => ({
           category: mapFrontendMaterialToDbCategory(material),
           name: material.name,
+          subCategory: material.subCategory || material.id,
+          description: material.shortDescription || material.description || material.safetyWarning,
           weight_kg: Number(material.weightKg || 0),
           price_per_kg: material.pricePerKg,
           market_range_min: material.marketRangeMin,

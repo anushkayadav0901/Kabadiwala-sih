@@ -17,6 +17,7 @@ import Transaction from "./models/Transaction.js";
 import { requireAuth, requireRole } from "./middleware/auth.js";
 import { detectAnomalies } from "./services/anomalyDetector.js";
 import { classifyImage as geminiClassify, estimatePrice as geminiEstimate, compareHandoverImages, isGeminiConfigured } from "./services/geminiService.js";
+import { bountyQuote, calculateCriticalMineralBounty } from "./services/criticalMineralBounty.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const uploadsDir = path.join(__dirname, "uploads");
@@ -63,6 +64,7 @@ const passportFor = (lot, collector = null, recycler = null) => {
     materialSummary: lot.materials.map((material) => ({ name: material.name, category: material.category, weightKg: material.weightKg })),
     totalWeight: lot.totalWeight,
     estimatedValue: lot.estimatedValue,
+    criticalMineralBounty: lot.criticalMineralBounty,
     collectionGps: { lat: lot.gpsLat, lng: lot.gpsLng },
     createdAt: lot.createdAt,
     // This stays stable after creation; otherwise Mongoose's updatedAt would
@@ -122,6 +124,7 @@ const lotDto = (lot) => ({
   materials: lot.materials.map((item) => ({ ...item.toObject?.() || item, weight_kg: item.weightKg, price_per_kg: item.pricePerKg })),
   total_weight: lot.totalWeight,
   estimated_value: lot.estimatedValue,
+  critical_mineral_bounty: lot.criticalMineralBounty,
   photo_urls: lot.photoUrls,
   gps_lat: lot.gpsLat,
   gps_lng: lot.gpsLng,
@@ -157,6 +160,9 @@ const recyclerDto = (recycler, lat, lng) => {
     cpcbAuthorizationValidUntil: source.cpcbAuthorizationValidUntil,
     authorizationSource: source.authorizationSource,
     authorizationLastVerifiedAt: source.authorizationLastVerifiedAt,
+      criticalMineralCertified: source.criticalMineralCertified,
+      criticalMineralsCertified: source.criticalMineralsCertified || [],
+      criticalMineralCertificationAuthority: source.criticalMineralCertificationAuthority,
     serviceArea: source.serviceArea || []
   };
 };
@@ -203,10 +209,14 @@ app.post("/api/lots", requireAuth, requireRole("collector"), upload.single("phot
     const materials = typeof body.materials === "string" ? JSON.parse(body.materials) : (body.materials || []);
     const photoUrls = typeof body.photoUrls === "string" ? JSON.parse(body.photoUrls) : (body.photoUrls || []);
     if (req.file) photoUrls.push(`/uploads/${req.file.filename}`);
+    const estimatedValue = Number(body.estimatedValue ?? body.estimated_value);
+    const normalizedMaterials = materials.map((item) => ({ name: item.name, category: item.category, subCategory: item.subCategory ?? item.sub_category, description: item.description, condition: item.condition || "unknown", sourceType: item.sourceType || "collector", weightKg: item.weightKg ?? item.weight_kg, pricePerKg: item.pricePerKg ?? item.price_per_kg, marketRangeMin: item.marketRangeMin ?? item.market_range_min, marketRangeMax: item.marketRangeMax ?? item.market_range_max, classificationConfidence: item.classificationConfidence ?? item.classification_confidence }));
     const lot = await Lot.create({
       collector: req.auth.sub,
-      materials: materials.map((item) => ({ name: item.name, category: item.category, subCategory: item.subCategory ?? item.sub_category, description: item.description, condition: item.condition || "unknown", sourceType: item.sourceType || "collector", weightKg: item.weightKg ?? item.weight_kg, pricePerKg: item.pricePerKg ?? item.price_per_kg, marketRangeMin: item.marketRangeMin ?? item.market_range_min, marketRangeMax: item.marketRangeMax ?? item.market_range_max, classificationConfidence: item.classificationConfidence ?? item.classification_confidence })),
-      totalWeight: Number(body.totalWeight ?? body.total_weight), estimatedValue: Number(body.estimatedValue ?? body.estimated_value),
+      materials: normalizedMaterials,
+      totalWeight: Number(body.totalWeight ?? body.total_weight),
+      estimatedValue,
+      criticalMineralBounty: calculateCriticalMineralBounty(normalizedMaterials, estimatedValue),
       photoUrls, gpsLat: body.gpsLat ?? body.gps_lat, gpsLng: body.gpsLng ?? body.gps_lng,
       collectionLocation: body.collectionLocation ?? body.collection_location,
       handoverReference: `KBC-${crypto.randomUUID().replace(/-/g, "").slice(0, 12).toUpperCase()}`
@@ -277,15 +287,15 @@ app.put("/api/lots/:id/match", requireAuth, requireRole("recycler"), async (req,
     if (!asObjectId(req.params.id)) return res.status(400).json({ message: "Invalid lot id" });
     const lot = await Lot.findById(req.params.id);
     if (!lot || lot.status !== "created") return res.status(404).json({ message: "Pending lot not found" });
-    const recyclerAccount = await Recycler.findOne({ _id: req.auth.sub, authorized: true }).select("name");
+    const recyclerAccount = await Recycler.findOne({ _id: req.auth.sub, authorized: true }).select("name criticalMineralCertified criticalMineralsCertified");
     if (!recyclerAccount) return res.status(403).json({ message: "Only an authorized recycler account can accept a lot" });
     lot.status = "matched"; lot.matchedRecycler = req.auth.sub;
-    const recycler = recyclerAccount;
     const collector = await Collector.findById(lot.collector).select("name");
-    const { signature } = passportFor(lot, collector, recycler);
+    const { signature } = passportFor(lot, collector, recyclerAccount);
     lot.handoverSignature = signature;
     await lot.save();
-    const transaction = await Transaction.create({ lot: lot._id, collector: lot.collector, recycler: req.auth.sub, quotedPrice: req.body.quotedPrice ?? lot.estimatedValue, handoverReference: lot.handoverReference, materialCategory: lot.materials[0]?.category, collectionLocation: lot.collectionLocation, collectionGps: { lat: lot.gpsLat, lng: lot.gpsLng }, signature });
+    const quote = bountyQuote(lot, recyclerAccount);
+    const transaction = await Transaction.create({ lot: lot._id, collector: lot.collector, recycler: req.auth.sub, quotedPrice: Math.max(Number(req.body.quotedPrice ?? 0), quote.amount), handoverReference: lot.handoverReference, materialCategory: lot.materials[0]?.category, collectionLocation: lot.collectionLocation, collectionGps: { lat: lot.gpsLat, lng: lot.gpsLng }, signature });
     res.json({ lot: lotDto(lot), transaction });
   } catch (error) { next(error); }
 });
@@ -297,20 +307,22 @@ app.post("/api/lots/:id/handover", requireAuth, async (req, res, next) => {
     const recyclerId = req.auth.role === "recycler" ? req.auth.sub : req.body.recyclerId || lot.matchedRecycler?.toString();
     if (!recyclerId || !asObjectId(recyclerId)) return res.status(400).json({ message: "A recycler is required to complete handover" });
     if (req.auth.role === "collector" && lot.collector.toString() !== req.auth.sub) return res.status(403).json({ message: "You can only complete your own handover" });
-    if (req.auth.role === "recycler" && !(await Recycler.exists({ _id: req.auth.sub, authorized: true }))) return res.status(403).json({ message: "Only an authorized recycler can confirm handover" });
+    const recyclerAccount = await Recycler.findOne({ _id: recyclerId, authorized: true }).select("criticalMineralCertified criticalMineralsCertified");
+    if (!recyclerAccount) return res.status(400).json({ message: "Recycler not found or not authorized" });
     if (lot.matchedRecycler && lot.matchedRecycler.toString() !== recyclerId) return res.status(409).json({ message: "This lot is already matched to another recycler" });
     if (req.auth.role === "recycler" && (!req.body.signature || req.body.signature !== lot.handoverSignature)) return res.status(400).json({ message: "A valid Kabadi Passport signature is required for recycler confirmation" });
     if (req.body.signature && lot.handoverSignature && req.body.signature !== lot.handoverSignature) return res.status(400).json({ message: "Invalid Kabadi Passport signature" });
     const handoverReference = lot.handoverReference || `KBC-${crypto.randomUUID().replace(/-/g, "").slice(0, 12).toUpperCase()}`;
     const isRecyclerConfirmation = req.auth.role === "recycler";
     const handoverPhotos = req.body.handoverPhotos || lot.handoverPhotos || [];
+    const quote = bountyQuote(lot, recyclerAccount);
     const update = {
-      lot: lot._id, collector: lot.collector, recycler: recyclerId, quotedPrice: req.body.quotedPrice ?? lot.estimatedValue,
+      lot: lot._id, collector: lot.collector, recycler: recyclerId, quotedPrice: Math.max(Number(req.body.quotedPrice ?? 0), quote.amount),
       handoverReference, paymentMethod: req.body.paymentMethod || "cash", materialCategory: lot.materials[0]?.category,
       collectionLocation: lot.collectionLocation, handoverLocation: req.body.handoverLocation,
       collectionGps: { lat: lot.gpsLat, lng: lot.gpsLng }, handoverGps: req.body.handoverGps,
       handoverPhotos, signature: lot.handoverSignature,
-      ...(isRecyclerConfirmation ? { finalPrice: Number(req.body.finalPrice ?? lot.estimatedValue), finalWeight: Number(req.body.finalWeight ?? lot.totalWeight), paymentStatus: "paid", status: "completed", recyclerConfirmedAt: new Date(), completedAt: new Date(), destinationStatus: "received_by_authorized_recycler" } : { paymentStatus: "pending", status: "handover", destinationStatus: "awaiting_handover" })
+      ...(isRecyclerConfirmation ? { finalPrice: Math.max(Number(req.body.finalPrice ?? 0), quote.amount), finalWeight: Number(req.body.finalWeight ?? lot.totalWeight), paymentStatus: "paid", status: "completed", recyclerConfirmedAt: new Date(), completedAt: new Date(), destinationStatus: "received_by_authorized_recycler" } : { paymentStatus: "pending", status: "handover", destinationStatus: "awaiting_handover" })
     };
     const transaction = await Transaction.findOneAndUpdate({ lot: lot._id }, update, { new: true, upsert: true, runValidators: true, setDefaultsOnInsert: true });
     lot.status = isRecyclerConfirmation ? "completed" : "handover";
@@ -392,7 +404,8 @@ app.get("/api/transactions/:id/anomaly", requireAuth, async (req, res, next) => 
 
 app.get("/api/recyclers", async (req, res, next) => {
   try {
-    const { material, location, lat, lng, weight } = req.query;
+    const { material, location, lat, lng, weight, lotId } = req.query;
+    const lot = asObjectId(lotId) ? await Lot.findById(lotId).select("materials criticalMineralBounty") : null;
     const query = { authorized: true };
     const groupForMaterial = (value = "") => {
       const normalized = value.toLowerCase();
@@ -402,31 +415,34 @@ app.get("/api/recyclers", async (req, res, next) => {
       if (["copper", "aluminum", "brass", "steel", "cables", "metal"].includes(normalized)) return "metal";
       return normalized;
     };
-    const materialGroup = material && material !== "all" ? groupForMaterial(material) : null;
+    const requestedMaterial = material && material !== "all" ? material : lot?.materials?.[0]?.category;
+    const materialGroup = requestedMaterial ? groupForMaterial(requestedMaterial) : null;
     if (materialGroup) query.materialsAccepted = materialGroup;
     if (location) query.address = new RegExp(location, "i");
     const recyclers = await Recycler.find(query).sort({ rating: -1 });
     const mapped = recyclers.map((recycler) => recyclerDto(recycler, Number(lat), Number(lng)));
-    const offeredRates = mapped.map((recycler) => Number(recycler.offeredRates?.[material] || 0)).filter(Boolean);
+    const offeredRates = mapped.map((recycler) => Number(recycler.offeredRates?.[requestedMaterial] || 0)).filter(Boolean);
     const topRate = Math.max(...offeredRates, 1);
     const requestedWeight = Number(weight || 0);
     const ranked = mapped.map((recycler) => {
-      const rate = Number(recycler.offeredRates?.[material] || 0);
+      const rate = Number(recycler.offeredRates?.[requestedMaterial] || 0);
       const materialFit = !materialGroup || recycler.acceptedCategories.includes(materialGroup);
       const distanceScore = recycler.distanceKm == null ? 10 : Math.max(0, 20 - (recycler.distanceKm / 20) * 20);
       const rateScore = rate ? (rate / topRate) * 20 : 8;
       const pickupEligible = recycler.pickupAvailable && (!requestedWeight || requestedWeight >= Number(recycler.minPickupWeightKg || 0));
-      const score = Math.round((recycler.authorized ? 25 : 0) + (materialFit ? 25 : 0) + distanceScore + rateScore + (pickupEligible ? 10 : 0));
+      const certifiedForBounty = Boolean(lot?.criticalMineralBounty?.eligible && recycler.criticalMineralCertified && lot.criticalMineralBounty.minerals.some((mineral) => recycler.criticalMineralsCertified.includes(mineral)));
+      const score = Math.round((recycler.authorized ? 25 : 0) + (materialFit ? 25 : 0) + distanceScore + rateScore + (pickupEligible ? 10 : 0) + (certifiedForBounty ? 25 : 0));
       const matchReasons = [
         recycler.authorized && "CPCB-authorized recycler",
         materialFit && `Accepts ${materialGroup || "your material"}`,
         rate && `Offers ₹${rate}/kg`,
         recycler.distanceKm != null && `${recycler.distanceKm} km away`,
-        pickupEligible && "Pickup available for this lot"
+        pickupEligible && "Pickup available for this lot",
+        certifiedForBounty && "Certified critical-mineral extraction"
       ].filter(Boolean);
-      return { ...recycler, offeredRate: rate || null, matchScore: score, matchReasons, pickupEligible };
+      return { ...recycler, offeredRate: rate || null, matchScore: score, matchReasons, pickupEligible, rateBonus: certifiedForBounty ? lot.criticalMineralBounty.label : null, criticalMineralBounty: lot ? { ...lot.criticalMineralBounty, certifiedForBounty } : null };
     }).sort((a, b) => b.matchScore - a.matchScore || (a.distanceKm ?? Infinity) - (b.distanceKm ?? Infinity));
-    res.json({ recyclers: ranked, scoring: { material: material || "all", weights: { authorization: 25, materialFit: 25, distance: 20, offeredRate: 20, pickup: 10 } } });
+    res.json({ recyclers: ranked, scoring: { material: requestedMaterial || "all", weights: { authorization: 25, materialFit: 25, distance: 20, offeredRate: 20, pickup: 10, criticalMineralCertification: 25 } } });
   } catch (error) { next(error); }
 });
 
