@@ -22,3 +22,6 @@ Thumbs.db
 .claude/
 .cursor/
 .vite/
+SESSION_SUMMARY*.md
+*SUMMARY*.md
+

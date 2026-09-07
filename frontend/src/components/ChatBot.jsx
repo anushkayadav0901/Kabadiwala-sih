@@ -295,7 +295,7 @@ export function ChatBot() {
         style={{
           position: "fixed",
           bottom: "calc(88px + env(safe-area-inset-bottom, 0px))",
-          right: "16px",
+          right: "max(16px, calc(50% - 220px + 16px))",
           zIndex: 60,
           width: 56,
           height: 56,

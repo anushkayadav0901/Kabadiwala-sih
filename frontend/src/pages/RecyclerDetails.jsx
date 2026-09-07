@@ -396,7 +396,7 @@ export const RecyclerDetails = () => {
                 onClick={() => setRatingModalOpen(true)}
                 className="text-[12px] font-semibold text-brand-600 hover:text-brand-700 tap flex items-center gap-1"
               >
-                <span>Rate Depot</span>
+                <span>Leave Review</span>
               </button>
             </div>
 

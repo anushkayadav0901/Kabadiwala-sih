@@ -13,6 +13,8 @@ import {
   HiFire, HiOutlineSparkles, HiOutlineStar
 } from "react-icons/hi2";
 import { RewardsModal } from "../components/RewardsModal";
+import { DigitalReceiptModal } from "../components/DigitalReceiptModal";
+import { FaWhatsapp } from "react-icons/fa";
 import { getTokenBalance } from "../services/tokenService";
 import { getCollectorLevel, getRecyclingStreak, getEarnedBadges } from "../services/gamificationService";
 
@@ -23,6 +25,7 @@ export const Profile = () => {
   const currentLangObj = LANGUAGES.find((l) => l.id === language) || LANGUAGES[0];
   const [tokenBalance, setTokenBalance] = useState(() => getTokenBalance());
   const [isRewardsOpen, setIsRewardsOpen] = useState(false);
+  const [isReceiptOpen, setIsReceiptOpen] = useState(false);
   const level = getCollectorLevel(185);
   const streak = getRecyclingStreak();
   const badges = getEarnedBadges();
@@ -125,6 +128,32 @@ export const Profile = () => {
           </div>
         </section>
 
+        {/* ---- Recent Handover Slip Quick Access ---- */}
+        <section className="card p-3.5 border border-emerald-200/80 bg-surface flex items-center justify-between gap-3 shadow-xs">
+          <div className="flex items-center gap-3 min-w-0">
+            <span className="w-10 h-10 rounded-xl bg-[#25D366]/15 text-[#1ebe5d] grid place-items-center shrink-0">
+              <FaWhatsapp className="text-xl" />
+            </span>
+            <div className="min-w-0">
+              <div className="flex items-center gap-1.5">
+                <span className="badge bg-emerald-50 text-emerald-800 text-[9.5px] font-bold">Latest Handover</span>
+                <span className="text-[11px] text-faint">38.5 kg · ₹995</span>
+              </div>
+              <h4 className="font-bold text-[14px] text-ink truncate mt-0.5">
+                Digital Weight Slip
+              </h4>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={() => setIsReceiptOpen(true)}
+            className="h-9 px-3.5 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-white text-[12.5px] font-bold flex items-center gap-1.5 tap shrink-0 shadow-xs transition-colors"
+          >
+            <FaWhatsapp className="text-sm" />
+            <span>View Slip</span>
+          </button>
+        </section>
+
         {/* ---- settings ---------------------------------------------------- */}
         <Card padding="p-0" className="divide-y divide-hair overflow-hidden">
           {rows.map((row) => (
@@ -179,6 +208,28 @@ export const Profile = () => {
           Kabadiwala Connect · SIH 26229
         </p>
       </main>
+
+      <DigitalReceiptModal
+        isOpen={isReceiptOpen}
+        onClose={() => setIsReceiptOpen(false)}
+        lot={{
+          id: "lot_demo_38kg",
+          total_weight: 38.5,
+          estimated_value: 995,
+          gps_lat: 28.6139,
+          gps_lng: 77.2090,
+          materials: [{ name: "Mixed Copper & Batteries", weight_kg: 38.5 }]
+        }}
+        recycler={{
+          id: "rec_1",
+          name: "Faridabad Battery Solutions",
+          address: "Plot 42, Sector 24, Faridabad, Haryana"
+        }}
+        user={user}
+        certificateId="KBC-2026-8492"
+        tokenBonus={45}
+        collectorTier="Eco Hero (+5% bonus)"
+      />
 
       <RewardsModal
         isOpen={isRewardsOpen}
