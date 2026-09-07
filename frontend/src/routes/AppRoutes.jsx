@@ -2,6 +2,7 @@ import React from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { ProtectedRoute } from "../components/ProtectedRoute";
+import { ChatBot } from "../components/ChatBot";
 
 import { Splash } from "../pages/Splash";
 import { Login } from "../pages/Login";
@@ -54,8 +55,12 @@ export const AppRoutes = () => {
   const location = useLocation();
 
   return (
-    <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
+    <>
+      {/* Global floating AI assistant — visible on all collector pages */}
+      <ChatBot />
+
+      <AnimatePresence mode="wait">
+        <Routes location={location} key={location.pathname}>
         {/* Public */}
         <Route path="/" element={<PageWrapper><Splash /></PageWrapper>} />
         <Route path="/login" element={<PageWrapper><Login /></PageWrapper>} />
@@ -85,8 +90,9 @@ export const AppRoutes = () => {
         <Route path="/buyer" element={<Navigate to="/buyer/dashboard" replace />} />
         <Route path="/buyer/dashboard" element={<BuyerRoute><BuyerDashboard /></BuyerRoute>} />
 
-        <Route path="*" element={<PageWrapper><NotFound /></PageWrapper>} />
-      </Routes>
-    </AnimatePresence>
+          <Route path="*" element={<PageWrapper><NotFound /></PageWrapper>} />
+        </Routes>
+      </AnimatePresence>
+    </>
   );
 };
