@@ -9,6 +9,7 @@ import express from "express";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import multer from "multer";
+import twilio from "twilio";
 import Collector from "./models/Collector.js";
 import Lot from "./models/Lot.js";
 import Price from "./models/Price.js";
@@ -18,6 +19,7 @@ import { requireAuth, requireRole } from "./middleware/auth.js";
 import { detectAnomalies } from "./services/anomalyDetector.js";
 import { classifyImage as geminiClassify, estimatePrice as geminiEstimate, compareHandoverImages, isGeminiConfigured } from "./services/geminiService.js";
 import { bountyQuote, calculateCriticalMineralBounty } from "./services/criticalMineralBounty.js";
+import { processWhatsAppMessage } from "./services/whatsappService.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const uploadsDir = path.join(__dirname, "uploads");
@@ -27,6 +29,7 @@ const app = express();
 const port = Number(process.env.PORT || 5000);
 app.use(cors({ origin: process.env.CLIENT_ORIGIN?.split(",") || true }));
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use("/uploads", express.static(uploadsDir));
 
 const storage = multer.diskStorage({
@@ -168,6 +171,26 @@ const recyclerDto = (recycler, lat, lng) => {
 };
 
 app.get("/api/health", (_req, res) => res.json({ ok: true }));
+
+app.post("/api/whatsapp/webhook", async (req, res) => {
+  const twiml = new twilio.twiml.MessagingResponse();
+  try {
+    const mediaUrl = req.body.MediaUrl0 || req.body.MediaUrl || req.body.mediaUrl || null;
+    const mediaType = req.body.MediaContentType0 || req.body.MediaContentType || req.body.mediaType || "";
+    console.log("WhatsApp inbound:", { from: req.body.From, mediaCount: req.body.NumMedia || 0, mediaType, hasMediaUrl: Boolean(mediaUrl) });
+    const reply = await processWhatsAppMessage({
+      from: req.body.From,
+      body: req.body.Body,
+      mediaUrl,
+      mediaType
+    });
+    twiml.message(reply);
+  } catch (error) {
+    console.error("WhatsApp webhook error:", error);
+    twiml.message("Something went wrong while processing that message. Please try again or send SAFETY for handling guidance.");
+  }
+  res.type("text/xml").send(twiml.toString());
+});
 
 app.post("/api/auth/register", async (req, res, next) => {
   try {

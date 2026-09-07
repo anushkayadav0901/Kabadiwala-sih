@@ -12,7 +12,7 @@ const CATEGORIES = ["PCB", "copper", "cables", "batteries", "LCD", "CRT", "motor
 
 const mimeFor = (filePath) => {
   const ext = path.extname(filePath).toLowerCase();
-  return { ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".png": "image/png", ".webp": "image/webp", ".gif": "image/gif" }[ext] || "image/jpeg";
+  return { ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".png": "image/png", ".webp": "image/webp", ".gif": "image/gif", ".ogg": "audio/ogg", ".mp3": "audio/mpeg", ".wav": "audio/wav", ".mp4": "audio/mp4" }[ext] || "image/jpeg";
 };
 
 export const isGeminiConfigured = () => Boolean(GEMINI_API_KEY);
@@ -65,6 +65,26 @@ export const estimatePrice = async (filePath, weight, category, condition) => {
     const match = text.match(/\{[\s\S]*\}/);
     return match ? JSON.parse(match[0]) : null;
   } catch { return null; }
+};
+
+export const transcribeAudio = async (filePath) => {
+  if (!GEMINI_API_KEY) return null;
+  const imageData = fs.readFileSync(filePath).toString("base64");
+  const response = await fetch(`${GEMINI_URL}${GEMINI_API_KEY}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      contents: [{ parts: [{ text: "Transcribe this WhatsApp voice note exactly. Return JSON only: {\"transcript\":\"...\"}." }, { inline_data: { mime_type: mimeFor(filePath), data: imageData } }] }],
+      generationConfig: { temperature: 0, maxOutputTokens: 256 }
+    })
+  });
+  if (!response.ok) return null;
+  const result = await response.json();
+  const text = result.candidates?.[0]?.content?.parts?.[0]?.text || "";
+  try {
+    const match = text.match(/\{[\s\S]*\}/);
+    return match ? JSON.parse(match[0]) : { transcript: text.trim() };
+  } catch { return { transcript: text.trim() }; }
 };
 
 export const compareHandoverImages = async (originalPath, handoverPath, category) => {
