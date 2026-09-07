@@ -4,7 +4,7 @@ import { Navbar } from "../components/Navbar";
 import { BottomNavigation } from "../components/BottomNavigation";
 import { Button } from "../components/Button";
 import { MaterialIcon } from "../components/icons/MaterialIcon";
-import { scanMaterial } from "../services/estimateService";
+import { classifyWithGemini, getSupportedMaterials, scanMaterial } from "../services/estimateService";
 import { getCurrentMaterialPrice } from "../services/priceService";
 import { useApp } from "../context/AppContext";
 import { formatCurrency, calculateTotalValue } from "../utils/helpers";
@@ -26,6 +26,24 @@ export const ScanItem = () => {
   const [scanError, setScanError] = useState("");
   const [addedToBag, setAddedToBag] = useState(false);
   const [weightKg, setWeightKg] = useState(1.0);
+  const [classificationConfirmed, setClassificationConfirmed] = useState(false);
+  const [geminiLoading, setGeminiLoading] = useState(false);
+
+  const withCurrentPrice = async (material) => {
+    try {
+      const currentPrice = await getCurrentMaterialPrice(material);
+      return currentPrice ? {
+        ...material,
+        pricePerKg: currentPrice.quotedPrice,
+        marketRangeMin: currentPrice.marketRangeMin,
+        marketRangeMax: currentPrice.marketRangeMax,
+        priceSource: currentPrice.source,
+        priceConfidence: currentPrice.confidence
+      } : material;
+    } catch {
+      return material;
+    }
+  };
 
   const handleCapturedImage = (dataUrl) => {
     setImagePreview(dataUrl);
@@ -45,6 +63,7 @@ export const ScanItem = () => {
         setScanResult(null);
         setScanError("");
         setAddedToBag(false);
+        setClassificationConfirmed(false);
       };
       reader.readAsDataURL(file);
     }
@@ -55,25 +74,23 @@ export const ScanItem = () => {
     setScanning(true);
     try {
       const res = await scanMaterial(imagePreview);
-      let material = res.detectedMaterial;
-      try {
-        const currentPrice = await getCurrentMaterialPrice(material);
-        if (currentPrice) {
-          material = {
-            ...material,
-            pricePerKg: currentPrice.quotedPrice,
-            marketRangeMin: currentPrice.marketRangeMin,
-            marketRangeMax: currentPrice.marketRangeMax,
-            priceSource: currentPrice.source,
-            priceConfidence: currentPrice.confidence
-          };
-        }
-      } catch {
-        // The on-device classification remains available when price data cannot be reached.
+      if (res.needsRetake) {
+        setScanResult(null);
+        setScanError(res.message);
+        return;
       }
+      if (res.needsConfirmation) {
+        setScanResult({ ...res, detectedMaterial: res.candidateMaterial });
+        setClassificationConfirmed(false);
+        setScanError("");
+        return;
+      }
+      const material = await withCurrentPrice(res.detectedMaterial);
       const resultWithPrice = { ...res, detectedMaterial: material };
       setScanResult(resultWithPrice);
-      setActiveItem(material);
+      // The model can be confidently wrong when the image is outside its
+      // trained classes, so every prediction must be confirmed by the user.
+      setClassificationConfirmed(false);
       setAddedToBag(false);
     } catch (err) {
       console.error(err);
@@ -81,6 +98,41 @@ export const ScanItem = () => {
     } finally {
       setScanning(false);
     }
+  };
+
+  const handleGeminiFallback = async () => {
+    setGeminiLoading(true);
+    setScanError("");
+    try {
+      const result = await classifyWithGemini(imagePreview);
+      const category = result.category || result.label;
+      if (result.source !== "gemini" || !category) throw new Error("Online AI is not configured. Choose the category manually.");
+      const aliases = { battery: "Battery", batteries: "Battery", pcb: "PCB", mobile: "Mobile", phone: "Mobile", television: "Television", lcd: "Television", microwave: "Microwave", keyboard: "Keyboard", mouse: "Mouse", printer: "Printer", player: "Player", "washing machine": "Washing Machine" };
+      const matched = getSupportedMaterials().find((item) => item.label === aliases[String(category).toLowerCase()]);
+      if (!matched) throw new Error("Online AI returned an unsupported category. Choose the category manually.");
+      const pricedMaterial = await withCurrentPrice(matched);
+      setScanResult((previous) => ({ ...previous, detectedMaterial: pricedMaterial, detectedLabel: matched.label, confidence: Math.round(Number(result.confidence || 0) * 100), source: "gemini" }));
+      setClassificationConfirmed(false);
+    } catch (error) {
+      setScanError(error.message || "Online AI could not classify this image.");
+    } finally {
+      setGeminiLoading(false);
+    }
+  };
+
+  const confirmClassification = async () => {
+    if (!scanResult?.detectedMaterial) return;
+    const pricedMaterial = await withCurrentPrice(scanResult.detectedMaterial);
+    setScanResult((previous) => ({ ...previous, detectedMaterial: pricedMaterial }));
+    setClassificationConfirmed(true);
+    setActiveItem(pricedMaterial);
+  };
+
+  const chooseManualClassification = (event) => {
+    const selected = getSupportedMaterials().find((item) => item.label === event.target.value);
+    if (!selected) return;
+    setScanResult((previous) => ({ ...previous, detectedMaterial: selected, detectedLabel: selected.label, source: "manual" }));
+    setClassificationConfirmed(false);
   };
 
   const handleProceedToValue = () => {
@@ -220,8 +272,8 @@ export const ScanItem = () => {
               <div className="p-4 flex items-start gap-3">
                 <MaterialIcon material={scanResult.detectedMaterial} size="lg" />
                 <div className="min-w-0 flex-1">
-                  <span className="badge bg-brand-50 text-brand-700 tnum">
-                    {scanResult.confidence}% match
+                  <span className={`badge tnum ${classificationConfirmed ? "bg-brand-50 text-brand-700" : "bg-gold-50 text-gold-700"}`}>
+                    {scanResult.source === "manual" ? "Manual selection" : `${scanResult.confidence}% match`}
                   </span>
                   <h3 className="font-bold text-[18px] tracking-[-0.01em] leading-tight mt-1.5">
                     {scanResult.detectedMaterial.name}
@@ -234,6 +286,22 @@ export const ScanItem = () => {
                   </p>
                 </div>
               </div>
+
+              {!classificationConfirmed && (
+                <div className="mx-4 mb-4 p-3 rounded-xl bg-gold-50 flex flex-col gap-2.5">
+                  <p className="text-[12.5px] text-gold-700 leading-snug">
+                    Confirm the category before continuing. The AI result is only a suggestion.
+                  </p>
+                  <select value={scanResult.detectedLabel || ""} onChange={chooseManualClassification} className="h-10 rounded-lg border border-line bg-surface px-2 text-[13px]">
+                    <option value="" disabled>Choose the correct category</option>
+                    {getSupportedMaterials().map((item) => <option key={item.label} value={item.label}>{item.label}</option>)}
+                  </select>
+                  <div className="grid grid-cols-2 gap-2">
+                    <Button size="sm" variant="outline" onClick={handleGeminiFallback} loading={geminiLoading}>Online AI check</Button>
+                    <Button size="sm" variant="primary" onClick={confirmClassification}>Confirm category</Button>
+                  </div>
+                </div>
+              )}
 
               {scanResult.detectedMaterial.safetyWarning && (
                 <div className="mx-4 mb-4 p-3 rounded-xl bg-alert-50 flex items-start gap-2.5">
@@ -343,7 +411,7 @@ export const ScanItem = () => {
       </main>
 
       {/* ---- sticky actions -------------------------------------------- */}
-      {scanResult && (
+      {scanResult && classificationConfirmed && (
         <div className="actionbar">
           <div className="col grid grid-cols-2 gap-2.5">
             <Button
