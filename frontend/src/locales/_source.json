@@ -1,0 +1,4957 @@
+{
+  "generatedAt": "2026-09-08T19:55:05.545Z",
+  "count": 815,
+  "strings": [
+    {
+      "text": "A buyer who refuses to let you check the rate is usually not offering a fair one.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "A collector with months of documented handovers has something the informal system never gave them: verifiable proof of earnings. That record is what makes formal credit, insurance and government schemes reachable.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "A documented earnings history is what makes formal credit, insurance and government schemes accessible.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "A mixed bag gets a mixed-bag price — usually the rate of the cheapest item in it. Separating circuit boards from plastics can raise your total by 30% or more for the same collection.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "A recycler with CPCB registration can legally issue receipts and claim EPR credit. That is why they can afford to pay fair rates. Unregistered buyers cannot, so they pay less and keep no record.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "A single buyer controls your rate. Multiple buyers compete, which keeps prices fair.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "A swollen battery can catch fire. Isolating it in a non-flammable container is the safe handling step.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "A swollen or puffed-up battery is dangerous. Keep it separate in a metal or clay container.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "A whole board sold to a formal recycler pays more than the gold you could recover by hand.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Above fair maximum",
+      "usedIn": [
+        "pages/AnomalyDashboard.jsx"
+      ]
+    },
+    {
+      "text": "Above fair range",
+      "usedIn": [
+        "components/FairPriceShield.jsx"
+      ]
+    },
+    {
+      "text": "Accept lot",
+      "usedIn": [
+        "pages/BuyerDashboard.jsx"
+      ]
+    },
+    {
+      "text": "Account",
+      "usedIn": [
+        "pages/Payment.jsx"
+      ]
+    },
+    {
+      "text": "Accurate weighing",
+      "usedIn": [
+        "pages/RecyclerDetails.jsx"
+      ]
+    },
+    {
+      "text": "Achieved a 90+ Scrap DNA score with complete GPS, photos, and digital weight matching.",
+      "usedIn": [
+        "services/gamificationService.js"
+      ]
+    },
+    {
+      "text": "Acid stripping to pull gold off boards releases toxic fumes and leaves you handling strong acid without protection. It also destroys the other metals in the board, lowering the total value.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Active collectors",
+      "usedIn": [
+        "pages/CPCBReport.jsx"
+      ]
+    },
+    {
+      "text": "Add",
+      "usedIn": [
+        "components/PriceCard.jsx"
+      ]
+    },
+    {
+      "text": "Add a depot",
+      "usedIn": [
+        "pages/BuyerDashboard.jsx"
+      ]
+    },
+    {
+      "text": "Add to bag",
+      "usedIn": [
+        "pages/PriceBoard.jsx",
+        "pages/ScanItem.jsx"
+      ]
+    },
+    {
+      "text": "Add to sell bag",
+      "usedIn": [
+        "components/PriceCard.jsx"
+      ]
+    },
+    {
+      "text": "Add what you collected. Selling a full bag at once gets you a better rate than one item at a time.",
+      "usedIn": [
+        "pages/Bag.jsx"
+      ]
+    },
+    {
+      "text": "Added",
+      "usedIn": [
+        "pages/ScanItem.jsx"
+      ]
+    },
+    {
+      "text": "Added to wallet · Redeem safety gear & mobile recharge",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "Address",
+      "usedIn": [
+        "pages/RecyclerDetails.jsx"
+      ]
+    },
+    {
+      "text": "Ahmedabad, Gujarat",
+      "usedIn": [
+        "pages/PriceBoard.jsx"
+      ]
+    },
+    {
+      "text": "AI Live",
+      "usedIn": [
+        "components/LiveCamera.jsx"
+      ]
+    },
+    {
+      "text": "AI Recycling Assistant · Powered by Groq",
+      "usedIn": [
+        "components/ChatBot.jsx"
+      ]
+    },
+    {
+      "text": "AI-powered transaction monitoring",
+      "usedIn": [
+        "pages/AnomalyDashboard.jsx"
+      ]
+    },
+    {
+      "text": "All",
+      "usedIn": [
+        "pages/AnomalyDashboard.jsx"
+      ]
+    },
+    {
+      "text": "All clear",
+      "usedIn": [
+        "pages/AnomalyDashboard.jsx"
+      ]
+    },
+    {
+      "text": "All Items",
+      "usedIn": [
+        "utils/constants.js"
+      ]
+    },
+    {
+      "text": "All modules complete",
+      "usedIn": [
+        "pages/Training.jsx"
+      ]
+    },
+    {
+      "text": "All regions",
+      "usedIn": [
+        "pages/CPCBReport.jsx"
+      ]
+    },
+    {
+      "text": "Almost there",
+      "usedIn": [
+        "pages/Training.jsx"
+      ]
+    },
+    {
+      "text": "Amount due to you",
+      "usedIn": [
+        "pages/Payment.jsx"
+      ]
+    },
+    {
+      "text": "An estimate at today's reference rate. The depot weighs and confirms the final amount at handover.",
+      "usedIn": [
+        "pages/EstimatedValue.jsx"
+      ]
+    },
+    {
+      "text": "An old heavy box-shaped television is which category?",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Anomaly Detection",
+      "usedIn": [
+        "pages/AnomalyDashboard.jsx",
+        "pages/Dashboard.jsx"
+      ]
+    },
+    {
+      "text": "Anomaly detection powered by rule-based engine cross-referencing market prices, transaction velocity, and geolocation patterns. Compliant with E-Waste Management Rules 2022.",
+      "usedIn": [
+        "pages/AnomalyDashboard.jsx"
+      ]
+    },
+    {
+      "text": "Anti-toxic dust safety mask and eye protection gear to prevent toxic fumes and particles.",
+      "usedIn": [
+        "services/tokenService.js"
+      ]
+    },
+    {
+      "text": "Apex Paper & Cardboard Mill Agent",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "Appliance with motor, copper windings, and magnet-bearing assemblies. Contains recoverable copper and neodymium.",
+      "usedIn": [
+        "services/estimateService.js"
+      ]
+    },
+    {
+      "text": "Appliance with transformer, magnetron motor, and copper windings.",
+      "usedIn": [
+        "services/estimateService.js"
+      ]
+    },
+    {
+      "text": "Approve",
+      "usedIn": [
+        "pages/BuyerDashboard.jsx"
+      ]
+    },
+    {
+      "text": "At least 6 characters",
+      "usedIn": [
+        "pages/Signup.jsx"
+      ]
+    },
+    {
+      "text": "Audio decoders, CD/DVD drives, transformer coils, and metal chassis.",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "Audit-grade evidence held per consignment",
+      "usedIn": [
+        "pages/CPCBReport.jsx"
+      ]
+    },
+    {
+      "text": "Authorization data",
+      "usedIn": [
+        "pages/RecyclerDetails.jsx"
+      ]
+    },
+    {
+      "text": "Authorization data: demo seed, validation pending",
+      "usedIn": [
+        "components/RecyclerCard.jsx"
+      ]
+    },
+    {
+      "text": "Authorization pending",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "Authorization recorded",
+      "usedIn": [
+        "pages/RecyclerDetails.jsx"
+      ]
+    },
+    {
+      "text": "Authorized",
+      "usedIn": [
+        "pages/Certificate.jsx",
+        "pages/RecyclerDetails.jsx"
+      ]
+    },
+    {
+      "text": "Authorized buyer",
+      "usedIn": [
+        "pages/Payment.jsx"
+      ]
+    },
+    {
+      "text": "Authorized channel",
+      "usedIn": [
+        "pages/CPCBReport.jsx"
+      ]
+    },
+    {
+      "text": "Authorized Depot",
+      "usedIn": [
+        "components/RatingModal.jsx",
+        "pages/Earnings.jsx"
+      ]
+    },
+    {
+      "text": "Authorized depots",
+      "usedIn": [
+        "pages/Dashboard.jsx"
+      ]
+    },
+    {
+      "text": "Authorized recycler",
+      "usedIn": [
+        "pages/Certificate.jsx",
+        "pages/Handover.jsx"
+      ]
+    },
+    {
+      "text": "Authorized Recycler",
+      "usedIn": [
+        "components/DigitalReceiptModal.jsx",
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "Authorized recyclers pay properly",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Avoid toner dust inhalation. Wear a mask while handling.",
+      "usedIn": [
+        "services/estimateService.js"
+      ]
+    },
+    {
+      "text": "Awaiting Handover",
+      "usedIn": [
+        "services/analyticsService.js"
+      ]
+    },
+    {
+      "text": "Bablu Qureshi",
+      "usedIn": [
+        "services/gamificationService.js"
+      ]
+    },
+    {
+      "text": "Back",
+      "usedIn": [
+        "components/LiveCamera.jsx",
+        "pages/Training.jsx"
+      ]
+    },
+    {
+      "text": "Back to home",
+      "usedIn": [
+        "pages/Certificate.jsx",
+        "pages/NotFound.jsx"
+      ]
+    },
+    {
+      "text": "Back to nearby recyclers",
+      "usedIn": [
+        "pages/RecyclerDetails.jsx"
+      ]
+    },
+    {
+      "text": "Back to Rewards",
+      "usedIn": [
+        "components/RewardsModal.jsx"
+      ]
+    },
+    {
+      "text": "background 0.2s, transform 0.15s",
+      "usedIn": [
+        "components/ChatBot.jsx"
+      ]
+    },
+    {
+      "text": "Bank",
+      "usedIn": [
+        "pages/Payment.jsx"
+      ]
+    },
+    {
+      "text": "Bank transfer",
+      "usedIn": [
+        "pages/Payment.jsx"
+      ]
+    },
+    {
+      "text": "Based on CPCB recycling benchmarks — 1.8 kg CO₂ per kg e-waste, 20 L water per kg, 3.2 kWh energy per kg. 1 mature tree absorbs ~22 kg CO₂/year.",
+      "usedIn": [
+        "components/EcoImpact.jsx"
+      ]
+    },
+    {
+      "text": "Batteries",
+      "usedIn": [
+        "services/analyticsService.js",
+        "utils/constants.js"
+      ]
+    },
+    {
+      "text": "Batteries need careful handling",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Battery / Li-ion Scrap",
+      "usedIn": [
+        "services/estimateService.js"
+      ]
+    },
+    {
+      "text": "Battery acid burns skin and eyes on contact. Lithium cells can catch fire the moment air reaches the inside. There is nothing valuable inside a battery that you can safely remove yourself.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Battery detected — lithium-ion, lead-acid, or button cells. Contains recoverable lithium and cobalt.",
+      "usedIn": [
+        "services/estimateService.js"
+      ]
+    },
+    {
+      "text": "Battery Guardian",
+      "usedIn": [
+        "services/gamificationService.js"
+      ]
+    },
+    {
+      "text": "Behind",
+      "usedIn": [
+        "pages/EPRCompliance.jsx"
+      ]
+    },
+    {
+      "text": "Behind target",
+      "usedIn": [
+        "pages/EPRCompliance.jsx"
+      ]
+    },
+    {
+      "text": "Below fair range",
+      "usedIn": [
+        "components/FairPriceShield.jsx"
+      ]
+    },
+    {
+      "text": "Below market range",
+      "usedIn": [
+        "pages/AnomalyDashboard.jsx"
+      ]
+    },
+    {
+      "text": "Benchmark Location",
+      "usedIn": [
+        "pages/PriceBoard.jsx"
+      ]
+    },
+    {
+      "text": "Benchmark market rates across India. Final rate is confirmed at depot weigh-in.",
+      "usedIn": [
+        "pages/PriceBoard.jsx"
+      ]
+    },
+    {
+      "text": "Beneficiary",
+      "usedIn": [
+        "pages/Payment.jsx"
+      ]
+    },
+    {
+      "text": "Bengaluru Urban, Karnataka",
+      "usedIn": [
+        "pages/PriceBoard.jsx"
+      ]
+    },
+    {
+      "text": "Best match first",
+      "usedIn": [
+        "pages/NearbyRecyclers.jsx"
+      ]
+    },
+    {
+      "text": "Best materials by ₹/kg",
+      "usedIn": [
+        "pages/UnitEconomics.jsx"
+      ]
+    },
+    {
+      "text": "Beware of heavy drum balance weights and sharp stainless steel edges.",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "Box-shaped televisions use cathode ray tubes. CRT glass contains lead and needs licensed disposal.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Brass / Pitul",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "Burning plastic insulation produces toxic fumes. Peel or strip wires manually.",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "Burning plastic off wire releases dioxins — poisons that stay in your lungs and in the soil for years. It also blackens the copper, and buyers pay less for burnt copper than clean copper.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Burning releases dioxins that damage your lungs, and buyers pay less for burnt copper than clean copper.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Business",
+      "usedIn": [
+        "pages/BuyerRegister.jsx"
+      ]
+    },
+    {
+      "text": "Business email",
+      "usedIn": [
+        "pages/BuyerLogin.jsx",
+        "pages/BuyerRegister.jsx"
+      ]
+    },
+    {
+      "text": "Buyer",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "By continuing you agree to the Kabadiwala Connect terms and safety protocols.",
+      "usedIn": [
+        "pages/Login.jsx"
+      ]
+    },
+    {
+      "text": "Cable material selected from the SIH category list.",
+      "usedIn": [
+        "services/estimateService.js"
+      ]
+    },
+    {
+      "text": "Cables & Wiring",
+      "usedIn": [
+        "services/analyticsService.js"
+      ]
+    },
+    {
+      "text": "Cables are steady money",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Call Depot",
+      "usedIn": [
+        "pages/RecyclerDetails.jsx"
+      ]
+    },
+    {
+      "text": "Camera",
+      "usedIn": [
+        "components/QRScannerModal.jsx",
+        "pages/ScanItem.jsx"
+      ]
+    },
+    {
+      "text": "Camera Unavailable",
+      "usedIn": [
+        "components/LiveCamera.jsx"
+      ]
+    },
+    {
+      "text": "Cancel",
+      "usedIn": [
+        "components/LiveCamera.jsx"
+      ]
+    },
+    {
+      "text": "Cash",
+      "usedIn": [
+        "pages/Payment.jsx"
+      ]
+    },
+    {
+      "text": "Category-wise channelization",
+      "usedIn": [
+        "pages/CPCBReport.jsx"
+      ]
+    },
+    {
+      "text": "Central Delhi, Delhi NCR",
+      "usedIn": [
+        "pages/PriceBoard.jsx"
+      ]
+    },
+    {
+      "text": "Certificate of Completion",
+      "usedIn": [
+        "pages/Training.jsx"
+      ]
+    },
+    {
+      "text": "Certificate of safe e-waste handover",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "Certificates",
+      "usedIn": [
+        "pages/BuyerDashboard.jsx"
+      ]
+    },
+    {
+      "text": "Certified Digital Weight",
+      "usedIn": [
+        "components/DigitalReceiptModal.jsx"
+      ]
+    },
+    {
+      "text": "Change language",
+      "usedIn": [
+        "components/Navbar.jsx"
+      ]
+    },
+    {
+      "text": "Check the rate before you sell",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Check the weight before you pay",
+      "usedIn": [
+        "pages/BuyerDashboard.jsx"
+      ]
+    },
+    {
+      "text": "Check today's scrap rates & sell scrap nearby",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "Choose a QR photo",
+      "usedIn": [
+        "components/QRScannerModal.jsx"
+      ]
+    },
+    {
+      "text": "Choose from Gallery",
+      "usedIn": [
+        "pages/ScanItem.jsx"
+      ]
+    },
+    {
+      "text": "Choose photo from device gallery",
+      "usedIn": [
+        "pages/ScanItem.jsx"
+      ]
+    },
+    {
+      "text": "Choose the correct category",
+      "usedIn": [
+        "pages/ScanItem.jsx"
+      ]
+    },
+    {
+      "text": "Choose your UPI app",
+      "usedIn": [
+        "pages/Payment.jsx"
+      ]
+    },
+    {
+      "text": "Circuit boards are the gold mine",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Circuit boards, copper wire, batteries, or appliances. Use live camera viewfinder or upload a picture.",
+      "usedIn": [
+        "pages/ScanItem.jsx"
+      ]
+    },
+    {
+      "text": "Clean",
+      "usedIn": [
+        "pages/AnomalyDashboard.jsx"
+      ]
+    },
+    {
+      "text": "Clean off grease before selling to get maximum scrap price.",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "Clear all",
+      "usedIn": [
+        "pages/Bag.jsx"
+      ]
+    },
+    {
+      "text": "Clear conversation",
+      "usedIn": [
+        "components/ChatBot.jsx"
+      ]
+    },
+    {
+      "text": "Close",
+      "usedIn": [
+        "components/DigitalReceiptModal.jsx",
+        "components/RatingModal.jsx",
+        "components/RewardsModal.jsx",
+        "pages/BuyerDashboard.jsx",
+        "pages/PriceBoard.jsx",
+        "pages/RecyclerDetails.jsx"
+      ]
+    },
+    {
+      "text": "Close camera",
+      "usedIn": [
+        "components/LiveCamera.jsx"
+      ]
+    },
+    {
+      "text": "Close scanner",
+      "usedIn": [
+        "components/QRScannerModal.jsx"
+      ]
+    },
+    {
+      "text": "CO₂ Prevented",
+      "usedIn": [
+        "components/EcoImpact.jsx"
+      ]
+    },
+    {
+      "text": "Code",
+      "usedIn": [
+        "components/QRScannerModal.jsx"
+      ]
+    },
+    {
+      "text": "Coil cables neatly. Buyers pay more when they can see the quantity clearly.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Collect from the collector instead of them carrying it in",
+      "usedIn": [
+        "pages/BuyerRegister.jsx"
+      ]
+    },
+    {
+      "text": "Collection",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "Collection GPS coordinates geo-tagged",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "Collection Insights",
+      "usedIn": [
+        "pages/Analytics.jsx"
+      ]
+    },
+    {
+      "text": "Collector",
+      "usedIn": [
+        "pages/BuyerDashboard.jsx",
+        "pages/Certificate.jsx",
+        "pages/Payment.jsx",
+        "pages/Profile.jsx"
+      ]
+    },
+    {
+      "text": "Collector copy",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "Collector lots need a shared store to reach you. For now, scan the pass at the counter instead.",
+      "usedIn": [
+        "pages/BuyerDashboard.jsx"
+      ]
+    },
+    {
+      "text": "Collector Training",
+      "usedIn": [
+        "pages/Training.jsx"
+      ]
+    },
+    {
+      "text": "Collectors",
+      "usedIn": [
+        "pages/CPCBReport.jsx"
+      ]
+    },
+    {
+      "text": "Collectors nearby will see your rates, your hours and whether you're authorized.",
+      "usedIn": [
+        "pages/BuyerRegister.jsx"
+      ]
+    },
+    {
+      "text": "Combined weight",
+      "usedIn": [
+        "pages/EstimatedValue.jsx"
+      ]
+    },
+    {
+      "text": "Complete 2 Certified Digital Handover Deals",
+      "usedIn": [
+        "services/gamificationService.js"
+      ]
+    },
+    {
+      "text": "Complete a few sales to see profitability breakdown.",
+      "usedIn": [
+        "pages/UnitEconomics.jsx"
+      ]
+    },
+    {
+      "text": "Complete all four to earn your collector certificate.",
+      "usedIn": [
+        "pages/Training.jsx"
+      ]
+    },
+    {
+      "text": "Completed too fast",
+      "usedIn": [
+        "pages/AnomalyDashboard.jsx"
+      ]
+    },
+    {
+      "text": "Completed your first formal verified handover to a CPCB recycler.",
+      "usedIn": [
+        "services/gamificationService.js"
+      ]
+    },
+    {
+      "text": "Compliant",
+      "usedIn": [
+        "pages/EPRCompliance.jsx"
+      ]
+    },
+    {
+      "text": "Computer Keyboard Scrap",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "Computer Mouse Scrap",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "Confirm",
+      "usedIn": [
+        "pages/ScanItem.jsx"
+      ]
+    },
+    {
+      "text": "Confirm handover & view certificate",
+      "usedIn": [
+        "pages/Handover.jsx"
+      ]
+    },
+    {
+      "text": "Confirm the category before continuing. The AI result is only a suggestion.",
+      "usedIn": [
+        "pages/ScanItem.jsx"
+      ]
+    },
+    {
+      "text": "Confirm this handover",
+      "usedIn": [
+        "pages/BuyerDashboard.jsx"
+      ]
+    },
+    {
+      "text": "Confirms the payment without reading",
+      "usedIn": [
+        "pages/Payment.jsx"
+      ]
+    },
+    {
+      "text": "Consumer appliance e-waste with heavy steel casing, magnetron, and motor.",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "Contact phone — optional",
+      "usedIn": [
+        "pages/BuyerRegister.jsx"
+      ]
+    },
+    {
+      "text": "Continue",
+      "usedIn": [
+        "pages/LanguageSelection.jsx"
+      ]
+    },
+    {
+      "text": "Copied",
+      "usedIn": [
+        "pages/Handover.jsx"
+      ]
+    },
+    {
+      "text": "Copied!",
+      "usedIn": [
+        "components/DigitalReceiptModal.jsx"
+      ]
+    },
+    {
+      "text": "Copper Wire & Cables",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "Copper wiring pays around ₹150 to ₹200 per kilo. Thicker cables hold more copper inside the plastic. House wiring and appliance cords are both worth collecting.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Copy code",
+      "usedIn": [
+        "pages/Handover.jsx"
+      ]
+    },
+    {
+      "text": "Copy Text",
+      "usedIn": [
+        "components/DigitalReceiptModal.jsx"
+      ]
+    },
+    {
+      "text": "Correct",
+      "usedIn": [
+        "pages/Training.jsx"
+      ]
+    },
+    {
+      "text": "Corrugated Cardboard",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "Cost breakdown per trip",
+      "usedIn": [
+        "pages/UnitEconomics.jsx"
+      ]
+    },
+    {
+      "text": "Costs are estimates based on Delhi NCR averages. Adjust in your profile for accuracy.",
+      "usedIn": [
+        "pages/UnitEconomics.jsx"
+      ]
+    },
+    {
+      "text": "Costs use Delhi NCR survey averages (JNARDDC 2024). Your actual costs may differ — these are a starting reference to understand your unit economics.",
+      "usedIn": [
+        "pages/UnitEconomics.jsx"
+      ]
+    },
+    {
+      "text": "Could not load EPR data",
+      "usedIn": [
+        "pages/EPRCompliance.jsx"
+      ]
+    },
+    {
+      "text": "Count the notes before you leave the counter. Cash needs no app.",
+      "usedIn": [
+        "pages/Payment.jsx"
+      ]
+    },
+    {
+      "text": "Coupon Code",
+      "usedIn": [
+        "components/RewardsModal.jsx"
+      ]
+    },
+    {
+      "text": "Cover your hands and face",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "CPCB / SPCB Submission",
+      "usedIn": [
+        "pages/CPCBReport.jsx"
+      ]
+    },
+    {
+      "text": "CPCB authorized",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "CPCB authorized recycler verified",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "CPCB Report",
+      "usedIn": [
+        "pages/Dashboard.jsx"
+      ]
+    },
+    {
+      "text": "Create a lot and sell it to a depot — it will show up here.",
+      "usedIn": [
+        "pages/Earnings.jsx"
+      ]
+    },
+    {
+      "text": "Create account",
+      "usedIn": [
+        "pages/Signup.jsx"
+      ]
+    },
+    {
+      "text": "Create an account",
+      "usedIn": [
+        "pages/Login.jsx"
+      ]
+    },
+    {
+      "text": "Create your account",
+      "usedIn": [
+        "pages/Signup.jsx"
+      ]
+    },
+    {
+      "text": "Critical minerals matter nationally",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "CRT display material selected from the SIH category list.",
+      "usedIn": [
+        "services/estimateService.js"
+      ]
+    },
+    {
+      "text": "CRT Glass & Displays",
+      "usedIn": [
+        "services/analyticsService.js"
+      ]
+    },
+    {
+      "text": "CRT Glass and Display Scrap",
+      "usedIn": [
+        "services/estimateService.js"
+      ]
+    },
+    {
+      "text": "Cryptographic SHA-256 handover signature",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "Daily",
+      "usedIn": [
+        "pages/UnitEconomics.jsx"
+      ]
+    },
+    {
+      "text": "Daily trend",
+      "usedIn": [
+        "pages/Analytics.jsx"
+      ]
+    },
+    {
+      "text": "Decrease weight",
+      "usedIn": [
+        "pages/PriceBoard.jsx",
+        "pages/ScanItem.jsx"
+      ]
+    },
+    {
+      "text": "Decrease weight by one kilo",
+      "usedIn": [
+        "pages/EstimatedValue.jsx"
+      ]
+    },
+    {
+      "text": "Deep AI Material Analysis",
+      "usedIn": [
+        "pages/ScanItem.jsx"
+      ]
+    },
+    {
+      "text": "Deep Scan",
+      "usedIn": [
+        "pages/ScanItem.jsx"
+      ]
+    },
+    {
+      "text": "Default language",
+      "usedIn": [
+        "utils/constants.js"
+      ]
+    },
+    {
+      "text": "Demo CPCB-style record — validation pending",
+      "usedIn": [
+        "pages/RecyclerDetails.jsx"
+      ]
+    },
+    {
+      "text": "Demonstration",
+      "usedIn": [
+        "pages/CPCBReport.jsx"
+      ]
+    },
+    {
+      "text": "Demonstration dataset — illustrative figures showing the report at deployment scale. Not live data.",
+      "usedIn": [
+        "pages/CPCBReport.jsx"
+      ]
+    },
+    {
+      "text": "Deposit 5kg Batteries Safely",
+      "usedIn": [
+        "services/gamificationService.js"
+      ]
+    },
+    {
+      "text": "Depot copy",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "Depot location",
+      "usedIn": [
+        "pages/BuyerRegister.jsx"
+      ]
+    },
+    {
+      "text": "Depot name",
+      "usedIn": [
+        "pages/BuyerRegister.jsx"
+      ]
+    },
+    {
+      "text": "Destination status",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "Dharavi Eco Metals & E-Recyclers",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "Digital Weight Slip",
+      "usedIn": [
+        "components/DigitalReceiptModal.jsx",
+        "pages/Certificate.jsx",
+        "pages/Profile.jsx"
+      ]
+    },
+    {
+      "text": "Directions",
+      "usedIn": [
+        "pages/RecyclerDetails.jsx"
+      ]
+    },
+    {
+      "text": "Directions on Google Maps",
+      "usedIn": [
+        "pages/RecyclerDetails.jsx"
+      ]
+    },
+    {
+      "text": "Disconnect power. Watch for sharp metal edges and strong magnets.",
+      "usedIn": [
+        "services/estimateService.js"
+      ]
+    },
+    {
+      "text": "Dismiss",
+      "usedIn": [
+        "pages/BuyerDashboard.jsx"
+      ]
+    },
+    {
+      "text": "Diverted high-grade circuit boards from backyard acid leaching to formal hydrometallurgy.",
+      "usedIn": [
+        "services/gamificationService.js"
+      ]
+    },
+    {
+      "text": "Do not break or crush circuit boards. Toxic dust may be released.",
+      "usedIn": [
+        "services/estimateService.js"
+      ]
+    },
+    {
+      "text": "Do not break or crush circuit boards. Toxic dust may inhale.",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "Do not burn plastic frames. Store dry.",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "Do not burn plastic parts. Cut cables cleanly.",
+      "usedIn": [
+        "services/estimateService.js"
+      ]
+    },
+    {
+      "text": "Do not burn plastic. Keep it separated for formal recycling.",
+      "usedIn": [
+        "services/estimateService.js"
+      ]
+    },
+    {
+      "text": "Do not burn plastic. Send to authorized recycler for formal processing.",
+      "usedIn": [
+        "services/estimateService.js"
+      ]
+    },
+    {
+      "text": "Do not depend on one buyer",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Do not dismantle high voltage capacitors or magnetron ceramic seals.",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "Do not dismantle the high-voltage capacitor. Lethal charge risk.",
+      "usedIn": [
+        "services/estimateService.js"
+      ]
+    },
+    {
+      "text": "Do not puncture or leak battery acid. Wear rubber gloves and goggles.",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "Do not puncture or open batteries. Wear gloves and eye protection. Isolate swollen cells.",
+      "usedIn": [
+        "services/estimateService.js"
+      ]
+    },
+    {
+      "text": "Done",
+      "usedIn": [
+        "components/ChatBot.jsx"
+      ]
+    },
+    {
+      "text": "Doorstep pickup",
+      "usedIn": [
+        "pages/BuyerRegister.jsx",
+        "pages/RecyclerDetails.jsx"
+      ]
+    },
+    {
+      "text": "Download",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "Download invoice",
+      "usedIn": [
+        "pages/Earnings.jsx"
+      ]
+    },
+    {
+      "text": "Download PDF",
+      "usedIn": [
+        "components/DigitalReceiptModal.jsx"
+      ]
+    },
+    {
+      "text": "Download signed PDF report",
+      "usedIn": [
+        "pages/CPCBReport.jsx"
+      ]
+    },
+    {
+      "text": "Downstream destination",
+      "usedIn": [
+        "pages/CPCBReport.jsx"
+      ]
+    },
+    {
+      "text": "Drift",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "Dry packing boxes, cartons, and thick brown paper board.",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "Duplicate",
+      "usedIn": [
+        "services/anomalyService.js"
+      ]
+    },
+    {
+      "text": "E-Waste",
+      "usedIn": [
+        "utils/constants.js"
+      ]
+    },
+    {
+      "text": "E-Waste (Management) Rules, 2022",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "E-Waste (Management) Rules, 2022 — Schedule III",
+      "usedIn": [
+        "pages/CPCBReport.jsx"
+      ]
+    },
+    {
+      "text": "E-Waste Channelization Report",
+      "usedIn": [
+        "pages/CPCBReport.jsx"
+      ]
+    },
+    {
+      "text": "E-Waste EPR pass",
+      "usedIn": [
+        "pages/Handover.jsx"
+      ]
+    },
+    {
+      "text": "E-waste gives off dust and fumes. Keeping it inside the house exposes your family, especially children, to lead and mercury.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "E-Waste PCB Board",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "e.g. Ramesh Kumar",
+      "usedIn": [
+        "pages/Signup.jsx"
+      ]
+    },
+    {
+      "text": "Earning projections at current pace",
+      "usedIn": [
+        "pages/UnitEconomics.jsx"
+      ]
+    },
+    {
+      "text": "Earnings",
+      "usedIn": [
+        "pages/Analytics.jsx"
+      ]
+    },
+    {
+      "text": "Earnings by day of the week",
+      "usedIn": [
+        "pages/Analytics.jsx"
+      ]
+    },
+    {
+      "text": "Eco Hero",
+      "usedIn": [
+        "services/gamificationService.js"
+      ]
+    },
+    {
+      "text": "Electric Motor / Transformer",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "Energy Saved",
+      "usedIn": [
+        "components/EcoImpact.jsx"
+      ]
+    },
+    {
+      "text": "Ensure plastic containers are completely washed and empty of chemicals.",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "Enter your mobile number to see today's rates and start selling.",
+      "usedIn": [
+        "pages/Login.jsx"
+      ]
+    },
+    {
+      "text": "Enter your weight in the app and it calculates what the lot is worth. Now you know the number before the buyer names one. That single fact changes the whole conversation.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "EPR Compliance",
+      "usedIn": [
+        "pages/Dashboard.jsx",
+        "pages/EPRCompliance.jsx"
+      ]
+    },
+    {
+      "text": "EPR depot",
+      "usedIn": [
+        "pages/BuyerDashboard.jsx"
+      ]
+    },
+    {
+      "text": "Estimated payout",
+      "usedIn": [
+        "pages/EstimatedValue.jsx"
+      ]
+    },
+    {
+      "text": "Estimated value",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "Every handover creates a digital pass with a photo, weight, GPS location, timestamp and a unique reference number. The recycler scans it to confirm. That record cannot be altered afterwards.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Extended Producer Responsibility makes producers accountable for collecting and recycling their products after use.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Fair max",
+      "usedIn": [
+        "components/FairPriceShield.jsx"
+      ]
+    },
+    {
+      "text": "Fair min",
+      "usedIn": [
+        "components/FairPriceShield.jsx"
+      ]
+    },
+    {
+      "text": "Fair price",
+      "usedIn": [
+        "components/FairPriceShield.jsx"
+      ]
+    },
+    {
+      "text": "Fair price benchmark matched",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "Fair Pricing",
+      "usedIn": [
+        "components/RatingModal.jsx"
+      ]
+    },
+    {
+      "text": "Fair rates",
+      "usedIn": [
+        "pages/RecyclerDetails.jsx"
+      ]
+    },
+    {
+      "text": "Fair rates · Authorized recyclers",
+      "usedIn": [
+        "components/Navbar.jsx"
+      ]
+    },
+    {
+      "text": "Fair-price shield",
+      "usedIn": [
+        "pages/PriceBoard.jsx"
+      ]
+    },
+    {
+      "text": "Fair-Price Shield",
+      "usedIn": [
+        "components/FairPriceShield.jsx",
+        "pages/EstimatedValue.jsx"
+      ]
+    },
+    {
+      "text": "Fans, washing machines and mixers all contain motors. Inside every motor is a tightly wound copper coil. Whole motors pay around ₹45 to ₹190 per kilo depending on size.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Faridabad Battery Solutions",
+      "usedIn": [
+        "pages/Certificate.jsx",
+        "pages/Handover.jsx",
+        "pages/Profile.jsx",
+        "services/analyticsService.js"
+      ]
+    },
+    {
+      "text": "Fast service",
+      "usedIn": [
+        "pages/RecyclerDetails.jsx"
+      ]
+    },
+    {
+      "text": "Feedback on scale accuracy and turnaround helps fellow collectors",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "Final",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "Final settled",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "Finding you…",
+      "usedIn": [
+        "pages/Signup.jsx"
+      ]
+    },
+    {
+      "text": "Finish module",
+      "usedIn": [
+        "pages/Training.jsx"
+      ]
+    },
+    {
+      "text": "First Collection",
+      "usedIn": [
+        "services/gamificationService.js"
+      ]
+    },
+    {
+      "text": "Flat screen LCD/LED TVs, CRT monitors, chassis, and motherboards.",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "Flat screens are LCD or LED — these pay around ₹50 to ₹120 per kilo. Old heavy box TVs are CRT. CRT glass contains lead and pays very little, around ₹8 per kilo, but it must still go to a licensed recycler.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "flex flex-col gap-2.5",
+      "usedIn": [
+        "pages/Dashboard.jsx"
+      ]
+    },
+    {
+      "text": "Flip camera",
+      "usedIn": [
+        "components/QRScannerModal.jsx"
+      ]
+    },
+    {
+      "text": "Flip Camera",
+      "usedIn": [
+        "components/LiveCamera.jsx"
+      ]
+    },
+    {
+      "text": "Formal Recycling & EPR",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Four rules",
+      "usedIn": [
+        "pages/SafetyGuide.jsx"
+      ]
+    },
+    {
+      "text": "Four rules that keep this work safe",
+      "usedIn": [
+        "pages/Dashboard.jsx"
+      ]
+    },
+    {
+      "text": "Four short modules. Works without internet.",
+      "usedIn": [
+        "pages/Training.jsx"
+      ]
+    },
+    {
+      "text": "Fraud monitoring",
+      "usedIn": [
+        "pages/Dashboard.jsx"
+      ]
+    },
+    {
+      "text": "Front",
+      "usedIn": [
+        "components/LiveCamera.jsx"
+      ]
+    },
+    {
+      "text": "Full name",
+      "usedIn": [
+        "pages/Signup.jsx"
+      ]
+    },
+    {
+      "text": "Gali Saathi",
+      "usedIn": [
+        "services/gamificationService.js"
+      ]
+    },
+    {
+      "text": "Gallery",
+      "usedIn": [
+        "pages/ScanItem.jsx"
+      ]
+    },
+    {
+      "text": "Get the material and a price in seconds — no internet needed.",
+      "usedIn": [
+        "pages/Dashboard.jsx"
+      ]
+    },
+    {
+      "text": "Get the Right Price",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Go back",
+      "usedIn": [
+        "components/Navbar.jsx"
+      ]
+    },
+    {
+      "text": "GPay",
+      "usedIn": [
+        "pages/Payment.jsx"
+      ]
+    },
+    {
+      "text": "GPS mismatch",
+      "usedIn": [
+        "pages/AnomalyDashboard.jsx"
+      ]
+    },
+    {
+      "text": "Green circuit boards from motherboards, server racks, and electronics.",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "Green Earth Battery & E-Waste Trader",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "GreenTech E-Waste Pvt Ltd",
+      "usedIn": [
+        "services/analyticsService.js"
+      ]
+    },
+    {
+      "text": "Gross Settlement",
+      "usedIn": [
+        "components/DigitalReceiptModal.jsx"
+      ]
+    },
+    {
+      "text": "Guide rate",
+      "usedIn": [
+        "pages/PriceBoard.jsx"
+      ]
+    },
+    {
+      "text": "Half year",
+      "usedIn": [
+        "pages/CPCBReport.jsx"
+      ]
+    },
+    {
+      "text": "Handle Acid Safely",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "Handle CRT glass carefully. Do not break or dismantle it without protection.",
+      "usedIn": [
+        "services/estimateService.js"
+      ]
+    },
+    {
+      "text": "Handle it safely",
+      "usedIn": [
+        "pages/SafetyGuide.jsx"
+      ]
+    },
+    {
+      "text": "Handle optical pick-up assembly with care.",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "Handle panels carefully and avoid broken glass or sharp edges.",
+      "usedIn": [
+        "services/estimateService.js"
+      ]
+    },
+    {
+      "text": "Handle screens carefully. Avoid breaking backlight tubes — mercury risk.",
+      "usedIn": [
+        "services/estimateService.js"
+      ]
+    },
+    {
+      "text": "Handling rules",
+      "usedIn": [
+        "pages/Dashboard.jsx"
+      ]
+    },
+    {
+      "text": "Handover",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "Handover pass",
+      "usedIn": [
+        "pages/Handover.jsx"
+      ]
+    },
+    {
+      "text": "Handover Reward",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "Handover verified",
+      "usedIn": [
+        "pages/BuyerDashboard.jsx"
+      ]
+    },
+    {
+      "text": "Heavy Cut-Resistant Gloves",
+      "usedIn": [
+        "services/tokenService.js"
+      ]
+    },
+    {
+      "text": "Heavy home appliance with large copper induction motor and electronic control board.",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "Heavy lot",
+      "usedIn": [
+        "services/anomalyService.js"
+      ]
+    },
+    {
+      "text": "Heavy-duty 50kg handheld digital hanging scale with backlit display.",
+      "usedIn": [
+        "services/tokenService.js"
+      ]
+    },
+    {
+      "text": "Helps other collectors find fair buyers",
+      "usedIn": [
+        "pages/RecyclerDetails.jsx"
+      ]
+    },
+    {
+      "text": "Helps rank the nearest authorized recyclers. You can skip this.",
+      "usedIn": [
+        "pages/Signup.jsx"
+      ]
+    },
+    {
+      "text": "Hi! I'm Kabadi Mitra, your recycling assistant. How can I help you today?",
+      "usedIn": [
+        "components/ChatBot.jsx"
+      ]
+    },
+    {
+      "text": "High",
+      "usedIn": [
+        "pages/AnomalyDashboard.jsx"
+      ]
+    },
+    {
+      "text": "High purity heavy copper wire, stripped or unstripped cables.",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "High risk",
+      "usedIn": [
+        "components/AnomalyAlert.jsx"
+      ]
+    },
+    {
+      "text": "Highest value per kilo",
+      "usedIn": [
+        "pages/PriceBoard.jsx"
+      ]
+    },
+    {
+      "text": "Hold the collector's QR code inside the frame",
+      "usedIn": [
+        "components/QRScannerModal.jsx"
+      ]
+    },
+    {
+      "text": "How are you being paid?",
+      "usedIn": [
+        "pages/Payment.jsx"
+      ]
+    },
+    {
+      "text": "How was the weighing and the payment?",
+      "usedIn": [
+        "pages/RecyclerDetails.jsx"
+      ]
+    },
+    {
+      "text": "Hyderabad, Telangana",
+      "usedIn": [
+        "pages/PriceBoard.jsx"
+      ]
+    },
+    {
+      "text": "I run a scrap depot",
+      "usedIn": [
+        "pages/Login.jsx"
+      ]
+    },
+    {
+      "text": "I'm a collector instead",
+      "usedIn": [
+        "pages/BuyerLogin.jsx",
+        "pages/BuyerRegister.jsx"
+      ]
+    },
+    {
+      "text": "Identify",
+      "usedIn": [
+        "pages/ScanItem.jsx"
+      ]
+    },
+    {
+      "text": "Identify the seven scrap types that matter",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Identifying material",
+      "usedIn": [
+        "pages/ScanItem.jsx"
+      ]
+    },
+    {
+      "text": "If the buyer's scale shows much less than yours, ask them to weigh it again in front of you.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Imran Mansoori",
+      "usedIn": [
+        "services/gamificationService.js"
+      ]
+    },
+    {
+      "text": "in change.",
+      "usedIn": [
+        "pages/Payment.jsx"
+      ]
+    },
+    {
+      "text": "Incoming lots",
+      "usedIn": [
+        "pages/BuyerDashboard.jsx"
+      ]
+    },
+    {
+      "text": "Increase weight",
+      "usedIn": [
+        "pages/PriceBoard.jsx",
+        "pages/ScanItem.jsx"
+      ]
+    },
+    {
+      "text": "Increase weight by one kilo",
+      "usedIn": [
+        "pages/EstimatedValue.jsx"
+      ]
+    },
+    {
+      "text": "Industry avg",
+      "usedIn": [
+        "pages/EPRCompliance.jsx"
+      ]
+    },
+    {
+      "text": "Initial",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "Inkjet and laser printers containing stepper motors, logic boards, and plastics.",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "Insights",
+      "usedIn": [
+        "pages/UnitEconomics.jsx"
+      ]
+    },
+    {
+      "text": "Instant top-up voucher valid on Jio, Airtel, and Vi.",
+      "usedIn": [
+        "services/tokenService.js"
+      ]
+    },
+    {
+      "text": "Invoice",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "Issued certificates",
+      "usedIn": [
+        "pages/BuyerDashboard.jsx"
+      ]
+    },
+    {
+      "text": "Issued under Kabadiwala Connect capacity-building programme · SIH 2026 PS 26229",
+      "usedIn": [
+        "pages/Training.jsx"
+      ]
+    },
+    {
+      "text": "Jaipur, Rajasthan",
+      "usedIn": [
+        "pages/PriceBoard.jsx"
+      ]
+    },
+    {
+      "text": "Kabaad Ustaad",
+      "usedIn": [
+        "services/gamificationService.js"
+      ]
+    },
+    {
+      "text": "Kabadi Mitra",
+      "usedIn": [
+        "components/ChatBot.jsx"
+      ]
+    },
+    {
+      "text": "Kabadi Passport",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "Kabadi Passport 2.0",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "Kabadi Tokens",
+      "usedIn": [
+        "pages/Profile.jsx"
+      ]
+    },
+    {
+      "text": "Kabadiwala Connect · SIH 26229",
+      "usedIn": [
+        "pages/Profile.jsx"
+      ]
+    },
+    {
+      "text": "Kabadiwala Partner",
+      "usedIn": [
+        "components/RatingModal.jsx",
+        "pages/Certificate.jsx",
+        "pages/RecyclerDetails.jsx"
+      ]
+    },
+    {
+      "text": "Kailash Chand",
+      "usedIn": [
+        "services/gamificationService.js"
+      ]
+    },
+    {
+      "text": "Keep chemical bottles, gas cans, and electronic batteries separate from iron scrap.",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "Keep collected material in a separate covered area, not in living or sleeping space.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Keep dry. Wet cardboard loses up to 40% value.",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "Keep lead batteries upright. Never drain battery acid on bare soil.",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "Keep three separate bags: high value, cables and metal, and low-value plastics.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Keep your handover references. They are proof of income and of work history.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Keep your streak alive!",
+      "usedIn": [
+        "pages/Leaderboard.jsx"
+      ]
+    },
+    {
+      "text": "Keyboards, mouse bodies and printer casings are mostly plastic. The rate is low — around ₹20 per kilo — but the weight adds up quickly across a full day of collection.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Know when a price is wrong",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Know Your Materials",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Knowing the fair rate before negotiating means the buyer's offer is measured against a number you already hold.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Kolkata, West Bengal",
+      "usedIn": [
+        "pages/PriceBoard.jsx"
+      ]
+    },
+    {
+      "text": "Language / भाषा",
+      "usedIn": [
+        "pages/Profile.jsx"
+      ]
+    },
+    {
+      "text": "Latest Handover",
+      "usedIn": [
+        "pages/Profile.jsx"
+      ]
+    },
+    {
+      "text": "LCD / LED Panel Scrap",
+      "usedIn": [
+        "services/estimateService.js"
+      ]
+    },
+    {
+      "text": "LCD / LED Panels",
+      "usedIn": [
+        "services/analyticsService.js"
+      ]
+    },
+    {
+      "text": "LCD panel material selected from the SIH category list.",
+      "usedIn": [
+        "services/estimateService.js"
+      ]
+    },
+    {
+      "text": "LCD Panel Scrap",
+      "usedIn": [
+        "services/estimateService.js"
+      ]
+    },
+    {
+      "text": "LCD/LED display panel detected. Backlight assembly may contain gallium and indium.",
+      "usedIn": [
+        "services/estimateService.js"
+      ]
+    },
+    {
+      "text": "Leaderboard",
+      "usedIn": [
+        "pages/Profile.jsx"
+      ]
+    },
+    {
+      "text": "Learn & earn more",
+      "usedIn": [
+        "pages/Dashboard.jsx"
+      ]
+    },
+    {
+      "text": "Leave Review",
+      "usedIn": [
+        "pages/RecyclerDetails.jsx"
+      ]
+    },
+    {
+      "text": "Level 5 cut-resistant protective gloves for sorting sharp metals, wire, and broken glass.",
+      "usedIn": [
+        "services/tokenService.js"
+      ]
+    },
+    {
+      "text": "List your depot",
+      "usedIn": [
+        "pages/BuyerRegister.jsx"
+      ]
+    },
+    {
+      "text": "Listen rate",
+      "usedIn": [
+        "components/PriceCard.jsx"
+      ]
+    },
+    {
+      "text": "Listening…",
+      "usedIn": [
+        "components/ChatBot.jsx"
+      ]
+    },
+    {
+      "text": "Lithium batteries from phones and laptops contain lithium and cobalt — both are on India's critical minerals list. They pay around ₹95 per kilo, but only to recyclers licensed to accept them.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Lithium, cobalt and rare earth elements recovered from e-waste reduce how much India must import. The Ministry of Mines treats this as a resource security priority — which is why formal recovery carries bonuses.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Live rates",
+      "usedIn": [
+        "pages/Dashboard.jsx"
+      ]
+    },
+    {
+      "text": "Live records",
+      "usedIn": [
+        "pages/CPCBReport.jsx"
+      ]
+    },
+    {
+      "text": "Loading Scrap DNA...",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "Local scrap collector",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "Location doesn't match",
+      "usedIn": [
+        "pages/AnomalyDashboard.jsx"
+      ]
+    },
+    {
+      "text": "Location drift",
+      "usedIn": [
+        "services/anomalyService.js"
+      ]
+    },
+    {
+      "text": "Location saved",
+      "usedIn": [
+        "pages/BuyerRegister.jsx",
+        "pages/Signup.jsx"
+      ]
+    },
+    {
+      "text": "Log in",
+      "usedIn": [
+        "pages/BuyerLogin.jsx",
+        "pages/BuyerRegister.jsx",
+        "pages/Signup.jsx"
+      ]
+    },
+    {
+      "text": "Log out",
+      "usedIn": [
+        "pages/BuyerDashboard.jsx"
+      ]
+    },
+    {
+      "text": "Lots containing batteries or motors may qualify for a critical mineral bonus in this app.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Low",
+      "usedIn": [
+        "pages/AnomalyDashboard.jsx"
+      ]
+    },
+    {
+      "text": "Low risk",
+      "usedIn": [
+        "components/AnomalyAlert.jsx"
+      ]
+    },
+    {
+      "text": "Low weight",
+      "usedIn": [
+        "services/anomalyService.js"
+      ]
+    },
+    {
+      "text": "Material AI visual classification sealed",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "Material evidence",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "Materials accepted",
+      "usedIn": [
+        "pages/RecyclerDetails.jsx"
+      ]
+    },
+    {
+      "text": "Materials you accept",
+      "usedIn": [
+        "pages/BuyerRegister.jsx"
+      ]
+    },
+    {
+      "text": "Media / DVD Player Scrap",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "Media player with internal PCB, battery, and plastic housing.",
+      "usedIn": [
+        "services/estimateService.js"
+      ]
+    },
+    {
+      "text": "Medium",
+      "usedIn": [
+        "pages/AnomalyDashboard.jsx"
+      ]
+    },
+    {
+      "text": "Membrane and mechanical keyboards with internal traces and plastic frames.",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "MetalMandi benchmark",
+      "usedIn": [
+        "pages/PriceBoard.jsx"
+      ]
+    },
+    {
+      "text": "Metals",
+      "usedIn": [
+        "utils/constants.js"
+      ]
+    },
+    {
+      "text": "Microwave Oven Scrap",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "Milk crates, drums, thick buckets, and rigid plastic chairs.",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "Ministry of Mines · SIH 26229",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "Mixed Cable Scrap",
+      "usedIn": [
+        "services/estimateService.js"
+      ]
+    },
+    {
+      "text": "Mixed Copper & Batteries",
+      "usedIn": [
+        "pages/Certificate.jsx",
+        "pages/Handover.jsx",
+        "pages/Profile.jsx"
+      ]
+    },
+    {
+      "text": "Mixed E-Waste / Player",
+      "usedIn": [
+        "services/estimateService.js"
+      ]
+    },
+    {
+      "text": "Mixed E-Waste Scrap",
+      "usedIn": [
+        "pages/BuyerDashboard.jsx"
+      ]
+    },
+    {
+      "text": "Mixed Plastic / Keyboard",
+      "usedIn": [
+        "services/estimateService.js"
+      ]
+    },
+    {
+      "text": "Mixed Plastic / Mouse",
+      "usedIn": [
+        "services/estimateService.js"
+      ]
+    },
+    {
+      "text": "Mixed Plastic + Motor / Printer",
+      "usedIn": [
+        "services/estimateService.js"
+      ]
+    },
+    {
+      "text": "Mixed plastic material selected from the SIH category list.",
+      "usedIn": [
+        "services/estimateService.js"
+      ]
+    },
+    {
+      "text": "Mixed Plastic Scrap",
+      "usedIn": [
+        "services/estimateService.js"
+      ]
+    },
+    {
+      "text": "Mixed Plastics",
+      "usedIn": [
+        "services/analyticsService.js"
+      ]
+    },
+    {
+      "text": "Mixed plastics still count",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Mobile Phone / PCB + Battery",
+      "usedIn": [
+        "services/estimateService.js"
+      ]
+    },
+    {
+      "text": "Mobile Phone Scrap",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "Mobile phone with internal PCB, Li-ion battery, and LCD. Rich in gold, copper, palladium, and cobalt.",
+      "usedIn": [
+        "services/estimateService.js"
+      ]
+    },
+    {
+      "text": "Moderate risk",
+      "usedIn": [
+        "components/AnomalyAlert.jsx"
+      ]
+    },
+    {
+      "text": "Module complete",
+      "usedIn": [
+        "pages/Training.jsx"
+      ]
+    },
+    {
+      "text": "Monthly",
+      "usedIn": [
+        "pages/UnitEconomics.jsx"
+      ]
+    },
+    {
+      "text": "Motor & Metal Assembly",
+      "usedIn": [
+        "services/estimateService.js"
+      ]
+    },
+    {
+      "text": "Motor & Transformer Assembly",
+      "usedIn": [
+        "services/estimateService.js"
+      ]
+    },
+    {
+      "text": "Motor and Magnet Assembly Scrap",
+      "usedIn": [
+        "services/estimateService.js"
+      ]
+    },
+    {
+      "text": "Motor or magnet-bearing assembly selected from the SIH category list.",
+      "usedIn": [
+        "services/estimateService.js"
+      ]
+    },
+    {
+      "text": "Motors & Magnet Assemblies",
+      "usedIn": [
+        "services/analyticsService.js"
+      ]
+    },
+    {
+      "text": "Motors hide copper windings",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "MPCB registration ID — optional",
+      "usedIn": [
+        "pages/BuyerRegister.jsx"
+      ]
+    },
+    {
+      "text": "Mumbai, Maharashtra",
+      "usedIn": [
+        "pages/PriceBoard.jsx"
+      ]
+    },
+    {
+      "text": "Mute voice responses",
+      "usedIn": [
+        "components/ChatBot.jsx"
+      ]
+    },
+    {
+      "text": "My Analytics",
+      "usedIn": [
+        "pages/Analytics.jsx",
+        "pages/Dashboard.jsx"
+      ]
+    },
+    {
+      "text": "My copy",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "My scrap bag",
+      "usedIn": [
+        "pages/Bag.jsx"
+      ]
+    },
+    {
+      "text": "National Scrap & Plastic Mart",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "net profit",
+      "usedIn": [
+        "pages/UnitEconomics.jsx"
+      ]
+    },
+    {
+      "text": "Net weight",
+      "usedIn": [
+        "pages/BuyerDashboard.jsx"
+      ]
+    },
+    {
+      "text": "Never be underpaid again",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Never break a CRT tube. The lead dust inside is poisonous and the vacuum can implode.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Never break a PCB into pieces. Whole boards fetch a higher rate than broken ones.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Never burn cable insulation. Sort and send cables to an authorized recycler.",
+      "usedIn": [
+        "services/estimateService.js"
+      ]
+    },
+    {
+      "text": "Never burn cables",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Never burn rubber coating off copper wire. Peel manually with gloves.",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "Never burn wires",
+      "usedIn": [
+        "pages/Dashboard.jsx"
+      ]
+    },
+    {
+      "text": "Never Burn Wires",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "Never do this",
+      "usedIn": [
+        "pages/Training.jsx"
+      ]
+    },
+    {
+      "text": "Never open batteries",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Never use acid on circuit boards",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Next",
+      "usedIn": [
+        "pages/Training.jsx"
+      ]
+    },
+    {
+      "text": "Next question",
+      "usedIn": [
+        "pages/Training.jsx"
+      ]
+    },
+    {
+      "text": "No bank account is on file for this collector. Add one in your profile before choosing bank transfer, or take the payment in cash.",
+      "usedIn": [
+        "pages/Payment.jsx"
+      ]
+    },
+    {
+      "text": "No consignments recorded in this period — showing the demonstration dataset instead.",
+      "usedIn": [
+        "pages/CPCBReport.jsx"
+      ]
+    },
+    {
+      "text": "No data for this period",
+      "usedIn": [
+        "components/Charts.jsx"
+      ]
+    },
+    {
+      "text": "No data yet",
+      "usedIn": [
+        "pages/UnitEconomics.jsx"
+      ]
+    },
+    {
+      "text": "No depots take this material",
+      "usedIn": [
+        "pages/NearbyRecyclers.jsx"
+      ]
+    },
+    {
+      "text": "No fee",
+      "usedIn": [
+        "pages/Payment.jsx"
+      ]
+    },
+    {
+      "text": "no history",
+      "usedIn": [
+        "pages/Analytics.jsx"
+      ]
+    },
+    {
+      "text": "No lots waiting",
+      "usedIn": [
+        "pages/BuyerDashboard.jsx"
+      ]
+    },
+    {
+      "text": "No materials recorded yet",
+      "usedIn": [
+        "components/Charts.jsx"
+      ]
+    },
+    {
+      "text": "No producers match this filter",
+      "usedIn": [
+        "pages/EPRCompliance.jsx"
+      ]
+    },
+    {
+      "text": "No reviews yet.",
+      "usedIn": [
+        "pages/BuyerDashboard.jsx",
+        "pages/RecyclerDetails.jsx"
+      ]
+    },
+    {
+      "text": "No sales yet",
+      "usedIn": [
+        "pages/Earnings.jsx"
+      ]
+    },
+    {
+      "text": "No SMS provider is connected yet",
+      "usedIn": [
+        "pages/OTPVerification.jsx"
+      ]
+    },
+    {
+      "text": "No vouchers yet",
+      "usedIn": [
+        "components/RewardsModal.jsx"
+      ]
+    },
+    {
+      "text": "Not added yet",
+      "usedIn": [
+        "pages/Payment.jsx"
+      ]
+    },
+    {
+      "text": "Not quite",
+      "usedIn": [
+        "pages/Training.jsx"
+      ]
+    },
+    {
+      "text": "Not yet authorized",
+      "usedIn": [
+        "pages/RecyclerDetails.jsx"
+      ]
+    },
+    {
+      "text": "Notes to count",
+      "usedIn": [
+        "pages/Payment.jsx"
+      ]
+    },
+    {
+      "text": "Nothing here",
+      "usedIn": [
+        "pages/NotFound.jsx"
+      ]
+    },
+    {
+      "text": "Offer",
+      "usedIn": [
+        "components/FairPriceShield.jsx"
+      ]
+    },
+    {
+      "text": "Offline AI",
+      "usedIn": [
+        "pages/Dashboard.jsx"
+      ]
+    },
+    {
+      "text": "Offline AI · Works without internet",
+      "usedIn": [
+        "pages/ScanItem.jsx"
+      ]
+    },
+    {
+      "text": "Okhla Recycling Hub",
+      "usedIn": [
+        "services/analyticsService.js"
+      ]
+    },
+    {
+      "text": "On Track",
+      "usedIn": [
+        "pages/EPRCompliance.jsx"
+      ]
+    },
+    {
+      "text": "Online AI",
+      "usedIn": [
+        "pages/ScanItem.jsx"
+      ]
+    },
+    {
+      "text": "Only what's needed to price your scrap and record a handover.",
+      "usedIn": [
+        "pages/Signup.jsx"
+      ]
+    },
+    {
+      "text": "opacity .2s",
+      "usedIn": [
+        "components/Charts.jsx"
+      ]
+    },
+    {
+      "text": "Open camera",
+      "usedIn": [
+        "pages/Dashboard.jsx"
+      ]
+    },
+    {
+      "text": "Open hours",
+      "usedIn": [
+        "pages/RecyclerDetails.jsx"
+      ]
+    },
+    {
+      "text": "Open Kabadi Mitra AI assistant",
+      "usedIn": [
+        "components/ChatBot.jsx"
+      ]
+    },
+    {
+      "text": "Open live camera",
+      "usedIn": [
+        "pages/ScanItem.jsx"
+      ]
+    },
+    {
+      "text": "Open Live Camera",
+      "usedIn": [
+        "pages/ScanItem.jsx"
+      ]
+    },
+    {
+      "text": "Open lots",
+      "usedIn": [
+        "pages/BuyerDashboard.jsx"
+      ]
+    },
+    {
+      "text": "Open Rewards Store",
+      "usedIn": [
+        "pages/Dashboard.jsx"
+      ]
+    },
+    {
+      "text": "Open scanner",
+      "usedIn": [
+        "pages/BuyerDashboard.jsx"
+      ]
+    },
+    {
+      "text": "Open the recycler portal",
+      "usedIn": [
+        "pages/Login.jsx"
+      ]
+    },
+    {
+      "text": "OpenStreetMap",
+      "usedIn": [
+        "pages/NearbyRecyclers.jsx"
+      ]
+    },
+    {
+      "text": "Optical and trackball mice with internal micro-PCBs, switches, and wiring.",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "Other / Unclassified",
+      "usedIn": [
+        "services/analyticsService.js"
+      ]
+    },
+    {
+      "text": "Other possible matches",
+      "usedIn": [
+        "pages/ScanItem.jsx"
+      ]
+    },
+    {
+      "text": "over market rate.",
+      "usedIn": [
+        "pages/NearbyRecyclers.jsx"
+      ]
+    },
+    {
+      "text": "Overpriced",
+      "usedIn": [
+        "services/anomalyService.js"
+      ]
+    },
+    {
+      "text": "Overpricing",
+      "usedIn": [
+        "pages/AnomalyDashboard.jsx"
+      ]
+    },
+    {
+      "text": "Paid",
+      "usedIn": [
+        "pages/Earnings.jsx"
+      ]
+    },
+    {
+      "text": "paid to collectors",
+      "usedIn": [
+        "pages/CPCBReport.jsx"
+      ]
+    },
+    {
+      "text": "Paper",
+      "usedIn": [
+        "utils/constants.js"
+      ]
+    },
+    {
+      "text": "Participation",
+      "usedIn": [
+        "pages/CPCBReport.jsx"
+      ]
+    },
+    {
+      "text": "Paryavaran Rakshak",
+      "usedIn": [
+        "services/gamificationService.js"
+      ]
+    },
+    {
+      "text": "Password",
+      "usedIn": [
+        "pages/BuyerLogin.jsx",
+        "pages/Login.jsx",
+        "pages/Signup.jsx"
+      ]
+    },
+    {
+      "text": "Password — at least 6 characters",
+      "usedIn": [
+        "pages/BuyerRegister.jsx"
+      ]
+    },
+    {
+      "text": "Paste the handover code",
+      "usedIn": [
+        "components/QRScannerModal.jsx"
+      ]
+    },
+    {
+      "text": "Payable",
+      "usedIn": [
+        "pages/BuyerDashboard.jsx"
+      ]
+    },
+    {
+      "text": "Paytm",
+      "usedIn": [
+        "pages/Payment.jsx"
+      ]
+    },
+    {
+      "text": "PCB / Circuit Board",
+      "usedIn": [
+        "services/estimateService.js"
+      ]
+    },
+    {
+      "text": "PCBs contain gold, silver and copper on their contacts, making them the highest-value scrap a collector carries.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Penalty",
+      "usedIn": [
+        "pages/EPRCompliance.jsx"
+      ]
+    },
+    {
+      "text": "Pending dues",
+      "usedIn": [
+        "pages/Earnings.jsx"
+      ]
+    },
+    {
+      "text": "Per-trip profit, cost breakdown & projections",
+      "usedIn": [
+        "pages/Earnings.jsx"
+      ]
+    },
+    {
+      "text": "Perfect Traceability",
+      "usedIn": [
+        "services/gamificationService.js"
+      ]
+    },
+    {
+      "text": "PhonePe",
+      "usedIn": [
+        "pages/Payment.jsx"
+      ]
+    },
+    {
+      "text": "Photo",
+      "usedIn": [
+        "components/QRScannerModal.jsx"
+      ]
+    },
+    {
+      "text": "Photograph & record this scrap",
+      "usedIn": [
+        "components/GamificationSection.jsx"
+      ]
+    },
+    {
+      "text": "Photograph your scrap",
+      "usedIn": [
+        "pages/Dashboard.jsx",
+        "pages/ScanItem.jsx"
+      ]
+    },
+    {
+      "text": "Pick from the rate board",
+      "usedIn": [
+        "pages/Bag.jsx"
+      ]
+    },
+    {
+      "text": "Pickup",
+      "usedIn": [
+        "pages/RecyclerDetails.jsx"
+      ]
+    },
+    {
+      "text": "Plastic casing with micro-PCB and cable. Mostly plastic with minor copper in cable.",
+      "usedIn": [
+        "services/estimateService.js"
+      ]
+    },
+    {
+      "text": "Plastic casing with small PCB inside. Mostly ABS/polycarbonate plastic, minor copper traces.",
+      "usedIn": [
+        "services/estimateService.js"
+      ]
+    },
+    {
+      "text": "Plastic that has been burned cannot be recycled and buyers will refuse it.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Plastics",
+      "usedIn": [
+        "utils/constants.js"
+      ]
+    },
+    {
+      "text": "PNG, JPG or a screenshot",
+      "usedIn": [
+        "components/QRScannerModal.jsx"
+      ]
+    },
+    {
+      "text": "Point camera at scrap or e-waste",
+      "usedIn": [
+        "components/LiveCamera.jsx"
+      ]
+    },
+    {
+      "text": "Price trail",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "Print",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "Printed circuit board with copper traces, solder, and IC chips. Contains recoverable gold, copper, and tantalum.",
+      "usedIn": [
+        "services/estimateService.js"
+      ]
+    },
+    {
+      "text": "Printed Circuit Boards",
+      "usedIn": [
+        "services/analyticsService.js"
+      ]
+    },
+    {
+      "text": "Printer & Scanner Scrap",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "Printer with motor, plastic housing, PCB, and toner cartridge.",
+      "usedIn": [
+        "services/estimateService.js"
+      ]
+    },
+    {
+      "text": "Producer targets",
+      "usedIn": [
+        "pages/Dashboard.jsx"
+      ]
+    },
+    {
+      "text": "Producers",
+      "usedIn": [
+        "pages/EPRCompliance.jsx"
+      ]
+    },
+    {
+      "text": "Protect your hands from sharp copper edges, broken glass, and rusty metal.",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "Pune, Maharashtra",
+      "usedIn": [
+        "pages/PriceBoard.jsx"
+      ]
+    },
+    {
+      "text": "Quarter",
+      "usedIn": [
+        "pages/CPCBReport.jsx"
+      ]
+    },
+    {
+      "text": "Quick actions",
+      "usedIn": [
+        "pages/Dashboard.jsx"
+      ]
+    },
+    {
+      "text": "Ramesh Kumar",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "Rank #4 · Green Aggregator",
+      "usedIn": [
+        "pages/Leaderboard.jsx"
+      ]
+    },
+    {
+      "text": "Rate this buyer",
+      "usedIn": [
+        "pages/RecyclerDetails.jsx"
+      ]
+    },
+    {
+      "text": "Rate this handover",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "Rates are updated regularly as market quotes become available.",
+      "usedIn": [
+        "pages/PriceBoard.jsx"
+      ]
+    },
+    {
+      "text": "Rating Submitted!",
+      "usedIn": [
+        "components/RatingModal.jsx"
+      ]
+    },
+    {
+      "text": "Re-scan",
+      "usedIn": [
+        "pages/ScanItem.jsx"
+      ]
+    },
+    {
+      "text": "Read aloud",
+      "usedIn": [
+        "components/ChatBot.jsx"
+      ]
+    },
+    {
+      "text": "Ready",
+      "usedIn": [
+        "components/RewardsModal.jsx"
+      ]
+    },
+    {
+      "text": "Ready to sell",
+      "usedIn": [
+        "pages/Dashboard.jsx"
+      ]
+    },
+    {
+      "text": "Real-Time Scrap Rates",
+      "usedIn": [
+        "pages/PriceBoard.jsx"
+      ]
+    },
+    {
+      "text": "Received at authorized facility · Pre-processing scheduled",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "Received By Authorized Recycler",
+      "usedIn": [
+        "services/analyticsService.js"
+      ]
+    },
+    {
+      "text": "Recent sales",
+      "usedIn": [
+        "pages/Earnings.jsx"
+      ]
+    },
+    {
+      "text": "Recent Verified Review",
+      "usedIn": [
+        "pages/RecyclerDetails.jsx"
+      ]
+    },
+    {
+      "text": "Reconnect once to issue the signed handover pass.",
+      "usedIn": [
+        "pages/Handover.jsx"
+      ]
+    },
+    {
+      "text": "Record",
+      "usedIn": [
+        "components/GamificationSection.jsx"
+      ]
+    },
+    {
+      "text": "Recorded on Kabadi Passbook",
+      "usedIn": [
+        "pages/Earnings.jsx"
+      ]
+    },
+    {
+      "text": "Recorded value",
+      "usedIn": [
+        "pages/CPCBReport.jsx"
+      ]
+    },
+    {
+      "text": "Recoverable elements",
+      "usedIn": [
+        "pages/ScanItem.jsx"
+      ]
+    },
+    {
+      "text": "Recycle scrap this week to earn +50 bonus tokens and climb the ranks.",
+      "usedIn": [
+        "pages/Leaderboard.jsx"
+      ]
+    },
+    {
+      "text": "Recycle scrap to earn tokens, then redeem safety gloves, masks, and discounts here.",
+      "usedIn": [
+        "components/RewardsModal.jsx"
+      ]
+    },
+    {
+      "text": "Recycled",
+      "usedIn": [
+        "services/analyticsService.js"
+      ]
+    },
+    {
+      "text": "Recycler",
+      "usedIn": [
+        "pages/RecyclerDetails.jsx"
+      ]
+    },
+    {
+      "text": "Recycler EPR copy",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "Recycler not found",
+      "usedIn": [
+        "pages/RecyclerDetails.jsx"
+      ]
+    },
+    {
+      "text": "Recycler portal",
+      "usedIn": [
+        "pages/BuyerDashboard.jsx",
+        "pages/BuyerLogin.jsx"
+      ]
+    },
+    {
+      "text": "Recycler quoted",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "Redeem Rewards",
+      "usedIn": [
+        "pages/Profile.jsx"
+      ]
+    },
+    {
+      "text": "Redeemable at local partner grocery stores and fair-price ration shops.",
+      "usedIn": [
+        "services/tokenService.js"
+      ]
+    },
+    {
+      "text": "Region",
+      "usedIn": [
+        "pages/CPCBReport.jsx"
+      ]
+    },
+    {
+      "text": "Region-wise collection",
+      "usedIn": [
+        "pages/CPCBReport.jsx"
+      ]
+    },
+    {
+      "text": "Register",
+      "usedIn": [
+        "pages/BuyerLogin.jsx"
+      ]
+    },
+    {
+      "text": "Register as a buyer",
+      "usedIn": [
+        "pages/Signup.jsx"
+      ]
+    },
+    {
+      "text": "Register depot",
+      "usedIn": [
+        "pages/BuyerRegister.jsx"
+      ]
+    },
+    {
+      "text": "Registered collector",
+      "usedIn": [
+        "pages/Certificate.jsx",
+        "pages/Profile.jsx"
+      ]
+    },
+    {
+      "text": "Registered recyclers can issue valid receipts and claim EPR credit, which funds the better rate they offer you.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Regulatory filing",
+      "usedIn": [
+        "pages/Dashboard.jsx"
+      ]
+    },
+    {
+      "text": "Regulatory Report",
+      "usedIn": [
+        "pages/CPCBReport.jsx"
+      ]
+    },
+    {
+      "text": "Reject",
+      "usedIn": [
+        "pages/BuyerDashboard.jsx"
+      ]
+    },
+    {
+      "text": "Remove and isolate damaged or swollen lithium batteries safely.",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "Remove and isolate swollen batteries. Do not crush — battery fire risk.",
+      "usedIn": [
+        "services/estimateService.js"
+      ]
+    },
+    {
+      "text": "Remove batteries before sorting. Do not burn casing.",
+      "usedIn": [
+        "services/estimateService.js"
+      ]
+    },
+    {
+      "text": "Repeat pair",
+      "usedIn": [
+        "services/anomalyService.js"
+      ]
+    },
+    {
+      "text": "Repeat pairs",
+      "usedIn": [
+        "pages/AnomalyDashboard.jsx"
+      ]
+    },
+    {
+      "text": "Responsible recycling",
+      "usedIn": [
+        "pages/RecyclerDetails.jsx"
+      ]
+    },
+    {
+      "text": "Retry",
+      "usedIn": [
+        "components/OfflineSyncBanner.jsx"
+      ]
+    },
+    {
+      "text": "Review",
+      "usedIn": [
+        "pages/Certificate.jsx",
+        "pages/Training.jsx"
+      ]
+    },
+    {
+      "text": "Reward Voucher",
+      "usedIn": [
+        "components/RewardsModal.jsx"
+      ]
+    },
+    {
+      "text": "Rewards",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "Safe Handling & EPR",
+      "usedIn": [
+        "components/RatingModal.jsx"
+      ]
+    },
+    {
+      "text": "Safely handed over hazardous lead-acid or lithium batteries without acid leakage.",
+      "usedIn": [
+        "services/gamificationService.js"
+      ]
+    },
+    {
+      "text": "Safety Goggles & N95 Dust Mask Kit",
+      "usedIn": [
+        "services/tokenService.js"
+      ]
+    },
+    {
+      "text": "Safety guidance follows CPCB handling advisories and the E-Waste (Management) Rules, 2022.",
+      "usedIn": [
+        "pages/Training.jsx"
+      ]
+    },
+    {
+      "text": "Safety rules",
+      "usedIn": [
+        "pages/Profile.jsx"
+      ]
+    },
+    {
+      "text": "Sale complete",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "Sales & payouts",
+      "usedIn": [
+        "pages/Dashboard.jsx"
+      ]
+    },
+    {
+      "text": "Same collector-buyer",
+      "usedIn": [
+        "pages/AnomalyDashboard.jsx"
+      ]
+    },
+    {
+      "text": "Sample data — complete a few handovers and your real numbers appear here.",
+      "usedIn": [
+        "pages/Analytics.jsx"
+      ]
+    },
+    {
+      "text": "Saved offline",
+      "usedIn": [
+        "pages/EstimatedValue.jsx"
+      ]
+    },
+    {
+      "text": "Say the amount out loud",
+      "usedIn": [
+        "pages/Payment.jsx"
+      ]
+    },
+    {
+      "text": "Scan a handover pass",
+      "usedIn": [
+        "pages/BuyerDashboard.jsx"
+      ]
+    },
+    {
+      "text": "Scan a material",
+      "usedIn": [
+        "pages/Bag.jsx"
+      ]
+    },
+    {
+      "text": "Scan another item",
+      "usedIn": [
+        "pages/Bag.jsx"
+      ]
+    },
+    {
+      "text": "Scan handover pass",
+      "usedIn": [
+        "components/QRScannerModal.jsx",
+        "pages/BuyerDashboard.jsx"
+      ]
+    },
+    {
+      "text": "Scan QR to verify CPCB compliance",
+      "usedIn": [
+        "components/DigitalReceiptModal.jsx"
+      ]
+    },
+    {
+      "text": "Scanning for materials…",
+      "usedIn": [
+        "components/LiveCamera.jsx"
+      ]
+    },
+    {
+      "text": "Scrap Category",
+      "usedIn": [
+        "components/DigitalReceiptModal.jsx"
+      ]
+    },
+    {
+      "text": "Scrap DNA",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "Screens: know LCD from CRT",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Search a material rate…",
+      "usedIn": [
+        "pages/Dashboard.jsx"
+      ]
+    },
+    {
+      "text": "Sector 24 Metal Traders",
+      "usedIn": [
+        "services/analyticsService.js"
+      ]
+    },
+    {
+      "text": "Secure pass ready for scanning",
+      "usedIn": [
+        "pages/Handover.jsx"
+      ]
+    },
+    {
+      "text": "See all",
+      "usedIn": [
+        "pages/Dashboard.jsx"
+      ]
+    },
+    {
+      "text": "See your profit, not just earnings",
+      "usedIn": [
+        "pages/Analytics.jsx"
+      ]
+    },
+    {
+      "text": "Select chat language",
+      "usedIn": [
+        "components/ChatBot.jsx"
+      ]
+    },
+    {
+      "text": "Sell bag",
+      "usedIn": [
+        "pages/Bag.jsx"
+      ]
+    },
+    {
+      "text": "Sell batteries sealed and whole. That is what licensed recyclers want anyway.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Sell microwaves whole. Never open the metal casing.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Sell this",
+      "usedIn": [
+        "pages/ScanItem.jsx"
+      ]
+    },
+    {
+      "text": "Seller",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "Selling to more buyers gives you better bargaining power",
+      "usedIn": [
+        "pages/Analytics.jsx"
+      ]
+    },
+    {
+      "text": "Send message",
+      "usedIn": [
+        "components/ChatBot.jsx"
+      ]
+    },
+    {
+      "text": "Separate Hazardous Material",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "Service area",
+      "usedIn": [
+        "pages/RecyclerDetails.jsx"
+      ]
+    },
+    {
+      "text": "Set GPS location",
+      "usedIn": [
+        "pages/BuyerRegister.jsx"
+      ]
+    },
+    {
+      "text": "Settled amount",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "Settlement",
+      "usedIn": [
+        "pages/Payment.jsx"
+      ]
+    },
+    {
+      "text": "Seven material streams named in PS 26229",
+      "usedIn": [
+        "pages/CPCBReport.jsx"
+      ]
+    },
+    {
+      "text": "SHA-256 signature prefix",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "Share",
+      "usedIn": [
+        "pages/CPCBReport.jsx"
+      ]
+    },
+    {
+      "text": "Share Digital Slip on WhatsApp",
+      "usedIn": [
+        "pages/Earnings.jsx"
+      ]
+    },
+    {
+      "text": "Share Digital Weight Slip on WhatsApp",
+      "usedIn": [
+        "pages/Handover.jsx"
+      ]
+    },
+    {
+      "text": "Share of total earnings — compare against weight above",
+      "usedIn": [
+        "pages/Analytics.jsx"
+      ]
+    },
+    {
+      "text": "Share of total weight, by material",
+      "usedIn": [
+        "pages/Analytics.jsx"
+      ]
+    },
+    {
+      "text": "Share slip on WhatsApp",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "Share verified proof of weight, payout, and green tokens",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "Share via WhatsApp",
+      "usedIn": [
+        "components/DigitalReceiptModal.jsx"
+      ]
+    },
+    {
+      "text": "Sharp metal edges, broken glass and fine dust are the three daily hazards. Thick gloves and a cloth mask cost very little and prevent most injuries and breathing problems.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Show this QR code at partner CPCB collection centers or shops to redeem.",
+      "usedIn": [
+        "components/RewardsModal.jsx"
+      ]
+    },
+    {
+      "text": "Showing demo data — backend unavailable. Start the server to see live results.",
+      "usedIn": [
+        "pages/AnomalyDashboard.jsx"
+      ]
+    },
+    {
+      "text": "Sign in to verify handovers and issue EPR certificates.",
+      "usedIn": [
+        "pages/BuyerLogin.jsx"
+      ]
+    },
+    {
+      "text": "Signed by the Kabadiwala server: reference, weight and GPS are protected.",
+      "usedIn": [
+        "pages/Handover.jsx"
+      ]
+    },
+    {
+      "text": "SIH26229-MoM-EPR-2026",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "Silicon Rescuer",
+      "usedIn": [
+        "services/gamificationService.js"
+      ]
+    },
+    {
+      "text": "Slip",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "Smart India Hackathon 2026",
+      "usedIn": [
+        "pages/Splash.jsx"
+      ]
+    },
+    {
+      "text": "Smartphones and feature phones rich in recoverable gold, copper, and palladium.",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "Sold copper cables through formal recycling instead of open-air burning.",
+      "usedIn": [
+        "services/gamificationService.js"
+      ]
+    },
+    {
+      "text": "Sort before you sell",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Sorting",
+      "usedIn": [
+        "services/analyticsService.js"
+      ]
+    },
+    {
+      "text": "Speak your question",
+      "usedIn": [
+        "components/ChatBot.jsx"
+      ]
+    },
+    {
+      "text": "Speed flag",
+      "usedIn": [
+        "pages/AnomalyDashboard.jsx",
+        "services/anomalyService.js"
+      ]
+    },
+    {
+      "text": "Staff Respect",
+      "usedIn": [
+        "components/RatingModal.jsx"
+      ]
+    },
+    {
+      "text": "Starting live camera…",
+      "usedIn": [
+        "components/LiveCamera.jsx"
+      ]
+    },
+    {
+      "text": "Stop listening",
+      "usedIn": [
+        "components/ChatBot.jsx"
+      ]
+    },
+    {
+      "text": "Store away from where you sleep",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Streak",
+      "usedIn": [
+        "pages/Profile.jsx"
+      ]
+    },
+    {
+      "text": "Strip cables with a blade or sell them whole. Burning costs you both health and money.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Strong magnets inside motors can wipe phone cards. Keep motors away from your phone.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Submit rating",
+      "usedIn": [
+        "pages/RecyclerDetails.jsx"
+      ]
+    },
+    {
+      "text": "Subtotal",
+      "usedIn": [
+        "pages/PriceBoard.jsx"
+      ]
+    },
+    {
+      "text": "Support helpline",
+      "usedIn": [
+        "pages/Profile.jsx"
+      ]
+    },
+    {
+      "text": "Suraj Rathod",
+      "usedIn": [
+        "services/gamificationService.js"
+      ]
+    },
+    {
+      "text": "Suspiciously low/high",
+      "usedIn": [
+        "pages/AnomalyDashboard.jsx"
+      ]
+    },
+    {
+      "text": "Sync live scrap rates",
+      "usedIn": [
+        "pages/PriceBoard.jsx"
+      ]
+    },
+    {
+      "text": "Sync now",
+      "usedIn": [
+        "components/OfflineSyncBanner.jsx"
+      ]
+    },
+    {
+      "text": "Sync Rates",
+      "usedIn": [
+        "pages/PriceBoard.jsx"
+      ]
+    },
+    {
+      "text": "Syncing…",
+      "usedIn": [
+        "components/OfflineSyncBanner.jsx",
+        "pages/PriceBoard.jsx"
+      ]
+    },
+    {
+      "text": "Take care",
+      "usedIn": [
+        "pages/Training.jsx"
+      ]
+    },
+    {
+      "text": "Take Photo",
+      "usedIn": [
+        "components/LiveCamera.jsx"
+      ]
+    },
+    {
+      "text": "Take the quiz",
+      "usedIn": [
+        "pages/Training.jsx"
+      ]
+    },
+    {
+      "text": "Tamper check",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "Tamper-Proof Receipt",
+      "usedIn": [
+        "components/DigitalReceiptModal.jsx"
+      ]
+    },
+    {
+      "text": "Tap the speaker icon on the price board to hear the rate spoken aloud.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Television / Monitor Scrap",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "text-[10.5px] text-faint mt-1.5",
+      "usedIn": [
+        "components/RecyclerCard.jsx"
+      ]
+    },
+    {
+      "text": "text-emerald-600 text-[13.5px] shrink-0",
+      "usedIn": [
+        "components/GamificationSection.jsx"
+      ]
+    },
+    {
+      "text": "Thank you! Your feedback helps all collectors get honest weights and fair prices.",
+      "usedIn": [
+        "components/RatingModal.jsx"
+      ]
+    },
+    {
+      "text": "Thanks — your rating was saved",
+      "usedIn": [
+        "pages/RecyclerDetails.jsx"
+      ]
+    },
+    {
+      "text": "The AI is uncertain. Confirm the suggested category or choose the correct one before creating a lot.",
+      "usedIn": [
+        "services/estimateService.js"
+      ]
+    },
+    {
+      "text": "The capacitor stores a lethal charge for months after the appliance is disconnected from power.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "The Earnings screen is your digital passbook. It never gets lost like a paper notebook.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "the fair range. Compare nearby authorized recyclers before accepting.",
+      "usedIn": [
+        "components/FairPriceShield.jsx"
+      ]
+    },
+    {
+      "text": "The green boards inside phones, computers and TVs are called PCBs. They hold real gold, silver and copper on their contact pins. A single kilo can be worth ₹400 to ₹900 — more than any other scrap you carry.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "The handover pass is your proof",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "The large capacitor inside a microwave oven holds a lethal electrical charge even when the appliance has been unplugged for months. It can kill.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "The Nearby Recyclers screen ranks buyers by the rate they actually offer for your material.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "The pictures say the rule — you don't need to read the words.",
+      "usedIn": [
+        "pages/SafetyGuide.jsx"
+      ]
+    },
+    {
+      "text": "The practices that protect your health",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "The price board in this app shows the live market rate for every material, updated from real scrap markets. Open it before you reach the buyer, not after.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "The scrap you photographed",
+      "usedIn": [
+        "pages/ScanItem.jsx"
+      ]
+    },
+    {
+      "text": "Thirty day price trend",
+      "usedIn": [
+        "pages/PriceBoard.jsx"
+      ]
+    },
+    {
+      "text": "This app checks every deal against the market range automatically. If an offer is far below fair value, you get a warning before the handover is completed.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "This app shows a verification badge on every CPCB-registered recycler.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "this category",
+      "usedIn": [
+        "pages/PriceBoard.jsx"
+      ]
+    },
+    {
+      "text": "This depot is no longer listed.",
+      "usedIn": [
+        "pages/RecyclerDetails.jsx"
+      ]
+    },
+    {
+      "text": "This month",
+      "usedIn": [
+        "pages/Earnings.jsx"
+      ]
+    },
+    {
+      "text": "This offer is within today's fair market range.",
+      "usedIn": [
+        "components/FairPriceShield.jsx"
+      ]
+    },
+    {
+      "text": "This page doesn't exist, or it has moved somewhere else.",
+      "usedIn": [
+        "pages/NotFound.jsx"
+      ]
+    },
+    {
+      "text": "This records what the depot paid you. No money moves through the app — cash stays the default and digital payment is always optional.",
+      "usedIn": [
+        "pages/Payment.jsx"
+      ]
+    },
+    {
+      "text": "Tier",
+      "usedIn": [
+        "pages/Profile.jsx"
+      ]
+    },
+    {
+      "text": "to CPCB-registered units",
+      "usedIn": [
+        "pages/CPCBReport.jsx"
+      ]
+    },
+    {
+      "text": "Today",
+      "usedIn": [
+        "pages/Earnings.jsx"
+      ]
+    },
+    {
+      "text": "Today’s Delhi NCR benchmark for this weight. Compare any counter offer before confirming.",
+      "usedIn": [
+        "pages/EstimatedValue.jsx"
+      ]
+    },
+    {
+      "text": "Today's top rates",
+      "usedIn": [
+        "pages/Dashboard.jsx"
+      ]
+    },
+    {
+      "text": "Toggle flashlight",
+      "usedIn": [
+        "components/LiveCamera.jsx"
+      ]
+    },
+    {
+      "text": "Tokens",
+      "usedIn": [
+        "components/RewardsModal.jsx",
+        "pages/Profile.jsx"
+      ]
+    },
+    {
+      "text": "Toll free",
+      "usedIn": [
+        "pages/Profile.jsx"
+      ]
+    },
+    {
+      "text": "Tonnes gap",
+      "usedIn": [
+        "pages/EPRCompliance.jsx"
+      ]
+    },
+    {
+      "text": "Total e-waste channelized to authorized recyclers",
+      "usedIn": [
+        "pages/CPCBReport.jsx"
+      ]
+    },
+    {
+      "text": "Total earned",
+      "usedIn": [
+        "pages/Earnings.jsx"
+      ]
+    },
+    {
+      "text": "Traceability checks",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "Traceability completeness",
+      "usedIn": [
+        "pages/CPCBReport.jsx"
+      ]
+    },
+    {
+      "text": "Traceability score",
+      "usedIn": [
+        "pages/CPCBReport.jsx"
+      ]
+    },
+    {
+      "text": "Traceable scrap handover",
+      "usedIn": [
+        "pages/Handover.jsx"
+      ]
+    },
+    {
+      "text": "Traceable weight",
+      "usedIn": [
+        "pages/Earnings.jsx"
+      ]
+    },
+    {
+      "text": "Training",
+      "usedIn": [
+        "pages/Dashboard.jsx",
+        "pages/Training.jsx"
+      ]
+    },
+    {
+      "text": "Transaction Anomaly Shield",
+      "usedIn": [
+        "components/AnomalyAlert.jsx"
+      ]
+    },
+    {
+      "text": "Transaction Health",
+      "usedIn": [
+        "pages/AnomalyDashboard.jsx"
+      ]
+    },
+    {
+      "text": "Transport, sorting labor, storage",
+      "usedIn": [
+        "pages/UnitEconomics.jsx"
+      ]
+    },
+    {
+      "text": "Trees Equivalent",
+      "usedIn": [
+        "components/EcoImpact.jsx"
+      ]
+    },
+    {
+      "text": "Trends & insights",
+      "usedIn": [
+        "pages/Dashboard.jsx"
+      ]
+    },
+    {
+      "text": "Trip profitability",
+      "usedIn": [
+        "pages/Dashboard.jsx"
+      ]
+    },
+    {
+      "text": "Trips",
+      "usedIn": [
+        "pages/Analytics.jsx"
+      ]
+    },
+    {
+      "text": "Trust & Ratings",
+      "usedIn": [
+        "pages/RecyclerDetails.jsx"
+      ]
+    },
+    {
+      "text": "Try another category, or check the full list.",
+      "usedIn": [
+        "pages/NearbyRecyclers.jsx"
+      ]
+    },
+    {
+      "text": "Turnaround Speed",
+      "usedIn": [
+        "components/RatingModal.jsx"
+      ]
+    },
+    {
+      "text": "Underpriced",
+      "usedIn": [
+        "services/anomalyService.js"
+      ]
+    },
+    {
+      "text": "Underpricing",
+      "usedIn": [
+        "pages/AnomalyDashboard.jsx"
+      ]
+    },
+    {
+      "text": "Understand what earns you the most",
+      "usedIn": [
+        "pages/Analytics.jsx"
+      ]
+    },
+    {
+      "text": "Unit Economics",
+      "usedIn": [
+        "pages/Dashboard.jsx",
+        "pages/Earnings.jsx",
+        "pages/UnitEconomics.jsx"
+      ]
+    },
+    {
+      "text": "Unit economics subtracts your real costs",
+      "usedIn": [
+        "pages/Analytics.jsx"
+      ]
+    },
+    {
+      "text": "Unknown material — handle with gloves and check the safety guide.",
+      "usedIn": [
+        "services/estimateService.js"
+      ]
+    },
+    {
+      "text": "Unmute voice responses",
+      "usedIn": [
+        "components/ChatBot.jsx"
+      ]
+    },
+    {
+      "text": "Unsorted lots are priced down to the lowest-value material in them. Sorting can raise your total by 30% or more.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Upload from Gallery",
+      "usedIn": [
+        "components/LiveCamera.jsx"
+      ]
+    },
+    {
+      "text": "Upload photo",
+      "usedIn": [
+        "components/LiveCamera.jsx"
+      ]
+    },
+    {
+      "text": "Upload QR screenshot instead",
+      "usedIn": [
+        "components/QRScannerModal.jsx"
+      ]
+    },
+    {
+      "text": "Use my GPS location",
+      "usedIn": [
+        "pages/Signup.jsx"
+      ]
+    },
+    {
+      "text": "Valid as EPR reporting evidence and as proof of income.",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "Vehicle, inverter, and electronic batteries. High value hazardous e-waste scrap.",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "Verified by the depot",
+      "usedIn": [
+        "pages/Handover.jsx"
+      ]
+    },
+    {
+      "text": "Verified Collector",
+      "usedIn": [
+        "pages/Training.jsx"
+      ]
+    },
+    {
+      "text": "Verified feedback from collector handovers",
+      "usedIn": [
+        "pages/RecyclerDetails.jsx"
+      ]
+    },
+    {
+      "text": "Verified Recycler",
+      "usedIn": [
+        "pages/RecyclerDetails.jsx"
+      ]
+    },
+    {
+      "text": "Verify code",
+      "usedIn": [
+        "components/QRScannerModal.jsx"
+      ]
+    },
+    {
+      "text": "Verify the collector's lot before you pay",
+      "usedIn": [
+        "components/QRScannerModal.jsx"
+      ]
+    },
+    {
+      "text": "Verify the lot and issue the certificate in one step.",
+      "usedIn": [
+        "pages/BuyerDashboard.jsx"
+      ]
+    },
+    {
+      "text": "View all materials →",
+      "usedIn": [
+        "pages/PriceBoard.jsx"
+      ]
+    },
+    {
+      "text": "View certificate",
+      "usedIn": [
+        "pages/BuyerDashboard.jsx"
+      ]
+    },
+    {
+      "text": "View Leaderboard & Rankings",
+      "usedIn": [
+        "components/Navbar.jsx",
+        "pages/Dashboard.jsx"
+      ]
+    },
+    {
+      "text": "View my earnings",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "View rewards catalog",
+      "usedIn": [
+        "components/RewardsModal.jsx"
+      ]
+    },
+    {
+      "text": "View Slip",
+      "usedIn": [
+        "pages/Certificate.jsx",
+        "pages/Profile.jsx"
+      ]
+    },
+    {
+      "text": "View verified certificate",
+      "usedIn": [
+        "pages/Handover.jsx"
+      ]
+    },
+    {
+      "text": "Vikram Shinde",
+      "usedIn": [
+        "services/gamificationService.js"
+      ]
+    },
+    {
+      "text": "vs prev",
+      "usedIn": [
+        "components/Charts.jsx"
+      ]
+    },
+    {
+      "text": "w-1.5 h-1.5 rounded-full bg-current",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "Waiting for a server-issued pass",
+      "usedIn": [
+        "pages/Handover.jsx"
+      ]
+    },
+    {
+      "text": "Wallet Credited",
+      "usedIn": [
+        "components/DigitalReceiptModal.jsx"
+      ]
+    },
+    {
+      "text": "Wash your hands before eating. Metal dust on food is a slow poison.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Washing Machine E-Scrap",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "Washing machine, fan, or pump electric motors with copper windings.",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "Watch for sharp metal edges and keep strong magnets away from sensitive devices.",
+      "usedIn": [
+        "services/estimateService.js"
+      ]
+    },
+    {
+      "text": "Watch for sharp metallic edges when handling heavy motor cores.",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "Watch the microwave capacitor",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Water Saved",
+      "usedIn": [
+        "components/EcoImpact.jsx"
+      ]
+    },
+    {
+      "text": "Water taps, brass utensils, locks, and decorative brass metal.",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "Wear Heavy Gloves",
+      "usedIn": [
+        "data/mockData.js"
+      ]
+    },
+    {
+      "text": "Week by week",
+      "usedIn": [
+        "pages/Analytics.jsx"
+      ]
+    },
+    {
+      "text": "Weekly",
+      "usedIn": [
+        "pages/UnitEconomics.jsx"
+      ]
+    },
+    {
+      "text": "Weigh before you leave",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Weighing Accuracy",
+      "usedIn": [
+        "components/RatingModal.jsx"
+      ]
+    },
+    {
+      "text": "Weight",
+      "usedIn": [
+        "pages/Analytics.jsx",
+        "pages/CPCBReport.jsx",
+        "pages/EstimatedValue.jsx",
+        "pages/ScanItem.jsx"
+      ]
+    },
+    {
+      "text": "Weight flags",
+      "usedIn": [
+        "pages/AnomalyDashboard.jsx"
+      ]
+    },
+    {
+      "text": "Weight in kilograms",
+      "usedIn": [
+        "pages/EstimatedValue.jsx",
+        "pages/PriceBoard.jsx",
+        "pages/ScanItem.jsx"
+      ]
+    },
+    {
+      "text": "Weight verification",
+      "usedIn": [
+        "pages/Certificate.jsx"
+      ]
+    },
+    {
+      "text": "What actually pays",
+      "usedIn": [
+        "pages/Analytics.jsx"
+      ]
+    },
+    {
+      "text": "What collectors say",
+      "usedIn": [
+        "pages/BuyerDashboard.jsx"
+      ]
+    },
+    {
+      "text": "What did you collect today?",
+      "usedIn": [
+        "pages/Dashboard.jsx"
+      ]
+    },
+    {
+      "text": "What does EPR require electronics companies to do?",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "What EPR means for you",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "What is the risk of always selling to the same buyer?",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "What is the safest way to handle circuit boards?",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "What makes your handover record valuable to you personally?",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "What this means",
+      "usedIn": [
+        "pages/Analytics.jsx"
+      ]
+    },
+    {
+      "text": "What you collect",
+      "usedIn": [
+        "pages/Analytics.jsx"
+      ]
+    },
+    {
+      "text": "WhatsApp Slip",
+      "usedIn": [
+        "pages/Certificate.jsx",
+        "pages/Handover.jsx"
+      ]
+    },
+    {
+      "text": "When should you check the market rate?",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "When you sell everything to a single buyer, they set the price. Selling to two or three different recyclers keeps rates competitive and gives you a fallback.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Where consignments currently sit in the recycling chain",
+      "usedIn": [
+        "pages/CPCBReport.jsx"
+      ]
+    },
+    {
+      "text": "Where the material originated",
+      "usedIn": [
+        "pages/CPCBReport.jsx"
+      ]
+    },
+    {
+      "text": "Which material usually pays you the most per kilogram?",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Which part of a microwave oven can kill even when unplugged?",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Who you sell to",
+      "usedIn": [
+        "pages/Analytics.jsx"
+      ]
+    },
+    {
+      "text": "Whole boards sold formally pay more than hand-recovered gold, without exposing you to acid or toxic fumes.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Why can CPCB-registered recyclers pay better rates?",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Why should you never burn cable insulation?",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Why should you sort materials before selling?",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Why the paper trail pays you",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Why this recycler is recommended",
+      "usedIn": [
+        "pages/RecyclerDetails.jsx"
+      ]
+    },
+    {
+      "text": "Within today’s fair range",
+      "usedIn": [
+        "services/priceService.js"
+      ]
+    },
+    {
+      "text": "Work Safe, Earn Longer",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Working",
+      "usedIn": [
+        "components/Button.jsx"
+      ]
+    },
+    {
+      "text": "Year",
+      "usedIn": [
+        "pages/CPCBReport.jsx"
+      ]
+    },
+    {
+      "text": "Yearly",
+      "usedIn": [
+        "pages/UnitEconomics.jsx"
+      ]
+    },
+    {
+      "text": "You are here",
+      "usedIn": [
+        "pages/NearbyRecyclers.jsx"
+      ]
+    },
+    {
+      "text": "You find a phone battery that looks swollen. What should you do?",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "You're offline — scans and saved data still work",
+      "usedIn": [
+        "components/Navbar.jsx"
+      ]
+    },
+    {
+      "text": "Your area — optional",
+      "usedIn": [
+        "pages/Signup.jsx"
+      ]
+    },
+    {
+      "text": "Your average trip earns",
+      "usedIn": [
+        "pages/UnitEconomics.jsx"
+      ]
+    },
+    {
+      "text": "Your bag is empty",
+      "usedIn": [
+        "pages/Bag.jsx"
+      ]
+    },
+    {
+      "text": "Your documented collection is worth more to a producer than an undocumented one.",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Your Eco Impact",
+      "usedIn": [
+        "components/EcoImpact.jsx"
+      ]
+    },
+    {
+      "text": "Your Kabadi Passbook records confirmed recycler handovers. Pending payments remain visible until the recycler confirms them.",
+      "usedIn": [
+        "pages/Earnings.jsx"
+      ]
+    },
+    {
+      "text": "Your lot is queued and will sync automatically when you're back online.",
+      "usedIn": [
+        "pages/EstimatedValue.jsx"
+      ]
+    },
+    {
+      "text": "Your password",
+      "usedIn": [
+        "pages/BuyerLogin.jsx",
+        "pages/Login.jsx"
+      ]
+    },
+    {
+      "text": "Your progress",
+      "usedIn": [
+        "pages/Training.jsx"
+      ]
+    },
+    {
+      "text": "Your rate — ₹ per kg",
+      "usedIn": [
+        "pages/BuyerRegister.jsx"
+      ]
+    },
+    {
+      "text": "Your record builds standing",
+      "usedIn": [
+        "data/trainingModules.js"
+      ]
+    },
+    {
+      "text": "Your week",
+      "usedIn": [
+        "pages/Analytics.jsx"
+      ]
+    },
+    {
+      "text": "Zero-Burn Champion",
+      "usedIn": [
+        "services/gamificationService.js"
+      ]
+    }
+  ]
+}
