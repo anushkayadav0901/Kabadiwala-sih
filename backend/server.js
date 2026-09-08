@@ -440,6 +440,50 @@ app.get("/api/transactions/:id/anomaly", requireAuth, async (req, res, next) => 
   } catch (error) { next(error); }
 });
 
+app.get("/api/anomalies/scan", requireAuth, async (req, res, next) => {
+  try {
+    const days = Math.min(Number(req.query.days) || 30, 90);
+    const since = new Date(Date.now() - days * 86400000);
+    const transactions = await Transaction.find({ createdAt: { $gte: since } }).populate("lot").sort({ createdAt: -1 }).limit(200);
+    const results = [];
+    for (const tx of transactions) {
+      const anomaly = await detectAnomalies(tx, tx.lot);
+      if (anomaly.isAnomalous) {
+        results.push({
+          transactionId: tx._id,
+          lotId: tx.lot?._id,
+          collector: tx.collector,
+          recycler: tx.recycler,
+          materialCategory: tx.materialCategory || tx.lot?.materials?.[0]?.category,
+          totalWeight: tx.lot?.totalWeight,
+          quotedPrice: tx.quotedPrice,
+          finalPrice: tx.finalPrice,
+          createdAt: tx.createdAt,
+          ...anomaly
+        });
+      }
+    }
+    const summary = {
+      scanned: transactions.length,
+      flagged: results.length,
+      high: results.filter((r) => r.severity === "high").length,
+      medium: results.filter((r) => r.severity === "medium").length,
+      low: results.filter((r) => r.severity === "low").length,
+    };
+    res.json({ summary, anomalies: results });
+  } catch (error) { next(error); }
+});
+
+app.get("/api/anomalies/check-lot/:lotId", requireAuth, async (req, res, next) => {
+  try {
+    const lot = await Lot.findById(req.params.lotId);
+    if (!lot) return res.status(404).json({ message: "Lot not found" });
+    const mockTx = { materialCategory: lot.materials?.[0]?.category, quotedPrice: lot.estimatedValue, collector: lot.collector, createdAt: lot.createdAt };
+    const anomaly = await detectAnomalies(mockTx, lot);
+    res.json(anomaly);
+  } catch (error) { next(error); }
+});
+
 app.get("/api/recyclers", async (req, res, next) => {
   try {
     const { material, location, lat, lng, weight, lotId, eprProducer } = req.query;

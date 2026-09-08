@@ -2,7 +2,7 @@
   "source": "MetalMandi (https://www.metalmandi.in/scrap-rate)",
   "cityId": 113,
   "cityName": "Central Delhi, Delhi NCR",
-  "lastSyncedAt": "2026-09-07T18:44:30.348Z",
+  "lastSyncedAt": "2026-09-08T05:08:22.920Z",
   "itemCount": 17,
   "status": "LIVE_SYNCHRONIZED",
   "materials": [
@@ -26,7 +26,7 @@
       "mandiSubcategory": "Laptop-Server Board",
       "source": "MetalMandi Live API",
       "city": "Central Delhi, Delhi NCR",
-      "lastSyncedAt": "2026-09-07T18:44:30.348Z"
+      "lastSyncedAt": "2026-09-08T05:08:22.920Z"
     },
     {
       "id": "mat_mobile",
@@ -48,7 +48,7 @@
       "mandiSubcategory": "Smartphone",
       "source": "MetalMandi Live API",
       "city": "Central Delhi, Delhi NCR",
-      "lastSyncedAt": "2026-09-07T18:44:30.348Z"
+      "lastSyncedAt": "2026-09-08T05:08:22.920Z"
     },
     {
       "id": "mat_television",
@@ -70,7 +70,7 @@
       "mandiSubcategory": "LCD",
       "source": "MetalMandi Live API",
       "city": "Central Delhi, Delhi NCR",
-      "lastSyncedAt": "2026-09-07T18:44:30.348Z"
+      "lastSyncedAt": "2026-09-08T05:08:22.920Z"
     },
     {
       "id": "mat_keyboard",
@@ -92,7 +92,7 @@
       "mandiSubcategory": "E-waste without accessories",
       "source": "MetalMandi Live API",
       "city": "Central Delhi, Delhi NCR",
-      "lastSyncedAt": "2026-09-07T18:44:30.348Z"
+      "lastSyncedAt": "2026-09-08T05:08:22.920Z"
     },
     {
       "id": "mat_mouse",
@@ -114,7 +114,7 @@
       "mandiSubcategory": "E-waste without accessories",
       "source": "MetalMandi Live API",
       "city": "Central Delhi, Delhi NCR",
-      "lastSyncedAt": "2026-09-07T18:44:30.348Z"
+      "lastSyncedAt": "2026-09-08T05:08:22.920Z"
     },
     {
       "id": "mat_printer",
@@ -136,7 +136,7 @@
       "mandiSubcategory": "Printer",
       "source": "MetalMandi Live API",
       "city": "Central Delhi, Delhi NCR",
-      "lastSyncedAt": "2026-09-07T18:44:30.348Z"
+      "lastSyncedAt": "2026-09-08T05:08:22.920Z"
     },
     {
       "id": "mat_microwave",
@@ -158,7 +158,7 @@
       "mandiSubcategory": "Microwave & Oven",
       "source": "MetalMandi Live API",
       "city": "Central Delhi, Delhi NCR",
-      "lastSyncedAt": "2026-09-07T18:44:30.348Z"
+      "lastSyncedAt": "2026-09-08T05:08:22.920Z"
     },
     {
       "id": "mat_player",
@@ -180,7 +180,7 @@
       "mandiSubcategory": "E-waste with accessories",
       "source": "MetalMandi Live API",
       "city": "Central Delhi, Delhi NCR",
-      "lastSyncedAt": "2026-09-07T18:44:30.348Z"
+      "lastSyncedAt": "2026-09-08T05:08:22.920Z"
     },
     {
       "id": "mat_washing_machine",
@@ -188,12 +188,12 @@
       "hindiName": "वाशिंग मशीन स्क्रैप",
       "marathiName": "वॉशिंग मशिन स्क्रॅप",
       "category": "e_waste",
-      "pricePerKg": 1191,
-      "marketRangeMin": 1131,
-      "marketRangeMax": 1251,
+      "pricePerKg": 40,
+      "marketRangeMin": 38,
+      "marketRangeMax": 42,
       "unit": "kg",
       "trend": "up",
-      "change": "+0.25% today",
+      "change": "+0.51% today",
       "icon": "⚙️",
       "confidence": 94,
       "shortDescription": "Heavy home appliance with large copper induction motor and electronic control board.",
@@ -202,7 +202,7 @@
       "mandiSubcategory": "Automatic - Top Load",
       "source": "MetalMandi Live API",
       "city": "Central Delhi, Delhi NCR",
-      "lastSyncedAt": "2026-09-07T18:44:30.348Z"
+      "lastSyncedAt": "2026-09-08T05:08:22.920Z"
     },
     {
       "id": "mat_battery",
@@ -224,7 +224,7 @@
       "mandiSubcategory": "Laptop",
       "source": "MetalMandi Live API",
       "city": "Central Delhi, Delhi NCR",
-      "lastSyncedAt": "2026-09-07T18:44:30.348Z"
+      "lastSyncedAt": "2026-09-08T05:08:22.920Z"
     },
     {
       "id": "mat_copper",
@@ -232,12 +232,12 @@
       "hindiName": "तांबा तार (लाल माल)",
       "marathiName": "तांब्याची तार",
       "category": "metal",
-      "pricePerKg": 1283,
-      "marketRangeMin": 1219,
-      "marketRangeMax": 1347,
+      "pricePerKg": 1301,
+      "marketRangeMin": 1236,
+      "marketRangeMax": 1366,
       "unit": "kg",
       "trend": "up",
-      "change": "+0.08% today",
+      "change": "+0.54% today",
       "icon": "🔌",
       "confidence": 98,
       "shortDescription": "High purity heavy copper wire, stripped or unstripped cables.",
@@ -246,7 +246,7 @@
       "mandiSubcategory": "Laal Maal",
       "source": "MetalMandi Live API",
       "city": "Central Delhi, Delhi NCR",
-      "lastSyncedAt": "2026-09-07T18:44:30.348Z"
+      "lastSyncedAt": "2026-09-08T05:08:22.920Z"
     },
     {
       "id": "mat_aluminium",
@@ -254,12 +254,12 @@
       "hindiName": "एल्युमिनियम तार व सेक्शन",
       "marathiName": "अ‍ॅल्युमिनियम स्क्रॅप",
       "category": "metal",
-      "pricePerKg": 336,
-      "marketRangeMin": 319,
-      "marketRangeMax": 353,
+      "pricePerKg": 335,
+      "marketRangeMin": 318,
+      "marketRangeMax": 352,
       "unit": "kg",
-      "trend": "up",
-      "change": "+0.3% today",
+      "trend": "down",
+      "change": "-0.3% today",
       "icon": "🪙",
       "confidence": 95,
       "shortDescription": "Aluminium conductors, door/window section cuttings, and utensil scrap.",
@@ -268,7 +268,7 @@
       "mandiSubcategory": "Wire Scrap",
       "source": "MetalMandi Live API",
       "city": "Central Delhi, Delhi NCR",
-      "lastSyncedAt": "2026-09-07T18:44:30.348Z"
+      "lastSyncedAt": "2026-09-08T05:08:22.920Z"
     },
     {
       "id": "mat_brass",
@@ -290,7 +290,7 @@
       "mandiSubcategory": "Purja",
       "source": "MetalMandi Live API",
       "city": "Central Delhi, Delhi NCR",
-      "lastSyncedAt": "2026-09-07T18:44:30.348Z"
+      "lastSyncedAt": "2026-09-08T05:08:22.920Z"
     },
     {
       "id": "mat_iron",
@@ -312,7 +312,7 @@
       "mandiSubcategory": "Piece to Piece",
       "source": "MetalMandi Live API",
       "city": "Central Delhi, Delhi NCR",
-      "lastSyncedAt": "2026-09-07T18:44:30.348Z"
+      "lastSyncedAt": "2026-09-08T05:08:22.920Z"
     },
     {
       "id": "mat_fridge",
@@ -320,12 +320,12 @@
       "hindiName": "फ्रिज स्क्रैप",
       "marathiName": "फ्रिज स्क्रॅप",
       "category": "e_waste",
-      "pricePerKg": 1462,
-      "marketRangeMin": 1389,
-      "marketRangeMax": 1535,
+      "pricePerKg": 53,
+      "marketRangeMin": 50,
+      "marketRangeMax": 55,
       "unit": "kg",
-      "trend": "down",
-      "change": "-0.07% today",
+      "trend": "up",
+      "change": "+0.77% today",
       "icon": "🧊",
       "confidence": 90,
       "shortDescription": "Single & double door domestic refrigerators with copper tubing and compressor.",
@@ -334,7 +334,7 @@
       "mandiSubcategory": "Single Door(Cop)",
       "source": "MetalMandi Live API",
       "city": "Central Delhi, Delhi NCR",
-      "lastSyncedAt": "2026-09-07T18:44:30.348Z"
+      "lastSyncedAt": "2026-09-08T05:08:22.920Z"
     },
     {
       "id": "mat_ac",
@@ -342,12 +342,12 @@
       "hindiName": "एसी स्क्रैप (विंडो / स्प्लिट)",
       "marathiName": "एसी स्क्रॅप",
       "category": "e_waste",
-      "pricePerKg": 131,
-      "marketRangeMin": 124,
-      "marketRangeMax": 137,
+      "pricePerKg": 5042,
+      "marketRangeMin": 4790,
+      "marketRangeMax": 5294,
       "unit": "kg",
       "trend": "up",
-      "change": "+0.08% today",
+      "change": "+0.32% today",
       "icon": "❄️",
       "confidence": 94,
       "shortDescription": "AC copper radiator cooling coils, rotary compressor, and blower assembly.",
@@ -356,7 +356,7 @@
       "mandiSubcategory": "1T-Cop",
       "source": "MetalMandi Live API",
       "city": "Central Delhi, Delhi NCR",
-      "lastSyncedAt": "2026-09-07T18:44:30.348Z"
+      "lastSyncedAt": "2026-09-08T05:08:22.920Z"
     },
     {
       "id": "mat_plastic",
@@ -378,7 +378,7 @@
       "mandiSubcategory": "E-waste without accessories",
       "source": "MetalMandi Live API",
       "city": "Central Delhi, Delhi NCR",
-      "lastSyncedAt": "2026-09-07T18:44:30.348Z"
+      "lastSyncedAt": "2026-09-08T05:08:22.920Z"
     }
   ]
 }

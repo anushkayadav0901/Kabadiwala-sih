@@ -12,8 +12,10 @@ import { formatCurrency, formatWeight } from "../utils/helpers";
 import { getLotPassport, prepareLotPassport } from "../services/lotService";
 import {
   HiArrowRight, HiCheckCircle, HiOutlineClipboard, HiOutlineClock,
-  HiOutlineMapPin, HiOutlineQrCode, HiCheck
+  HiOutlineMapPin, HiOutlineQrCode, HiCheck,
+  HiOutlineShieldExclamation
 } from "react-icons/hi2";
+import { checkLotAnomaly, getFlagMeta } from "../services/anomalyService";
 import { FaWhatsapp } from "react-icons/fa";
 import { DigitalReceiptModal } from "../components/DigitalReceiptModal";
 
@@ -45,6 +47,7 @@ export const Handover = () => {
   const [copied, setCopied] = useState(false);
   const [isVerifiedByBuyer, setIsVerifiedByBuyer] = useState(true);
   const [isReceiptOpen, setIsReceiptOpen] = useState(false);
+  const [anomalyCheck, setAnomalyCheck] = useState(null);
 
   const formattedWeight = Number(lot?.total_weight || 0).toFixed(2);
   const formattedValue = Number(lot?.estimated_value || 0).toFixed(2);
@@ -110,6 +113,11 @@ export const Handover = () => {
     return () => { live = false; window.clearInterval(interval); };
   }, [lot?.id, recycler?.id]);
 
+  useEffect(() => {
+    if (!lot?.id || lot.id.startsWith("lot_demo")) return;
+    checkLotAnomaly(lot.id).then(setAnomalyCheck).catch(() => {});
+  }, [lot?.id]);
+
   const handleCopyPayload = () => {
     navigator.clipboard.writeText(verificationPayloadString);
     setCopied(true);
@@ -172,6 +180,32 @@ export const Handover = () => {
             </p>
           </div>
         </motion.div>
+
+        {/* ---- anomaly warning --------------------------------------------- */}
+        {anomalyCheck?.isAnomalous && (
+          <div className={`rounded-xl p-3.5 flex items-start gap-3 ${
+            anomalyCheck.severity === "high" ? "bg-red-50 border border-red-200" : "bg-amber-50 border border-amber-200"
+          }`}>
+            <HiOutlineShieldExclamation className={`text-xl shrink-0 mt-0.5 ${
+              anomalyCheck.severity === "high" ? "text-red-600" : "text-amber-600"
+            }`} />
+            <div className="min-w-0">
+              <p className={`text-[13px] font-semibold ${
+                anomalyCheck.severity === "high" ? "text-red-700" : "text-amber-700"
+              }`}>
+                Anomaly detected — {anomalyCheck.severity} severity
+              </p>
+              {anomalyCheck.flags?.map((f, i) => {
+                const meta = getFlagMeta(f.type);
+                return (
+                  <p key={i} className="text-[12px] text-faint mt-1 flex items-center gap-1.5">
+                    <span>{meta.icon}</span> {f.reason}
+                  </p>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
         {/* ---- pass ------------------------------------------------------- */}
         <div className="rounded-[18px] bg-surface border border-line overflow-hidden shadow-[var(--shadow-card)]">
