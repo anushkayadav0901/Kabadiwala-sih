@@ -10,12 +10,14 @@ import {
 } from "../services/transactionService";
 import { formatCurrency } from "../utils/helpers";
 import { useApp } from "../context/AppContext";
-import { HiOutlineWallet, HiCheckCircle, HiOutlineInformationCircle, HiOutlineDocumentArrowDown } from "react-icons/hi2";
+import { HiOutlineWallet, HiCheckCircle, HiOutlineInformationCircle, HiOutlineDocumentArrowDown, HiOutlineCalculator, HiChevronRight } from "react-icons/hi2";
+import { useNavigate } from "react-router-dom";
 import { FaWhatsapp } from "react-icons/fa";
 import { generateInvoice } from "../utils/generateInvoice";
 import { DigitalReceiptModal } from "../components/DigitalReceiptModal";
 
 export const Earnings = () => {
+  const navigate = useNavigate();
   const { t, user } = useApp();
   const [summary, setSummary] = useState(null);
   const [transactions, setTransactions] = useState([]);
@@ -112,6 +114,21 @@ export const Earnings = () => {
             visible until the recycler confirms them.
           </p>
         </div>
+
+        {/* ---- unit economics CTA ------------------------------------------- */}
+        <button
+          onClick={() => navigate("/economics")}
+          className="card p-4 flex items-center gap-3 tap hover:bg-sunken transition-colors"
+        >
+          <span className="w-10 h-10 shrink-0 rounded-xl bg-emerald-50 grid place-items-center">
+            <HiOutlineCalculator className="text-lg text-emerald-600" />
+          </span>
+          <div className="min-w-0 flex-1 text-left">
+            <p className="text-[14px] font-semibold text-ink">Unit Economics</p>
+            <p className="text-[12.5px] text-faint">Per-trip profit, cost breakdown & projections</p>
+          </div>
+          <HiChevronRight className="text-faint text-sm shrink-0" />
+        </button>
 
         {/* ---- history ----------------------------------------------------- */}
         <section>

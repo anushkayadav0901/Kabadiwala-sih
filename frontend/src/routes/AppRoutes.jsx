@@ -28,6 +28,7 @@ import { Payment } from "../pages/Payment";
 import { Certificate } from "../pages/Certificate";
 import { Leaderboard } from "../pages/Leaderboard";
 import { EPRCompliance } from "../pages/EPRCompliance";
+import { UnitEconomics } from "../pages/UnitEconomics";
 
 const PageWrapper = ({ children }) => (
   <motion.div
@@ -85,6 +86,7 @@ export const AppRoutes = () => {
         <Route path="/certificate" element={<CollectorRoute><Certificate /></CollectorRoute>} />
         <Route path="/leaderboard" element={<CollectorRoute><Leaderboard /></CollectorRoute>} />
         <Route path="/epr" element={<CollectorRoute><EPRCompliance /></CollectorRoute>} />
+        <Route path="/economics" element={<CollectorRoute><UnitEconomics /></CollectorRoute>} />
 
         {/* Buyer / Recycler portal */}
         <Route path="/buyer/login" element={<PageWrapper><BuyerLogin /></PageWrapper>} />
