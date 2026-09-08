@@ -281,6 +281,8 @@ export const scanMaterial = async (imageSrc) => {
 
 export const getSupportedMaterials = () => Object.entries(modelMaterials).map(([label, material]) => ({ label, ...material }));
 
+export { loadScanModel, modelMaterials };
+
 export const classifyWithGemini = async (imageSrc) => {
   const blob = await fetch(imageSrc).then((response) => response.blob());
   const form = new FormData();
