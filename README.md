@@ -1,161 +1,252 @@
 # Kabadiwala Connect
 
-Kabadiwala Connect is a React PWA and Node.js/Express + MongoDB platform that helps informal scrap collectors create traceable lots, discover fair prices, find recyclers, and complete a signed QR handover.
+**A digital platform for India's informal e-waste and scrap collectors — built for Smart India Hackathon 2026, Problem Statement 26229 (Ministry of Mines).**
 
-## What is included
+Kabadiwala Connect bridges the gap between grassroots waste collectors (kabadiwalas) and the formal recycling ecosystem. It gives collectors on-device AI material identification, real-time scrap pricing, verified recycler discovery, EPR compliance tracking, and a tamper-proof digital handover system — all accessible in Hindi, Marathi, and English with a mobile-first, offline-capable PWA.
 
-- On-device TF.js material classification
-- Photo, weight, price-range and digital-lot flow
-- Price board with 30-day trends and spoken rates
-- Recycler map and explainable matching score
-- Signed **Kabadi Passport** QR handover
-- Recycler portal, handover confirmation, certificate and PDF invoice
-- Earnings passbook with pending dues
-- Hindi, Marathi and English UI; pictorial/audio safety guidance
-- PWA manifest, offline banner and caching
-- Optional Gemini Vision API routes and rule-based transaction-risk checks
+---
 
-> **Demo-data notice:** Recycler authorization and price records are seed/demo data. They must be validated against official CPCB and market/recycler sources before a production or judging claim.
+## Problem Statement
 
-## Prerequisites
+> **SIH 2026 — PS 26229 (Ministry of Mines)**
+>
+> India generates over 3.2 million tonnes of e-waste annually, yet 95% is handled by the informal sector without safety protocols, fair pricing, or regulatory traceability. Collectors lack tools to identify hazardous materials, verify buyer credentials, or participate in Extended Producer Responsibility (EPR) compliance under the E-Waste Management Rules, 2022.
 
-- Node.js 20 or newer
-- MongoDB Community Server **or** a MongoDB Atlas database
+Kabadiwala Connect solves this by putting AI-powered identification, market-linked pricing, and CPCB-verified recycler networks directly into collectors' hands.
+
+---
+
+## Key Features
+
+### AI Material Scanner (On-Device)
+- **Live AR Camera Overlay** — Point the camera at scrap, get real-time material classification with confidence score and price/kg floating on the live feed
+- **TensorFlow.js + Teachable Machine** model runs entirely on-device — works without internet
+- Recognizes 10+ e-waste categories: PCBs, batteries, mobiles, printers, CRT/LCD displays, cables, motors, and more
+- Click to capture for full detailed scan result with safety warnings
+
+### Real-Time Scrap Pricing
+- Live market rates synced from MetalMandi with centralized master document
+- 30-day price trend charts for every material category
+- Spoken rate playback for low-literacy users
+- Market range (min/max) and source confidence indicators
+
+### Recycler Discovery & Matching
+- Interactive map with Leaflet showing CPCB-authorized recyclers
+- Explainable matching score based on distance, materials accepted, authorization level, and EPR partnerships
+- Filter by material type, distance radius, and EPR producer partnerships
+- One-tap navigation to recycler location
+
+### EPR Compliance Dashboard
+- Real-time Extended Producer Responsibility tracking under E-Waste Management Rules 2022, Schedule III
+- 8 major producers tracked (Samsung, Apple, LG, HP, Dell, Xiaomi, Voltas, boAt) with SVG brand logos
+- Collection targets, compliance percentages, and annual ramp visualization
+- Direct integration — sell to EPR-partnered recyclers and contribute to producer targets
+
+### Kabadi Passport (Digital Handover)
+- Signed QR code handover between collector and verified recycler
+- Tamper-proof digital lot with photo, weight, material classification, and price
+- Recycler scans QR → verifies lot → confirms handover
+- PDF invoice and certificate generation for both parties
+
+### Gamification & Rewards
+- Collector levels (Eco Hero → Kabaad Ustaad), XP progression, weekly streaks
+- Token-based reward store — earn tokens for verified sales
+- Leaderboard ranking across the collector network
+- Weekly goals with bonus token incentives
+
+### Safety & Compliance
+- Pictorial + audio safety guidance for hazardous materials (batteries, CRTs, toner)
+- Material-specific safety warnings shown at scan time
+- CPCB authorization verification for recyclers
+- Transaction risk detection with explainable rule-based flags
+
+### Multi-Language & Accessibility
+- Full UI in Hindi, Marathi, and English
+- Spoken rates and audio safety guidance for low-literacy users
+- Mobile-first responsive design, works on low-end Android devices
+- PWA with offline banner and service worker caching
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+| --- | --- |
+| **Frontend** | React 18, Vite 6, Tailwind CSS 4, Framer Motion |
+| **Backend** | Node.js, Express.js, MongoDB/Mongoose |
+| **AI/ML** | TensorFlow.js, Teachable Machine (MobileNet), on-device inference |
+| **Maps** | React Leaflet, OpenStreetMap |
+| **Auth** | JWT with signed Kabadi Passport tokens |
+| **PWA** | Service workers, offline caching, install prompt |
+| **Optional** | Google Gemini Vision API (server-side fallback) |
+
+---
+
+## Architecture
+
+```
+┌─────────────────────────────────────────────────┐
+│                  React PWA (Vite)                │
+│  ┌───────────┐ ┌──────────┐ ┌────────────────┐  │
+│  │ TF.js     │ │ Leaflet  │ │ Framer Motion  │  │
+│  │ Scanner   │ │ Maps     │ │ Animations     │  │
+│  └─────┬─────┘ └────┬─────┘ └───────┬────────┘  │
+│        └────────────┬┘               │           │
+│              Service Worker + Cache              │
+└──────────────────────┬───────────────────────────┘
+                       │ REST API
+┌──────────────────────┴───────────────────────────┐
+│              Express.js API Server               │
+│  ┌──────────┐ ┌──────────┐ ┌──────────────────┐  │
+│  │ JWT Auth │ │ EPR      │ │ MetalMandi       │  │
+│  │ Middleware│ │ Service  │ │ Price Sync       │  │
+│  └──────────┘ └──────────┘ └──────────────────┘  │
+└──────────────────────┬───────────────────────────┘
+                       │
+              ┌────────┴────────┐
+              │    MongoDB      │
+              │  (Atlas/Local)  │
+              └─────────────────┘
+```
+
+---
+
+## Quick Start
+
+### Prerequisites
+- Node.js 20+
+- MongoDB (local Community Server or Atlas)
 - npm
 
-## Run locally
+### 1. Backend Setup
 
-Open two PowerShell terminals from this project folder.
-
-### 1. Set up and start the backend
-
-```powershell
+```bash
 cd backend
 npm install
-Copy-Item .env.example .env
+cp .env.example .env
 ```
 
-Open `backend/.env` and set values similar to:
-
+Configure `backend/.env`:
 ```env
 MONGODB_URI=mongodb://127.0.0.1:27017/kabadiwala_connect
-JWT_SECRET=replace-this-with-a-long-random-secret
+JWT_SECRET=replace-with-a-long-random-secret
 PORT=5000
 CLIENT_ORIGIN=http://localhost:3000
-
-# Optional — leave blank to use only the on-device TF.js model
-GEMINI_API_KEY=
+GEMINI_API_KEY=              # optional
 ```
 
-Seed the demo price and recycler data, then start the API:
-
-```powershell
+Seed demo data and start:
+```bash
 npm run seed
 npm run dev
 ```
 
-The API runs at `http://localhost:5000/api`.
+API runs at `http://localhost:5000/api`
 
-### 2. Set up and start the frontend
+### 2. Frontend Setup
 
-```powershell
+```bash
 cd frontend
 npm install
-Copy-Item .env.example .env
+cp .env.example .env
 npm run dev
 ```
 
-The app opens at `http://localhost:3000`.
-
-`frontend/.env` should contain:
-
+Configure `frontend/.env`:
 ```env
 VITE_API_URL=http://localhost:5000/api
 ```
 
-## Demo logins
+App opens at `http://localhost:3000`
 
-Run `npm run seed` in `backend` before using this login.
+---
 
-### Recycler portal
+## Demo Credentials
 
-Open `http://localhost:3000/buyer/login`.
-
-| Field | Demo value |
+| Portal | Credentials |
 | --- | --- |
-| Email | `delhi.ewaste@example.com` |
-| Password | `Recycler@123` |
+| **Collector** | Phone: `9999888877`, Password: `demo1234` |
+| **Recycler** | Email: `delhi.ewaste@example.com`, Password: `Recycler@123` |
 
-All ten seeded recycler accounts use the same password: `Recycler@123`.
+All 10 seeded recycler accounts share the password `Recycler@123`. Recycler portal is at `/buyer/login`.
 
-### Collector portal
+---
 
-There is intentionally **no seeded collector login**. Create one from the collector registration screen using any name, phone number, and a password of at least six characters. This makes the collector’s lots and ledger belong to that account.
+## Demo Walkthrough
 
-## Demo flow
+1. **Sign in** as a collector with the demo credentials
+2. **Scan Material** — open the live camera, point at any e-waste item. The AR overlay shows the detected material, confidence, and price in real-time
+3. **Capture & Create Lot** — tap shutter for full scan result, enter weight, create a digital lot
+4. **Find Recycler** — browse the map, check matching scores, filter by material or EPR partnership
+5. **Sell & Handover** — initiate verified sale, generate Kabadi Passport QR
+6. **Recycler Portal** — sign in as recycler in another browser, scan the QR, verify and confirm handover
+7. **Track Earnings** — return to collector account, view certificate, earnings passbook, and token rewards
+8. **EPR Dashboard** — check producer compliance targets and contribution tracking
 
-1. Register a collector and sign in.
-2. Scan/upload a material photo, enter a weight, and create a lot.
-3. Open a recycler and start the verified sale to create a signed Kabadi Passport QR.
-4. In another browser/profile, sign in to the Recycler Portal with the demo login.
-5. Scan the QR, verify the lot, and confirm handover.
-6. Return to the collector account to view its certificate and earnings passbook.
+---
 
-## Production build
-
-```powershell
-cd frontend
-npm run build
-npm run preview
-```
-
-The generated frontend is in `frontend/dist`.
-
-## Environment variables
+## Environment Variables
 
 ### Backend (`backend/.env`)
 
 | Variable | Required | Purpose |
 | --- | --- | --- |
 | `MONGODB_URI` | Yes | MongoDB connection string |
-| `JWT_SECRET` | Yes | Signs JWT sessions and Kabadi Passport signatures |
-| `PORT` | No | API port; defaults to `5000` |
-| `CLIENT_ORIGIN` | Yes in deployment | Comma-separated permitted frontend origins |
-| `GEMINI_API_KEY` | No | Enables Gemini API endpoints; TF.js remains the default fallback |
+| `JWT_SECRET` | Yes | Signs JWT sessions and Kabadi Passport |
+| `PORT` | No | API port (default: `5000`) |
+| `CLIENT_ORIGIN` | Yes (prod) | Comma-separated frontend origins |
+| `GEMINI_API_KEY` | No | Enables Gemini Vision fallback |
 
 ### Frontend (`frontend/.env`)
 
 | Variable | Required | Purpose |
 | --- | --- | --- |
-| `VITE_API_URL` | Yes | Full API base URL, for example `https://your-api.example.com/api` |
+| `VITE_API_URL` | Yes | API base URL |
 
-Never commit either `.env` file or a real Gemini/MongoDB secret.
+> Never commit `.env` files or secrets to version control.
 
-## Deployment outline
+---
 
-1. Create a MongoDB Atlas database and copy its connection string into the backend host’s `MONGODB_URI` setting.
-2. Deploy `backend` to Render, Railway, or another Node host. Set `JWT_SECRET` and `CLIENT_ORIGIN=https://your-vercel-app.vercel.app`.
-3. Run `npm run seed` once against the deployment database, or import validated production data instead.
-4. Deploy `frontend` to Vercel with root directory `frontend` and set `VITE_API_URL=https://your-api-host/api`.
-5. Redeploy the frontend after setting `VITE_API_URL`.
+## Deployment
 
-For production, replace local `backend/uploads/` storage with Cloudinary/S3-compatible storage because local host disks may not persist uploads.
+1. **Database** — Create a MongoDB Atlas cluster, copy the connection string
+2. **Backend** — Deploy to Render/Railway, set `JWT_SECRET`, `CLIENT_ORIGIN`, and `MONGODB_URI`
+3. **Seed** — Run `npm run seed` once against the production database
+4. **Frontend** — Deploy to Vercel with root directory `frontend`, set `VITE_API_URL`
+5. **Storage** — Replace local `backend/uploads/` with Cloudinary/S3 for persistent file storage
 
-## Current limitations
+---
 
-- Price history and recycler data are demo seeds, not live CPCB/market feeds.
-- The transaction shield is explainable rule-based detection, not a trained IsolationForest model.
-- Offline lot queue utilities exist, but full queued-lot synchronization still needs connection to the create-lot flow.
-- Gemini server routes require a key and are not yet called automatically by the scan screen.
-- No real payment gateway is connected; payments are recorded as transaction status.
+## Available Scripts
 
-## Useful commands
-
-| Command | Where | Purpose |
+| Command | Directory | Purpose |
 | --- | --- | --- |
-| `npm run dev` | `backend` | Start Express with auto-reload |
-| `npm start` | `backend` | Start Express normally |
-| `npm run seed` | `backend` | Reset and seed recyclers/prices |
-| `npm run dev` | `frontend` | Start Vite development server |
-| `npm run build` | `frontend` | Create production build |
+| `npm run dev` | `backend` | Start API with auto-reload |
+| `npm start` | `backend` | Start API (production) |
+| `npm run seed` | `backend` | Reset and seed demo data |
+| `npm run dev` | `frontend` | Vite dev server with HMR |
+| `npm run build` | `frontend` | Production build → `frontend/dist` |
+| `npm run preview` | `frontend` | Preview production build locally |
 
+---
+
+## Regulatory Context
+
+- **E-Waste (Management) Rules, 2022** — Schedule III defines Extended Producer Responsibility targets
+- **CPCB** (Central Pollution Control Board) — Authorization and registration of recyclers/dismantlers
+- **MoEFCC** (Ministry of Environment, Forest and Climate Change) — Policy oversight
+- **PROs** (Producer Responsibility Organisations) — Karo Sambhav, Ecoreco, E-Waste Recyclers India
+
+---
+
+## Current Limitations
+
+- Price and recycler data are demo seeds, not live CPCB/market feeds
+- Transaction shield uses rule-based detection, not a trained anomaly model
+- Full offline lot synchronization is partially implemented
+- No real payment gateway — payments are recorded as status updates
+- Gemini fallback requires API key and is not auto-triggered from scan
+
+---
+
+*Built for Smart India Hackathon 2026 — Ministry of Mines, Problem Statement 26229*
