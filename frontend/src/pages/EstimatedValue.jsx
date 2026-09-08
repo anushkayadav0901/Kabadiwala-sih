@@ -13,12 +13,12 @@ import {
   mapFrontendMaterialToDbCategory
 } from "../utils/helpers";
 import { createLot } from "../services/lotService";
-import { HiMinus, HiPlus, HiOutlineMapPin, HiOutlineInformationCircle } from "react-icons/hi2";
+import { HiMinus, HiPlus, HiOutlineMapPin, HiOutlineInformationCircle, HiOutlineCloud, HiCheck } from "react-icons/hi2";
 
 export const EstimatedValue = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { activeItem, user, userLocation, setActiveLot, clearBag, t } = useApp();
+  const { activeItem, user, userLocation, setActiveLot, clearBag, t, refreshPendingCount } = useApp();
 
   const scanState = location.state || {};
   const scannedMaterial = scanState.scanResult?.detectedMaterial;
@@ -29,6 +29,7 @@ export const EstimatedValue = () => {
     scanState.initialWeight ? Number(Number(scanState.initialWeight).toFixed(2)) : 5.0
   );
   const [saving, setSaving] = useState(false);
+  const [offlineSaved, setOfflineSaved] = useState(false);
 
   const materialsToSell = bagItems?.length ? bagItems : [{ ...currentMaterial, weightKg }];
   const totalWeight = Number(
@@ -100,6 +101,12 @@ export const EstimatedValue = () => {
       });
       setActiveLot(lot);
       if (bagItems?.length) clearBag();
+      if (lot.isOffline) {
+        refreshPendingCount();
+        setOfflineSaved(true);
+        setTimeout(() => navigate("/recyclers"), 2200);
+        return;
+      }
       navigate("/recyclers");
     } catch (err) {
       console.error(err);
@@ -112,6 +119,20 @@ export const EstimatedValue = () => {
   return (
     <div className="screen pb-bar">
       <Navbar title={t("estimatedValue") || "Estimated value"} />
+
+      {offlineSaved && (
+        <div className="mx-4 mt-3 rounded-2xl bg-blue-50 border border-blue-100 p-4 flex items-start gap-3 animate-in fade-in">
+          <div className="w-10 h-10 rounded-full bg-blue-100 grid place-items-center shrink-0">
+            <HiOutlineCloud className="text-blue-600 text-lg" />
+          </div>
+          <div>
+            <p className="font-bold text-[14px] text-blue-800">Saved offline</p>
+            <p className="text-[12.5px] text-blue-700/80 mt-0.5">
+              Your lot is queued and will sync automatically when you're back online.
+            </p>
+          </div>
+        </div>
+      )}
 
       <main className="col px-4 pt-4 flex flex-col gap-4">
         {/* ---- what is being sold --------------------------------------- */}

@@ -1,8 +1,9 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 import { DEFAULT_LANGUAGE, DEFAULT_LOCATION } from "../utils/constants";
 import { getCurrentUser, saveSession } from "../services/authService";
 import { getCurrentLocation } from "../services/locationService";
-import { subscribeToLotUpdates } from "../services/lotService";
+import { subscribeToLotUpdates, syncPendingLots } from "../services/lotService";
+import { getPendingCount } from "../utils/offlineStore";
 import { t as translateHelper } from "../services/translationService";
 
 const AppContext = createContext();
@@ -19,6 +20,7 @@ export const AppProvider = ({ children }) => {
   const [selectedRecycler, setSelectedRecycler] = useState(null);
   const [activeLot, setActiveLot] = useState(null);
   const [isOnline, setIsOnline] = useState(() => navigator.onLine);
+  const [pendingLotCount, setPendingLotCount] = useState(0);
   const [bagItems, setBagItems] = useState(() => {
     try {
       return JSON.parse(localStorage.getItem("kabadi_bag") || "[]");
@@ -82,13 +84,24 @@ export const AppProvider = ({ children }) => {
     }
   };
 
+  const refreshPendingCount = useCallback(async () => {
+    try { setPendingLotCount(await getPendingCount()); } catch { /* idb unavailable */ }
+  }, []);
+
   useEffect(() => {
-    const goOnline = () => setIsOnline(true);
+    refreshPendingCount();
+  }, [refreshPendingCount]);
+
+  useEffect(() => {
+    const goOnline = () => {
+      setIsOnline(true);
+      syncPendingLots().then(refreshPendingCount).catch(() => {});
+    };
     const goOffline = () => setIsOnline(false);
     window.addEventListener("online", goOnline);
     window.addEventListener("offline", goOffline);
     return () => { window.removeEventListener("online", goOnline); window.removeEventListener("offline", goOffline); };
-  }, []);
+  }, [refreshPendingCount]);
 
   useEffect(() => {
     localStorage.setItem("kabadi_bag", JSON.stringify(bagItems));
@@ -142,7 +155,9 @@ export const AppProvider = ({ children }) => {
         updateBagItem,
         removeFromBag,
         clearBag,
-        isOnline
+        isOnline,
+        pendingLotCount,
+        refreshPendingCount
       }}
     >
       {children}

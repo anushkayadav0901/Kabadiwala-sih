@@ -1,9 +1,12 @@
 import { mockMaterials } from "../data/mockData";
 import { formatDateLabel } from "../utils/helpers";
 import { api } from "./api";
+import { cacheData, getCachedData } from "../utils/offlineStore";
 import initialLiveRates from "../data/liveScrapRates.json";
 
-// In-memory cache of the synchronized master scrap rates document
+const PRICE_CACHE_KEY = "prices_master";
+const PRICE_TTL = 3600000;
+
 let cachedMasterDoc = initialLiveRates;
 
 export const categoryFor = (material) => {
@@ -34,10 +37,12 @@ export const getLiveMasterDoc = async () => {
     const data = await api("/prices/live");
     if (data && data.materials && data.materials.length > 0) {
       cachedMasterDoc = data;
+      cacheData(PRICE_CACHE_KEY, data, PRICE_TTL).catch(() => {});
       return data;
     }
-  } catch (err) {
-    // Graceful fallback to cached/bundled master rates
+  } catch {
+    const offline = await getCachedData(PRICE_CACHE_KEY);
+    if (offline) { cachedMasterDoc = offline; return offline; }
   }
   return cachedMasterDoc;
 };

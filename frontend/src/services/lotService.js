@@ -1,24 +1,102 @@
 import { api } from "./api";
+import { savePendingLot, getPendingLots, removePendingLot, markLotSyncing, markLotFailed } from "../utils/offlineStore";
 
-export const createLot = async ({ collectorId: _collectorId, materials, totalWeight, estimatedValue, photoUrls = [], photo, gpsLat, gpsLng }) => {
-  const form = new FormData();
-  form.append("materials", JSON.stringify(materials || []));
-  form.append("totalWeight", totalWeight);
-  form.append("estimatedValue", estimatedValue);
-  form.append("photoUrls", JSON.stringify(photoUrls.filter((url) => !String(url).startsWith("data:image/"))));
-  if (gpsLat != null) form.append("gpsLat", gpsLat);
-  if (gpsLng != null) form.append("gpsLng", gpsLng);
-  if (photo instanceof File) {
-    form.append("photo", photo);
-  } else {
-    const capturedPhoto = photoUrls.find((url) => String(url).startsWith("data:image/"));
-    if (capturedPhoto) {
-      const blob = await fetch(capturedPhoto).then((response) => response.blob());
-      form.append("photo", blob, "lot-photo.jpg");
+export const createLot = async ({ collectorId: _collectorId, materials, totalWeight, estimatedValue, photoUrls = [], photo, gpsLat, gpsLng, ...rest }) => {
+  const lotPayload = { materials, totalWeight, estimatedValue, photoUrls, gpsLat, gpsLng, ...rest };
+
+  if (!navigator.onLine) {
+    const entry = await savePendingLot(lotPayload);
+    return {
+      _id: entry.offlineId,
+      offlineId: entry.offlineId,
+      isOffline: true,
+      materials,
+      totalWeight,
+      estimatedValue,
+      status: "pending_sync",
+      createdAt: entry.createdAt,
+    };
+  }
+
+  try {
+    const form = new FormData();
+    form.append("materials", JSON.stringify(materials || []));
+    form.append("totalWeight", totalWeight);
+    form.append("estimatedValue", estimatedValue);
+    form.append("photoUrls", JSON.stringify(photoUrls.filter((url) => !String(url).startsWith("data:image/"))));
+    if (gpsLat != null) form.append("gpsLat", gpsLat);
+    if (gpsLng != null) form.append("gpsLng", gpsLng);
+    if (photo instanceof File) {
+      form.append("photo", photo);
+    } else {
+      const capturedPhoto = photoUrls.find((url) => String(url).startsWith("data:image/"));
+      if (capturedPhoto) {
+        const blob = await fetch(capturedPhoto).then((response) => response.blob());
+        form.append("photo", blob, "lot-photo.jpg");
+      }
+    }
+    return (await api("/lots", { method: "POST", body: form, auth: true })).lot;
+  } catch (err) {
+    if (!navigator.onLine || err.message === "Failed to fetch") {
+      const entry = await savePendingLot(lotPayload);
+      return {
+        _id: entry.offlineId,
+        offlineId: entry.offlineId,
+        isOffline: true,
+        materials,
+        totalWeight,
+        estimatedValue,
+        status: "pending_sync",
+        createdAt: entry.createdAt,
+      };
+    }
+    throw err;
+  }
+};
+
+export const syncPendingLots = async () => {
+  if (!navigator.onLine) return { synced: 0, failed: 0, pending: 0 };
+
+  const pending = await getPendingLots();
+  let synced = 0;
+  let failed = 0;
+
+  for (const entry of pending) {
+    if (entry.status === "syncing") continue;
+    try {
+      await markLotSyncing(entry.offlineId);
+      const { materials, totalWeight, estimatedValue, photoUrls = [], photo, gpsLat, gpsLng } = entry.lotData;
+
+      const form = new FormData();
+      form.append("materials", JSON.stringify(materials || []));
+      form.append("totalWeight", totalWeight);
+      form.append("estimatedValue", estimatedValue);
+      form.append("photoUrls", JSON.stringify((photoUrls || []).filter((url) => !String(url).startsWith("data:image/"))));
+      if (gpsLat != null) form.append("gpsLat", gpsLat);
+      if (gpsLng != null) form.append("gpsLng", gpsLng);
+      if (photo instanceof File) {
+        form.append("photo", photo);
+      } else {
+        const capturedPhoto = (photoUrls || []).find((url) => String(url).startsWith("data:image/"));
+        if (capturedPhoto) {
+          const blob = await fetch(capturedPhoto).then((r) => r.blob());
+          form.append("photo", blob, "lot-photo.jpg");
+        }
+      }
+
+      await api("/lots", { method: "POST", body: form, auth: true });
+      await removePendingLot(entry.offlineId);
+      synced++;
+    } catch (err) {
+      await markLotFailed(entry.offlineId, err.message);
+      failed++;
     }
   }
-  return (await api("/lots", { method: "POST", body: form, auth: true })).lot;
+
+  const remaining = await getPendingLots();
+  return { synced, failed, pending: remaining.length };
 };
+
 export const getCollectorLots = async (collectorId) => (await api(`/lots/collector/${collectorId}`, { auth: true })).lots;
 export const getLotPassport = async (lotId) => (await api(`/lots/${lotId}/passport`, { auth: true })).passport;
 export const getScrapDna = async (lotId) => (await api(`/lots/${lotId}/scrap-dna`, { auth: true })).dna;

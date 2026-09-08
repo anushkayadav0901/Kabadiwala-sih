@@ -17,6 +17,7 @@ import {
 } from "react-icons/hi2";
 import { RewardsModal } from "../components/RewardsModal";
 import { GamificationSection } from "../components/GamificationSection";
+import { EcoImpact } from "../components/EcoImpact";
 import { getTokenBalance } from "../services/tokenService";
 
 export const Dashboard = () => {
@@ -132,6 +133,9 @@ export const Dashboard = () => {
 
         {/* ---- gamification section (streak, levels, badges) ------------ */}
         <GamificationSection totalWeightKg={185} onOpenRewards={() => setIsRewardsOpen(true)} />
+
+        {/* ---- eco impact ---------------------------------------------- */}
+        <EcoImpact totalWeightKg={185} />
 
         {/* ---- search -------------------------------------------------- */}
         <section>

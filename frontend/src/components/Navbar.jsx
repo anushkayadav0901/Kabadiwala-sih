@@ -1,11 +1,12 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { FaChevronLeft } from "react-icons/fa";
-import { HiOutlineShoppingBag, HiFire, HiOutlineChartBar } from "react-icons/hi2";
+import { HiOutlineShoppingBag, HiFire, HiOutlineChartBar, HiOutlineCloud } from "react-icons/hi2";
 import { useApp } from "../context/AppContext";
 import { LANGUAGES } from "../utils/constants";
 import { BrandMark } from "./icons/Illustrations";
 import { getRecyclingStreak } from "../services/gamificationService";
+import { OfflineSyncBanner } from "./OfflineSyncBanner";
 
 /**
  * Compact app bar — 56px, white, hairline base. On the home screen it shows
@@ -15,7 +16,7 @@ import { getRecyclingStreak } from "../services/gamificationService";
 export const Navbar = ({ title = null, showBack = true }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { language, changeLanguage, bagItems, isOnline } = useApp();
+  const { language, changeLanguage, bagItems, isOnline, pendingLotCount } = useApp();
 
   const isHome = location.pathname === "/dashboard" || location.pathname === "/";
   const streak = isHome ? getRecyclingStreak() : null;
@@ -92,6 +93,16 @@ export const Navbar = ({ title = null, showBack = true }) => {
           {currentLangObj.nativeName}
         </button>
 
+        {pendingLotCount > 0 && (
+          <span
+            className="flex items-center gap-1 h-8 px-2 shrink-0 rounded-full border border-blue-200 bg-blue-50 text-blue-700 text-[12px] font-bold"
+            title={`${pendingLotCount} lot${pendingLotCount > 1 ? "s" : ""} pending sync`}
+          >
+            <HiOutlineCloud className="text-[13px]" />
+            {pendingLotCount}
+          </span>
+        )}
+
         <button
           onClick={() => navigate("/bag")}
           className="relative w-10 h-10 shrink-0 grid place-items-center rounded-full text-ink
@@ -115,6 +126,7 @@ export const Navbar = ({ title = null, showBack = true }) => {
           You're offline — scans and saved data still work
         </div>
       )}
+      <OfflineSyncBanner />
     </header>
   );
 };
