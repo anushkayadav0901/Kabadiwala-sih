@@ -4,14 +4,14 @@ import { Navbar } from "../components/Navbar";
 import { BottomNavigation } from "../components/BottomNavigation";
 import { Button } from "../components/Button";
 import { MaterialIcon } from "../components/icons/MaterialIcon";
-import { classifyWithGemini, getSupportedMaterials, scanMaterial } from "../services/estimateService";
+import { classifyWithGemini, classifyDeep, getSupportedMaterials, scanMaterial } from "../services/estimateService";
 import { getCurrentMaterialPrice } from "../services/priceService";
 import { useApp } from "../context/AppContext";
 import { formatCurrency, calculateTotalValue } from "../utils/helpers";
 import {
   HiOutlineCamera, HiOutlineArrowUpTray, HiOutlineArrowPath,
   HiOutlineShoppingBag, HiCheck, HiMinus, HiPlus, HiArrowRight,
-  HiOutlineExclamationTriangle, HiArrowPath
+  HiOutlineExclamationTriangle, HiArrowPath, HiOutlineSparkles
 } from "react-icons/hi2";
 import { LiveCamera } from "../components/LiveCamera";
 
@@ -28,6 +28,8 @@ export const ScanItem = () => {
   const [weightKg, setWeightKg] = useState(1.0);
   const [classificationConfirmed, setClassificationConfirmed] = useState(false);
   const [geminiLoading, setGeminiLoading] = useState(false);
+  const [deepScanLoading, setDeepScanLoading] = useState(false);
+  const [deepScanResult, setDeepScanResult] = useState(null);
 
   const withCurrentPrice = async (material) => {
     try {
@@ -117,6 +119,44 @@ export const ScanItem = () => {
       setScanError(error.message || "Online AI could not classify this image.");
     } finally {
       setGeminiLoading(false);
+    }
+  };
+
+  const handleDeepScan = async () => {
+    if (!imagePreview) return;
+    setDeepScanLoading(true);
+    setScanError("");
+    setDeepScanResult(null);
+    try {
+      const result = await classifyDeep(imagePreview);
+      if (!result || !result.primaryCategory) throw new Error("Deep AI could not classify. Try a clearer photo.");
+      setDeepScanResult(result);
+      const categoryMap = {
+        CRT: "CRT", LCD: "LCD", PCB: "PCB", cables: "Cables", batteries: "Battery",
+        motors: "Motors", mixed_plastic: "Mixed Plastics", copper: "PCB", metal: "PCB", e_waste: "PCB"
+      };
+      const matchLabel = categoryMap[result.primaryCategory] || "PCB";
+      const matched = getSupportedMaterials().find((m) => m.label === matchLabel);
+      if (matched) {
+        const pricedMaterial = await withCurrentPrice({
+          ...matched,
+          name: result.materialName || matched.name,
+          shortDescription: result.reasoning || matched.shortDescription,
+          safetyWarning: result.safetyWarnings?.join(". ") || matched.safetyWarning,
+        });
+        setScanResult((prev) => ({
+          ...prev,
+          detectedMaterial: pricedMaterial,
+          detectedLabel: matchLabel,
+          confidence: Math.round((result.confidence || 0.8) * 100),
+          source: "groq_deep",
+        }));
+        setClassificationConfirmed(false);
+      }
+    } catch (err) {
+      setScanError(err.message || "Deep AI scan failed. Check your connection.");
+    } finally {
+      setDeepScanLoading(false);
     }
   };
 
@@ -221,6 +261,11 @@ export const ScanItem = () => {
                 {scanResult ? "Re-scan" : "Identify"}
               </Button>
             </div>
+            <div className="grid grid-cols-1">
+              <Button variant="outline" size="md" onClick={handleDeepScan} loading={deepScanLoading} icon={HiOutlineSparkles}>
+                Deep AI Scan (Groq Vision)
+              </Button>
+            </div>
             {scanError && (
               <p className="text-[12.5px] text-alert-600 bg-alert-50 rounded-xl px-3 py-2.5 leading-snug">
                 {scanError}
@@ -296,9 +341,10 @@ export const ScanItem = () => {
                     <option value="" disabled>Choose the correct category</option>
                     {getSupportedMaterials().map((item) => <option key={item.label} value={item.label}>{item.label}</option>)}
                   </select>
-                  <div className="grid grid-cols-2 gap-2">
-                    <Button size="sm" variant="outline" onClick={handleGeminiFallback} loading={geminiLoading}>Online AI check</Button>
-                    <Button size="sm" variant="primary" onClick={confirmClassification}>Confirm category</Button>
+                  <div className="grid grid-cols-3 gap-2">
+                    <Button size="sm" variant="outline" onClick={handleGeminiFallback} loading={geminiLoading}>Online AI</Button>
+                    <Button size="sm" variant="outline" onClick={handleDeepScan} loading={deepScanLoading} icon={HiOutlineSparkles}>Deep Scan</Button>
+                    <Button size="sm" variant="primary" onClick={confirmClassification}>Confirm</Button>
                   </div>
                 </div>
               )}
@@ -312,7 +358,42 @@ export const ScanItem = () => {
                 </div>
               )}
 
-              {scanResult.predictions?.length > 1 && (
+              {deepScanResult && (
+              <div className="mx-4 mb-4 p-3.5 rounded-xl bg-violet-50 border border-violet-100">
+                <p className="text-[11px] font-bold text-violet-600 uppercase tracking-wide mb-2 flex items-center gap-1.5">
+                  <HiOutlineSparkles className="text-xs" />
+                  Deep AI Material Analysis
+                </p>
+                {deepScanResult.allMaterials?.length > 0 && (
+                  <div className="flex flex-col gap-1.5 mb-3">
+                    {deepScanResult.allMaterials.map((m, i) => (
+                      <div key={i} className="flex items-center gap-2">
+                        <span className="text-[12px] text-violet-800 flex-1 truncate">{m.name}</span>
+                        <div className="w-20 h-1.5 rounded-full bg-violet-100 overflow-hidden">
+                          <div className="h-full rounded-full bg-violet-500" style={{ width: `${m.percentage}%` }} />
+                        </div>
+                        <span className="text-[11px] font-bold tnum text-violet-700 w-8 text-right">{m.percentage}%</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {deepScanResult.recoverableElements?.length > 0 && (
+                  <div className="mb-2">
+                    <p className="text-[11px] font-semibold text-violet-600 mb-1">Recoverable elements</p>
+                    <div className="flex flex-wrap gap-1">
+                      {deepScanResult.recoverableElements.map((el) => (
+                        <span key={el} className="text-[11px] px-2 py-0.5 rounded-full bg-violet-100 text-violet-700 font-medium">{el}</span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {deepScanResult.reasoning && (
+                  <p className="text-[11.5px] text-violet-700/80 leading-snug mt-1">{deepScanResult.reasoning}</p>
+                )}
+              </div>
+            )}
+
+            {scanResult.predictions?.length > 1 && (
                 <div className="border-t border-hair px-4 py-3">
                   <p className="eyebrow mb-2">Other possible matches</p>
                   <div className="flex flex-col gap-1.5">

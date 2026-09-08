@@ -21,6 +21,7 @@ import { classifyImage as geminiClassify, estimatePrice as geminiEstimate, compa
 import { bountyQuote, calculateCriticalMineralBounty } from "./services/criticalMineralBounty.js";
 import { processWhatsAppMessage } from "./services/whatsappService.js";
 import { getLiveScrapRates, syncLiveScrapRates } from "./services/metalMandiService.js";
+import { deepClassify, isGroqConfigured } from "./services/groqVisionService.js";
 import { getEprDashboard, getCollectorEprContribution } from "./services/eprComplianceService.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -399,6 +400,16 @@ app.post("/api/classify", requireAuth, upload.single("photo"), async (req, res, 
       if (result) return res.json({ source: "gemini", ...result });
     }
     res.json({ source: "none", message: "No AI classification backend configured. Use the on-device TF.js model." });
+  } catch (error) { next(error); }
+});
+
+app.post("/api/classify/deep", requireAuth, upload.single("photo"), async (req, res, next) => {
+  try {
+    if (!req.file) return res.status(400).json({ message: "A photo is required" });
+    if (!isGroqConfigured()) return res.status(503).json({ message: "Deep AI classification is not configured" });
+    const result = await deepClassify(req.file.path);
+    if (!result) return res.status(422).json({ message: "Could not classify this image. Try a clearer photo." });
+    res.json(result);
   } catch (error) { next(error); }
 });
 

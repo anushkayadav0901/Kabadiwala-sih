@@ -20,103 +20,113 @@ let modelPromise;
 const modelMaterials = {
   Battery: {
     id: "ai_battery",
-    name: "Battery Scrap",
-    category: "e_waste",
+    name: "Battery / Li-ion Scrap",
+    category: "batteries",
+    psCategory: "batteries",
     pricePerKg: 95,
     unit: "kg",
     icon: "🔋",
-    shortDescription: "Battery detected by the AI model. Handle as hazardous material.",
-    safetyWarning: "Do not puncture or open batteries. Wear gloves and eye protection."
+    shortDescription: "Battery detected — lithium-ion, lead-acid, or button cells. Contains recoverable lithium and cobalt.",
+    safetyWarning: "Do not puncture or open batteries. Wear gloves and eye protection. Isolate swollen cells."
   },
   PCB: {
     id: "ai_pcb",
-    name: "E-Waste PCB Board",
-    category: "e_waste",
+    name: "PCB / Circuit Board",
+    category: "PCB",
+    psCategory: "PCB",
     pricePerKg: 240,
     unit: "kg",
     icon: "💻",
-    shortDescription: "Circuit board detected by the AI model.",
-    safetyWarning: "Do not break or crush circuit boards."
+    shortDescription: "Printed circuit board with copper traces, solder, and IC chips. Contains recoverable gold, copper, and tantalum.",
+    safetyWarning: "Do not break or crush circuit boards. Toxic dust may be released."
   },
   Television: {
     id: "ai_television",
-    name: "Television Scrap",
-    category: "e_waste",
+    name: "LCD / LED Panel Scrap",
+    category: "LCD",
+    psCategory: "LCD",
     pricePerKg: 120,
     unit: "kg",
     icon: "📺",
-    shortDescription: "LCD/LED television detected by the AI model; backlight recovery may contain gallium and indium.",
-    safetyWarning: "Handle screens carefully and avoid broken glass."
+    shortDescription: "LCD/LED display panel detected. Backlight assembly may contain gallium and indium.",
+    safetyWarning: "Handle screens carefully. Avoid breaking backlight tubes — mercury risk."
   },
   "Washing Machine": {
     id: "ai_washing_machine",
-    name: "Washing Machine Scrap",
-    category: "e_waste",
+    name: "Motor & Metal Assembly",
+    category: "motors",
+    psCategory: "motors",
     pricePerKg: 190,
     unit: "kg",
     icon: "⚙️",
-    shortDescription: "Washing machine detected by the AI model.",
-    safetyWarning: "Disconnect power and watch for sharp metal edges."
+    shortDescription: "Appliance with motor, copper windings, and magnet-bearing assemblies. Contains recoverable copper and neodymium.",
+    safetyWarning: "Disconnect power. Watch for sharp metal edges and strong magnets."
   },
   Keyboard: {
     id: "ai_keyboard",
-    name: "Keyboard Scrap",
-    category: "e_waste",
+    name: "Mixed Plastic / Keyboard",
+    category: "mixed_plastic",
+    psCategory: "mixed_plastic",
     pricePerKg: 120,
     unit: "kg",
     icon: "⌨️",
-    shortDescription: "Computer keyboard detected by the AI model.",
-    safetyWarning: "Do not burn plastic parts."
+    shortDescription: "Plastic casing with small PCB inside. Mostly ABS/polycarbonate plastic, minor copper traces.",
+    safetyWarning: "Do not burn plastic. Send to authorized recycler for formal processing."
   },
   Microwave: {
     id: "ai_microwave",
-    name: "Microwave Scrap",
-    category: "e_waste",
+    name: "Motor & Transformer Assembly",
+    category: "motors",
+    psCategory: "motors",
     pricePerKg: 80,
     unit: "kg",
     icon: "📦",
-    shortDescription: "Microwave oven detected by the AI model.",
-    safetyWarning: "Do not dismantle the high-voltage capacitor."
+    shortDescription: "Appliance with transformer, magnetron motor, and copper windings.",
+    safetyWarning: "Do not dismantle the high-voltage capacitor. Lethal charge risk."
   },
   Mobile: {
     id: "ai_mobile",
-    name: "Mobile Phone Scrap",
-    category: "e_waste",
+    name: "Mobile Phone / PCB + Battery",
+    category: "PCB",
+    psCategory: "PCB",
     pricePerKg: 650,
     unit: "kg",
     icon: "📱",
-    shortDescription: "Mobile phone detected by the AI model.",
-    safetyWarning: "Remove and isolate swollen batteries safely."
+    shortDescription: "Mobile phone with internal PCB, Li-ion battery, and LCD. Rich in gold, copper, palladium, and cobalt.",
+    safetyWarning: "Remove and isolate swollen batteries. Do not crush — battery fire risk."
   },
   Mouse: {
     id: "ai_mouse",
-    name: "Computer Mouse Scrap",
-    category: "e_waste",
+    name: "Mixed Plastic / Mouse",
+    category: "mixed_plastic",
+    psCategory: "mixed_plastic",
     pricePerKg: 100,
     unit: "kg",
     icon: "🖱️",
-    shortDescription: "Computer mouse detected by the AI model.",
-    safetyWarning: "Do not burn plastic parts."
+    shortDescription: "Plastic casing with micro-PCB and cable. Mostly plastic with minor copper in cable.",
+    safetyWarning: "Do not burn plastic parts. Cut cables cleanly."
   },
   Player: {
     id: "ai_player",
-    name: "Media Player Scrap",
+    name: "Mixed E-Waste / Player",
     category: "e_waste",
+    psCategory: "PCB",
     pricePerKg: 90,
     unit: "kg",
     icon: "🎵",
-    shortDescription: "Media player detected by the AI model.",
-    safetyWarning: "Remove batteries before sorting."
+    shortDescription: "Media player with internal PCB, battery, and plastic housing.",
+    safetyWarning: "Remove batteries before sorting. Do not burn casing."
   },
   Printer: {
     id: "ai_printer",
-    name: "Printer Scrap",
-    category: "e_waste",
+    name: "Mixed Plastic + Motor / Printer",
+    category: "mixed_plastic",
+    psCategory: "mixed_plastic",
     pricePerKg: 75,
     unit: "kg",
     icon: "🖨️",
-    shortDescription: "Printer detected by the AI model.",
-    safetyWarning: "Avoid toner dust and wear a mask while handling."
+    shortDescription: "Printer with motor, plastic housing, PCB, and toner cartridge.",
+    safetyWarning: "Avoid toner dust inhalation. Wear a mask while handling."
   },
   CRT: {
     id: "sih_crt",
@@ -288,4 +298,11 @@ export const classifyWithGemini = async (imageSrc) => {
   const form = new FormData();
   form.append("photo", blob, "material.jpg");
   return api("/classify", { method: "POST", body: form, auth: true });
+};
+
+export const classifyDeep = async (imageSrc) => {
+  const blob = await fetch(imageSrc).then((response) => response.blob());
+  const form = new FormData();
+  form.append("photo", blob, "material.jpg");
+  return api("/classify/deep", { method: "POST", body: form, auth: true });
 };
