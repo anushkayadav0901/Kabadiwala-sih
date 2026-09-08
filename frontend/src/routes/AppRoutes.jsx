@@ -30,6 +30,9 @@ import { Leaderboard } from "../pages/Leaderboard";
 import { EPRCompliance } from "../pages/EPRCompliance";
 import { UnitEconomics } from "../pages/UnitEconomics";
 import { AnomalyDashboard } from "../pages/AnomalyDashboard";
+import { Analytics } from "../pages/Analytics";
+import { CPCBReport } from "../pages/CPCBReport";
+import { Training } from "../pages/Training";
 
 const PageWrapper = ({ children }) => (
   <motion.div
@@ -89,6 +92,9 @@ export const AppRoutes = () => {
         <Route path="/epr" element={<CollectorRoute><EPRCompliance /></CollectorRoute>} />
         <Route path="/economics" element={<CollectorRoute><UnitEconomics /></CollectorRoute>} />
         <Route path="/anomalies" element={<CollectorRoute><AnomalyDashboard /></CollectorRoute>} />
+        <Route path="/analytics" element={<CollectorRoute><Analytics /></CollectorRoute>} />
+        <Route path="/cpcb-report" element={<CollectorRoute><CPCBReport /></CollectorRoute>} />
+        <Route path="/training" element={<CollectorRoute><Training /></CollectorRoute>} />
 
         {/* Buyer / Recycler portal */}
         <Route path="/buyer/login" element={<PageWrapper><BuyerLogin /></PageWrapper>} />

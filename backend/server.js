@@ -23,6 +23,7 @@ import { processWhatsAppMessage } from "./services/whatsappService.js";
 import { getLiveScrapRates, syncLiveScrapRates } from "./services/metalMandiService.js";
 import { deepClassify, isGroqConfigured } from "./services/groqVisionService.js";
 import { getEprDashboard, getCollectorEprContribution } from "./services/eprComplianceService.js";
+import { computeCollectorAnalytics, computeCpcbReport } from "./services/analyticsService.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const uploadsDir = path.join(__dirname, "uploads");
@@ -608,6 +609,21 @@ app.get("/api/collector/:id/ledger", requireAuth, requireRole("collector"), asyn
     const pending = transactions.filter((tx) => tx.paymentStatus !== "paid");
     const pendingDues = pending.reduce((total, tx) => total + Number(tx.finalPrice ?? tx.quotedPrice ?? 0), 0);
     res.json({ summary: { totalEarnings: sum(paid), todayEarnings: sum(paid.filter((tx) => tx.completedAt >= startOfToday)), monthlyEarnings: sum(paid.filter((tx) => tx.completedAt >= startOfMonth)), completedDeals: paid.length, pendingDues, pendingDeals: pending.length, formalWeightKg: Number(transactions.reduce((total, tx) => total + Number(tx.lot?.totalWeight || 0), 0).toFixed(2)) }, transactions: transactions.map((tx) => { const amount = tx.finalPrice ?? tx.quotedPrice ?? 0; return ({ id: tx._id.toString(), date: tx.completedAt || tx.createdAt, materialName: tx.lot?.materials?.map((material) => material.name).filter(Boolean).join(", ") || "Scrap lot", weightKg: tx.lot?.totalWeight || 0, pricePerKg: tx.lot?.totalWeight ? Number((amount / tx.lot.totalWeight).toFixed(2)) : 0, totalAmount: amount, recyclerName: tx.recycler?.name || "Authorized recycler", status: tx.paymentStatus === "paid" ? "Paid" : "Pending confirmation", handoverRef: tx.handoverReference }); }) });
+  } catch (error) { next(error); }
+});
+
+app.get("/api/collector/:id/analytics", requireAuth, requireRole("collector"), async (req, res, next) => {
+  try {
+    if (req.auth.sub !== req.params.id) return res.status(403).json({ message: "You can only view your own analytics" });
+    const days = Math.min(Math.max(Number(req.query.days) || 30, 7), 365);
+    res.json(await computeCollectorAnalytics(req.params.id, days));
+  } catch (error) { next(error); }
+});
+
+app.get("/api/reports/cpcb", requireAuth, async (req, res, next) => {
+  try {
+    const { from, to, region } = req.query;
+    res.json(await computeCpcbReport({ from, to, region }));
   } catch (error) { next(error); }
 });
 

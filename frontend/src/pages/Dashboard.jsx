@@ -14,7 +14,8 @@ import {
   HiOutlineShieldCheck, HiOutlineUser, HiOutlineMagnifyingGlass,
   HiChevronRight, HiArrowRight, HiOutlineTrophy, HiOutlineSparkles,
   HiOutlineChartBar, HiOutlineBuildingOffice2, HiOutlineCalculator,
-  HiOutlineShieldExclamation
+  HiOutlineShieldExclamation, HiOutlinePresentationChartLine,
+  HiOutlineBuildingLibrary, HiOutlineAcademicCap
 } from "react-icons/hi2";
 import { RewardsModal } from "../components/RewardsModal";
 import { GamificationSection } from "../components/GamificationSection";
@@ -46,7 +47,10 @@ export const Dashboard = () => {
     { id: "safety",    title: t("safetyGuide"),       desc: "Handling rules",    icon: HiOutlineShieldCheck,path: "/safety" },
     { id: "epr",       title: "EPR Compliance",        desc: "Producer targets",  icon: HiOutlineBuildingOffice2, path: "/epr" },
     { id: "economics", title: "Unit Economics",         desc: "Trip profitability", icon: HiOutlineCalculator, path: "/economics" },
-    { id: "anomalies", title: "Anomaly Detection",     desc: "Fraud monitoring",  icon: HiOutlineShieldExclamation, path: "/anomalies" }
+    { id: "anomalies", title: "Anomaly Detection",     desc: "Fraud monitoring",  icon: HiOutlineShieldExclamation, path: "/anomalies" },
+    { id: "analytics", title: "My Analytics",           desc: "Trends & insights", icon: HiOutlinePresentationChartLine, path: "/analytics" },
+    { id: "training",  title: "Training",               desc: "Learn & earn more", icon: HiOutlineAcademicCap, path: "/training" },
+    { id: "cpcb",      title: "CPCB Report",            desc: "Regulatory filing", icon: HiOutlineBuildingLibrary, path: "/cpcb-report" }
   ];
 
   const filteredMaterials = materials.filter(
