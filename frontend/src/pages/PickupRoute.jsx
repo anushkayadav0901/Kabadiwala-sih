@@ -4,7 +4,7 @@ import { Button } from "../components/Button";
 import { Loader } from "../components/Loader";
 import { getCurrentBuyer } from "../services/authService";
 import { generateTodayRoute, getTodayRoute, markStopComplete, syncPendingRouteUpdates } from "../services/routeService";
-import { MapContainer, Marker, Polyline, Popup, TileLayer } from "react-leaflet";
+import { MapContainer, Marker, Polyline, Popup, TileLayer, useMap } from "react-leaflet";
 import L from "leaflet";
 import { HiArrowPath, HiCheckCircle, HiMapPin, HiOutlineSignalSlash } from "react-icons/hi2";
 
@@ -17,6 +17,21 @@ const markerIcon = (label, color = "#3A34D4") => new L.DivIcon({
 
 const stopLotId = (stop) => stop.lot?._id || stop.lot;
 const routeCoordinates = (route) => route?.routeGeometry?.coordinates?.map(([lng, lat]) => [lat, lng]) || [];
+
+/* Fits the map to whatever points we actually have (depot + stops) instead of
+   sitting at a fixed zoom that may leave everything crammed in one corner. */
+const FitToStops = ({ points }) => {
+  const map = useMap();
+  useEffect(() => {
+    if (!points.length) return;
+    if (points.length === 1) {
+      map.setView(points[0], 14);
+      return;
+    }
+    map.fitBounds(L.latLngBounds(points), { padding: [32, 32], maxZoom: 15 });
+  }, [map, points]);
+  return null;
+};
 
 export const PickupRoute = () => {
   const buyer = getCurrentBuyer();
@@ -81,6 +96,10 @@ export const PickupRoute = () => {
   const depotLat = route?.recycler?.locationLat ?? buyer.locationLat ?? stops[0]?.lat;
   const depotLng = route?.recycler?.locationLng ?? buyer.locationLng ?? stops[0]?.lng;
   const center = depotLat != null && depotLng != null ? [depotLat, depotLng] : [28.6139, 77.2090];
+  const fitPoints = [
+    ...(depotLat != null && depotLng != null ? [[depotLat, depotLng]] : []),
+    ...stops.filter((s) => s.lat != null && s.lng != null).map((s) => [s.lat, s.lng])
+  ];
 
   return (
     <div className="screen pb-10">
@@ -109,9 +128,14 @@ export const PickupRoute = () => {
               <span className="badge bg-brand-50 text-brand-700">{route.totalDistanceKm} km · {Math.round(route.totalDurationMin)} min</span>
             </section>
 
-            <div className="relative h-64 rounded-[18px] overflow-hidden border border-line">
-              <MapContainer center={center} zoom={12} scrollWheelZoom={false} zoomControl={false} className="w-full h-full">
-                <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>' url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+            <div className="relative h-72 rounded-[18px] overflow-hidden border border-line">
+              <MapContainer center={center} zoom={13} scrollWheelZoom zoomControl={false} className="w-full h-full">
+                <TileLayer
+  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+/>
+                <FitToStops points={fitPoints} />
+                <ZoomControlBottomRight />
                 <Marker position={center} icon={markerIcon("D", "#172033")}><Popup>Recycler depot</Popup></Marker>
                 {stops.map((stop) => (
                   <Marker key={String(stopLotId(stop))} position={[stop.lat, stop.lng]} icon={markerIcon(stop.sequence)}>
@@ -147,4 +171,17 @@ export const PickupRoute = () => {
       </main>
     </div>
   );
+};
+
+/* react-leaflet's built-in ZoomControl always docks top-left, which collides
+   with the popup close button on small markers. Re-adding it manually lets us
+   park it bottom-right, out of the way of the depot pin. */
+const ZoomControlBottomRight = () => {
+  const map = useMap();
+  useEffect(() => {
+    const control = L.control.zoom({ position: "bottomright" });
+    control.addTo(map);
+    return () => control.remove();
+  }, [map]);
+  return null;
 };
