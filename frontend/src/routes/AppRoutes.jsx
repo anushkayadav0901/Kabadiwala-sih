@@ -33,6 +33,7 @@ import { AnomalyDashboard } from "../pages/AnomalyDashboard";
 import { Analytics } from "../pages/Analytics";
 import { CPCBReport } from "../pages/CPCBReport";
 import { Training } from "../pages/Training";
+import { PickupRoute } from "../pages/PickupRoute";
 
 const PageWrapper = ({ children }) => (
   <motion.div
@@ -101,6 +102,7 @@ export const AppRoutes = () => {
         <Route path="/buyer/register" element={<PageWrapper><BuyerRegister /></PageWrapper>} />
         <Route path="/buyer" element={<Navigate to="/buyer/dashboard" replace />} />
         <Route path="/buyer/dashboard" element={<BuyerRoute><BuyerDashboard /></BuyerRoute>} />
+        <Route path="/buyer/route" element={<BuyerRoute><PickupRoute /></BuyerRoute>} />
 
           <Route path="*" element={<PageWrapper><NotFound /></PageWrapper>} />
         </Routes>

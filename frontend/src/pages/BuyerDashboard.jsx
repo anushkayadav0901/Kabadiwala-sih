@@ -211,6 +211,20 @@ export const BuyerDashboard = () => {
           <DepotIllustration className="absolute right-1 bottom-1 w-32 h-24 opacity-90 z-0" />
         </button>
 
+        <button
+          onClick={() => navigate("/buyer/route")}
+          className="card p-4 flex items-center gap-3 text-left tap hover:bg-sunken/50 active:bg-sunken transition-colors"
+        >
+          <span className="w-10 h-10 shrink-0 rounded-xl bg-gold-50 text-gold-600 grid place-items-center">
+            <HiOutlineBuildingStorefront className="text-lg" />
+          </span>
+          <span className="min-w-0 flex-1">
+            <span className="block text-[14px] font-semibold text-ink">Today's pickup route</span>
+            <span className="block text-[12.5px] text-faint mt-0.5">Order matched lots and track each collection stop.</span>
+          </span>
+          <HiArrowRight className="text-faint shrink-0" />
+        </button>
+
         {/* ---- verification result ---------------------------------------- */}
         <AnimatePresence>
           {verificationSuccess && (

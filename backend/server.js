@@ -13,6 +13,7 @@ import twilio from "twilio";
 import Collector from "./models/Collector.js";
 import Lot from "./models/Lot.js";
 import Price from "./models/Price.js";
+import PickupRoute from "./models/PickupRoute.js";
 import Recycler from "./models/Recycler.js";
 import Transaction from "./models/Transaction.js";
 import { requireAuth, requireRole } from "./middleware/auth.js";
@@ -24,6 +25,7 @@ import { getLiveScrapRates, syncLiveScrapRates } from "./services/metalMandiServ
 import { deepClassify, isGroqConfigured } from "./services/groqVisionService.js";
 import { getEprDashboard, getCollectorEprContribution } from "./services/eprComplianceService.js";
 import { computeCollectorAnalytics, computeCpcbReport } from "./services/analyticsService.js";
+import { generateRouteForRecycler } from "./services/routeOptimizer.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const uploadsDir = path.join(__dirname, "uploads");
@@ -267,6 +269,44 @@ app.get("/api/lots", requireAuth, requireRole("recycler"), async (_req, res, nex
       ]
     }).populate("collector", "name phone").sort({ createdAt: -1 });
     res.json({ lots: lots.map(lotDto) });
+  } catch (error) { next(error); }
+});
+
+app.post("/api/routes/generate", requireAuth, requireRole("recycler"), async (req, res, next) => {
+  try {
+    const route = await generateRouteForRecycler(req.auth.sub);
+    if (!route) return res.json({ route: null, message: "At least two matched lots with location data are needed to build a route" });
+    res.status(201).json({ route });
+  } catch (error) { next(error); }
+});
+
+app.get("/api/routes/:recyclerId/today", async (req, res, next) => {
+  try {
+    if (!asObjectId(req.params.recyclerId)) return res.status(400).json({ message: "Invalid recycler id" });
+    const start = new Date();
+    start.setHours(0, 0, 0, 0);
+    const end = new Date(start);
+    end.setDate(end.getDate() + 1);
+    const route = await PickupRoute.findOne({ recycler: req.params.recyclerId, date: { $gte: start, $lt: end }, status: "active" })
+      .populate("recycler", "name locationLat locationLng")
+      .populate("stops.lot")
+      .populate("stops.collector", "name phone");
+    res.json({ route: route || null });
+  } catch (error) { next(error); }
+});
+
+app.patch("/api/routes/:routeId/stop/:lotId", requireAuth, requireRole("recycler"), async (req, res, next) => {
+  try {
+    if (!asObjectId(req.params.routeId) || !asObjectId(req.params.lotId)) return res.status(400).json({ message: "Invalid route or lot id" });
+    if (!["picked_up", "skipped"].includes(req.body.status)) return res.status(400).json({ message: "Stop status must be picked_up or skipped" });
+    const route = await PickupRoute.findOne({ _id: req.params.routeId, recycler: req.auth.sub, "stops.lot": req.params.lotId });
+    if (!route) return res.status(404).json({ message: "Route stop not found" });
+    const stop = route.stops.find((item) => item.lot.toString() === req.params.lotId);
+    stop.status = req.body.status;
+    if (route.stops.every((item) => item.status !== "pending")) route.status = "completed";
+    await route.save();
+    await route.populate([{ path: "recycler", select: "name locationLat locationLng" }, { path: "stops.lot" }, { path: "stops.collector", select: "name phone" }]);
+    res.json({ route });
   } catch (error) { next(error); }
 });
 

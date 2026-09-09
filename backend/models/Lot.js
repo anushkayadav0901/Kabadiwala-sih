@@ -23,6 +23,7 @@ const lotSchema = new mongoose.Schema(
     gpsLng: Number,
     status: { type: String, enum: ["created", "quoted", "matched", "handover", "completed", "cancelled"], default: "created", index: true },
     matchedRecycler: { type: mongoose.Schema.Types.ObjectId, ref: "Recycler", default: null },
+    routeId: { type: mongoose.Schema.Types.ObjectId, ref: "PickupRoute", default: null },
     handoverReference: String,
     handoverSignature: String,
     handoverPhotos: [String],

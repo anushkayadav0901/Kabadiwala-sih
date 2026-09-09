@@ -15,6 +15,7 @@
     "canvas-confetti": "^1.9.4",
     "framer-motion": "^11.15.0",
     "html5-qrcode": "^2.3.8",
+    "idb": "^8.0.3",
     "jspdf": "^4.2.1",
     "jspdf-autotable": "^5.0.8",
     "leaflet": "^1.9.4",
