@@ -3,7 +3,9 @@ import path from "node:path";
 
 const GROQ_API_KEY = process.env.GROQ_API_KEY;
 const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
-const GROQ_MODEL = "meta-llama/llama-4-scout-17b-16e-instruct";
+// Groq retired the Llama 4 vision models; requests to them now return
+// model_not_found. Qwen3 is the vision-capable model on the current catalogue.
+const GROQ_MODEL = process.env.GROQ_VISION_MODEL || "qwen/qwen3.8-27b";
 
 const PS_CATEGORIES = ["CRT", "LCD", "PCB", "cables", "batteries", "motors", "mixed_plastic", "copper", "metal", "e_waste"];
 
