@@ -1,0 +1,144 @@
+[1mdiff --git a/frontend/src/pages/ScanItem.jsx b/frontend/src/pages/ScanItem.jsx[m
+[1mindex ac32a24..d37dd69 100644[m
+[1m--- a/frontend/src/pages/ScanItem.jsx[m
+[1m+++ b/frontend/src/pages/ScanItem.jsx[m
+[36m@@ -4,7 +4,7 @@[m [mimport { Navbar } from "../components/Navbar";[m
+ import { BottomNavigation } from "../components/BottomNavigation";[m
+ import { Button } from "../components/Button";[m
+ import { MaterialIcon } from "../components/icons/MaterialIcon";[m
+[31m-import { scanMaterial } from "../services/estimateService";[m
+[32m+[m[32mimport { classifyWithGemini, getSupportedMaterials, scanMaterial } from "../services/estimateService";[m
+ import { getCurrentMaterialPrice } from "../services/priceService";[m
+ import { useApp } from "../context/AppContext";[m
+ import { formatCurrency, calculateTotalValue } from "../utils/helpers";[m
+[36m@@ -26,6 +26,24 @@[m [mexport const ScanItem = () => {[m
+   const [scanError, setScanError] = useState("");[m
+   const [addedToBag, setAddedToBag] = useState(false);[m
+   const [weightKg, setWeightKg] = useState(1.0);[m
+[32m+[m[32m  const [classificationConfirmed, setClassificationConfirmed] = useState(false);[m
+[32m+[m[32m  const [geminiLoading, setGeminiLoading] = useState(false);[m
+[32m+[m
+[32m+[m[32m  const withCurrentPrice = async (material) => {[m
+[32m+[m[32m    try {[m
+[32m+[m[32m      const currentPrice = await getCurrentMaterialPrice(material);[m
+[32m+[m[32m      return currentPrice ? {[m
+[32m+[m[32m        ...material,[m
+[32m+[m[32m        pricePerKg: currentPrice.quotedPrice,[m
+[32m+[m[32m        marketRangeMin: currentPrice.marketRangeMin,[m
+[32m+[m[32m        marketRangeMax: currentPrice.marketRangeMax,[m
+[32m+[m[32m        priceSource: currentPrice.source,[m
+[32m+[m[32m        priceConfidence: currentPrice.confidence[m
+[32m+[m[32m      } : material;[m
+[32m+[m[32m    } catch {[m
+[32m+[m[32m      return material;[m
+[32m+[m[32m    }[m
+[32m+[m[32m  };[m
+ [m
+   const handleCapturedImage = (dataUrl) => {[m
+     setImagePreview(dataUrl);[m
+[36m@@ -45,6 +63,7 @@[m [mexport const ScanItem = () => {[m
+         setScanResult(null);[m
+         setScanError("");[m
+         setAddedToBag(false);[m
+[32m+[m[32m        setClassificationConfirmed(false);[m
+       };[m
+       reader.readAsDataURL(file);[m
+     }[m
+[36m@@ -55,25 +74,23 @@[m [mexport const ScanItem = () => {[m
+     setScanning(true);[m
+     try {[m
+       const res = await scanMaterial(imagePreview);[m
+[31m-      let material = res.detectedMaterial;[m
+[31m-      try {[m
+[31m-        const currentPrice = await getCurrentMaterialPrice(material);[m
+[31m-        if (currentPrice) {[m
+[31m-          material = {[m
+[31m-            ...material,[m
+[31m-            pricePerKg: currentPrice.quotedPrice,[m
+[31m-            marketRangeMin: currentPrice.marketRangeMin,[m
+[31m-            marketRangeMax: currentPrice.marketRangeMax,[m
+[31m-            priceSource: currentPrice.source,[m
+[31m-            priceConfidence: currentPrice.confidence[m
+[31m-          };[m
+[31m-        }[m
+[31m-      } catch {[m
+[31m-        // The on-device classification remains available when price data cannot be reached.[m
+[32m+[m[32m      if (res.needsRetake) {[m
+[32m+[m[32m        setScanResult(null);[m
+[32m+[m[32m        setScanError(res.message);[m
+[32m+[m[32m        return;[m
+       }[m
+[32m+[m[32m      if (res.needsConfirmation) {[m
+[32m+[m[32m        setScanResult({ ...res, detectedMaterial: res.candidateMaterial });[m
+[32m+[m[32m        setClassificationConfirmed(false);[m
+[32m+[m[32m        setScanError("");[m
+[32m+[m[32m        return;[m
+[32m+[m[32m      }[m
+[32m+[m[32m      const material = await withCurrentPrice(res.detectedMaterial);[m
+       const resultWithPrice = { ...res, detectedMaterial: material };[m
+       setScanResult(resultWithPrice);[m
+[31m-      setActiveItem(material);[m
+[32m+[m[32m      // The model can be confidently wrong when the image is outside its[m
+[32m+[m[32m      // trained classes, so every prediction must be confirmed by the user.[m
+[32m+[m[32m      setClassificationConfirmed(false);[m
+       setAddedToBag(false);[m
+     } catch (err) {[m
+       console.error(err);[m
+[36m@@ -83,6 +100,41 @@[m [mexport const ScanItem = () => {[m
+     }[m
+   };[m
+ [m
+[32m+[m[32m  const handleGeminiFallback = async () => {[m
+[32m+[m[32m    setGeminiLoading(true);[m
+[32m+[m[32m    setScanError("");[m
+[32m+[m[32m    try {[m
+[32m+[m[32m      const result = await classifyWithGemini(imagePreview);[m
+[32m+[m[32m      const category = result.category || result.label;[m
+[32m+[m[32m      if (result.source !== "gemini" || !category) throw new Error("Online AI is not configured. Choose the category manually.");[m
+[32m+[m[32m      const aliases = { battery: "Battery", batteries: "Battery", pcb: "PCB", mobile: "Mobile", phone: "Mobile", television: "Television", lcd: "Television", microwave: "Microwave", keyboard: "Keyboard", mouse: "Mouse", printer: "Printer", player: "Player", "washing machine": "Washing Machine" };[m
+[32m+[m[32m      const matched = getSupportedMaterials().find((item) => item.label === aliases[String(category).toLowerCase()]);[m
+[32m+[m[32m      if (!matched) throw new Error("Online AI returned an unsupported category. Choose the category manually.");[m
+[32m+[m[32m      const pricedMaterial = await withCurrentPrice(matched);[m
+[32m+[m[32m      setScanResult((previous) => ({ ...previous, detectedMaterial: pricedMaterial, detectedLabel: matched.label, confidence: Math.round(Number(result.confidence || 0) * 100), source: "gemini" }));[m
+[32m+[m[32m      setClassificationConfirmed(false);[m
+[32m+[m[32m    } catch (error) {[m
+[32m+[m[32m      setScanError(error.message || "Online AI could not classify this image.");[m
+[32m+[m[32m    } finally {[m
+[32m+[m[32m      setGeminiLoading(false);[m
+[32m+[m[32m    }[m
+[32m+[m[32m  };[m
+[32m+[m
+[32m+[m[32m  const confirmClassification = async () => {[m
+[32m+[m[32m    if (!scanResult?.detectedMaterial) return;[m
+[32m+[m[32m    const pricedMaterial = await withCurrentPrice(scanResult.detectedMaterial);[m
+[32m+[m[32m    setScanResult((previous) => ({ ...previous, detectedMaterial: pricedMaterial }));[m
+[32m+[m[32m    setClassificationConfirmed(true);[m
+[32m+[m[32m    setActiveItem(pricedMaterial);[m
+[32m+[m[32m  };[m
+[32m+[m
+[32m+[m[32m  const chooseManualClassification = (event) => {[m
+[32m+[m[32m    const selected = getSupportedMaterials().find((item) => item.label === event.target.value);[m
+[32m+[m[32m    if (!selected) return;[m
+[32m+[m[32m    setScanResult((previous) => ({ ...previous, detectedMaterial: selected, detectedLabel: selected.label, source: "manual" }));[m
+[32m+[m[32m    setClassificationConfirmed(false);[m
+[32m+[m[32m  };[m
+[32m+[m
+   const handleProceedToValue = () => {[m
+     if (scanResult) {[m
+       navigate("/estimated-value", {[m
+[36m@@ -220,8 +272,8 @@[m [mexport const ScanItem = () => {[m
+               <div className="p-4 flex items-start gap-3">[m
+                 <MaterialIcon material={scanResult.detectedMaterial} size="lg" />[m
+                 <div className="min-w-0 flex-1">[m
+[31m-                  <span className="badge bg-brand-50 text-brand-700 tnum">[m
+[31m-                    {scanResult.confidence}% match[m
+[32m+[m[32m                  <span className={`badge tnum ${classificationConfirmed ? "bg-brand-50 text-brand-700" : "bg-gold-50 text-gold-700"}`}>[m
+[32m+[m[32m                    {scanResult.source === "manual" ? "Manual selection" : `${scanResult.confidence}% match`}[m
+                   </span>[m
+                   <h3 className="font-bold text-[18px] tracking-[-0.01em] leading-tight mt-1.5">[m
+                     {scanResult.detectedMaterial.name}[m
+[36m@@ -235,6 +287,22 @@[m [mexport const ScanItem = () => {[m
+                 </div>[m
+               </div>[m
+ [m
+[32m+[m[32m         

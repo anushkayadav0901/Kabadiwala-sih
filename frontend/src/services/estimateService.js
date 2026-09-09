@@ -109,7 +109,7 @@ const modelMaterials = {
   Player: {
     id: "ai_player",
     name: "Mixed E-Waste / Player",
-    category: "e_waste",
+    category: "PCB",
     psCategory: "PCB",
     pricePerKg: 90,
     unit: "kg",
@@ -178,6 +178,23 @@ const modelMaterials = {
     shortDescription: "Mixed plastic material selected from the SIH category list.",
     safetyWarning: "Do not burn plastic. Keep it separated for formal recycling."
   }
+};
+
+// The local model has ten device labels, but lots must use only the seven
+// SIH material categories from the problem statement.
+const supportedMaterials = [
+  { label: "CRT", ...modelMaterials.CRT },
+  { label: "LCD", ...modelMaterials.LCD },
+  { label: "PCB", ...modelMaterials.PCB },
+  { label: "Cables", ...modelMaterials.Cables },
+  { label: "Batteries", ...modelMaterials.Battery },
+  { label: "Motors & magnet assemblies", ...modelMaterials.Motors },
+  { label: "Mixed plastics", ...modelMaterials["Mixed Plastics"] }
+];
+
+const materialForModelLabel = (label) => {
+  const modelMaterial = modelMaterials[label];
+  return supportedMaterials.find((material) => material.category === modelMaterial?.category) || null;
 };
 
 const loadScanModel = () => {
@@ -256,8 +273,8 @@ export const scanMaterial = async (imageSrc) => {
     return {
       success: false,
       needsConfirmation: true,
-      candidateMaterial: modelMaterials[topPrediction.label],
-      detectedLabel: topPrediction.label,
+      candidateMaterial: materialForModelLabel(topPrediction.label),
+      detectedLabel: materialForModelLabel(topPrediction.label)?.label,
       confidence: topPrediction.confidence,
       predictions: predictions.slice(0, 3),
       message: "The AI is uncertain. Confirm the suggested category or choose the correct one before creating a lot."
@@ -268,7 +285,17 @@ export const scanMaterial = async (imageSrc) => {
   // the model is retrained with new classes and this map is not updated — in
   // that case show the label with no price rather than borrowing another
   // material's rate.
-  const detected = modelMaterials[topPrediction.label] || {
+  const mappedMaterial = materialForModelLabel(topPrediction.label);
+  if (!mappedMaterial) {
+    return {
+      success: false,
+      invalidImage: true,
+      needsRetake: true,
+      predictions: [],
+      message: "Invalid image. Photograph a PCB, cable, battery, LCD panel, CRT, motor/magnet assembly, or mixed plastic."
+    };
+  }
+  const detected = mappedMaterial || {
     id: `ai_${topPrediction.label.toLowerCase().replace(/\s+/g, "_")}`,
     name: topPrediction.label,
     category: "e_waste",
@@ -282,22 +309,38 @@ export const scanMaterial = async (imageSrc) => {
   return {
     success: true,
     detectedMaterial: detected,
-    detectedLabel: topPrediction.label,
+    detectedLabel: detected.label || topPrediction.label,
     confidence: topPrediction.confidence,
     predictions: predictions.slice(0, 3),
     imagePreview: imageSrc || null
   };
 };
 
-export const getSupportedMaterials = () => Object.entries(modelMaterials).map(([label, material]) => ({ label, ...material }));
+export const getSupportedMaterials = () => supportedMaterials;
 
 export { loadScanModel, modelMaterials };
 
+// The original photo can be several megabytes. Gemini only needs enough
+// detail to recognise a material, so send a small JPEG for classification
+// while retaining the original preview/photo for the collector's lot.
+const classificationBlob = async (imageSrc) => {
+  const image = await imageFromDataUrl(imageSrc);
+  const maxDimension = 768;
+  const scale = Math.min(1, maxDimension / Math.max(image.naturalWidth, image.naturalHeight));
+  const canvas = document.createElement("canvas");
+  canvas.width = Math.max(1, Math.round(image.naturalWidth * scale));
+  canvas.height = Math.max(1, Math.round(image.naturalHeight * scale));
+  canvas.getContext("2d").drawImage(image, 0, 0, canvas.width, canvas.height);
+  return new Promise((resolve, reject) => {
+    canvas.toBlob((blob) => blob ? resolve(blob) : reject(new Error("The photo could not be prepared for classification.")), "image/jpeg", 0.72);
+  });
+};
+
 export const classifyWithGemini = async (imageSrc) => {
-  const blob = await fetch(imageSrc).then((response) => response.blob());
+  const blob = await classificationBlob(imageSrc);
   const form = new FormData();
-  form.append("photo", blob, "material.jpg");
-  return api("/classify", { method: "POST", body: form, auth: true });
+  form.append("photo", blob, "material-768.jpg");
+  return api("/classify", { method: "POST", body: form });
 };
 
 export const classifyDeep = async (imageSrc) => {

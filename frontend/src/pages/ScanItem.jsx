@@ -71,10 +71,78 @@ export const ScanItem = () => {
     }
   };
 
+  const applyGeminiClassification = async (result) => {
+    if (result?.invalidImage || result?.validImage === false) {
+      setScanResult(null);
+      setClassificationConfirmed(false);
+      setScanError(result.reasoning || "Invalid image. Photograph a PCB, cable, battery, LCD panel, CRT, motor/magnet assembly, or mixed plastic.");
+      return true;
+    }
+    const category = result?.category || result?.detectedItem || result?.label || "";
+    if (!category) return false;
+
+    const aliasMap = {
+      battery: "Batteries",
+      batteries: "Batteries",
+      pcb: "PCB",
+      circuit: "PCB",
+      television: "LCD",
+      tv: "LCD",
+      lcd: "LCD",
+      screen: "LCD",
+      monitor: "LCD",
+      crt: "CRT",
+      cable: "Cables",
+      cables: "Cables",
+      motor: "Motors & magnet assemblies",
+      motors: "Motors & magnet assemblies",
+      "mixed plastic": "Mixed plastics",
+      mixed_plastic: "Mixed plastics",
+      plastic: "Mixed plastics"
+    };
+
+    const normalized = String(category).trim().toLowerCase();
+    const resolvedLabel = aliasMap[normalized] || Object.entries(aliasMap).find(([key]) => normalized.includes(key))?.[1];
+    const match = resolvedLabel ? getSupportedMaterials().find((item) => item.label.toLowerCase() === String(resolvedLabel).toLowerCase()) : null;
+
+    if (!match) return false;
+
+    const pricedMaterial = await withCurrentPrice(match);
+    setScanResult((previous) => ({
+      ...(previous || {}),
+      detectedMaterial: pricedMaterial,
+      detectedLabel: match.label,
+      confidence: Math.round(Number(result.confidence || 0.9) * 100),
+      source: "gemini",
+      predictions: [{ label: match.label, confidence: Math.round(Number(result.confidence || 0.9) * 100) }]
+    }));
+    setClassificationConfirmed(false);
+    setAddedToBag(false);
+    return true;
+  };
+
   const handleTriggerScan = async () => {
     setScanError("");
     setScanning(true);
     try {
+      // When online, Gemini is the authoritative classifier. Do not silently
+      // replace an API failure with the old device-label model.
+      if (navigator.onLine) {
+        try {
+        const geminiResult = await classifyWithGemini(imagePreview);
+        if (geminiResult?.source === "gemini") {
+          const accepted = await applyGeminiClassification(geminiResult);
+          if (accepted) return;
+        }
+        throw new Error(geminiResult?.message || "Gemini did not return a valid classification.");
+        } catch (geminiError) {
+          setScanResult(null);
+          setScanError(`Online AI could not classify this photo: ${geminiError.message}`);
+          return;
+        }
+      }
+
+      // Only use the on-device model when the user is genuinely offline.
       const res = await scanMaterial(imagePreview);
       if (res.needsRetake) {
         setScanResult(null);
@@ -107,9 +175,10 @@ export const ScanItem = () => {
     setScanError("");
     try {
       const result = await classifyWithGemini(imagePreview);
+      if (result?.invalidImage || result?.validImage === false) throw new Error(result.reasoning || "Invalid image. Please photograph a supported e-waste material.");
       const category = result.category || result.label;
       if (result.source !== "gemini" || !category) throw new Error("Online AI is not configured. Choose the category manually.");
-      const aliases = { battery: "Battery", batteries: "Battery", pcb: "PCB", mobile: "Mobile", phone: "Mobile", television: "Television", lcd: "Television", microwave: "Microwave", keyboard: "Keyboard", mouse: "Mouse", printer: "Printer", player: "Player", "washing machine": "Washing Machine" };
+      const aliases = { battery: "Batteries", batteries: "Batteries", pcb: "PCB", television: "LCD", lcd: "LCD", crt: "CRT", cable: "Cables", cables: "Cables", motor: "Motors & magnet assemblies", motors: "Motors & magnet assemblies", mixed_plastic: "Mixed plastics" };
       const matched = getSupportedMaterials().find((item) => item.label === aliases[String(category).toLowerCase()]);
       if (!matched) throw new Error("Online AI returned an unsupported category. Choose the category manually.");
       const pricedMaterial = await withCurrentPrice(matched);
@@ -261,11 +330,6 @@ export const ScanItem = () => {
                 {scanResult ? "Re-scan" : "Identify"}
               </Button>
             </div>
-            <div className="grid grid-cols-1">
-              <Button variant="outline" size="md" onClick={handleDeepScan} loading={deepScanLoading} icon={HiOutlineSparkles}>
-                Deep AI Scan (Groq Vision)
-              </Button>
-            </div>
             {scanError && (
               <p className="text-[12.5px] text-alert-600 bg-alert-50 rounded-xl px-3 py-2.5 leading-snug">
                 {scanError}
@@ -341,9 +405,8 @@ export const ScanItem = () => {
                     <option value="" disabled>Choose the correct category</option>
                     {getSupportedMaterials().map((item) => <option key={item.label} value={item.label}>{item.label}</option>)}
                   </select>
-                  <div className="grid grid-cols-3 gap-2">
+                  <div className="grid grid-cols-2 gap-2">
                     <Button size="sm" variant="outline" onClick={handleGeminiFallback} loading={geminiLoading}>Online AI</Button>
-                    <Button size="sm" variant="outline" onClick={handleDeepScan} loading={deepScanLoading} icon={HiOutlineSparkles}>Deep Scan</Button>
                     <Button size="sm" variant="primary" onClick={confirmClassification}>Confirm</Button>
                   </div>
                 </div>

@@ -210,6 +210,9 @@ export const processWhatsAppMessage = async ({ from, body = "", mediaUrl, mediaT
         const transcript = result.transcript || result.text || "";
         return transcript ? processWhatsAppMessage({ from, body: transcript }) : "I could not hear the voice note clearly. Please try again or type your query.";
       }
+      if (result.invalidImage || !result.validImage) {
+        return "Invalid image: please send a clear photo of one supported e-waste material: PCB, cable, battery, LCD panel, CRT, motor/magnet assembly, or mixed plastic.";
+      }
       const material = materialFromClassification(result);
       const price = await priceReply(material.category);
       session.pendingMaterial = material;

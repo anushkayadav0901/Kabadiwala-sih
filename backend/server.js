@@ -432,13 +432,20 @@ app.put("/api/lots/:id/destination", requireAuth, requireRole("recycler"), async
   } catch (error) { next(error); }
 });
 
-app.post("/api/classify", requireAuth, upload.single("photo"), async (req, res, next) => {
+// Classification is also available before a collector account is created.
+// The scan screen supports the project demo and offline-first intake flow.
+app.post("/api/classify", upload.single("photo"), async (req, res, next) => {
   try {
     if (!req.file) return res.status(400).json({ message: "A photo is required" });
     const filePath = req.file.path;
     if (isGeminiConfigured()) {
-      const result = await geminiClassify(filePath);
-      if (result) return res.json({ source: "gemini", ...result });
+      try {
+        const result = await geminiClassify(filePath);
+        if (result) return res.json({ source: "gemini", ...result });
+      } catch (error) {
+        return res.status(502).json({ message: error.message || "Gemini could not process this image" });
+      }
+      return res.status(502).json({ message: "Gemini did not return a classification. Please try again." });
     }
     res.json({ source: "none", message: "No AI classification backend configured. Use the on-device TF.js model." });
   } catch (error) { next(error); }
@@ -675,4 +682,7 @@ app.use((error, _req, res, _next) => {
   res.status(500).json({ message: "Something went wrong on the server" });
 });
 
-mongoose.connect(process.env.MONGODB_URI).then(() => app.listen(port, () => console.log(`API listening on http://localhost:${port}`))).catch((error) => { console.error("MongoDB connection failed:", error.message); process.exit(1); });
+mongoose.connect(process.env.MONGODB_URI).then(() => app.listen(port, () => {
+  console.log(`API listening on http://localhost:${port}`);
+  console.log(`Gemini image classification: ${isGeminiConfigured() ? "enabled" : "disabled — add GEMINI_API_KEY to backend/.env"}`);
+})).catch((error) => { console.error("MongoDB connection failed:", error.message); process.exit(1); });

@@ -2,7 +2,11 @@
   "source": "MetalMandi (https://www.metalmandi.in/scrap-rate)",
   "cityId": 113,
   "cityName": "Central Delhi, Delhi NCR",
+<<<<<<< HEAD
   "lastSyncedAt": "2026-09-09T14:54:22.258Z",
+=======
+  "lastSyncedAt": "2026-09-09T16:27:54.837Z",
+>>>>>>> 652f5e4 (feat: update scrap data and AI integrations)
   "itemCount": 17,
   "status": "LIVE_SYNCHRONIZED",
   "materials": [
@@ -26,7 +30,11 @@
       "mandiSubcategory": "Laptop-Server Board",
       "source": "MetalMandi Live API",
       "city": "Central Delhi, Delhi NCR",
+<<<<<<< HEAD
       "lastSyncedAt": "2026-09-09T14:54:22.258Z"
+=======
+      "lastSyncedAt": "2026-09-09T16:27:54.837Z"
+>>>>>>> 652f5e4 (feat: update scrap data and AI integrations)
     },
     {
       "id": "mat_mobile",
@@ -48,7 +56,11 @@
       "mandiSubcategory": "Smartphone",
       "source": "MetalMandi Live API",
       "city": "Central Delhi, Delhi NCR",
+<<<<<<< HEAD
       "lastSyncedAt": "2026-09-09T14:54:22.258Z"
+=======
+      "lastSyncedAt": "2026-09-09T16:27:54.837Z"
+>>>>>>> 652f5e4 (feat: update scrap data and AI integrations)
     },
     {
       "id": "mat_television",
@@ -70,7 +82,11 @@
       "mandiSubcategory": "LCD",
       "source": "MetalMandi Live API",
       "city": "Central Delhi, Delhi NCR",
+<<<<<<< HEAD
       "lastSyncedAt": "2026-09-09T14:54:22.258Z"
+=======
+      "lastSyncedAt": "2026-09-09T16:27:54.837Z"
+>>>>>>> 652f5e4 (feat: update scrap data and AI integrations)
     },
     {
       "id": "mat_keyboard",
@@ -92,7 +108,11 @@
       "mandiSubcategory": "E-waste without accessories",
       "source": "MetalMandi Live API",
       "city": "Central Delhi, Delhi NCR",
+<<<<<<< HEAD
       "lastSyncedAt": "2026-09-09T14:54:22.258Z"
+=======
+      "lastSyncedAt": "2026-09-09T16:27:54.837Z"
+>>>>>>> 652f5e4 (feat: update scrap data and AI integrations)
     },
     {
       "id": "mat_mouse",
@@ -114,7 +134,11 @@
       "mandiSubcategory": "E-waste without accessories",
       "source": "MetalMandi Live API",
       "city": "Central Delhi, Delhi NCR",
+<<<<<<< HEAD
       "lastSyncedAt": "2026-09-09T14:54:22.258Z"
+=======
+      "lastSyncedAt": "2026-09-09T16:27:54.837Z"
+>>>>>>> 652f5e4 (feat: update scrap data and AI integrations)
     },
     {
       "id": "mat_printer",
@@ -136,7 +160,11 @@
       "mandiSubcategory": "Printer",
       "source": "MetalMandi Live API",
       "city": "Central Delhi, Delhi NCR",
+<<<<<<< HEAD
       "lastSyncedAt": "2026-09-09T14:54:22.258Z"
+=======
+      "lastSyncedAt": "2026-09-09T16:27:54.837Z"
+>>>>>>> 652f5e4 (feat: update scrap data and AI integrations)
     },
     {
       "id": "mat_microwave",
@@ -158,7 +186,11 @@
       "mandiSubcategory": "Microwave & Oven",
       "source": "MetalMandi Live API",
       "city": "Central Delhi, Delhi NCR",
+<<<<<<< HEAD
       "lastSyncedAt": "2026-09-09T14:54:22.258Z"
+=======
+      "lastSyncedAt": "2026-09-09T16:27:54.837Z"
+>>>>>>> 652f5e4 (feat: update scrap data and AI integrations)
     },
     {
       "id": "mat_player",
@@ -180,7 +212,11 @@
       "mandiSubcategory": "E-waste with accessories",
       "source": "MetalMandi Live API",
       "city": "Central Delhi, Delhi NCR",
+<<<<<<< HEAD
       "lastSyncedAt": "2026-09-09T14:54:22.258Z"
+=======
+      "lastSyncedAt": "2026-09-09T16:27:54.837Z"
+>>>>>>> 652f5e4 (feat: update scrap data and AI integrations)
     },
     {
       "id": "mat_washing_machine",
@@ -202,7 +238,11 @@
       "mandiSubcategory": "Automatic - Top Load",
       "source": "MetalMandi Live API",
       "city": "Central Delhi, Delhi NCR",
+<<<<<<< HEAD
       "lastSyncedAt": "2026-09-09T14:54:22.258Z"
+=======
+      "lastSyncedAt": "2026-09-09T16:27:54.837Z"
+>>>>>>> 652f5e4 (feat: update scrap data and AI integrations)
     },
     {
       "id": "mat_battery",
@@ -224,7 +264,11 @@
       "mandiSubcategory": "Laptop",
       "source": "MetalMandi Live API",
       "city": "Central Delhi, Delhi NCR",
+<<<<<<< HEAD
       "lastSyncedAt": "2026-09-09T14:54:22.258Z"
+=======
+      "lastSyncedAt": "2026-09-09T16:27:54.837Z"
+>>>>>>> 652f5e4 (feat: update scrap data and AI integrations)
     },
     {
       "id": "mat_copper",
@@ -246,7 +290,11 @@
       "mandiSubcategory": "Laal Maal",
       "source": "MetalMandi Live API",
       "city": "Central Delhi, Delhi NCR",
+<<<<<<< HEAD
       "lastSyncedAt": "2026-09-09T14:54:22.258Z"
+=======
+      "lastSyncedAt": "2026-09-09T16:27:54.837Z"
+>>>>>>> 652f5e4 (feat: update scrap data and AI integrations)
     },
     {
       "id": "mat_aluminium",
@@ -268,7 +316,11 @@
       "mandiSubcategory": "Wire Scrap",
       "source": "MetalMandi Live API",
       "city": "Central Delhi, Delhi NCR",
+<<<<<<< HEAD
       "lastSyncedAt": "2026-09-09T14:54:22.258Z"
+=======
+      "lastSyncedAt": "2026-09-09T16:27:54.837Z"
+>>>>>>> 652f5e4 (feat: update scrap data and AI integrations)
     },
     {
       "id": "mat_brass",
@@ -290,7 +342,11 @@
       "mandiSubcategory": "Purja",
       "source": "MetalMandi Live API",
       "city": "Central Delhi, Delhi NCR",
+<<<<<<< HEAD
       "lastSyncedAt": "2026-09-09T14:54:22.258Z"
+=======
+      "lastSyncedAt": "2026-09-09T16:27:54.837Z"
+>>>>>>> 652f5e4 (feat: update scrap data and AI integrations)
     },
     {
       "id": "mat_iron",
@@ -312,7 +368,11 @@
       "mandiSubcategory": "Piece to Piece",
       "source": "MetalMandi Live API",
       "city": "Central Delhi, Delhi NCR",
+<<<<<<< HEAD
       "lastSyncedAt": "2026-09-09T14:54:22.258Z"
+=======
+      "lastSyncedAt": "2026-09-09T16:27:54.837Z"
+>>>>>>> 652f5e4 (feat: update scrap data and AI integrations)
     },
     {
       "id": "mat_fridge",
@@ -334,7 +394,11 @@
       "mandiSubcategory": "Single Door(Cop)",
       "source": "MetalMandi Live API",
       "city": "Central Delhi, Delhi NCR",
+<<<<<<< HEAD
       "lastSyncedAt": "2026-09-09T14:54:22.258Z"
+=======
+      "lastSyncedAt": "2026-09-09T16:27:54.837Z"
+>>>>>>> 652f5e4 (feat: update scrap data and AI integrations)
     },
     {
       "id": "mat_ac",
@@ -356,7 +420,11 @@
       "mandiSubcategory": "1T-Cop",
       "source": "MetalMandi Live API",
       "city": "Central Delhi, Delhi NCR",
+<<<<<<< HEAD
       "lastSyncedAt": "2026-09-09T14:54:22.258Z"
+=======
+      "lastSyncedAt": "2026-09-09T16:27:54.837Z"
+>>>>>>> 652f5e4 (feat: update scrap data and AI integrations)
     },
     {
       "id": "mat_plastic",
@@ -378,7 +446,11 @@
       "mandiSubcategory": "E-waste without accessories",
       "source": "MetalMandi Live API",
       "city": "Central Delhi, Delhi NCR",
+<<<<<<< HEAD
       "lastSyncedAt": "2026-09-09T14:54:22.258Z"
+=======
+      "lastSyncedAt": "2026-09-09T16:27:54.837Z"
+>>>>>>> 652f5e4 (feat: update scrap data and AI integrations)
     }
   ]
 }
