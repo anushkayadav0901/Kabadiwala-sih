@@ -8,7 +8,7 @@ Kabadiwala Connect bridges the gap between grassroots waste collectors (kabadiwa
 
 ## Problem Statement
 
-> **SIH 2026 — PS 26229 (Ministry of Mines)**
+> **SIH 2026 - PS 26229 (Ministry of Mines)**
 >
 > India generates over 3.2 million tonnes of e-waste annually, yet 95% is handled by the informal sector without safety protocols, fair pricing, or regulatory traceability. Collectors lack tools to identify hazardous materials, verify buyer credentials, or participate in Extended Producer Responsibility (EPR) compliance under the E-Waste Management Rules, 2022.
 
