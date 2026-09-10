@@ -5,6 +5,7 @@ import { BottomNavigation } from "../components/BottomNavigation";
 import { Button } from "../components/Button";
 import { MaterialIcon } from "../components/icons/MaterialIcon";
 import { classifyWithGemini, classifyDeep, getSupportedMaterials, scanMaterial } from "../services/estimateService";
+import { materialGroups } from "../data/materialCatalog";
 import { getCurrentMaterialPrice } from "../services/priceService";
 import { useApp } from "../context/AppContext";
 import { formatCurrency, calculateTotalValue } from "../utils/helpers";
@@ -75,35 +76,27 @@ export const ScanItem = () => {
     if (result?.invalidImage || result?.validImage === false) {
       setScanResult(null);
       setClassificationConfirmed(false);
-      setScanError(result.reasoning || "Invalid image. Photograph a PCB, cable, battery, LCD panel, CRT, motor/magnet assembly, or mixed plastic.");
+      setScanError("Please upload a clear photo of a valid scrap item from the listed categories.");
       return true;
     }
-    const category = result?.category || result?.detectedItem || result?.label || "";
+    const category = result?.materialId || result?.category || result?.detectedItem || result?.label || "";
     if (!category) return false;
 
     const aliasMap = {
-      battery: "Batteries",
-      batteries: "Batteries",
-      pcb: "PCB",
-      circuit: "PCB",
-      television: "LCD",
-      tv: "LCD",
-      lcd: "LCD",
-      screen: "LCD",
-      monitor: "LCD",
-      crt: "CRT",
-      cable: "Cables",
-      cables: "Cables",
-      motor: "Motors & magnet assemblies",
-      motors: "Motors & magnet assemblies",
-      "mixed plastic": "Mixed plastics",
-      mixed_plastic: "Mixed plastics",
-      plastic: "Mixed plastics"
+      battery: "Battery Scrap (Inverter / Car)", batteries: "Battery Scrap (Inverter / Car)",
+      pcb: "Mixed E-Waste", circuit: "Mixed E-Waste", television: "Mixed E-Waste", tv: "Mixed E-Waste", lcd: "Mixed E-Waste", crt: "Mixed E-Waste",
+      copper: "Copper Bright Wire", aluminium: "Aluminium Scrap", aluminum: "Aluminium Scrap", brass: "Brass Scrap",
+      iron: "Iron Scrap (Loha)", steel: "MS / Mild Steel Scrap", stainless: "Stainless Steel Scrap",
+      plastic: "Hard Plastic Scrap", cable: "Mixed Copper Scrap", cables: "Mixed Copper Scrap",
+      ac: "AC Scrap (Window / Split)", fridge: "Refrigerator Scrap", refrigerator: "Refrigerator Scrap",
+      washing_machine: "Washing Machine Scrap", laptop: "Laptop Scrap", desktop: "Desktop Computer Set",
+      newspaper: "Newspaper / Raddi", cardboard: "Carton / Cardboard Box", paper: "Books & Mixed Paper"
     };
 
     const normalized = String(category).trim().toLowerCase();
     const resolvedLabel = aliasMap[normalized] || Object.entries(aliasMap).find(([key]) => normalized.includes(key))?.[1];
-    const match = resolvedLabel ? getSupportedMaterials().find((item) => item.label.toLowerCase() === String(resolvedLabel).toLowerCase()) : null;
+    const match = getSupportedMaterials().find((item) => item.id === category || item.label.toLowerCase() === normalized)
+      || (resolvedLabel ? getSupportedMaterials().find((item) => item.label.toLowerCase() === String(resolvedLabel).toLowerCase()) : null);
 
     if (!match) return false;
 
@@ -125,24 +118,8 @@ export const ScanItem = () => {
     setScanError("");
     setScanning(true);
     try {
-      // When online, Gemini is the authoritative classifier. Do not silently
-      // replace an API failure with the old device-label model.
-      if (navigator.onLine) {
-        try {
-        const geminiResult = await classifyWithGemini(imagePreview);
-        if (geminiResult?.source === "gemini") {
-          const accepted = await applyGeminiClassification(geminiResult);
-          if (accepted) return;
-        }
-        throw new Error(geminiResult?.message || "Gemini did not return a valid classification.");
-        } catch (geminiError) {
-          setScanResult(null);
-          setScanError(`Online AI could not classify this photo: ${geminiError.message}`);
-          return;
-        }
-      }
-
-      // Only use the on-device model when the user is genuinely offline.
+      // The local TensorFlow model is always the first choice. It works after
+      // its assets are cached and never uploads the collector's photo.
       const res = await scanMaterial(imagePreview);
       if (res.needsRetake) {
         setScanResult(null);
@@ -171,19 +148,16 @@ export const ScanItem = () => {
   };
 
   const handleGeminiFallback = async () => {
+    if (!navigator.onLine) {
+      setScanError("Detect by AI needs an internet connection. Use the offline result or choose a category below.");
+      return;
+    }
     setGeminiLoading(true);
     setScanError("");
     try {
       const result = await classifyWithGemini(imagePreview);
-      if (result?.invalidImage || result?.validImage === false) throw new Error(result.reasoning || "Invalid image. Please photograph a supported e-waste material.");
-      const category = result.category || result.label;
-      if (result.source !== "gemini" || !category) throw new Error("Online AI is not configured. Choose the category manually.");
-      const aliases = { battery: "Batteries", batteries: "Batteries", pcb: "PCB", television: "LCD", lcd: "LCD", crt: "CRT", cable: "Cables", cables: "Cables", motor: "Motors & magnet assemblies", motors: "Motors & magnet assemblies", mixed_plastic: "Mixed plastics" };
-      const matched = getSupportedMaterials().find((item) => item.label === aliases[String(category).toLowerCase()]);
-      if (!matched) throw new Error("Online AI returned an unsupported category. Choose the category manually.");
-      const pricedMaterial = await withCurrentPrice(matched);
-      setScanResult((previous) => ({ ...previous, detectedMaterial: pricedMaterial, detectedLabel: matched.label, confidence: Math.round(Number(result.confidence || 0) * 100), source: "gemini" }));
-      setClassificationConfirmed(false);
+      if (result.source !== "gemini") throw new Error(result.message || "Online AI is not configured. Choose the category manually.");
+      if (!await applyGeminiClassification(result)) throw new Error("This item is not in the current price catalogue. Choose the closest category manually.");
     } catch (error) {
       setScanError(error.message || "Online AI could not classify this image.");
     } finally {
@@ -231,6 +205,10 @@ export const ScanItem = () => {
 
   const confirmClassification = async () => {
     if (!scanResult?.detectedMaterial) return;
+    if (scanResult.requiresManualSelection) {
+      setScanError("Choose the exact category from the list before confirming.");
+      return;
+    }
     const pricedMaterial = await withCurrentPrice(scanResult.detectedMaterial);
     setScanResult((previous) => ({ ...previous, detectedMaterial: pricedMaterial }));
     setClassificationConfirmed(true);
@@ -240,7 +218,7 @@ export const ScanItem = () => {
   const chooseManualClassification = (event) => {
     const selected = getSupportedMaterials().find((item) => item.label === event.target.value);
     if (!selected) return;
-    setScanResult((previous) => ({ ...previous, detectedMaterial: selected, detectedLabel: selected.label, source: "manual" }));
+    setScanResult((previous) => ({ ...previous, detectedMaterial: selected, detectedLabel: selected.label, source: "manual", requiresManualSelection: false }));
     setClassificationConfirmed(false);
   };
 
@@ -331,7 +309,7 @@ export const ScanItem = () => {
               </Button>
             </div>
             {scanError && (
-              <p className="text-[12.5px] text-alert-600 bg-alert-50 rounded-xl px-3 py-2.5 leading-snug">
+              <p className="text-[12.5px] text-muted bg-sunken border border-line rounded-xl px-3 py-2.5 leading-snug">
                 {scanError}
               </p>
             )}
@@ -396,21 +374,30 @@ export const ScanItem = () => {
                 </div>
               </div>
 
-              {!classificationConfirmed && (
-                <div className="mx-4 mb-4 p-3 rounded-xl bg-gold-50 flex flex-col gap-2.5">
+              <div className="mx-4 mb-4 p-3 rounded-xl bg-gold-50 flex flex-col gap-2.5">
+                {!classificationConfirmed && (
                   <p className="text-[12.5px] text-gold-700 leading-snug">
                     Confirm the category before continuing. The AI result is only a suggestion.
                   </p>
-                  <select value={scanResult.detectedLabel || ""} onChange={chooseManualClassification} className="h-10 rounded-lg border border-line bg-surface px-2 text-[13px]">
-                    <option value="" disabled>Choose the correct category</option>
-                    {getSupportedMaterials().map((item) => <option key={item.label} value={item.label}>{item.label}</option>)}
-                  </select>
-                  <div className="grid grid-cols-2 gap-2">
-                    <Button size="sm" variant="outline" onClick={handleGeminiFallback} loading={geminiLoading}>Online AI</Button>
-                    <Button size="sm" variant="primary" onClick={confirmClassification}>Confirm</Button>
-                  </div>
+                )}
+                <label className="text-[12px] font-semibold text-gold-700" htmlFor="material-category">
+                  Correct category / material
+                </label>
+                <select id="material-category" value={scanResult.detectedLabel || ""} onChange={chooseManualClassification} className="h-10 rounded-lg border border-line bg-surface px-2 text-[13px]">
+                  <option value="" disabled>Choose the correct category</option>
+                  {materialGroups.map((group) => (
+                    <optgroup key={group} label={group}>
+                      {getSupportedMaterials().filter((item) => item.group === group).map((item) => (
+                        <option key={item.id} value={item.label}>{item.label}</option>
+                      ))}
+                    </optgroup>
+                  ))}
+                </select>
+                <div className={`grid gap-2 ${classificationConfirmed ? "grid-cols-1" : "grid-cols-2"}`}>
+                  <Button size="sm" variant="outline" onClick={handleGeminiFallback} loading={geminiLoading}>Detect by AI (online)</Button>
+                  {!classificationConfirmed && <Button size="sm" variant="primary" onClick={confirmClassification}>Confirm</Button>}
                 </div>
-              )}
+              </div>
 
               {scanResult.detectedMaterial.safetyWarning && (
                 <div className="mx-4 mb-4 p-3 rounded-xl bg-alert-50 flex items-start gap-2.5">

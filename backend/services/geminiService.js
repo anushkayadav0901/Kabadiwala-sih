@@ -17,10 +17,11 @@ const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const GEMINI_MODEL = process.env.GEMINI_MODEL || "gemini-flash-lite-latest";
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=`;
 
-// These are the material groups explicitly required by the SIH problem
-// statement. Generic e-waste and whole-device labels are intentionally not
-// accepted, because they can turn an unrelated photo into a false listing.
-export const MATERIAL_CATEGORIES = ["PCB", "cables", "batteries", "LCD", "CRT", "motors", "mixed_plastic"];
+// Public Kabadiwala-style material catalogue used by manual and online AI
+// selection. It is deliberately constrained so unrelated photos are invalid.
+export const MATERIAL_CATEGORIES = [
+  "newspaper", "books", "cardboard", "magazine", "hard_plastic", "soft_plastic_film", "iron_scrap", "stainless_steel", "copper_scrap", "aluminium_scrap", "brass_scrap", "nickel_scrap", "electrical_panel", "oil_tin_empty", "almirah_iron_steel", "mixed_metal", "copper_wire_scrap", "ac_copper_2t_window", "ac_copper_15t_window", "ac_copper_1t_window", "ac_aluminium_2t_window", "ac_aluminium_15t_window", "ac_aluminium_1t_window", "split_ac_1t_copper", "split_ac_15t_copper", "split_ac_2t_copper", "split_ac_1t_aluminium", "split_ac_15t_aluminium", "split_ac_2t_aluminium", "inverter_ac_1t_copper", "inverter_ac_15t_copper", "inverter_ac_2t_copper", "refrigerator_single_door", "refrigerator_double_door", "washing_machine_single_drum", "washing_machine_semi_auto", "washing_machine_front_load", "washing_machine_top_load", "dishwasher", "microwave_oven", "geyser_steel_iron", "geyser_copper", "copper_fan", "electric_motor_copper", "copper_inverter", "black_battery_lead", "white_battery_inverter", "generator_scrap", "air_cooler_aluminium", "air_cooler_copper", "lithium_battery", "lithium_car_bike_battery", "inverter_with_battery", "treadmill", "ev_charging_station", "laptop_screen", "desktop_cpu", "crt_monitor", "lcd_led_monitor", "crt_television", "printer_scan", "laser_printer", "ups_e_waste", "mixed_e_waste", "car_scrap_full", "scooter_scrap", "bike_motorcycle_scrap", "bicycle_scrap", "electric_bike", "electric_car", "smartphone_scrap", "basic_mobile_phone", "tablet_scrap", "old_cooking_oil", "hard_drive_scrap", "transformer_scrap", "solar_scrap", "server_scrap", "speaker_scrap"
+];
 
 const mimeFor = (filePath) => {
   const ext = path.extname(filePath).toLowerCase();
@@ -38,12 +39,12 @@ export const classifyImage = async (filePath) => {
     body: JSON.stringify({
       contents: [{
         parts: [
-          { text: `You validate photos for an Indian e-waste collection platform. Accept an image ONLY when its primary visible item is one of these SIH material groups: ${MATERIAL_CATEGORIES.join(", ")}.
+          { text: `You validate photos for an Indian kabadiwala scrap collection platform. Accept an image ONLY when its primary visible item belongs to one of these catalogue IDs: ${MATERIAL_CATEGORIES.join(", ")}.
 
-Reject ordinary household items, people, documents, animals, food, vehicles, scenery, non-electronic scrap, and images where the e-waste material cannot be identified reliably. Whole electronic devices may be accepted only when their primary recoverable material is clear. Never guess a category just because every image needs an answer.
+Use the exact ID for the clearly visible catalogue item. For appliances, identify the appliance, type, and copper/aluminium/tonnage only when visually reliable; otherwise choose the closest general item, such as mixed_e_waste. Reject people, documents, animals, food, scenery, reusable non-scrap household goods, and images where a sellable material cannot be identified reliably. Never guess a category just because every image needs an answer.
 
 Respond ONLY as JSON:
-{"validImage":true,"category":"one accepted category","detectedItem":"short item name","condition":"good|fair|poor|damaged|hazardous","confidence":0.0,"reasoning":"brief visual evidence"}
+{"validImage":true,"category":"one catalogue ID","detectedItem":"short item name","condition":"good|fair|poor|damaged|hazardous","confidence":0.0,"reasoning":"brief visual evidence"}
 or
 {"validImage":false,"category":null,"detectedItem":null,"confidence":0.0,"reasoning":"why this is not an acceptable e-waste material image"}` },
           { inline_data: { mime_type: mimeFor(filePath), data: imageData } }
@@ -69,7 +70,7 @@ or
       validImage,
       invalidImage: !validImage,
       category: validImage ? category : null,
-      reasoning: parsed.reasoning || "The image is not a clearly identifiable supported e-waste material."
+      reasoning: parsed.reasoning || "The image is not a clearly identifiable sellable scrap material."
     };
   } catch { return null; }
 };

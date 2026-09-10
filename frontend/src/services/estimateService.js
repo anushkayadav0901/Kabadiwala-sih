@@ -11,6 +11,7 @@
 // ---------------------------------------------------------------------------
 import * as tmImage from "@teachablemachine/image";
 import { api } from "./api";
+import { materialCatalog } from "../data/materialCatalog";
 
 const MODEL_BASE_URL = "/AI_Model/";
 const MIN_CONFIDENCE = 65;
@@ -180,22 +181,47 @@ const modelMaterials = {
   }
 };
 
-// The local model has ten device labels, but lots must use only the seven
-// SIH material categories from the problem statement.
-const supportedMaterials = [
-  { label: "CRT", ...modelMaterials.CRT },
-  { label: "LCD", ...modelMaterials.LCD },
-  { label: "PCB", ...modelMaterials.PCB },
-  { label: "Cables", ...modelMaterials.Cables },
-  { label: "Batteries", ...modelMaterials.Battery },
-  { label: "Motors & magnet assemblies", ...modelMaterials.Motors },
-  { label: "Mixed plastics", ...modelMaterials["Mixed Plastics"] }
-];
+// All manual and online-AI outcomes use this public-price-list catalogue.
+const supportedMaterials = materialCatalog;
+
+// The shipped model has only ten legacy labels. This mapping keeps it useful
+// until the expanded 21-class offline model is trained.
+const modelLabelToCatalogId = {
+  Battery: "battery_scrap",
+  Keyboard: "mixed_e_waste",
+  Microwave: "mixed_e_waste",
+  Mobile: "mixed_e_waste",
+  Mouse: "mixed_e_waste",
+  PCB: "mixed_e_waste",
+  Player: "mixed_e_waste",
+  Printer: "mixed_e_waste",
+  Television: "mixed_e_waste",
+  "Washing Machine": "washing_machine_scrap",
+  Newspaper: "newspaper", Books: "books", Cardboard: "cardboard", Magazine: "magazine",
+  "Hard Plastic": "hard_plastic", "Soft Plastic Film": "soft_plastic_film",
+  "Iron Scrap": "iron_scrap", "Stainless Steel": "stainless_steel",
+  "Copper Scrap": "copper_scrap", "Aluminium Scrap": "aluminium_scrap", "Brass Scrap": "brass_scrap",
+  "Laptop Screen": "laptop_screen", "Desktop CPU": "desktop_cpu", "CRT Monitor": "crt_monitor",
+  "LCD/LED Monitor": "lcd_led_monitor", "CRT Television": "crt_television", Printer: "printer_scan",
+  UPS: "ups_e_waste", "Smart Phone": "smartphone_scrap", "Basic Mobile Phone": "basic_mobile_phone",
+  Tablet: "tablet_scrap", Car: "car_scrap_full", Scooter: "scooter_scrap",
+  Motorcycle: "bike_motorcycle_scrap", Bicycle: "bicycle_scrap"
+};
 
 const materialForModelLabel = (label) => {
-  const modelMaterial = modelMaterials[label];
-  return supportedMaterials.find((material) => material.category === modelMaterial?.category) || null;
+  return supportedMaterials.find((material) => material.id === modelLabelToCatalogId[label]) || null;
 };
+
+const manualSelectionMaterial = (label) => ({
+  id: `ai_${label.toLowerCase().replace(/\s+/g, "_")}`,
+  name: `${label} detected`,
+  category: "unclassified",
+  pricePerKg: 0,
+  unit: "kg",
+  icon: "ðŸ“¦",
+  shortDescription: "Choose the exact catalogue category to apply its price.",
+  safetyWarning: "Confirm the exact material and appliance variant before handling or pricing it."
+});
 
 const loadScanModel = () => {
   if (!modelPromise) {
@@ -270,11 +296,13 @@ export const scanMaterial = async (imageSrc) => {
   const accepted = topPrediction.confidence >= MIN_CONFIDENCE && confidenceMargin >= MIN_CONFIDENCE_MARGIN;
 
   if (!accepted) {
+    const candidateMaterial = materialForModelLabel(topPrediction.label);
     return {
       success: false,
       needsConfirmation: true,
-      candidateMaterial: materialForModelLabel(topPrediction.label),
-      detectedLabel: materialForModelLabel(topPrediction.label)?.label,
+      requiresManualSelection: !candidateMaterial,
+      candidateMaterial: candidateMaterial || manualSelectionMaterial(topPrediction.label),
+      detectedLabel: candidateMaterial?.label || "",
       confidence: topPrediction.confidence,
       predictions: predictions.slice(0, 3),
       message: "The AI is uncertain. Confirm the suggested category or choose the correct one before creating a lot."
@@ -289,10 +317,13 @@ export const scanMaterial = async (imageSrc) => {
   if (!mappedMaterial) {
     return {
       success: false,
-      invalidImage: true,
-      needsRetake: true,
-      predictions: [],
-      message: "Invalid image. Photograph a PCB, cable, battery, LCD panel, CRT, motor/magnet assembly, or mixed plastic."
+      needsConfirmation: true,
+      requiresManualSelection: true,
+      candidateMaterial: manualSelectionMaterial(topPrediction.label),
+      detectedLabel: "",
+      confidence: topPrediction.confidence,
+      predictions: predictions.slice(0, 3),
+      message: "Choose the exact catalogue category before continuing."
     };
   }
   const detected = mappedMaterial || {

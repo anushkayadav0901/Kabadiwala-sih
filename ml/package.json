@@ -1,0 +1,11 @@
+{
+  "scripts": {
+    "download:visual": "node download-visual-dataset.mjs",
+    "train": "node train-offline-model.mjs"
+  },
+  "dependencies": {
+    "@tensorflow/tfjs": "^1.3.1",
+    "jpeg-js": "^0.4.4",
+    "pngjs": "^7.0.0"
+  }
+}

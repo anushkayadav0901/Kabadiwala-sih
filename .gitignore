@@ -25,3 +25,10 @@ Thumbs.db
 SESSION_SUMMARY*.md
 *SUMMARY*.md
 
+# Generated ML datasets, training runs, and runtime logs
+ml/catalog-dataset/
+ml/visual-dataset/
+ml/commons-dataset/
+ml/experiments/
+ml/logs/
+
