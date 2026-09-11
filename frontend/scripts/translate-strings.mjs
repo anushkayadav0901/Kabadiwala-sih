@@ -141,7 +141,9 @@ You are REVIEWING machine translations for a scrap-collector app. The user sends
     0.1
   );
 
-const BATCH = 25;
+// A single string the model cannot encode as JSON fails its whole batch, so
+// retry stubborn leftovers with TRANSLATE_BATCH=5 (or 1).
+const BATCH = Number(process.env.TRANSLATE_BATCH) || 25;
 const chunk = (arr, n) => Array.from({ length: Math.ceil(arr.length / n) }, (_, i) => arr.slice(i * n, i * n + n));
 
 // Material names already carry hand-authored hindiName / marathiName in the
