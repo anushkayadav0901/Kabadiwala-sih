@@ -39,9 +39,14 @@ export default defineConfig({
         display: 'standalone',
         orientation: 'portrait',
         start_url: '/',
+        // Chrome on Android needs real 192px and 512px icons before it offers
+        // "Install app". Maskable versions keep the logo inside the safe zone
+        // so Android's circular crop doesn't cut it off.
         icons: [
-          { src: '/brand/icon-180.png', sizes: '180x180', type: 'image/png', purpose: 'any maskable' },
-          { src: '/brand/logo-mark.png', sizes: '512x512', type: 'image/png', purpose: 'any' }
+          { src: '/brand/icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
+          { src: '/brand/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
+          { src: '/brand/icon-maskable-192.png', sizes: '192x192', type: 'image/png', purpose: 'maskable' },
+          { src: '/brand/icon-maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' }
         ]
       }
     })
