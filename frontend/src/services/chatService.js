@@ -6,7 +6,7 @@
  */
 
 const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
-const GROQ_API_KEY = "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";
+const GROQ_API_KEY = import.meta.env.VITE_GROQ_API_KEY || "";
 const MODEL = "openai/gpt-oss-120b";
 
 // Language → human-readable name for the system prompt
@@ -60,6 +60,10 @@ Platform context: Kabadiwala Connect app. Badges: Bronze Recycler, Silver Eco-Wa
  * @returns {Promise<string>}  The assistant message text
  */
 export async function sendChatMessage(messages, language = "en") {
+  if (!GROQ_API_KEY) {
+    throw new Error("Assistant service is not configured. Please add VITE_GROQ_API_KEY in your frontend environment settings.");
+  }
+
   const systemMessage = {
     role: "system",
     content: buildSystemPrompt(language),
