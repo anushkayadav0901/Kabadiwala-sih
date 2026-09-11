@@ -338,146 +338,54 @@
       ]
     },
     "magazine": {
-      "reviewed": 40,
-      "kept": 34,
-      "removed": 6,
-      "note": "Removed chimney drawing, a tool, factory photos, a gunpowder-magazine building. 25 of the 34 kept are covers from ONE series (Meccano Magazine, 1925-35), grouped so they cannot straddle train and test. Only #2 shows a real pile of magazines.",
+      "reviewed": 60,
+      "kept": 11,
+      "removed": 49,
+      "note": "11 kept after 3 query rounds: magazine racks/displays and dense cover walls where magazines are the main subject. Removed: kiosk exteriors/street scenes, ruins, parks, people, cover-art scans. WEAK CLASS - display shots, not scrap-style stacks; recommend real photos.",
       "keep": [
         {
-          "sha1": "c2315a38de5e87b82610c5cb39b2e6f9f9011ebd",
-          "file": "003_File_Gfp-stack-of-magazines-and-books.jpg.jpg"
+          "sha1": "8e026f59eb638ba9951da28210b99119fcf3c972",
+          "file": "006_File_2007_news_kiosk_Tokyo_511061919.jpg.jpg"
         },
         {
-          "sha1": "0ae6b322dff53aae7e76992872d9c005ce6b6435",
-          "file": "008_File_Ms._magazine_Cover_-_Fall_2005.jpg.jpg"
+          "sha1": "652f26200c61f4278ac006eb0c7547590e7402c4",
+          "file": "014_File_Kiosk_magazine.jpg.jpg"
         },
         {
-          "sha1": "6bdbbb4486806cfed7668d5781f5db19de2a0fc3",
-          "file": "009_File_Ms._magazine_Cover_-_Summer_2014.jpg.jpg"
+          "sha1": "ccbd6a93c4658b75e0412572748c00020357284a",
+          "file": "027_File_7-11_Kiosk_Kounoike_Shinden.jpg.jpg"
         },
         {
-          "sha1": "13cf8dcc65672fae6115cb7a4425ed5fa000735f",
-          "file": "010_File_Betty_Compson_on_the_cover_of_the_1922_March_Motion_Picture_Classic_magazine--Cover_artist_Edward_Mason_Eggleston.j.jpg"
+          "sha1": "492e46d3f3fa5aa4dc7dbda8373b1602774dd8d9",
+          "file": "051_File_2008_newsstand_Barcelona_3386517782.jpg.jpg"
         },
         {
-          "sha1": "ddf4846b69d44c54736a6bab33ff9e047741052e",
-          "file": "011_File_Dorothy_Dalton_cover_of_Motion_Picture_Classic_magazine_cover_art_by_Edward_Mason_Eggleston.jpg.jpg"
+          "sha1": "05c0f92854fdcaf9bf15a03d6ea3937e6300e597",
+          "file": "052_File_2009_newsstand_HongKong_3642435320.jpg.jpg"
         },
         {
-          "sha1": "dc8a7bcb3c4940012c20124c513617d474d5edc5",
-          "file": "012_File_Corinne_Griffith_on_the_cover_of_Motion_Picture_Classic_magazine_September_1921_cover_art_by_Benjamin_Eggleston.jpg.jpg"
+          "sha1": "e7320fab6ba0f5579d61801f645ba5d5aa8564bc",
+          "file": "053_File_2006_newsstand_Beijing_415274988.jpg.jpg"
         },
         {
-          "sha1": "95e5a7125791ecc39c3992fafb1ea55b09377422",
-          "file": "013_File_Hope_Hampton_on_the_cover_of_Motion_Picture_Classic_magazine_Feb_1922_cover_art_by_Benjamin_Eggleston.jpg.jpg"
+          "sha1": "4289e8037ec5ea31ef3c04a6786537f05616c7e6",
+          "file": "054_File_2011_newsstand_Tamil_Nadu_India_6592927751.jpg.jpg"
         },
         {
-          "sha1": "b021dd79117a78f8d32d89a183cc2d484f8c538f",
-          "file": "014_File_Magazine_of_the_holy_synod_an_example_of_Romanian_Revival_graphic_design_from_March_1927.jpg.jpg"
+          "sha1": "063a065c6f9f27822b4dc37cfb0b5c932d907854",
+          "file": "055_File_2010_newsstand_Netherlands_5316559084.jpg.jpg"
         },
         {
-          "sha1": "06ddd7947ac62e040559782489455b11d85bbbd4",
-          "file": "015_File_Colonial-Magazine-Cover.jpg.jpg"
+          "sha1": "666b2cfde3671bc9bca4440aebf679e01b93e3fa",
+          "file": "058_File_2012_newsstand_6751560847.jpg.jpg"
         },
         {
-          "sha1": "09b0c1972d3af5b9e27620346436df10dbf39d29",
-          "file": "016_File_Meccano_Magazine_1925-01_cover.png.jpg"
+          "sha1": "59321661bbbd25a83003c2ec86168b793b763bb4",
+          "file": "059_File_2008_newsstand_Paris_4785399508.jpg.jpg"
         },
         {
-          "sha1": "3720bea43673019021f36698df5b3b898abb8665",
-          "file": "017_File_Meccano_Magazine_1925-02_cover.png.jpg"
-        },
-        {
-          "sha1": "1040c8a1a2f8d7cf5658c41b0849e0d1f8271d67",
-          "file": "018_File_Meccano_Magazine_1925-04_cover.png.jpg"
-        },
-        {
-          "sha1": "5c0b6431dda5f5686622337a433c98e9d5063e63",
-          "file": "019_File_Meccano_Magazine_1925-08_cover.png.jpg"
-        },
-        {
-          "sha1": "84f9dbeccd67f6fb7fa0f79be73c27f3d965f614",
-          "file": "020_File_Meccano_Magazine_1925-11_cover.png.jpg"
-        },
-        {
-          "sha1": "c6e8be1e8978840fa797a4dc096f57aa72fb64aa",
-          "file": "021_File_Meccano_Magazine_1926-02_cover.png.jpg"
-        },
-        {
-          "sha1": "9da2f37c4ea585314e08cd3cc89bda21a9d8b3c1",
-          "file": "022_File_Meccano_Magazine_1926-05_cover.png.jpg"
-        },
-        {
-          "sha1": "695ba2b197a2e379eb887c3b762ae0163b79b95a",
-          "file": "023_File_Meccano_Magazine_1926-06_cover.png.jpg"
-        },
-        {
-          "sha1": "e84190b1e7169106fa823c7f9c833b34c4c37f4b",
-          "file": "024_File_Meccano_Magazine_1926-09_cover.png.jpg"
-        },
-        {
-          "sha1": "a9fc4e6c85b6e5e8b956e40f27920c5ac5354aa5",
-          "file": "025_File_Meccano_Magazine_1926-10_cover.png.jpg"
-        },
-        {
-          "sha1": "bf74bb03d347c8c7788ccd03f3ce392c390cc9c2",
-          "file": "026_File_Meccano_Magazine_1926-11_cover.png.jpg"
-        },
-        {
-          "sha1": "46a6e5a0c748d25e22445f36dc06c8c9b8d2c9b7",
-          "file": "027_File_Meccano_Magazine_1926-12_cover.png.jpg"
-        },
-        {
-          "sha1": "c9377fd8bca469a03cd9a400c09e5b53bad517d3",
-          "file": "028_File_Meccano_Magazine_1927-02_cover.png.jpg"
-        },
-        {
-          "sha1": "9aa8704afaf593a3c10980a5042d43072806751f",
-          "file": "029_File_Meccano_Magazine_1927-03_cover.png.jpg"
-        },
-        {
-          "sha1": "e20e2c13e426d70ce7e524d41fc0c99cd67e69ae",
-          "file": "030_File_Meccano_Magazine_1927-06_cover.png.jpg"
-        },
-        {
-          "sha1": "68e7c89ef3d125c6594ae3eb3f9c535db3d51cbb",
-          "file": "031_File_Meccano_Magazine_1927-09_cover.png.jpg"
-        },
-        {
-          "sha1": "618a6b8df44c303fa42f661e715523c403fe8914",
-          "file": "032_File_Meccano_Magazine_1927-11_cover.png.jpg"
-        },
-        {
-          "sha1": "6a3c870722993ada0888eed67be396cc153a3a04",
-          "file": "033_File_Meccano_Magazine_1927-10_cover.png.jpg"
-        },
-        {
-          "sha1": "e25af0b72798ccb0fbc3559314a00d786a3ebd84",
-          "file": "034_File_Meccano_Magazine_1928-06_cover.png.jpg"
-        },
-        {
-          "sha1": "ac00ed467753c247282d502e3d3208ceab5bbf11",
-          "file": "035_File_Meccano_Magazine_1928-07_cover.png.jpg"
-        },
-        {
-          "sha1": "4a5bc120a63d267b12a0dac27465f46ecec43826",
-          "file": "036_File_Meccano_Magazine_1928-12_cover.png.jpg"
-        },
-        {
-          "sha1": "3f2ee7dbda3bcfba22860e9888c47e10a2276fc0",
-          "file": "037_File_June_1928_Country_Gentleman_magazine_cover_-_Bride.jpg.jpg"
-        },
-        {
-          "sha1": "bc4e826550605d695a61a3e51bb1d6d4d6d635b6",
-          "file": "038_File_Meccano_Magazine_1929-04_cover.jpg.jpg"
-        },
-        {
-          "sha1": "2c1c075eca3860c20b44fadba2931c2bedb03bb8",
-          "file": "039_File_Meccano_Magazine_1929-10_cover.jpg.jpg"
-        },
-        {
-          "sha1": "7f092a32e606065b7d44c2523ecd5b6cc2f64ccc",
-          "file": "040_File_Meccano_Magazine_1929-11_cover.jpg.jpg"
+          "sha1": "488af3ea73a39a0886f51f7a512493937a502c51",
+          "file": "060_File_2011_newsstand_5381532713.jpg.jpg"
         }
       ]
     },
@@ -634,66 +542,322 @@
       ]
     },
     "iron_scrap": {
-      "reviewed": 40,
-      "kept": 4,
-      "removed": 36,
-      "note": "Worst class. 22 of 40 (12-33) are pages of one 1895-1903 accounting ledger. Also a chemical bottle, group portraits, wrought-iron gate photos, a drawing. Scrapped-car yards (35-39) removed because they contradict the separate 'car' class. Only 4 usable.",
+      "reviewed": 60,
+      "kept": 18,
+      "removed": 42,
+      "note": "18 kept: scrap piles, cranes with magnets, scrapyards. Removed: 22 ledger pages (12-33), chemical bottle, people photos, ornate gates, vehicle junk (belongs to car class), poster, landscapes where scrap is incidental.",
       "keep": [
         {
-          "sha1": "527f27b2ab11f7865af5db1ff614c4291853fb26",
-          "file": "003_File_HEAPED-UP_SCRAP_IRON_AT_THE_AMERICAN_SHIP_DISMANTLING_DIVISION_ON_THE_WILLAMETTE_RIVER_JUST_SOUTH_OF_THE_COLUMBIA_-.jpg"
+          "sha1": "9962b228c1327227e4a89f8cb5302b592c38c4a6",
+          "file": "001_File_Mini-bulker_loading_scrap_iron.jpg.jpg"
         },
         {
-          "sha1": "0c2256e3c7a3fdaeca48cffd49f55ab7d7bd4ff3",
-          "file": "004_File_Rusty_bands_of_scrap_iron.jpg.jpg"
+          "sha1": "527f27b2ab11f7865af5db1ff614c4291853fb26",
+          "file": "004_File_HEAPED-UP_SCRAP_IRON_AT_THE_AMERICAN_SHIP_DISMANTLING_DIVISION_ON_THE_WILLAMETTE_RIVER_JUST_SOUTH_OF_THE_COLUMBIA_-.jpg"
         },
         {
           "sha1": "c207f2590db8eeb8a116c928af3e7319f3a9f2a4",
           "file": "005_File_Railway_station_scrap_iron_2020_S_rv_r.jpg.jpg"
         },
         {
+          "sha1": "5b5c88c4018a1d1d3bea9e4c9c38897a52ea5b90",
+          "file": "012_File_Elizabeth_Olds--Scrap_Iron--WPA.jpg.jpg"
+        },
+        {
           "sha1": "de289e77a386afaf001367ada34b1c1d144ce714",
           "file": "035_File_HUGE_DUMP_TRUCKS_ARE_THE_RED_SPOTS_IN_THIS_AERIAL_OF_A_SCRAP_IRON_YARD_ON_LAKE_MICHIGAN_-_NARA_-_547062.jpg.jpg"
+        },
+        {
+          "sha1": "b16ce683bd0f21464f9609f866a4664d1e131e8d",
+          "file": "036_File_Old_rusty_cars_and_agricultural_equipment_2553225565_.jpg.jpg"
+        },
+        {
+          "sha1": "887fb84609264fb3ff06c91afdb0f8fe81ec0b75",
+          "file": "039_File_Old_rusty_cars_and_agricultural_equipment_2553217955_.jpg.jpg"
+        },
+        {
+          "sha1": "95f78fea227539fdc3a92183a84ae3ae55af855d",
+          "file": "040_File_Old_rusty_cars_and_agricultural_equipment_2553217941_.jpg.jpg"
+        },
+        {
+          "sha1": "7e0f124a2d3a489e880e73fc1f118da1a6dd12a4",
+          "file": "044_File_Salangsverket_Reinforced_concrete_ruins_of_industrial_iron_ore_mining_1907_1912_Langneset_Salangen_Troms_Norway_Rus.jpg"
+        },
+        {
+          "sha1": "291691c9baee866d0cdeee3c7120bcd78001c0a5",
+          "file": "047_File_Boxcar_carrying_scrap_iron_in_a_railroad_yard_in_Granite_City_Illinois._-_DPLA_-_d7697751233b9e88f38034507a138cf5.j.jpg"
+        },
+        {
+          "sha1": "47dfbdb4ce2d7e5d6dd09c09e41d2361655cd5ca",
+          "file": "049_File_OLD_RAILROAD_BOX_CARS_AUTO_BODIES_AND_OTHER_JUNK_FOR_SCRAP_METAL_PILE_UP_AT_THE_AMERICAN_SHIP_DISMANTLING_DIVISION..jpg"
+        },
+        {
+          "sha1": "fd34cadb355ff5ade674be3bd4210e4200ef2b69",
+          "file": "050_File_PILE_OF_SCRAP_METAL_COLLECTED_FOR_RECYCLING_BY_GIRL_SCOUTS_AT_ISLAMORADA_IN_THE_CENTRAL_FLORIDA_KEYS_-_NARA_-_54875.jpg"
+        },
+        {
+          "sha1": "bc9ecd3ef72d5f6828fead098b145c8624a916bd",
+          "file": "051_File_JUNKED_AUTOS_PILED_ON_THE_WEST_SIDE_OF_THE_MISSISSIPPI_RIVER_IN_THE_VICINITY_OF_28TH_AVENUE_NORTH_AWAIT_COMPRESSION.jpg"
+        },
+        {
+          "sha1": "015c0dcf72d4e8d8a3f2c82e96aef82f0ebe86ac",
+          "file": "053_File_A_couple_of_husky_Junior_Commnados_add_to_a_neighborhood_scrap_pile_in_Roanoke_Va._Bedsprings_coal_buckets_bird..._.jpg"
+        },
+        {
+          "sha1": "3b810c80a9e70b9ca4f57c14a312ebbe67b10a60",
+          "file": "054_File_Car_salvage_dump_8b07516.jpg.jpg"
+        },
+        {
+          "sha1": "6cf76c1b1c9878bcecf23c3fb4cfd4e58eb4fdf9",
+          "file": "057_File_Collected_from_dozens_of_Michigan_farms_8b07412v.jpg.jpg"
+        },
+        {
+          "sha1": "8e68fbb1a250a54afab5217c58520231ab4b2da6",
+          "file": "058_File_Collected_from_dozens_of_Michigan_farms_8b07414v.jpg.jpg"
+        },
+        {
+          "sha1": "7c2945bbfd487478502d5fea1c1147fc8ec26d5c",
+          "file": "059_File_Factory_and_industrial_management_1891_14778890044_.jpg.jpg"
         }
       ]
     },
     "stainless_steel": {
-      "reviewed": 19,
-      "kept": 3,
-      "removed": 16,
-      "note": "Nearly all junk: 5 P-51 Mustang fighter planes, aerial landscapes and a ribbon sculpture that are duplicated into copper and brass, food and salad bars, a recipe advert. 3 usable.",
+      "reviewed": 60,
+      "kept": 40,
+      "removed": 20,
+      "note": "40 kept: stainless utensils, cutlery, kitchen tools - the main stainless scrap a kabadiwala sees. Removed: P-51 planes (stainless keyword trap), food/buffet shots, vintage adverts, art sculpture, rusty (non-stainless) steel.",
       "keep": [
         {
           "sha1": "fe593316d4c115880f47bf17288984d1ce080a4e",
           "file": "001_File_1-2-3-4_Cake_cooking_implements.JPG.jpg"
         },
         {
-          "sha1": "4aaf1e4ab580b2e76b7ae58e735cf3f688e96449",
-          "file": "009_File_Aachen_Westbahnhofdenkmal_4.jpg.jpg"
+          "sha1": "e083111e03b0061bb2f7c3da3a6358b9388ca70f",
+          "file": "014_File_Alaskan_Brewing_Company_Kegs.jpg.jpg"
         },
         {
-          "sha1": "a65dc1dcc560116c130a093177ce8514d3512e53",
-          "file": "014_File_Alaskan_Brewing_Company_Kegs.jpg.jpg"
+          "sha1": "bac1ac789b0e3e1b8c430aaa839f04fa0b67df78",
+          "file": "020_File_Kitchen_Knife_02_Stainless_steel_Tablespoon.JPG.jpg"
+        },
+        {
+          "sha1": "86e488e59810d6386657ff6dbd7bb3a2d147903e",
+          "file": "021_File_Kitchen_Knife_03_Stainless_steel_Cutting_edge.JPG.jpg"
+        },
+        {
+          "sha1": "a9f38322a63619f4492a9d52ea29a6e5ecffec6d",
+          "file": "022_File_Kitchen-Scissors.jpg.jpg"
+        },
+        {
+          "sha1": "ffee19e42c679ed4fa31d3af799cd3062368c986",
+          "file": "025_File_Plate_.JPG.jpg"
+        },
+        {
+          "sha1": "25e306dae271416cab99eac2fea78c2802cff32c",
+          "file": "027_File_Rasoir_julienne_Castor_01.jpg.jpg"
+        },
+        {
+          "sha1": "24bd0ed49fa5e10ddb59a66dce8471787f2f73a3",
+          "file": "028_File_Rasoir_julienne_Castor_02.jpg.jpg"
+        },
+        {
+          "sha1": "318d1c498ddb23c6aa3e9fb19933e86efc86719e",
+          "file": "029_File_Rasoir_julienne_Castor_03.jpg.jpg"
+        },
+        {
+          "sha1": "42a933e1bbaa8a158c1545877834b452bc2a6e2b",
+          "file": "030_File_Rasoir_julienne_Castor_04.jpg.jpg"
+        },
+        {
+          "sha1": "8fb831ebf4a4f314d326fcc34ab2a8d037015952",
+          "file": "031_File_Presse-ail_ik_a_koncis_01.jpg.jpg"
+        },
+        {
+          "sha1": "e432dc35a33c2d54772fad68f82f6b09034881c0",
+          "file": "032_File_Presse-ail_ik_a_koncis_02.jpg.jpg"
+        },
+        {
+          "sha1": "5c44c94d9ffa0d89fd9a9927a19aa9fdb344b0cd",
+          "file": "033_File_Presse-ail_ik_a_koncis_03.jpg.jpg"
+        },
+        {
+          "sha1": "3e8abaaaafc28a9b05c194ae6564b612bc0f699a",
+          "file": "034_File_Presse-ail_ik_a_koncis_04.jpg.jpg"
+        },
+        {
+          "sha1": "d6861d0c2ebf7838800b4234e393579a346d7eae",
+          "file": "035_File_Presse-ail_ik_a_koncis_05.jpg.jpg"
+        },
+        {
+          "sha1": "4e32ccf63ef3f30ab12570ad033469f98f46d65f",
+          "file": "036_File_Presse-ail_ik_a_koncis_06.jpg.jpg"
+        },
+        {
+          "sha1": "0e9e6ac1b0fb588819c85a3fbfdab830a0ae3a76",
+          "file": "037_File_Presse-ail_ik_a_koncis_07.jpg.jpg"
+        },
+        {
+          "sha1": "b726229bf18561e9656461bc8d56933eddf45fac",
+          "file": "038_File_Presse-ail_ik_a_koncis_08.jpg.jpg"
+        },
+        {
+          "sha1": "67c0931ff6832cf9722e2d1adf76afd3807edc4f",
+          "file": "039_File_Presse-ail_ik_a_koncis_09.jpg.jpg"
+        },
+        {
+          "sha1": "82beb243801abbcc0fc4f6ada738cb88c6c21520",
+          "file": "040_File_Casse-noix_inox_01.jpg.jpg"
+        },
+        {
+          "sha1": "a0df6749b9d9259c8b67d4f3b20cf89fa4f605c9",
+          "file": "041_File_Casse-noix_inox_02.jpg.jpg"
+        },
+        {
+          "sha1": "dd9e8c312710c29b1d6004c2f26be6a54b2df337",
+          "file": "042_File_Casse-noix_inox_03.jpg.jpg"
+        },
+        {
+          "sha1": "4e0a753a48657a18ffd6745309bb3cb43944a0eb",
+          "file": "043_File_Casse-noix_inox_04.jpg.jpg"
+        },
+        {
+          "sha1": "f42d7b986051f2cbceed1d45fec149025de7e3a0",
+          "file": "044_File_Denoyauteur_05_-_01.jpg.jpg"
+        },
+        {
+          "sha1": "99b637d7908b02574d85d3c4c50e72e7e524769b",
+          "file": "045_File_Denoyauteur_05_-_02.jpg.jpg"
+        },
+        {
+          "sha1": "cddd260d719d51f21d76330a5fa39588d8f3e03f",
+          "file": "046_File_Denoyauteur_05_-_03.jpg.jpg"
+        },
+        {
+          "sha1": "fe55d39ea00c41373afc633277d9fce4d1d05fd7",
+          "file": "047_File_Denoyauteur_05_-_04.jpg.jpg"
+        },
+        {
+          "sha1": "641377ee4ed12843154e8eebd619b1b201572ade",
+          "file": "048_File_Denoyauteur_05_-_05.jpg.jpg"
+        },
+        {
+          "sha1": "48495c855de894ddd52b6dd9f93267138d8afa76",
+          "file": "049_File_Denoyauteur_05_-_06.jpg.jpg"
+        },
+        {
+          "sha1": "66f259dabc115c5c2780d81e47a215d3bf6bdb12",
+          "file": "050_File_Denoyauteur_05_-_07.jpg.jpg"
+        },
+        {
+          "sha1": "4dfbcb0de2247b321435df38bedb38251ac4483d",
+          "file": "051_File_Denoyauteur_05_-_08.jpg.jpg"
+        },
+        {
+          "sha1": "6187f3170b4f75d0b6911e7b09b9a35556a09b6d",
+          "file": "052_File_Denoyauteur_05_-_09.jpg.jpg"
+        },
+        {
+          "sha1": "56a939732784ad6c33e1688fb854139595ac4b28",
+          "file": "053_File_Cuiller_trous_01.jpg.jpg"
+        },
+        {
+          "sha1": "b5ee8e268a791ebb7932e187042ef6a261faba2c",
+          "file": "054_File_Cuiller_trous_02.jpg.jpg"
+        },
+        {
+          "sha1": "2ca3d36fecdea2ca7ba9989d091a83c6a2dadde9",
+          "file": "055_File_Cuiller_trous_03.jpg.jpg"
+        },
+        {
+          "sha1": "d7e32da8ab7a6dea2919cacc42be4b1914221518",
+          "file": "056_File_Cuiller_trous_04.jpg.jpg"
+        },
+        {
+          "sha1": "f2cd2e1799ce16faed8f32535d8463078f8b18ed",
+          "file": "057_File_Cuiller_trous_05.jpg.jpg"
+        },
+        {
+          "sha1": "a97cce34cb84462990f5ca17b457c6b218b7b03f",
+          "file": "058_File_Cuiller_trous_06.jpg.jpg"
+        },
+        {
+          "sha1": "dd28a5df4100e86112e99358b72c80e562231867",
+          "file": "059_File_Cuiller_trous_07.jpg.jpg"
+        },
+        {
+          "sha1": "c20ec41627aa251c0ede684ccb4b10bafca87678",
+          "file": "060_File_Cuiller_trous_08.jpg.jpg"
         }
       ]
     },
     "copper_scrap": {
-      "reviewed": 40,
-      "kept": 3,
-      "removed": 37,
-      "note": "Mostly archaeological copper-alloy artefacts shot with measurement scale bars: not scrap, and a shortcut-learning hazard. Also aerial landscapes duplicated in stainless_steel. 3 usable: sheet offcuts, a copper vessel, cable burning for copper recovery.",
+      "reviewed": 60,
+      "kept": 16,
+      "removed": 44,
+      "note": "16 kept after re-query: bare copper wire, magnet wire, cable cross-sections, tube coil, plumbing fittings, busbars, copper vessels. Removed: archaeology with scale bars, B&W archives, brass-colored items (brass-class confusion), diagrams, ambiguous/dark wires.",
       "keep": [
         {
-          "sha1": "044a9834165c9f1f00931550645fb0ae94a5127d",
-          "file": "001_File_Copper_scraps.JPG.jpg"
+          "sha1": "cfc3f68ace32107204cf0c8b9775a9c6ec575667",
+          "file": "004_File_Lautsprecherkabel_Makro_nah.jpg.jpg"
         },
         {
-          "sha1": "a7b7d8675431036bc969a87e3674e10d911c4d5e",
-          "file": "010_File_Copper_Kettle_New_Glarus_Brewery_2844738562_.jpg.jpg"
+          "sha1": "66f8067427f59b8656f8aae1cd68c55bb9f6cb6d",
+          "file": "009_File_Lead_cables_full_of_copper_wire_13267693464_.jpg.jpg"
         },
         {
-          "sha1": "ae9e9cac41929a4f4f07a62d97244e0abc79093e",
-          "file": "032_File_Agbogbloshie_Ghana_-_September_2019.jpg.jpg"
+          "sha1": "16109f412a49d09f126557658c263623735c0ff6",
+          "file": "010_File_Copper_torque.JPG.jpg"
+        },
+        {
+          "sha1": "3fe848d66aec10ad9978e0c2f9ab6b89ee497928",
+          "file": "011_File_Enamelled_litz_copper_wire.JPG.jpg"
+        },
+        {
+          "sha1": "3de527d110531dd562504e7212753c65ac2d5543",
+          "file": "014_File_Copper_Rod.jpg.jpg"
+        },
+        {
+          "sha1": "17ac703deb166c2af3f83a1837834bd611fbabd2",
+          "file": "019_File_Electric_guide_3_2.5_mm.jpg.jpg"
+        },
+        {
+          "sha1": "665401586e629d332b495ecde9f3decee19ecdbe",
+          "file": "021_File_Continuously_Transposed_Conductor_Cu_Copper_CTC_3.jpg.jpg"
+        },
+        {
+          "sha1": "b3983eb3430a7f3d7f17f77adf60eb90beec89a8",
+          "file": "028_File_Copper-clad_aluminum_CCA_coiled_wire.png.jpg"
+        },
+        {
+          "sha1": "61571d8211504a9585a48a432e57f68c061bcd21",
+          "file": "035_File_Twin_and_Earth_electrical_cable._BS_6004_6mm_.jpg.jpg"
+        },
+        {
+          "sha1": "b324cb772eb620e41a4593b82607b9aa5fec0759",
+          "file": "038_File_Kupferfittings_4062.jpg.jpg"
+        },
+        {
+          "sha1": "0459f6f7effe197f9888517769c59ddc134603f3",
+          "file": "039_File_2_inch_copper_pipe_firestops.jpg.jpg"
+        },
+        {
+          "sha1": "6b2ad30713d2dbb7ed2b2a00c4ad2083cb1dd5e7",
+          "file": "044_File_Mel_ndez_Luis_-_Still_Life_with_Fruits_and_Cooking_Utensils_-_Google_Art_Project.jpg.jpg"
+        },
+        {
+          "sha1": "6b0039ae677bc5d65183f3b57fd66836d35a7182",
+          "file": "057_File_Inner_Mongolia_Copper_Utensils_19796360911_.jpg.jpg"
+        },
+        {
+          "sha1": "cdef18210f23f7565e6302b9fedfe320234486c2",
+          "file": "058_File_Inner_Mongolia_Copper_Utensils_19603511358_.jpg.jpg"
+        },
+        {
+          "sha1": "0a499a317e0a7b3be62d0fe60c7bb9986fd10781",
+          "file": "059_File_Floris_van_Schooten_-_Still_life_with_copper_pans_and_utensils_on_a_stone_ledge_with_plums.jpg.jpg"
+        },
+        {
+          "sha1": "dad3d821dea37fd27ff4d3f9a05498047d544255",
+          "file": "060_File_Copper_bleach.jpg.jpg"
         }
       ]
     },
@@ -1506,10 +1670,10 @@
       ]
     },
     "generator": {
-      "reviewed": 9,
-      "kept": 4,
-      "removed": 5,
-      "note": "Critically starved. Only 4 genuine, and 7 and 8 are the same unit, so effectively 3 unique images. Removed technical drawings, a newspaper page, a 1920s Prest-O-Lite advert, an ambiguous hand-crank device.",
+      "reviewed": 60,
+      "kept": 29,
+      "removed": 31,
+      "note": "29 kept: portable and industrial generator sets, genset enclosures and trailers. Removed: technical drawings, posters, nameplate closeups, stationary engines (not generators), control cabinets, aerials/landscapes, people shots.",
       "keep": [
         {
           "sha1": "959ddaf7ea6f356ef141b7918a0b1a3e88cf6bb7",
@@ -1526,6 +1690,106 @@
         {
           "sha1": "d33663f721ae0f2bb63ba0aa3e3a34bf6a2f5a83",
           "file": "009_File_Gasoline_Generator_2026-08-12_ROYU_Electrical_Inverter_Type_01.jpg.jpg"
+        },
+        {
+          "sha1": "2143eaf3b2ef286f07a529465d7e993345e7d847",
+          "file": "010_File_Batory_zespol_pradotworczy.jpg.jpg"
+        },
+        {
+          "sha1": "d099c52e72b43ca716dd8e780d6db2e6c11dedb4",
+          "file": "011_File_BRS_40_kVA_generator.jpg.jpg"
+        },
+        {
+          "sha1": "875c6480bf7ca92038c702a9e4bd6367a35f008e",
+          "file": "012_File_Dieselgenerator_in_Krefeld_-_DSCF1597.JPG.jpg"
+        },
+        {
+          "sha1": "069c6dbf1c533f87b947a83b2f5db33c5e9fc390",
+          "file": "013_File_FEMA_-_28144_-_Photograph_by_Mark_Wolfe_taken_on_02-07-2007_in_Florida.jpg.jpg"
+        },
+        {
+          "sha1": "cec32411cef2b5433fa66404ba42b3bf1f695d80",
+          "file": "014_File_Generator_sets.JPG.jpg"
+        },
+        {
+          "sha1": "c0b72a48a8687cd478c1f9e3ac87fce73e74ec94",
+          "file": "015_File_Cheyenne_Mountain_work_area_generators.jpg.jpg"
+        },
+        {
+          "sha1": "b99a02213b6b5a349309019e14ada31ff041216e",
+          "file": "017_File_Hel_-_Museum_of_Coastal_Defence_-_Collections_33.jpg.jpg"
+        },
+        {
+          "sha1": "96af97b6ac27e1e4fe77ee81533551045d09f8bf",
+          "file": "018_File_Alternator_from_Allen_generating_set_ex-Malvern.jpg.jpg"
+        },
+        {
+          "sha1": "35e04d0a09912b59fe808cdb56026a91e7c0f861",
+          "file": "019_File_Allen_8S30.jpg.jpg"
+        },
+        {
+          "sha1": "5ae3c421dddb3a1205025ac2199c2d14c4c4733c",
+          "file": "020_File_Caterpillar_Olympian_Generator_Set.jpg.jpg"
+        },
+        {
+          "sha1": "acfe49b116825b8b633ff8ceb297da23588291b1",
+          "file": "022_File_Amsterdam_RAI_METS_2011_020_.JPG.jpg"
+        },
+        {
+          "sha1": "9c0102c5a5f35be7b667cc4f023e1129b21f29f1",
+          "file": "023_File_Amsterdam_RAI_METS_2011_091_.JPG.jpg"
+        },
+        {
+          "sha1": "f9ad96fe598ae1a6f00928762bd4a5754095f04c",
+          "file": "027_File_Big_boy.jpg.jpg"
+        },
+        {
+          "sha1": "642c281625695c124c2a116a986d61f0286f69c0",
+          "file": "028_File_Air_cooled_load_bank.jpg.jpg"
+        },
+        {
+          "sha1": "a19a824ecdd8104fd6a48c20bf14e907dfc50b4d",
+          "file": "029_File_07189jfCalumpit_Bulacan_Bridge_Landmarksfvf_35.jpg.jpg"
+        },
+        {
+          "sha1": "d526777d488475d9a72f637d75aa919249184bc4",
+          "file": "030_File_07189jfCalumpit_Bulacan_Bridge_Landmarksfvf_36.jpg.jpg"
+        },
+        {
+          "sha1": "25d5bc2a73610dd53f7be05a7ca7bbfcaf76304a",
+          "file": "031_File_07189jfCalumpit_Bulacan_Bridge_Landmarksfvf_38.jpg.jpg"
+        },
+        {
+          "sha1": "f3d5071a3c02fb1e1485f227ef56b1e35de67bd7",
+          "file": "032_File_07189jfCalumpit_Bulacan_Bridge_Landmarksfvf_37.jpg.jpg"
+        },
+        {
+          "sha1": "cf67165829ae5b25ec28af5e92de26e26213e706",
+          "file": "034_File_Diesel_Set.jpg.jpg"
+        },
+        {
+          "sha1": "ef7e29e69a292b2ab8bb34ac0e21f94eee9709a4",
+          "file": "036_File_BSPS_backup_power_system.jpg.jpg"
+        },
+        {
+          "sha1": "17b6d333545c2fbe68a7858e04ecc7706d466fbf",
+          "file": "037_File_Construction_San_Rafael_Flyover_34.jpg.jpg"
+        },
+        {
+          "sha1": "19f59d01cb19cd9e421ec1495e226ca39ef025da",
+          "file": "038_File_Construction_San_Rafael_Flyover_35.jpg.jpg"
+        },
+        {
+          "sha1": "7e36d129070b62852b62ed7ddee81dc3880bb3bb",
+          "file": "039_File_Construction_San_Rafael_Flyover_37.jpg.jpg"
+        },
+        {
+          "sha1": "31d9fab99e6b73bc4ce1c2d8ba4764d75a4b5552",
+          "file": "044_File_Diesel_Generators.jpg.jpg"
+        },
+        {
+          "sha1": "64771ec2b68ce4066844004b4d5f71d72e9c96fe",
+          "file": "045_File_Gotland_Grand_National_2024_64.jpg.jpg"
         }
       ]
     },
@@ -1590,11 +1854,27 @@
       ]
     },
     "inverter": {
-      "reviewed": 9,
-      "kept": 4,
-      "removed": 5,
-      "note": "Critically starved. Only 4 genuine inverter units and 4/5 are the same setup, so ~3 unique. Removed lead-acid and tubular batteries (2,3,8), a phone charger, a portable power station. Note: Indian home inverters are usually photographed with their tubular battery, which this data does not reflect.",
+      "reviewed": 60,
+      "kept": 25,
+      "removed": 35,
+      "note": "25 kept after re-query: home inverter+battery setups, wall-mounted solar inverters (incl rows in solar installations where inverter is prominent). Removed: solar-panel landscapes, diagrams, internals, connectors/parts, people, batteries alone, generator.",
       "keep": [
+        {
+          "sha1": "9e169145fe34b6e7f54a27050e24e1859ec0945d",
+          "file": "001_File_EL-Wire_portable_inverter.jpg.jpg"
+        },
+        {
+          "sha1": "4c946a3b0efea4993fce16f6d1c9a871e36bbc10",
+          "file": "002_File_Goal_Zero_Yeti_1400_Lithium_Portable_Power_Station_with_WiFi_Battery_Pack_with_MacBook_Pro_-_USB-C_Power_Delivery_S.jpg"
+        },
+        {
+          "sha1": "12d20b3e2118b7453568787eb7f05d846d214934",
+          "file": "003_File_Kabus_000083_171297_516086_4578_36715283896_.jpg.jpg"
+        },
+        {
+          "sha1": "de1e3f6303825be466c4e07d33478829eb22ab1b",
+          "file": "004_File_Kabus_000244_171294_516060_4578_36775931686_.jpg.jpg"
+        },
         {
           "sha1": "1c73aa8de3113474f7f4d6bc458d44cdb82eed9b",
           "file": "005_File_Kabus_000247_171298_516088_4578_36775931206_.jpg.jpg"
@@ -1610,6 +1890,74 @@
         {
           "sha1": "4a308395d574803aa0cd034c661dee237fee49db",
           "file": "008_File_5.8kwh_Lithium_battery_wall_mounted_with_5kw_hybrid_inverter.jpg.jpg"
+        },
+        {
+          "sha1": "8b68d24a65d0820eb2eb4b91ea9952536123f3f5",
+          "file": "016_File_Onduleur_pour_photovolta_que.jpg.jpg"
+        },
+        {
+          "sha1": "8c9f05b6a3a280691285cd0ce634092b5c1d79bd",
+          "file": "017_File_PV_Inverter.jpg.jpg"
+        },
+        {
+          "sha1": "eeca9d3238729ce4ee4c427ef04d903a7901f4f8",
+          "file": "019_File_Amsterdam_RAI_METS_2011_146_.JPG.jpg"
+        },
+        {
+          "sha1": "bfd4035321e7eabef2ca19a0299cd98fd2295961",
+          "file": "020_File_Mastervolt_Sunmaster_QS_2000.JPG.jpg"
+        },
+        {
+          "sha1": "60a2d068642975422850f96226c16172e367e36b",
+          "file": "025_File_Low_voltage_charge_wind_solar_hybrid_controller_.JPG.jpg"
+        },
+        {
+          "sha1": "e7f0e0faa328740c059216a29c8c186b4c30221f",
+          "file": "032_File_Coffrin_000230_172953_518347_4578_36963545085_.jpg.jpg"
+        },
+        {
+          "sha1": "9ffe9ff02a588211dd174f834ab8395b28c94092",
+          "file": "033_File_Coffrin_000231_172954_518344_4578_36775933386_.jpg.jpg"
+        },
+        {
+          "sha1": "251e93aa77fb651ab13d0a0d035b0ef2398e2bac",
+          "file": "034_File_Ely_000233_166402_510764_4578_36775932636_.jpg.jpg"
+        },
+        {
+          "sha1": "4e05d04c19ff4833aa917df241fb5a3c6a33df37",
+          "file": "038_File_Ely_000361_166372_510954_4578_36155268753_.jpg.jpg"
+        },
+        {
+          "sha1": "0b17116f5878782a3be4f6cc7d852d9042d8493f",
+          "file": "039_File_NNHS_solar_array_inverters.agr.jpg.jpg"
+        },
+        {
+          "sha1": "361c69ff40430dabb9e23a2c6147be0aa8f5cd82",
+          "file": "042_File_Installation_of_solar_PV_panels_-_inverter_-_geograph.org.uk_-_2624304.jpg.jpg"
+        },
+        {
+          "sha1": "697b9f864d6e03ca41ad02590f262273b9a64b07",
+          "file": "043_File_Inverter_battery_-_Loom_Solar.jpg.jpg"
+        },
+        {
+          "sha1": "37033ac962542c5dcfcce93f6822e54304da4083",
+          "file": "044_File_Growatt_MOD_4000TL3-X_inverter.jpg.jpg"
+        },
+        {
+          "sha1": "4a46b65112ba9b5883fa1ced85890afeb2abb783",
+          "file": "045_File_Growatt_MOD_4000TL3-X_inverter_data_sheet.jpg.jpg"
+        },
+        {
+          "sha1": "d067140b127f24d29f791c430665c28b365e5a44",
+          "file": "048_File_Madeira-Funchal-Modulo_FV_mono-Inverter_FOX_Ess_S_1500-G2-2250W-02ASD.jpg.jpg"
+        },
+        {
+          "sha1": "2c838689270a1f4b2561851461b61697bf04b73f",
+          "file": "049_File_2025-09-08_BalconySolar_Micro_Inverter_Bremen_state_.jpg.jpg"
+        },
+        {
+          "sha1": "7cec5a33e7c028295f0964ff48cdd1300648cdad",
+          "file": "051_File_BLUETTI_2026-08-12.jpg.jpg"
         }
       ]
     },
@@ -1946,15 +2294,11 @@
       ]
     },
     "lcd_led_monitor": {
-      "reviewed": 39,
-      "kept": 9,
-      "removed": 30,
-      "note": "Weak. 'LCD' matched the technology rather than monitors: RGB subpixel and TFT circuit diagrams, pixel macros, a wristwatch, a camera rear screen, an Arduino character display, segment-LCD glass, timetable signage, a trading floor. 37 and 38 are solid red frames (Wikimedia thumbnail-render failures).",
+      "reviewed": 60,
+      "kept": 19,
+      "removed": 41,
+      "note": "19 kept: flat-panel monitors front/back/on-desk, incl Apple displays. Removed: pixel macros, bare LCD modules/components, LED matrix panels, diagrams, laptops, scenes, scanner.",
       "keep": [
-        {
-          "sha1": "9afb80c3439b2c159312da28a524650b29d7bba7",
-          "file": "004_File_LG_L194WT-SF_LCD_monitor.jpg.jpg"
-        },
         {
           "sha1": "48a7e017d35cce0927ed2253aa1fe8b20c7371b5",
           "file": "005_File_Computer_monitor.jpg.jpg"
@@ -1964,28 +2308,72 @@
           "file": "007_File_Computer_monitor_samsung.jpg.jpg"
         },
         {
-          "sha1": "3e4c7e6dae9366eecd3f9fad30d29833b154e750",
-          "file": "012_File_2010-01-21_MacBook_Pro_flat_panel_showing_Earth_background.jpg.jpg"
+          "sha1": "7c53bc9aea3ee71ee1f67e03ef2294c200bf4f18",
+          "file": "015_File_Computer_monitors.JPG.jpg"
         },
         {
-          "sha1": "4162c330197e0a853f7e6f044384c164b48b9cc8",
-          "file": "013_File_2010-01-21_MacBook_Pro_Mac_OS_X_Snow_Leopard_with_Earth_background.jpg.jpg"
+          "sha1": "a2ef8f84d5a6460d253b1047d1e054b86093eea3",
+          "file": "020_File_EIZO_Foris_FG2421_VGA_computer_monitor_displaying_test_pattern.png.jpg"
         },
         {
-          "sha1": "0da52dfe6aecbdf1d602ee3fc95944e56fc6e532",
-          "file": "019_File_EIZO_Foris_FG2421_VGA_computer_monitor_displaying_test_pattern.png.jpg"
-        },
-        {
-          "sha1": "775f4ab05083f6aa048ba967b1dc9b4f7be22fb8",
-          "file": "020_File_Computer_monitor_remix_transparent.png.jpg"
+          "sha1": "ebd3eb9db15db5bd825b867a8adb639b5eb35727",
+          "file": "021_File_Computer_monitor_remix_transparent.png.jpg"
         },
         {
           "sha1": "d8eac12745a3bc9bfcf2f13ba69496cb154cc8c3",
-          "file": "021_File_Computer_display_Rostov-on-Don_Russia.jpg.jpg"
+          "file": "022_File_Computer_display_Rostov-on-Don_Russia.jpg.jpg"
         },
         {
           "sha1": "d639acca965270e035cebffbe1c07a316bd4aca3",
-          "file": "034_File_Acer-v246hl-box.jpg.jpg"
+          "file": "036_File_Acer-v246hl-box.jpg.jpg"
+        },
+        {
+          "sha1": "f90a09d1e574ec5de928fa59f02b20026d8fb44a",
+          "file": "043_File_Computer_lab_showing_desktop_PCs_warwick.jpg.jpg"
+        },
+        {
+          "sha1": "e04058786ea30acfdd26f64e32fb28cd74acc5c3",
+          "file": "044_File_Dell_Professional_P2212H-9899.jpg.jpg"
+        },
+        {
+          "sha1": "75aa3d5dc9ed37815fedc643d6cc36f0d256583e",
+          "file": "045_File_Dell_Professional_P2212H-9900.jpg.jpg"
+        },
+        {
+          "sha1": "96b0e3b900df7bfb60134aa3db5b5a5a8d0d3437",
+          "file": "046_File_Dell_Professional_P2212H-9902.jpg.jpg"
+        },
+        {
+          "sha1": "d8084bfcb159ed1b926390c9729765b1b7ccf017",
+          "file": "049_File_Apple_Pro_Display_XDR_rear.jpg.jpg"
+        },
+        {
+          "sha1": "a2b15ff0a60244b524ce7fe6db6b1354fe154738",
+          "file": "050_File_Apple_Pro_Display_XDR_and_Mac_Pro_2019_model_-_2.jpg.jpg"
+        },
+        {
+          "sha1": "05bfe98a3fff48bf1d0bba1ca1c4bccb96b36219",
+          "file": "051_File_Apple_Pro_Display_XDR_and_Mac_Pro_2019_model_-_1.jpg.jpg"
+        },
+        {
+          "sha1": "4b355d8ad5d31205085fc9010da3de9d15c82d46",
+          "file": "052_File_Back_of_Apple_Pro_Display_XDR.jpg.jpg"
+        },
+        {
+          "sha1": "e79cea20505389db2040367b204ffd7a32e5eba6",
+          "file": "053_File_Apple_Pro_Display_XDR_and_Mac_Pro_2019_model_.png.jpg"
+        },
+        {
+          "sha1": "4b0385cba4ade321f457469c35bd796207dc2c70",
+          "file": "054_File_Dell_Professional_P2212H-9899_cropped_.jpg.jpg"
+        },
+        {
+          "sha1": "8678af0d62465fee1443bf230811bdb6e8e8771c",
+          "file": "055_File_Computer_monitor_screen_image_simulated.jpg.jpg"
+        },
+        {
+          "sha1": "280e4b540153a548c4864a0b9f87b0b7d6b98c80",
+          "file": "059_File_Display_size_measurements.png.jpg"
         }
       ]
     },
@@ -2102,10 +2490,10 @@
       ]
     },
     "printer": {
-      "reviewed": 14,
-      "kept": 5,
-      "removed": 9,
-      "note": "Starved: 5 genuine. Removed a Game Boy printer accessory, a 3D printer, 1920s teletypes and a stock-ticker machine, photo-booth kiosks, an isolated print carriage, a paper ribbon, an unclear close-up.",
+      "reviewed": 60,
+      "kept": 39,
+      "removed": 21,
+      "note": "39 kept: inkjets, lasers, MFPs, large-format. Removed: cartridges/parts alone, 3D printer, Game Boy printer, teletype, kiosks, diagrams, labels.",
       "keep": [
         {
           "sha1": "c67cee5c1a9128fb9c476833289b00cc62d40806",
@@ -2114,6 +2502,10 @@
         {
           "sha1": "18693d97af71005a0fb6a44c6d41a5fd84850e2b",
           "file": "002_File_Canon_PIXUS_560i_expand.jpg.jpg"
+        },
+        {
+          "sha1": "6e78286c798819283a82b913f71ba9d26f030a69",
+          "file": "007_File_LCM_-_1960s_Teletype_computer_printer_01.jpg.jpg"
         },
         {
           "sha1": "4ba49b32e22cbfff17580275289cd26d2661e5ee",
@@ -2126,14 +2518,146 @@
         {
           "sha1": "bb08fd04e86bf95bb745117cd93e6984c9f0a58f",
           "file": "011_File_Kyocera_Office_Printer_Maschine.jpg.jpg"
+        },
+        {
+          "sha1": "57acccf805a8ff790ebb28b2cc7d9a0f41abdd74",
+          "file": "015_File_Canon_S520_ink_jet_printer_-_opened.jpg.jpg"
+        },
+        {
+          "sha1": "5fb26789d5381456f4748462e70bd7754af4e725",
+          "file": "018_File_Epson-inkjet-printer.jpg.jpg"
+        },
+        {
+          "sha1": "4fac74229c30f41fab1911c2e5112ecf0609315a",
+          "file": "019_File_Canon_BJ-10v_Lite_inkjet_printer_with_Scale.JPG.jpg"
+        },
+        {
+          "sha1": "a3d2d223445b094eb2468b7b850b32b301e786f2",
+          "file": "020_File_Canon_Inkjet_Printer_2009.JPG.jpg"
+        },
+        {
+          "sha1": "214c84d9a024ea3b678bd2c3d8e0f29ac0c4e1b6",
+          "file": "024_File_Canon_imagePROGRAF_iPF8300_-_Pigment_Inkjet_Printer_-_MediaExpo_2013_-_Milan_Mela_Complex_-_Kolkata_2013-04-27_6464.jpg"
+        },
+        {
+          "sha1": "ee0f3735938b9366c8e7b0daa6ed15634bf05198",
+          "file": "025_File_Hewlett-Packard_-_Designjet_L26500_-_Thermal_Inkjet_Printer_-_MediaExpo_2013_-_Milan_Mela_Complex_-_Kolkata_2013-04.jpg"
+        },
+        {
+          "sha1": "154348502848dfaa194f1b07534c0feabc35221e",
+          "file": "026_File_InkJet_Printer.jpg.jpg"
+        },
+        {
+          "sha1": "5f5db0b5c1145a4ddfbd7e86fd1aa5ccdfc9f10a",
+          "file": "027_File_HP_inkjet_printer.jpg.jpg"
+        },
+        {
+          "sha1": "2d4c88e6494f144eb12adb2ffedb48e045b2d416",
+          "file": "028_File_Epson_Stylus_S22-3859.jpg.jpg"
+        },
+        {
+          "sha1": "79646a35f3780d1a9e806a54f438e456c3848d35",
+          "file": "031_File_Canon_i550_printer_in_Tekniska_museet_1_.jpg.jpg"
+        },
+        {
+          "sha1": "55c8718f0acde2b1e1b24163378d4b34b404fd19",
+          "file": "032_File_Canon_PIXMA_TS_5380_Multifunction_ink-jet_Printer.jpg.jpg"
+        },
+        {
+          "sha1": "9dd75561690b0b7145434a582082a7e3ffff423e",
+          "file": "033_File_Canon_PIXMA_TS_9580_Multifunction_ink-jet_Printer.jpg.jpg"
+        },
+        {
+          "sha1": "4dbc058598c66548a5c8308e9ada356476dfd0d9",
+          "file": "034_File_Canon_PIXMA_G_3871_Multifunction_ink-jet_Printer.jpg.jpg"
+        },
+        {
+          "sha1": "b2515f24c94856b529f157c06c5b36fe724e650a",
+          "file": "035_File_Canon_MAXIFY_GX_6080_Multifunction_ink-jet_Printer.jpg.jpg"
+        },
+        {
+          "sha1": "2d0d6736a3025459c29ee59d51c58c49ecfbbc6b",
+          "file": "036_File_Canon_PIXMA_G_3872_Multifunction_ink-jet_Printer.jpg.jpg"
+        },
+        {
+          "sha1": "97a0aee4f6e43ef753bd1e36439313fbd10c1348",
+          "file": "037_File_Canon_imagePROGRAF_PRO-300_A3_Color_Photo_ink-jet_Printer.jpg.jpg"
+        },
+        {
+          "sha1": "c45c6948ea9eed59b1c0a82a48d2d2fa0227df55",
+          "file": "038_File_Canon_imagePROGRAF_TX-5310_LARGE_FORMAT_PRINTER.jpg.jpg"
+        },
+        {
+          "sha1": "6427c0474a13e5e4b9265c70082968c86a01f63b",
+          "file": "041_File_Canon_PIXMA_TS207_Printer_picture.jpg.jpg"
+        },
+        {
+          "sha1": "d5b6782fbe0867c48225085994bf7d9f63e4a051",
+          "file": "042_File_Canon_PIXMA_MG3080_Multifunction_ink-jet_Printer.jpg.jpg"
+        },
+        {
+          "sha1": "315edc97458dc92eaf9e6087a8ab8c73f033b5a9",
+          "file": "043_File_Canon_PIXMA_TS_3480_Multifunction_ink-jet_Printer_2_.jpg.jpg"
+        },
+        {
+          "sha1": "0711242830bb3ee63e1ffb8539c54a67f6f1ae47",
+          "file": "044_File_Canon_PIXMA_TS_3480_Multifunction_ink-jet_Printer_3_.jpg.jpg"
+        },
+        {
+          "sha1": "ed81ed7ceeb551526658333739afc4580301e3d0",
+          "file": "045_File_Canon_PIXMA_TS_3480_Multifunction_ink-jet_Printer_4_.jpg.jpg"
+        },
+        {
+          "sha1": "53ad220389310860f42b7ef489145560714d3adf",
+          "file": "049_File_Canon_printer.jpg.jpg"
+        },
+        {
+          "sha1": "d15348e300c2e61c597b61e87c06aa8bd2af2191",
+          "file": "050_File_Canon_PIXMA_TS7780A_Multifunction_ink-jet_Printer.jpg.jpg"
+        },
+        {
+          "sha1": "0bf355f5cf7a2e9271421a8865b14b28dc8c6580",
+          "file": "051_File_Canon_PIXMA_TR150_ink-jet_Printer.jpg.jpg"
+        },
+        {
+          "sha1": "d106b6ebe0c16ec6a8af4b31715de9da6ab9ad0c",
+          "file": "052_File_Hewlett-Packard_DeskJet_1220C-9186.jpg.jpg"
+        },
+        {
+          "sha1": "a530545eee9f788033ed90e78c16634a6cdf57ba",
+          "file": "053_File_Hewlett-Packard_DeskJet_1220C-9187.jpg.jpg"
+        },
+        {
+          "sha1": "3adccff2440f73863c5ddd0d0305c1274bc0637b",
+          "file": "054_File_Hewlett-Packard_DeskJet_1220C-9188.jpg.jpg"
+        },
+        {
+          "sha1": "6d3b921e8eb6df0d6d3257c35cc222828ea90d06",
+          "file": "055_File_Hewlett-Packard_DeskJet_1220C-9189.jpg.jpg"
+        },
+        {
+          "sha1": "6b2d35f152b99558cc6d05d388d9a2fb648033d7",
+          "file": "056_File_Hewlett-Packard_DeskJet_1220C-9190.jpg.jpg"
+        },
+        {
+          "sha1": "e6272f2dd810c71ddd200543822ac035447d33d0",
+          "file": "057_File_Hewlett-Packard_DeskJet_1220C-9194.jpg.jpg"
+        },
+        {
+          "sha1": "de9458a4e9c127e2a4dae7d9636fca296ecc5fb6",
+          "file": "058_File_Laser_print_head.jpg.jpg"
+        },
+        {
+          "sha1": "5087696b434c1ab8d889cf4f107964a24cbd9beb",
+          "file": "059_File_Laser_head_and_optic_for_panasonic_KX_P4410.jpg.jpg"
         }
       ]
     },
     "ups": {
-      "reviewed": 28,
-      "kept": 9,
-      "removed": 19,
-      "note": "Removed circuit diagrams and block diagrams labelled INVERTER (0,13-15), PCB and component close-ups (5-12,25,26), an oscilloscope trace, server-room and office scenes, rotating machinery. The inverter-labelled diagrams show why UPS and power inverter are hard to separate.",
+      "reviewed": 48,
+      "kept": 12,
+      "removed": 36,
+      "note": "12 kept: UPS units (APC towers, MGE cabinet, rackmount, Back-UPS). Removed: schematics/block diagrams, bare PCBs/transformers/capacitors (e-waste parts, not UPS), motherboards, packaging boxes, people, server-room scenes, waveform, lighthouse.",
       "keep": [
         {
           "sha1": "be815ed09b187c4c84acd4eebe94249a26ffe903",
@@ -2156,20 +2680,32 @@
           "file": "018_File_MGE_Uninterruptible_Power_Supply_at_NERSC.jpg.jpg"
         },
         {
-          "sha1": "f9f7fdc4f8967fc359395ec9e4756ae53151de8d",
-          "file": "019_File_Circuits_of_a_UPS_with_transformer.JPG.jpg"
-        },
-        {
           "sha1": "7150f5d973ee17a5d62e354b9f4711508223b3fb",
           "file": "022_File_Champion_Online_UPS.jpg.jpg"
         },
         {
-          "sha1": "49fb7baa8c819a274083552a29e07870f2a6dadb",
-          "file": "023_File_Server-UPS-and-EA6350v3-in-a-shelf.jpg.jpg"
-        },
-        {
           "sha1": "a63a28aaca02bad292e1d7e4d7e8c85ae090e603",
           "file": "028_File_APC_Back-UPS_ES525.jpg.jpg"
+        },
+        {
+          "sha1": "1a108687fe4a11531f87a7b32286e217df4edc05",
+          "file": "033_File_Apc_backup-ups_xs_1000_bottom.jpg.jpg"
+        },
+        {
+          "sha1": "0b8f25119664008a1453f72ecdde5e2a558fc8fe",
+          "file": "034_File_Apc_backup-ups_xs_1000_label1.jpg.jpg"
+        },
+        {
+          "sha1": "9ae37ac81aa6635da175ac2c5f20d9aff9fe3e06",
+          "file": "035_File_Apc_backup-ups_xs_1000_label2.jpg.jpg"
+        },
+        {
+          "sha1": "7fc621f950aeaee7832e732d350997a81c894701",
+          "file": "036_File_Apc_backup-ups_xs_1000_observe.jpg.jpg"
+        },
+        {
+          "sha1": "6b5ebe2787cc5d355402a29ed222e94b92ba1f77",
+          "file": "037_File_Apc_backup-ups_xs_1000_reverse.jpg.jpg"
         }
       ]
     },
@@ -2342,23 +2878,11 @@
       ]
     },
     "tablet": {
-      "reviewed": 29,
-      "kept": 5,
-      "removed": 24,
-      "note": "Starved: 5 genuine. 'Tablet' matched Wacom drawing tablets and pen displays (0,10,13,15-17,22,27), a real word ambiguity, plus stylus pens, a power adapter, sketches, a galaxy painting, laboratory scenes, a laptop, a desktop monitor, and two solid red frames (23,28).",
+      "reviewed": 60,
+      "kept": 19,
+      "removed": 41,
+      "note": "19 kept: tablet computers front/back/in-use, one disassembled (scrap-typical). Removed: graphics/drawing tablets (different device), phones, laptops, stylus accessories, people-focused, galaxy/star FP traps.",
       "keep": [
-        {
-          "sha1": "2286c982e437cb9de35738ccfe65df9d13116f8a",
-          "file": "004_File_Device_pile.jpg.jpg"
-        },
-        {
-          "sha1": "7156f18efe7c2374d2be1490e36f97cc5ea500a1",
-          "file": "007_File_Kindergarten_iPad.jpg.jpg"
-        },
-        {
-          "sha1": "5811edcdcd4e88815cc0ac9751bcdf841478c1f1",
-          "file": "009_File_BUQUE_HUMBOLDT_11573753704_.jpg.jpg"
-        },
         {
           "sha1": "3ca5b8cd84f88ada254e9f608b25d3146fe5ab87",
           "file": "020_File_Ordering_system_using_tablet_device_at_Yoshinoya.jpg.jpg"
@@ -2366,6 +2890,74 @@
         {
           "sha1": "3857c168203affa9ee37e3d04a4e6b883df98967",
           "file": "021_File_Ordering_system_using_tablet_device_at_Marugen_Ramen.jpg.jpg"
+        },
+        {
+          "sha1": "b2aec4ad055fa2ce7fa2f5c38da6d834fd3ca0f8",
+          "file": "030_File_Fujitsu_Siemens_Tablet_PC.jpg.jpg"
+        },
+        {
+          "sha1": "7630e948a47d0972b384864aed51b826cba0e3d4",
+          "file": "032_File_Microsoft_Surface_tablet_computer_and_its_box.jpg.jpg"
+        },
+        {
+          "sha1": "6b3ce4c730ae209f7ce52e9c776c3239be3a748e",
+          "file": "033_File_HomeTouch_Tablet_Image.jpg.jpg"
+        },
+        {
+          "sha1": "a5f10aa80b71500deb6f1003a1bc5da2b7abeab1",
+          "file": "035_File_Rugged_tablet_x-tab.jpg.jpg"
+        },
+        {
+          "sha1": "409953380115d877ce04dd998df6849170dcc9a4",
+          "file": "036_File_Google_ATAP_s_Project_Tango_tablet_15387052663_.jpg.jpg"
+        },
+        {
+          "sha1": "e615efbb36802ef8551fa1311f24b9d65a6744a1",
+          "file": "041_File_Computacenter_Akten_Tablet_PC_12987363064_.jpg.jpg"
+        },
+        {
+          "sha1": "8e9b757f47b49eb0e1d5315d308eddc11a41549e",
+          "file": "042_File_Alcatel_Pixi_3_7_Tablet_with_LTE_9007X.jpg.jpg"
+        },
+        {
+          "sha1": "e7830ccd43fdc813f0b7c56243f669a38545ab5d",
+          "file": "043_File_Fujitsu_Stylistic_1000_Tablet_PC.jpg.jpg"
+        },
+        {
+          "sha1": "6075001b4ba02233e2b2be8752514b8948080bba",
+          "file": "045_File_Framework_Tablet_Complete_Build.jpg.jpg"
+        },
+        {
+          "sha1": "b462567c3b4942180f0eb34933d897d3603a5019",
+          "file": "046_File_Framework_Tablet_Overview.jpg.jpg"
+        },
+        {
+          "sha1": "8804adb980d9bcb205d4df6bf3a4817fe16b5c35",
+          "file": "050_File_Kindle_Oasis_2_2019-rear.jpg.jpg"
+        },
+        {
+          "sha1": "7e63da8b944e2744134d4e829610a7035c72f94f",
+          "file": "051_File_Amazon_Fire_HD_8_2022_screen_in_factory_settings.jpg.jpg"
+        },
+        {
+          "sha1": "dcf917bcdbaee7bb4dbfe190675dfff9c399cdd7",
+          "file": "052_File_GDC_Online_2011_Monday_Smartphone_and_Tablet_Games_Summit.jpg.jpg"
+        },
+        {
+          "sha1": "89a1f3aaa10a407861ef4f07793668eda928f0c9",
+          "file": "056_File_Docomo-Tablet_N-06D_Screen_Side.jpg.jpg"
+        },
+        {
+          "sha1": "b424cb23b99f6e4454c8dbec440eb5fdf6e09343",
+          "file": "057_File_Docomo-Tablet_N-06D_Lid_Side.jpg.jpg"
+        },
+        {
+          "sha1": "c6241efbde5e6f87ab16f5d8e4501061cb31f7ca",
+          "file": "059_File_Docomo-Tablet_N-08D_ScreenSide.JPG.jpg"
+        },
+        {
+          "sha1": "1f5a1090360e5e0aebab5e074b92e16f3f073bf0",
+          "file": "060_File_Docomo-Tablet_N-08D_LidSide.JPG.jpg"
         }
       ]
     },
@@ -2808,7 +3400,95 @@
           "file": "040_File_Bicycle_bike_Fahrrad_v_lo_Amsterdam_Armbrug.jpg.jpg"
         }
       ]
+    },
+    "geyser": {
+      "reviewed": 60,
+      "kept": 20,
+      "removed": 40,
+      "note": "First-ever geyser data: 20 kept. Removed: documents/drawings/text pages (5,13,21,45-54,56), adverts, different objects (doors, pots, stoves, HVAC, buildings), people/landscape shots.",
+      "keep": [
+        {
+          "sha1": "8e02fe50f16cec009c4a5bac0905ff518bb50e90",
+          "file": "001_File_Gasboiler.JPG.jpg"
+        },
+        {
+          "sha1": "0b0848dc5f2ff8d6fda1f858383284c9c7666b83",
+          "file": "002_File_Calderacondensaci_.JPG.jpg"
+        },
+        {
+          "sha1": "cb4680637b5cf8cafdbdf999da98c4f0eaf3e157",
+          "file": "003_File_Boiler_Vaillant.jpg.jpg"
+        },
+        {
+          "sha1": "b3b7f9023408b19fec70e883030fc730181dc67c",
+          "file": "004_File_Panna.jpg.jpg"
+        },
+        {
+          "sha1": "66c54efcd8c1f75707aed9a0acd39c79b359283b",
+          "file": "005_File_Kesselofen_Reform_Ewald_Lang.jpg.jpg"
+        },
+        {
+          "sha1": "e4be3bf97be7fbb5ba9e0f09bf9505bc1d1148e4",
+          "file": "007_File_Caldera_Casa_Mil_Barcelona_Catalunya.jpg.jpg"
+        },
+        {
+          "sha1": "13de85c74ee3dd023361c0872b8db65cdf69b04c",
+          "file": "010_File_Japanese_Electric_Water_Heater.jpg.jpg"
+        },
+        {
+          "sha1": "23dce2fb79bf0810615bcda4afe17fd0c585ad9b",
+          "file": "019_File_Graffitientfernung_S-Bahn_Instandhaltungswerk_K_ln-Nippes-9236.jpg.jpg"
+        },
+        {
+          "sha1": "1281fd5ce3916e79fda51b5806e42ec15afbdf9d",
+          "file": "021_File_Chauffe-eau_lectrique_50L_mural_vertical.jpg.jpg"
+        },
+        {
+          "sha1": "d9c9c942510a436e91c4149984859752482404da",
+          "file": "024_File_Ariston_Water_heater.jpg.jpg"
+        },
+        {
+          "sha1": "e96b79b034e9d6a7a7443c7962e1447143cf8687",
+          "file": "027_File_Boiler_op_kolen_van_het_merk_Renova_-_INDUS_V08876.jpg.jpg"
+        },
+        {
+          "sha1": "733e78d8104a65ac64ae101ea917b9ef2b451221",
+          "file": "028_File_Gasboiler_van_het_merk_Vaillant_-_INDUS_V13030.jpg.jpg"
+        },
+        {
+          "sha1": "3aada13246d101dc32b73d050657044148e2d7ea",
+          "file": "030_File_EcoCute.jpg.jpg"
+        },
+        {
+          "sha1": "0e1be1d3d3c71360720728f122cdb9caa6f673e6",
+          "file": "031_File_Kochendwasserger_t.JPG.jpg"
+        },
+        {
+          "sha1": "1c103e606a0fe465f0cee609971fa5b66d5d919e",
+          "file": "032_File_An_installed_instant_hot_water_dispenser.jpg.jpg"
+        },
+        {
+          "sha1": "deee21f389926b4676987862e558e2e776087a59",
+          "file": "033_File_Atmor.jpg.jpg"
+        },
+        {
+          "sha1": "8b5ec8b2659b276883cc43e9b88ade1b0af1c612",
+          "file": "038_File_Humphrey_Water_Heater_and_Syracuse_Easy_Vaccuum-cup_Washer_Georgia_Museum_of_Agriculture.jpg.jpg"
+        },
+        {
+          "sha1": "084f83aa72d064790f5cd1e9fbccc016abc684c6",
+          "file": "040_File_Askoheat_3_kW_electric_water_heater.jpg.jpg"
+        },
+        {
+          "sha1": "f5e909de6edd05d624147e91a2ba1be4cfdea5db",
+          "file": "042_File_NORITZ_GAS_WATER_HEATERS.jpg.jpg"
+        },
+        {
+          "sha1": "f9eb35405f5dca23f8a666cc4b9329afcd36d160",
+          "file": "043_File_Elizarovs_museum_flat_2016-07_1469022992.jpg.jpg"
+        }
+      ]
     }
   },
-  "updatedAt": "2026-09-11T06:54:48.353Z"
+  "updatedAt": "2026-09-11T11:33:05.404Z"
 }

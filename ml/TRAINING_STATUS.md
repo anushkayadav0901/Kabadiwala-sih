@@ -1,6 +1,6 @@
 # Offline Model Training Status
 
-Last updated: 2026-09-11 (diagnosis done, retraining in progress)
+Last updated: 2026-09-11 (staged retraining complete; live model unchanged)
 
 ## 2026-09-11 handoff: why the 32-class run scored 10.7%
 
@@ -33,13 +33,33 @@ Done so far (all in `ml/offline/`, nothing in the app or `frontend/public/AI_Mod
 - Export that matches the deployed model layout exactly (checked structurally
   and numerically).
 
-Not done yet: final retrain and evaluation, browser parity test with the real
-TM library, testing on internet images, the final report.
+## 2026-09-11 validated staged run
 
-Data verdict so far: 29 classes are trainable. **Too little clean data to train:**
-Geyser (0), Stainless Steel (3), Copper Scrap (3), Iron Scrap (4), Generator (4,
-~3 unique), Power Inverter (4), Printer (5), Tablet (5). Keep these as manual
-selection until real photos are collected.
+The completed run is `ml/experiments/run-2026-09-11T12-03-16/`.
+
+- 37 reviewed classes; 668 clean images after quality and leakage checks.
+- Five-fold CV winner: no class weighting, 8 augmented views; mean accuracy
+  56.0%.
+- Held-out test: **55.9% top-1 (81/145)**, 78.6% top-3, macro-F1 48.7%.
+- High-confidence auto-accept: 97.8% precision at 31.0% coverage.
+- Export structure matches the deployed Teachable Machine model exactly.
+- `frontend/public/AI_Model/` remains unchanged.
+
+Per-class metrics and confusion matrix are in `metrics.json`. The target is
+met narrowly, but the confidence interval is 47.7%–63.7%, so this is not a
+production-quality guarantee.
+
+Browser parity was prepared but the page did not finish loading the external
+TM runtime/model in the validation browser. Internet-image testing was
+started but interrupted after five of 37 classes. Neither result is claimed
+as a pass.
+
+Data verdict after review: all 37 classes are technically trainable, but
+Desktop CPU, Hard Plastic, LCD/LED Monitor, Newspaper, Tablet, Power Inverter,
+Geyser, Copper Scrap, Electric Fan, Generator, and Motorcycle are weak. Keep
+manual confirmation for these until real phone-photo data is collected.
+Geyser's original zero-image blocker is fixed, but 20 reviewed images are not
+enough for reliable field classification.
 
 ## Goal
 
