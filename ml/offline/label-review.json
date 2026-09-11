@@ -1,0 +1,2814 @@
+{
+  "criterion": "Keep an image only if it shows the labelled item or material as a scrap collector would actually encounter it, as a main subject of the photo. Correct-but-difficult images (odd angle, clutter, poor light) are KEPT. Removed: a different object; documents, ledgers, adverts, posters, charts and drawings; museum or archaeological artefacts (these also carry measurement scale bars the model can learn as a shortcut); landscapes and people-focused photos where the item is incidental; and images duplicated into another class.",
+  "classes": {
+    "newspaper": {
+      "reviewed": 40,
+      "kept": 11,
+      "removed": 29,
+      "note": "Only 11 real newspapers. Removed: 10 library archive shelves from 'newspaper stack' searches (16-25), movie posters, soldiers, a tank, drawings, a van, a lighthouse, a stamp sheet.",
+      "keep": [
+        {
+          "sha1": "8be9477a7137bfab428a94d62fad21f22269497b",
+          "file": "001_File_A_stack_of_newspapers.jpg.jpg"
+        },
+        {
+          "sha1": "2748894223f3684dd2f991b21f8a5ac375623ea9",
+          "file": "003_File_2006_news_kiosk_Tokyo_199295270.jpg.jpg"
+        },
+        {
+          "sha1": "90f1d354e88b0e624f0db7cc5d87fc7d7fc2b5ab",
+          "file": "009_File_Newspaper_Cones_2009_3890107375_.jpg.jpg"
+        },
+        {
+          "sha1": "2af6f75d459ce0e2b2ddd220b17a294f8ed7831d",
+          "file": "027_File_ASC_Leiden_-_Library_-_South_African_newspaper_stack_of_Die_Burger_-_2012.jpg.jpg"
+        },
+        {
+          "sha1": "5eeccac48089ad76201ffd7f2b04b5432d1070ca",
+          "file": "030_File_Newspaper_Stack_8582618448_.jpg.jpg"
+        },
+        {
+          "sha1": "f7f144d550a3945dfb54d004d93ba3427171da1d",
+          "file": "031_File_News_block_36336529835_.jpg.jpg"
+        },
+        {
+          "sha1": "f13112ebeca6f4d645d1b4355515d51957010801",
+          "file": "035_File_20210930_Wochenspiegel_Merchweiler.jpg.jpg"
+        },
+        {
+          "sha1": "4964d6221c4c2be8f0027f18603267d90e93eeec",
+          "file": "036_File_Man_sitting_on_newspapers_-_DPLA_-_4a6ce663b581a66dc95579663ebe6978.jpg.jpg"
+        },
+        {
+          "sha1": "e4653dace1fa85f1c229c8f02680747183a4c0fd",
+          "file": "038_File_Stack_of_Newspapers_-_DPLA_-_0b25c96090a717cc43076ab977d3be51.jpg.jpg"
+        },
+        {
+          "sha1": "8cfee6762afe71b856bd3fe3f9a391459dcb3bfe",
+          "file": "039_File_Boston_Korea_newspapers_at_H_Mart_Burlington.jpg.jpg"
+        },
+        {
+          "sha1": "f1f486017ee54a03996e528c01c73adf412ef27e",
+          "file": "040_File_20080826_Waste_Paper.jpg.jpg"
+        }
+      ]
+    },
+    "books": {
+      "reviewed": 40,
+      "kept": 33,
+      "removed": 7,
+      "note": "Mostly genuine. Removed: Capitol-building crowd, a 'Books Rule' sign, an alarm clock, a window drawing, a sculpture, a card catalogue, a garden sculpture. Many kept images are library shelves: correct label, but unlike scrap book bundles (domain gap).",
+      "keep": [
+        {
+          "sha1": "3852ef90c6ed04552eb566f708c1e82964a384e0",
+          "file": "001_File_Bookshelf_Prunksaal_OeNB_Vienna_AT_matl00786ch.jpg.jpg"
+        },
+        {
+          "sha1": "129a28b52ec9c948655b9d1ec983fa26b6f561c5",
+          "file": "002_File_A_Stack_of_Books.png.jpg"
+        },
+        {
+          "sha1": "07278df365ed1f1afd51508cc3dc0a2635692683",
+          "file": "003_File_Mel_nest_stack_of_books.JPG.jpg"
+        },
+        {
+          "sha1": "24ec5ff2fb263d356a8dc8ee9a196817aba52d70",
+          "file": "004_File_Interior_bookcase_Fortepan_16001.jpg.jpg"
+        },
+        {
+          "sha1": "b1027f83655ba21131cfb5c6fbb0d789d0703160",
+          "file": "005_File_Bredevoort_NL_Antiquariat_an_der_Landstraat_--_2016_--_4151.jpg.jpg"
+        },
+        {
+          "sha1": "ddf695d6242b6eb36ee97922767b68923f43730f",
+          "file": "006_File_Collecting_books_for_readers_in_the_reserve_stacks_1964_3925726691_.jpg.jpg"
+        },
+        {
+          "sha1": "72c38141ac2733288eafaba3f1fcb7fed3476761",
+          "file": "007_File_Margaret_Hamilton_-_restoration.jpg.jpg"
+        },
+        {
+          "sha1": "44f5a9d030b8e812406512e97f22f503c0aeddf7",
+          "file": "009_File_Bredevoort_NL_Antiquariat_--_2018_--_1784.jpg.jpg"
+        },
+        {
+          "sha1": "ba22c74157f3295c35d7b15bf50467ca996309e3",
+          "file": "010_File_Bredevoort_NL_Antiquariat_--_2018_--_1807.jpg.jpg"
+        },
+        {
+          "sha1": "5b7398a03f7e2ca7d52626a1c69f16072252a550",
+          "file": "011_File_Bookcase_-_Stadtgarten_Karlsruhe.jpg.jpg"
+        },
+        {
+          "sha1": "7a0a1884f8078cd5d61828ddc17365a3071ac633",
+          "file": "012_File_Bookshelf_in_Kensington_Market.jpg.jpg"
+        },
+        {
+          "sha1": "307b7a9c4b93dd622a040fa2e5bd26fa1b911aef",
+          "file": "013_File_Klett_green_line_books_and_material.jpg.jpg"
+        },
+        {
+          "sha1": "58dd06548b457f17e29914d379528574ed893440",
+          "file": "014_File_Knihovni_ka_se_z_v_sem_na_knihy.jpg.jpg"
+        },
+        {
+          "sha1": "4a75d62d9bfc19f0a298aa4ab344279a521b255f",
+          "file": "015_File_Freiburg-Tiengen_Public_Bookcase.jpg.jpg"
+        },
+        {
+          "sha1": "f16d395110ad99bf4c2e437b01078d62fb2e6110",
+          "file": "016_File_Open_books_stacked.jpg.jpg"
+        },
+        {
+          "sha1": "99f3bfd1a9232bb92b6c525f9e585c895060e1fb",
+          "file": "017_File_Billy_Bookcase_cropped_.jpg.jpg"
+        },
+        {
+          "sha1": "f6f8e0b208a2e91842d36370aad6c108cbfb8831",
+          "file": "018_File_Books_in_a_stack_a_stack_of_books_-_Flickr_-_austinevan.jpg.jpg"
+        },
+        {
+          "sha1": "c375c7d30a308001e91f94c8071499aa592b5394",
+          "file": "021_File_Bookcase_in_Olten.jpg.jpg"
+        },
+        {
+          "sha1": "c1a363058a9f046e93eabd85441201bd6677beca",
+          "file": "022_File_Image_of_various_books_on_Italian_history.jpg.jpg"
+        },
+        {
+          "sha1": "277656c673f010d04a19f7c4c4e3a0edb0fa8169",
+          "file": "024_File_2006-12-18_A_stack_of_books_from_Taiwan.jpg.jpg"
+        },
+        {
+          "sha1": "6b239ce9740f9e6cf67011bd4d355e6aaed6dbe7",
+          "file": "025_File_Close-up_of_stacked_books._51539890528_.jpg.jpg"
+        },
+        {
+          "sha1": "ba4cdf5d6b9e2221495064d4839e1aeb69063b33",
+          "file": "026_File_Measuring_tape_next_to_a_stack_of_books_on_a_wooden_table._51145551839_.jpg.jpg"
+        },
+        {
+          "sha1": "04fc1099678fe127b744aac76e387f8e020f6c19",
+          "file": "027_File_Bookshelf_of_Sanko_Library_1.jpg.jpg"
+        },
+        {
+          "sha1": "3d010f7eaf59a0febfb665bd0c4e5a73437c2cde",
+          "file": "028_File_Bookshelf_of_Sanko_Library_2.jpg.jpg"
+        },
+        {
+          "sha1": "5b483aeb40f17dce85e3d8b613d96e2cd908e0bb",
+          "file": "032_File_Bookshelf_1_at_Bundibugyo_Community_Library_Bundibugyo_Central_Bundibugyo_district.jpg.jpg"
+        },
+        {
+          "sha1": "e9682a92f659d56a0383108720fa560d53d208d6",
+          "file": "033_File_Bookshelf_2_at_Bundibugyo_Community_Library_Bundibugyo_Central_Bundibugyo_district.jpg.jpg"
+        },
+        {
+          "sha1": "a2550edd2baec843120b3f3da180f1d962791536",
+          "file": "034_File_Bookcase_1_at_Busesa_Community_Library_Busesa_Bugweri_District.jpg.jpg"
+        },
+        {
+          "sha1": "b6a13da3a6fcc6f54d770f88d8f756a29e23a958",
+          "file": "035_File_Bookcase_2_at_Busesa_Community_Library_Busesa_Bugweri_District.jpg.jpg"
+        },
+        {
+          "sha1": "2f6ffec3990004a5534147e37d7ccfbe0c458f7d",
+          "file": "036_File_Bookcase_3_at_Busesa_Community_Library_Busesa_Bugweri_District.jpg.jpg"
+        },
+        {
+          "sha1": "52c1eb3d706004ebb8809875f240689a7c8d4bcd",
+          "file": "037_File_Bookcase_at_Bereans_Community_Library_Manyangwa_Wakiso_district.jpg.jpg"
+        },
+        {
+          "sha1": "a3e9e0d827b129c29dcf947ff772c1a101759166",
+          "file": "038_File_Adavi_Baapiraju_books_stack.jpg.jpg"
+        },
+        {
+          "sha1": "4570dd18030b8926170eeb284d40e3dbaf9cb9f4",
+          "file": "039_File_Bookshelf_of_Gay_Children_s_Literature.jpg.jpg"
+        },
+        {
+          "sha1": "25b73f9d96efd3bdec70c2e86176f4acda22a857",
+          "file": "040_File_A_boy_holding_a_stack_of_books_-_DPLA_-_99391538d55e9a60e0c15109eb397ec3.jpg.jpg"
+        }
+      ]
+    },
+    "cardboard": {
+      "reviewed": 40,
+      "kept": 34,
+      "removed": 6,
+      "note": "Mostly genuine boxes. Removed: jungle landscape, bento lunch box, shop interior, unclear compartment tray, metal tin, trailer.",
+      "keep": [
+        {
+          "sha1": "d46034fbfc0324d5b87e2ea87ee2129b4b7bd08a",
+          "file": "001_File_Box.agr.jpg.jpg"
+        },
+        {
+          "sha1": "f5c2a9313710d02ad3738f013270474d173e24b2",
+          "file": "002_File_Box_freight_Upper_East_Side_jeh.JPG.jpg"
+        },
+        {
+          "sha1": "4d2d13f1713beb5f8bc3f723c7effb1aad693f86",
+          "file": "003_File_Cardboard_boxes_in_different_sizes_for_sale_-_Thailand_Post.JPG.jpg"
+        },
+        {
+          "sha1": "666e97b23a2ddd9152cbd7d4caa5a52b49b5fa0f",
+          "file": "004_File_Acorn_AEH51_Econet_Starter_Pack_box.jpg.jpg"
+        },
+        {
+          "sha1": "5a2a4b8870eec7a2ad6c4a23bbab34649a7a0a0a",
+          "file": "006_File_Jerusalem_Khaim_Valero_square_flattened_cardboard_boxes.jpg.jpg"
+        },
+        {
+          "sha1": "0cb548feb1f77b88bfe6bbc02b0283414bc98d36",
+          "file": "007_File_Full_of_cardboard._296485291_.jpg.jpg"
+        },
+        {
+          "sha1": "a45437a50ac89c6203dddb9d3da1b4651e648158",
+          "file": "008_File_Bsegundo_paso.JPG.jpg"
+        },
+        {
+          "sha1": "174e1c7cf34df3e2305f409321c7b3e446a628ab",
+          "file": "009_File_Cardboard_Boxes_and_their_History.jpg.jpg"
+        },
+        {
+          "sha1": "23b6998147b30c024c66aabed2941544f791fc42",
+          "file": "010_File_A_mysterious_box..._4253114519_.jpg.jpg"
+        },
+        {
+          "sha1": "d1e49a53f7f1ec8361f28f1613649af23b291ff7",
+          "file": "012_File_Box_of_MYTV_Free_Decoder_Unit.jpg.jpg"
+        },
+        {
+          "sha1": "f2126f60cf89e23cb917df6b124975f4b0fe624e",
+          "file": "014_File_210128-F-NX530-2024.jpg.jpg"
+        },
+        {
+          "sha1": "8eff6eae91c8a8373a5ebb7959a28b129103ae7a",
+          "file": "015_File_Antarctica_-_South_Pole_Cardboard_Box_Disc_Golf_-_Gym_.jpg.jpg"
+        },
+        {
+          "sha1": "fcc005d4b54eb01f32dba3014d0635c1e935cecc",
+          "file": "016_File_Box_of_200_Soviet_1T305_transistors_made_in_Minsk_1986_02.jpg.jpg"
+        },
+        {
+          "sha1": "139f2e809d450cae5ca970d4bef4a402aa7d7776",
+          "file": "017_File_Box_of_200_Soviet_1T305_transistors_made_in_Minsk_1986_01.jpg.jpg"
+        },
+        {
+          "sha1": "fe9eaf96435141052cdd7abaf5bdad797dc25a3c",
+          "file": "018_File_Cardboard_box.png.jpg"
+        },
+        {
+          "sha1": "a5051855963c519761bad539c6c4129c4a2d5660",
+          "file": "019_File_BoxByDesignermadsen.jpg.jpg"
+        },
+        {
+          "sha1": "95c1e81f90de01c5e9b095a21c283d56ffc5f1c1",
+          "file": "020_File_ASUS_VA24DQ_and_VZ249HEG1R_boxes_20221008.jpg.jpg"
+        },
+        {
+          "sha1": "03a3d90bc870d42c5261578795d4c49438dff573",
+          "file": "021_File_Flaps_held_open_with_clips_that_allow_boxes_to_be_stacked_for_transport_while_open.jpg.jpg"
+        },
+        {
+          "sha1": "cc0476e8bcf31d48f54474ef21a8ac3adae0d166",
+          "file": "022_File_Latches_with_anchors_stay_with_boxes_ready_for_sustainable_reuse_as_they_eliminate_time_wasted_and_damage_caused_by.jpg"
+        },
+        {
+          "sha1": "1e4aca14b9fe63fb5d6b1c002c89b7a7fb2268cc",
+          "file": "023_File_Colorblends_wholesale_flower_bulbs_cardboard_box.jpg.jpg"
+        },
+        {
+          "sha1": "381809b9f23a59fb358b16ee80dbf9131a7974ed",
+          "file": "024_File_Ami_Box.jpg.jpg"
+        },
+        {
+          "sha1": "2fea7d07c94792287eb274051b2ae238fbe036c1",
+          "file": "025_File_Cardbord_box_001.jpg.jpg"
+        },
+        {
+          "sha1": "e67e883cbbfa146ae7cde52c3456a43932c352c7",
+          "file": "026_File_Cardbord_box_sw_001.jpg.jpg"
+        },
+        {
+          "sha1": "c9f3e47446b97b55b16a11e4bf9ef8c9e0989059",
+          "file": "027_File_Box_Latch_Clips.jpg.jpg"
+        },
+        {
+          "sha1": "5933f70317df3f51700337cd287b928c4ee428df",
+          "file": "028_File_2_boxes_of_Sony_Taiwan_KM-43X85J_on_the_ground_20230716.jpg.jpg"
+        },
+        {
+          "sha1": "6d40871f2f94dc684832c222b8736d611468ffa5",
+          "file": "029_File_Cardboard_box.jpg.jpg"
+        },
+        {
+          "sha1": "b3ae45d8e85e92ccb32ea913d7b8dcd7ea13e918",
+          "file": "030_File_DSC_1582_Pack_of_goods.jpg.jpg"
+        },
+        {
+          "sha1": "2d1ef8838968208f7f913acb59c2be615cfa1e1e",
+          "file": "031_File_Honey_box.jpg.jpg"
+        },
+        {
+          "sha1": "b478c6d92911d58efb747de51b5774967ba40422",
+          "file": "033_File_Girl_inside_box.jpg.jpg"
+        },
+        {
+          "sha1": "98ab3a1f74050ad8359f6a8a6c26780fd2d02b54",
+          "file": "034_File_Boxes_toys.jpg.jpg"
+        },
+        {
+          "sha1": "28fbbcd9c831e2fca1ac5b7aadd162e34cf430f7",
+          "file": "035_File_4_boxes_of_Weblink_6140.NS358.428_to_Playee_booth_20240128.jpg.jpg"
+        },
+        {
+          "sha1": "b10104ebd53cf61520118f5c132b3866bd7b6d70",
+          "file": "036_File_Brouwerij_Kees_box.jpg.jpg"
+        },
+        {
+          "sha1": "18bbbafda1756e4585b10ef817c911b4b6ada20f",
+          "file": "038_File_Flipper_Zero_retail_cardboard_packaging_box_top_view.jpg.jpg"
+        },
+        {
+          "sha1": "9f31e19605f18fcb9bedd9b71943b646d2cdc2c2",
+          "file": "039_File_Flipper_Zero_Video_Game_Module_Raspberry_Pi_cardboard_box.jpg.jpg"
+        }
+      ]
+    },
+    "magazine": {
+      "reviewed": 40,
+      "kept": 34,
+      "removed": 6,
+      "note": "Removed chimney drawing, a tool, factory photos, a gunpowder-magazine building. 25 of the 34 kept are covers from ONE series (Meccano Magazine, 1925-35), grouped so they cannot straddle train and test. Only #2 shows a real pile of magazines.",
+      "keep": [
+        {
+          "sha1": "c2315a38de5e87b82610c5cb39b2e6f9f9011ebd",
+          "file": "003_File_Gfp-stack-of-magazines-and-books.jpg.jpg"
+        },
+        {
+          "sha1": "0ae6b322dff53aae7e76992872d9c005ce6b6435",
+          "file": "008_File_Ms._magazine_Cover_-_Fall_2005.jpg.jpg"
+        },
+        {
+          "sha1": "6bdbbb4486806cfed7668d5781f5db19de2a0fc3",
+          "file": "009_File_Ms._magazine_Cover_-_Summer_2014.jpg.jpg"
+        },
+        {
+          "sha1": "13cf8dcc65672fae6115cb7a4425ed5fa000735f",
+          "file": "010_File_Betty_Compson_on_the_cover_of_the_1922_March_Motion_Picture_Classic_magazine--Cover_artist_Edward_Mason_Eggleston.j.jpg"
+        },
+        {
+          "sha1": "ddf4846b69d44c54736a6bab33ff9e047741052e",
+          "file": "011_File_Dorothy_Dalton_cover_of_Motion_Picture_Classic_magazine_cover_art_by_Edward_Mason_Eggleston.jpg.jpg"
+        },
+        {
+          "sha1": "dc8a7bcb3c4940012c20124c513617d474d5edc5",
+          "file": "012_File_Corinne_Griffith_on_the_cover_of_Motion_Picture_Classic_magazine_September_1921_cover_art_by_Benjamin_Eggleston.jpg.jpg"
+        },
+        {
+          "sha1": "95e5a7125791ecc39c3992fafb1ea55b09377422",
+          "file": "013_File_Hope_Hampton_on_the_cover_of_Motion_Picture_Classic_magazine_Feb_1922_cover_art_by_Benjamin_Eggleston.jpg.jpg"
+        },
+        {
+          "sha1": "b021dd79117a78f8d32d89a183cc2d484f8c538f",
+          "file": "014_File_Magazine_of_the_holy_synod_an_example_of_Romanian_Revival_graphic_design_from_March_1927.jpg.jpg"
+        },
+        {
+          "sha1": "06ddd7947ac62e040559782489455b11d85bbbd4",
+          "file": "015_File_Colonial-Magazine-Cover.jpg.jpg"
+        },
+        {
+          "sha1": "09b0c1972d3af5b9e27620346436df10dbf39d29",
+          "file": "016_File_Meccano_Magazine_1925-01_cover.png.jpg"
+        },
+        {
+          "sha1": "3720bea43673019021f36698df5b3b898abb8665",
+          "file": "017_File_Meccano_Magazine_1925-02_cover.png.jpg"
+        },
+        {
+          "sha1": "1040c8a1a2f8d7cf5658c41b0849e0d1f8271d67",
+          "file": "018_File_Meccano_Magazine_1925-04_cover.png.jpg"
+        },
+        {
+          "sha1": "5c0b6431dda5f5686622337a433c98e9d5063e63",
+          "file": "019_File_Meccano_Magazine_1925-08_cover.png.jpg"
+        },
+        {
+          "sha1": "84f9dbeccd67f6fb7fa0f79be73c27f3d965f614",
+          "file": "020_File_Meccano_Magazine_1925-11_cover.png.jpg"
+        },
+        {
+          "sha1": "c6e8be1e8978840fa797a4dc096f57aa72fb64aa",
+          "file": "021_File_Meccano_Magazine_1926-02_cover.png.jpg"
+        },
+        {
+          "sha1": "9da2f37c4ea585314e08cd3cc89bda21a9d8b3c1",
+          "file": "022_File_Meccano_Magazine_1926-05_cover.png.jpg"
+        },
+        {
+          "sha1": "695ba2b197a2e379eb887c3b762ae0163b79b95a",
+          "file": "023_File_Meccano_Magazine_1926-06_cover.png.jpg"
+        },
+        {
+          "sha1": "e84190b1e7169106fa823c7f9c833b34c4c37f4b",
+          "file": "024_File_Meccano_Magazine_1926-09_cover.png.jpg"
+        },
+        {
+          "sha1": "a9fc4e6c85b6e5e8b956e40f27920c5ac5354aa5",
+          "file": "025_File_Meccano_Magazine_1926-10_cover.png.jpg"
+        },
+        {
+          "sha1": "bf74bb03d347c8c7788ccd03f3ce392c390cc9c2",
+          "file": "026_File_Meccano_Magazine_1926-11_cover.png.jpg"
+        },
+        {
+          "sha1": "46a6e5a0c748d25e22445f36dc06c8c9b8d2c9b7",
+          "file": "027_File_Meccano_Magazine_1926-12_cover.png.jpg"
+        },
+        {
+          "sha1": "c9377fd8bca469a03cd9a400c09e5b53bad517d3",
+          "file": "028_File_Meccano_Magazine_1927-02_cover.png.jpg"
+        },
+        {
+          "sha1": "9aa8704afaf593a3c10980a5042d43072806751f",
+          "file": "029_File_Meccano_Magazine_1927-03_cover.png.jpg"
+        },
+        {
+          "sha1": "e20e2c13e426d70ce7e524d41fc0c99cd67e69ae",
+          "file": "030_File_Meccano_Magazine_1927-06_cover.png.jpg"
+        },
+        {
+          "sha1": "68e7c89ef3d125c6594ae3eb3f9c535db3d51cbb",
+          "file": "031_File_Meccano_Magazine_1927-09_cover.png.jpg"
+        },
+        {
+          "sha1": "618a6b8df44c303fa42f661e715523c403fe8914",
+          "file": "032_File_Meccano_Magazine_1927-11_cover.png.jpg"
+        },
+        {
+          "sha1": "6a3c870722993ada0888eed67be396cc153a3a04",
+          "file": "033_File_Meccano_Magazine_1927-10_cover.png.jpg"
+        },
+        {
+          "sha1": "e25af0b72798ccb0fbc3559314a00d786a3ebd84",
+          "file": "034_File_Meccano_Magazine_1928-06_cover.png.jpg"
+        },
+        {
+          "sha1": "ac00ed467753c247282d502e3d3208ceab5bbf11",
+          "file": "035_File_Meccano_Magazine_1928-07_cover.png.jpg"
+        },
+        {
+          "sha1": "4a5bc120a63d267b12a0dac27465f46ecec43826",
+          "file": "036_File_Meccano_Magazine_1928-12_cover.png.jpg"
+        },
+        {
+          "sha1": "3f2ee7dbda3bcfba22860e9888c47e10a2276fc0",
+          "file": "037_File_June_1928_Country_Gentleman_magazine_cover_-_Bride.jpg.jpg"
+        },
+        {
+          "sha1": "bc4e826550605d695a61a3e51bb1d6d4d6d635b6",
+          "file": "038_File_Meccano_Magazine_1929-04_cover.jpg.jpg"
+        },
+        {
+          "sha1": "2c1c075eca3860c20b44fadba2931c2bedb03bb8",
+          "file": "039_File_Meccano_Magazine_1929-10_cover.jpg.jpg"
+        },
+        {
+          "sha1": "7f092a32e606065b7d44c2523ecd5b6cc2f64ccc",
+          "file": "040_File_Meccano_Magazine_1929-11_cover.jpg.jpg"
+        }
+      ]
+    },
+    "hard_plastic": {
+      "reviewed": 40,
+      "kept": 10,
+      "removed": 30,
+      "note": "Only 10 genuine. Search matched the 'Crate' guitar-amplifier brand (2,3,6), the Crate & Barrel store (0,26) and ~20 wooden crates or chests. Nearly every kept image is a plastic crate; buckets, chairs and broken plastic items are absent.",
+      "keep": [
+        {
+          "sha1": "bd08e749e4681dadc4e43e38ab4a9a9d6609dc19",
+          "file": "005_File_Dogtainers_Pet_Transport_Clipper_Cat_Cage_Plastic_Travel_Crate_Labelled.jpg.jpg"
+        },
+        {
+          "sha1": "aa0c7824689a6b7f4fba3a480a6f68f2cc453f18",
+          "file": "006_File_Chicken_crates.jpg.jpg"
+        },
+        {
+          "sha1": "a7002ac138f4c490e039586a2ce138062c538617",
+          "file": "022_File_Budweiser_Budvar_brewery_01.jpg.jpg"
+        },
+        {
+          "sha1": "6ffe1a525cfce3f8a1f95980a7f9de4d3e0867da",
+          "file": "025_File_A_Crate_of_Mineral.jpg.jpg"
+        },
+        {
+          "sha1": "7e453836224369a3818266b5f8f6efdb2a127010",
+          "file": "032_File_Colorful_packing_crates_at_7-Eleven.jpg.jpg"
+        },
+        {
+          "sha1": "2e7546397bda0049baef46cc0a5a847e807ea3ff",
+          "file": "033_File_Empty_Coca_Cola_crate_01.jpg.jpg"
+        },
+        {
+          "sha1": "18a9ec1a9647f6f82e355dc6770c92176804ac01",
+          "file": "034_File_Empty_Coca_Cola_crate_02.jpg.jpg"
+        },
+        {
+          "sha1": "7cdb6c51a344d88baec6abe92f54ec95e9b53691",
+          "file": "035_File_Dekoratif_Coca_cola_kasas_.jpg.jpg"
+        },
+        {
+          "sha1": "5c64a33f08b4473b0e51b6df9e29369f10a3845c",
+          "file": "036_File_Dekoratif_Coca_cola_kasas_2.jpg.jpg"
+        },
+        {
+          "sha1": "7f9399dd05f79324079f38df5dc5bf3ee2019728",
+          "file": "037_File_Dekoratif_Coca_cola_kasas_3.jpg.jpg"
+        }
+      ]
+    },
+    "soft_plastic_film": {
+      "reviewed": 40,
+      "kept": 24,
+      "removed": 16,
+      "note": "Removed silage hay bales, people, a solid red frame, machinery, medical containers, street bins with no film visible, a seagull, landscapes, a school building.",
+      "keep": [
+        {
+          "sha1": "6d053b4cf4aa7f4b41efe81a18b6554567378ae2",
+          "file": "001_File_Korean_hangwa-Packed_hangwa-01.jpg.jpg"
+        },
+        {
+          "sha1": "db5ba7786674f1177655992d1e6fd707bd20ac14",
+          "file": "002_File_HK_Westwood_Wellcome_Shop_packaged_iced_Seafood_Grass_Carp_Cling_film_plastic_wrap_April-2012.jpg.jpg"
+        },
+        {
+          "sha1": "ae77d63bf487ade9c4f17439b82081594941485b",
+          "file": "003_File_Cake_pops_for_corporate_product_launch_February_2012.jpg.jpg"
+        },
+        {
+          "sha1": "9ed16d6ca5293e06df0b0e1c9cfe8085267037ff",
+          "file": "004_File_Poisson-dAvril_-chocolat.jpg.jpg"
+        },
+        {
+          "sha1": "93455b111b1e8b3630415a154325c57ad50f3e6a",
+          "file": "007_File_Aluminium_en_plastic_folie_verpakkingsmateriaal_-_Aluminium_and_plastic_foil_food_packaging_-_The_Netherlands_May_2.jpg"
+        },
+        {
+          "sha1": "acb5a30b9c197d393c9c7c7c3bcf4172549e722f",
+          "file": "008_File_Small_tortoiseshell_Aglais_urticae_mistaking_litter_for_flower_Oban_July_2020.jpg.jpg"
+        },
+        {
+          "sha1": "8faca5d87089cab975fe607f67aea936c8bc1be5",
+          "file": "011_File_Landfill_Bin.jpg.jpg"
+        },
+        {
+          "sha1": "c04dce0e47ae80a1ef1c1c09e3b8a0a8214c8a88",
+          "file": "012_File_Green_asparagus_in_a_supermarket_packaging_in_Canada.jpg.jpg"
+        },
+        {
+          "sha1": "f554f0bf0ec82e4a89189ab7e7837f1be0b906a5",
+          "file": "015_File_GelbeS_cke.jpg.jpg"
+        },
+        {
+          "sha1": "dade468a2b72da1daf43d3e861ddaf26cddfe9fa",
+          "file": "016_File_A_typical_black_bin_bag_from_the_UK_20060811.jpg.jpg"
+        },
+        {
+          "sha1": "eab97840bdaa3787fe5bf7144811471a920032e2",
+          "file": "017_File_-_Recycling_in_Germany_-_Plastic_waste_to_be_collected_-.jpg.jpg"
+        },
+        {
+          "sha1": "124d3c2056087cd8efe61cc6e27afd09cd5e017e",
+          "file": "019_File_Paris_-_Tri_s_lectif_dans_le_m_tro_1.jpg.jpg"
+        },
+        {
+          "sha1": "b344bb481b25dc779e6512d1e858734e40d35e78",
+          "file": "020_File_Hurden_2011-11-14_16-00-43_SX230HS_.JPG.jpg"
+        },
+        {
+          "sha1": "d762b3e485059534e338d3d035fcd662233dd1f2",
+          "file": "022_File_Biohazard_waste_bag.jpg.jpg"
+        },
+        {
+          "sha1": "ea0e9feaeca444516bff2b0abd4916c3cc1dceed",
+          "file": "023_File_Boulevard_Richard-Lenoir_Paris_poubelle_01.jpg.jpg"
+        },
+        {
+          "sha1": "e7883695f8fcadc254313fe6c657334c3fa64f01",
+          "file": "024_File_Mil_n-Buk_pytle_na_t_d_n_odpad.jpg.jpg"
+        },
+        {
+          "sha1": "cd09c4837d98fd75df10a4dd0d1da057cf84e4dd",
+          "file": "025_File_Commercial_waste_collection_bags_on_Regent_Street_London.jpg.jpg"
+        },
+        {
+          "sha1": "74bd43401d23b4bcadb251c8c288d9393c6a6884",
+          "file": "027_File_16-01-14-gelbe_S_cke-RalfR-DSCF7264.jpg.jpg"
+        },
+        {
+          "sha1": "e27a88b0c1400af13e7af32a5a0d51dc209f6a2d",
+          "file": "031_File_Garbage_container.jpg.jpg"
+        },
+        {
+          "sha1": "7a6d13cc33bd9bc3c645983b84703f3e673b60d9",
+          "file": "034_File_HK_design_after_the_war_Waste_container_plastic_bag_January_2020_Wan_Chai_O_brien_Road_02.jpg.jpg"
+        },
+        {
+          "sha1": "f02ba55e1a62b9c795fd5d6c1bc6e1abccc218c7",
+          "file": "035_File_HK_design_after_the_war_Waste_container_plastic_bag_January_2020_Wan_Chai_O_brien_Road_01.jpg.jpg"
+        },
+        {
+          "sha1": "8c259a5ef78928527245172647a4658eecc27602",
+          "file": "036_File_PlasticBag.jpg.jpg"
+        },
+        {
+          "sha1": "8042375093bfeed20ca3a2bb9338f9b001397917",
+          "file": "038_File_Discarded_plastic_bag_and_orange_peel_on_the_A140_-_geograph.org.uk_-_2329646.jpg.jpg"
+        },
+        {
+          "sha1": "ab3534e70fc1c12b8a851612a829f249a9f0229a",
+          "file": "040_File_Gelbe_Saecke_Seminarstrasse_Pirna_Fuji-HS20EXR_2012.jpg.jpg"
+        }
+      ]
+    },
+    "iron_scrap": {
+      "reviewed": 40,
+      "kept": 4,
+      "removed": 36,
+      "note": "Worst class. 22 of 40 (12-33) are pages of one 1895-1903 accounting ledger. Also a chemical bottle, group portraits, wrought-iron gate photos, a drawing. Scrapped-car yards (35-39) removed because they contradict the separate 'car' class. Only 4 usable.",
+      "keep": [
+        {
+          "sha1": "527f27b2ab11f7865af5db1ff614c4291853fb26",
+          "file": "003_File_HEAPED-UP_SCRAP_IRON_AT_THE_AMERICAN_SHIP_DISMANTLING_DIVISION_ON_THE_WILLAMETTE_RIVER_JUST_SOUTH_OF_THE_COLUMBIA_-.jpg"
+        },
+        {
+          "sha1": "0c2256e3c7a3fdaeca48cffd49f55ab7d7bd4ff3",
+          "file": "004_File_Rusty_bands_of_scrap_iron.jpg.jpg"
+        },
+        {
+          "sha1": "c207f2590db8eeb8a116c928af3e7319f3a9f2a4",
+          "file": "005_File_Railway_station_scrap_iron_2020_S_rv_r.jpg.jpg"
+        },
+        {
+          "sha1": "de289e77a386afaf001367ada34b1c1d144ce714",
+          "file": "035_File_HUGE_DUMP_TRUCKS_ARE_THE_RED_SPOTS_IN_THIS_AERIAL_OF_A_SCRAP_IRON_YARD_ON_LAKE_MICHIGAN_-_NARA_-_547062.jpg.jpg"
+        }
+      ]
+    },
+    "stainless_steel": {
+      "reviewed": 19,
+      "kept": 3,
+      "removed": 16,
+      "note": "Nearly all junk: 5 P-51 Mustang fighter planes, aerial landscapes and a ribbon sculpture that are duplicated into copper and brass, food and salad bars, a recipe advert. 3 usable.",
+      "keep": [
+        {
+          "sha1": "fe593316d4c115880f47bf17288984d1ce080a4e",
+          "file": "001_File_1-2-3-4_Cake_cooking_implements.JPG.jpg"
+        },
+        {
+          "sha1": "4aaf1e4ab580b2e76b7ae58e735cf3f688e96449",
+          "file": "009_File_Aachen_Westbahnhofdenkmal_4.jpg.jpg"
+        },
+        {
+          "sha1": "a65dc1dcc560116c130a093177ce8514d3512e53",
+          "file": "014_File_Alaskan_Brewing_Company_Kegs.jpg.jpg"
+        }
+      ]
+    },
+    "copper_scrap": {
+      "reviewed": 40,
+      "kept": 3,
+      "removed": 37,
+      "note": "Mostly archaeological copper-alloy artefacts shot with measurement scale bars: not scrap, and a shortcut-learning hazard. Also aerial landscapes duplicated in stainless_steel. 3 usable: sheet offcuts, a copper vessel, cable burning for copper recovery.",
+      "keep": [
+        {
+          "sha1": "044a9834165c9f1f00931550645fb0ae94a5127d",
+          "file": "001_File_Copper_scraps.JPG.jpg"
+        },
+        {
+          "sha1": "a7b7d8675431036bc969a87e3674e10d911c4d5e",
+          "file": "010_File_Copper_Kettle_New_Glarus_Brewery_2844738562_.jpg.jpg"
+        },
+        {
+          "sha1": "ae9e9cac41929a4f4f07a62d97244e0abc79093e",
+          "file": "032_File_Agbogbloshie_Ghana_-_September_2019.jpg.jpg"
+        }
+      ]
+    },
+    "aluminium_scrap": {
+      "reviewed": 40,
+      "kept": 18,
+      "removed": 22,
+      "note": "Mostly crushed-can bales. Removed: a bar chart, one locomotive photographed three times, can-craft ornaments, a pen, a globe statue, parade and fair photos, a nutrition label, a snack bag.",
+      "keep": [
+        {
+          "sha1": "959696ac454e144fd54f75ac6e9aef95d98027e1",
+          "file": "002_File_DillingenAluminiumSchrott.jpg.jpg"
+        },
+        {
+          "sha1": "f6dd3cc923550a1c42a21261dc8fc29a838f6ea4",
+          "file": "004_File_Aluminium_waste_and_LPG_bottles_at_Hatfield_Broad_Oak_Essex_England.JPG.jpg"
+        },
+        {
+          "sha1": "ff7af70648bb0791a9833b76bb8d742ec5ed2c6a",
+          "file": "005_File_437th_MXS_airmen_hard_at_work_120510-F-LR006-012.jpg.jpg"
+        },
+        {
+          "sha1": "2dfbce60ed8a42ef1bbe08a460f8c4b2fba6145a",
+          "file": "009_File_Collection_of_scrap_aluminium_in_Welshpool_by_the_Women_s_Voluntary_Service_1461300_.jpg.jpg"
+        },
+        {
+          "sha1": "2437289cbec1ed1e28c33ab81730240ba668b759",
+          "file": "012_File_Camp_Pendleton_s_occupants_recycle_more_than_22_000_aluminum_cans_every_three_weeks.jpg.jpg"
+        },
+        {
+          "sha1": "565ccc6aabf8d0546cbe00897abc42a385bf3d59",
+          "file": "013_File_Base_occupants_dispose_more_than_5_tons_of_trash_and_recyclables_at_Camp_Pendleton_s_Recycling_Center_on_a_daily_ba.jpg"
+        },
+        {
+          "sha1": "f53e97474668f852def1e6fcf2240d688625023a",
+          "file": "014_File_A_selection_of_aluminium_pots_and_kettles_are_put_into_the_smelter_at_a_workshop_somewhere_in_Britain_during_a_salv.jpg"
+        },
+        {
+          "sha1": "bf085a8a6ec594f3d9dc1187d4fd344d79ae594e",
+          "file": "017_File_Crushed_can_recycling_mounds.jpg.jpg"
+        },
+        {
+          "sha1": "701128ace23e49ace84e1d8798949823ded1dbd8",
+          "file": "018_File_GTMO_recycles_140815-A-ZI015-004.jpg.jpg"
+        },
+        {
+          "sha1": "4cecc15711b864908ef22f8706c2a853b47ee0e6",
+          "file": "019_File_Make_a_difference_Understanding_Pendleton_s_recycling_program_DVIDS536227.jpg.jpg"
+        },
+        {
+          "sha1": "63c80dda1d2924432b030c81853f2d2d144786e3",
+          "file": "020_File_Beer_Cans_-_Bemis_Hill_Campground_Recycling_Trash_36643937724_.jpg.jpg"
+        },
+        {
+          "sha1": "11500c541a45c759715c430dffda21660cccf069",
+          "file": "024_File_Aluminium_for_recycling.jpg.jpg"
+        },
+        {
+          "sha1": "c21b13624f5d27e3964c1e9c380a94aaa05b1946",
+          "file": "025_File_Empty_recyclable_beverage_containers_in_plastic_bag.jpg.jpg"
+        },
+        {
+          "sha1": "6904a0a2e87cf7c345e238a261a5f5ab6ff63842",
+          "file": "026_File_Compressed_aluminium_cans.jpg.jpg"
+        },
+        {
+          "sha1": "5caafe001860e44b79aa333abcbdadcf4119d1df",
+          "file": "034_File_Cans_recycling.jpg.jpg"
+        },
+        {
+          "sha1": "333b9856992300734c1db064f07bd03ea88bc44b",
+          "file": "035_File_Cans_at_Sure_We_Can_Aug_2021_4.jpg.jpg"
+        },
+        {
+          "sha1": "2647aa06c6a88ef7a0d7657a387e21b8f4f169f5",
+          "file": "036_File_Aluminium_Can_Degrading_in_Environment.jpg.jpg"
+        },
+        {
+          "sha1": "eb3c7aae4cf655cfc3e89e467297208e49c3d311",
+          "file": "037_File_Crushed_can_recycling_mounds_cropped_.jpg.jpg"
+        }
+      ]
+    },
+    "brass_scrap": {
+      "reviewed": 40,
+      "kept": 12,
+      "removed": 28,
+      "note": "Removed 10 ancient Roman coins and archaeological fragments (scale-bar shortcut), 6 rotated copies of one wooden clock figurine, foundry photos, archive document scans, a ruler photo, a duplicated sculpture. Kept: genuine Indian brass utensils, highly relevant.",
+      "keep": [
+        {
+          "sha1": "3f097fad7b71d6299617869c0577089ea851ca5d",
+          "file": "026_File_Aesthetics_of_Dokra.jpg.jpg"
+        },
+        {
+          "sha1": "6324c5d22f31337b285522b195fc415c6d20d63d",
+          "file": "028_File_Lota_brass.JPG.jpg"
+        },
+        {
+          "sha1": "1407d71aafd511907b5515cea06b862dd900c6a1",
+          "file": "029_File_Parat_brass.JPG.jpg"
+        },
+        {
+          "sha1": "9974b8ffeae772cd25b40dab9ea8d43b21f9ba81",
+          "file": "030_File_A_brass_utensil.JPG.jpg"
+        },
+        {
+          "sha1": "01dc2f4deac0379c704619620c6180a125e4f330",
+          "file": "031_File_Akan_MHNT.ETH.2010.25.005.jpg.jpg"
+        },
+        {
+          "sha1": "ba6ba2c6bda0fed74499b869725c32a1ed12bc05",
+          "file": "032_File_Akan_MHNT.ETH.2010.25.007.jpg.jpg"
+        },
+        {
+          "sha1": "f1007b8184f086249a71c50c572b5ba022ef3295",
+          "file": "033_File_Akan_MHNT.ETH.2010.25.009.jpg.jpg"
+        },
+        {
+          "sha1": "dbbdaa2cf9beaad24100b4184a01535d9d9dc343",
+          "file": "034_File_Copper_cup_plate_and_utensils_made_from_brass_01.jpg.jpg"
+        },
+        {
+          "sha1": "24f545500684df933b2ce1abd7b28a8e23c5a23f",
+          "file": "035_File_Copper_cup_plate_and_utensils_made_from_brass_02.jpg.jpg"
+        },
+        {
+          "sha1": "a946457cb3e07f8dca32b924cbcffbec04d2657c",
+          "file": "038_File_Brass_container_lid_cover.jpg.jpg"
+        },
+        {
+          "sha1": "0cebcf85a192abee93bc0822dd9cf23ef605be04",
+          "file": "039_File_Brass_utensils.jpg.jpg"
+        },
+        {
+          "sha1": "35140d1c8004dd7d65af34aae91b0f2b1e519738",
+          "file": "040_File_Paila_utensil.jpg.jpg"
+        }
+      ]
+    },
+    "ac": {
+      "reviewed": 40,
+      "kept": 39,
+      "removed": 1,
+      "note": "Excellent: 39 genuine, mostly rusty window units in real scrap condition. Largely one uploader's numbered series, so near-duplicates are grouped to prevent train/test leakage.",
+      "keep": [
+        {
+          "sha1": "d0524d721b6da3590016f4335a6ba63ca16f3259",
+          "file": "001_File_Air_Condition_Unit_Interior_View_USA.jpg.jpg"
+        },
+        {
+          "sha1": "6baa9f12531d2c3f9d127ce0a082690ff693ce0f",
+          "file": "003_File_MITSUBISHI_ELECTRIC_WINDOW_TYPE_AIR_CONDITIONER_OUTDOOR_UNIT.jpg.jpg"
+        },
+        {
+          "sha1": "97734bc7169ab9dfdd97dce66afe1fdd2b15587d",
+          "file": "004_File_Frigidaire_Window_Air_Conditioner_-_exterior.jpg.jpg"
+        },
+        {
+          "sha1": "ac24bc62a8aef8aa7c0da75cafc61a160c4938b9",
+          "file": "005_File_Frigidaire_Window_Air_Conditioner_-_exterior_Fort_Wayne_Indiana_2008.jpg.jpg"
+        },
+        {
+          "sha1": "5eff609856ed1527e8573093afed4f7c2a94c937",
+          "file": "006_File_Frigidaire_Window_Air_Conditioner_-_interior.jpg.jpg"
+        },
+        {
+          "sha1": "4f962abe104c09f32bdedfc193b7aea46631fa1e",
+          "file": "007_File_HITACHI_WINDOW_TYPE_AIR_CONDITIONER_OUTDOOR_UNIT.jpg.jpg"
+        },
+        {
+          "sha1": "3bc744cb4aed56907737d2d9418913b08cd6f4d3",
+          "file": "008_File_HITACHI_WINDOW_TYPE_AIR_CONDITIONER_OUTDOOR_UNIT_2_.jpg.jpg"
+        },
+        {
+          "sha1": "dcb03d139433019be8b87c6e238301b7b9d04fa1",
+          "file": "009_File_CARRIER_WINDOW_TYPE_AIR_CONDITIONER_OUTDOOR_UNIT.jpg.jpg"
+        },
+        {
+          "sha1": "ad33bb85cea5007a5fb037675c1e422717e2756d",
+          "file": "010_File_MITSUBISHI_ELECTRIC_WINDOW_TYPE_AIR_CONDITIONER_OUTDOOR_UNIT_14_.jpg.jpg"
+        },
+        {
+          "sha1": "dddeed0e68e83f128e56c5fcb7a733f9705d99f6",
+          "file": "011_File_MITSUBISHI_ELECTRIC_WINDOW_TYPE_AIR_CONDITIONER_OUTDOOR_UNIT_11_.jpg.jpg"
+        },
+        {
+          "sha1": "1c3e10cda3c0d62f740f12bc682ddace4723830b",
+          "file": "012_File_MITSUBISHI_ELECTRIC_WINDOW_TYPE_AIR_CONDITIONER_OUTDOOR_UNIT_12_.jpg.jpg"
+        },
+        {
+          "sha1": "6e69d3fb8313b50965818ab562d255e7f9713406",
+          "file": "013_File_HITACHI_WINDOW_TYPE_AIR_CONDITIONER_OUTDOOR_UNIT_3_.jpg.jpg"
+        },
+        {
+          "sha1": "7bb2aa26ddee00ccb246f843f10af36fa2cf9b3e",
+          "file": "014_File_MITSUBISHI_ELECTRIC_WINDOW_TYPE_AIR_CONDITIONER_OUTDOOR_UNIT_16_.jpg.jpg"
+        },
+        {
+          "sha1": "d93b272b3baa02194467ebf6e839f3e155521571",
+          "file": "015_File_MITSUBISHI_ELECTRIC_WINDOW_TYPE_AIR_CONDITIONER_OUTDOOR_UNIT_17_.jpg.jpg"
+        },
+        {
+          "sha1": "8ee2278fea4707cebe7f912defeb307cbcaa64e2",
+          "file": "016_File_HITACHI_WINDOW_TYPE_AIR_CONDITIONER_OUTDOOR_UNIT_4_.jpg.jpg"
+        },
+        {
+          "sha1": "3d37e59fb267a96e2d4cb27218ffe30f1e9fc775",
+          "file": "017_File_HITACHI_WINDOW_TYPE_AIR_CONDITIONER_OUTDOOR_UNIT_5_.jpg.jpg"
+        },
+        {
+          "sha1": "35ead6183e44b22b51c531337c70c9c7d0a0426c",
+          "file": "018_File_MITSUBISHI_ELECTRIC_WINDOW_TYPE_AIR_CONDITIONER_OUTDOOR_UNIT_18_.jpg.jpg"
+        },
+        {
+          "sha1": "b6f83870c7633e0ec7fb3422d66bcd2092850df6",
+          "file": "019_File_HITACHI_WINDOW_TYPE_AIR_CONDITIONER_OUTDOOR_UNIT_6_.jpg.jpg"
+        },
+        {
+          "sha1": "8d6f289b32b11e3da5f7d02042a1416db19c3334",
+          "file": "020_File_CARRIER_WINDOW_TYPE_AIR_CONDITIONER_OUTDOOR_UNIT_2_.jpg.jpg"
+        },
+        {
+          "sha1": "c2ae7c5e4e869f4c66be124121edee655b5ec7ce",
+          "file": "021_File_MITSUBISHI_ELECTRIC_WINDOW_TYPE_AIR_CONDITIONER_OUTDOOR_UNIT_21_.jpg.jpg"
+        },
+        {
+          "sha1": "1248565c7c78ff8d3a83bdef339f6eefcdcc7538",
+          "file": "022_File_MITSUBISHI_ELECTRIC_WINDOW_TYPE_AIR_CONDITIONER_OUTDOOR_UNIT_20_.jpg.jpg"
+        },
+        {
+          "sha1": "cdb65bcd8e817a49b1fb593ed8724eda62bf89e4",
+          "file": "023_File_MITSUBISHI_ELECTRIC_WINDOW_TYPE_AIR_CONDITIONER_OUTDOOR_UNIT_23_.jpg.jpg"
+        },
+        {
+          "sha1": "be4600485d88bdb15a7a1c4bc1a7a6f56d4df40c",
+          "file": "024_File_HITACHI_WINDOW_TYPE_AIR_CONDITIONER_OUTDOOR_UNIT_7_.jpg.jpg"
+        },
+        {
+          "sha1": "631b3cc53c25307114405b5a0b1f8bee9a8bfd88",
+          "file": "025_File_MITSUBISHI_ELECTRIC_WINDOW_TYPE_AIR_CONDITIONER_OUTDOOR_UNIT_28_.jpg.jpg"
+        },
+        {
+          "sha1": "7317b8f99b100581f3718772b0e195465f673b6c",
+          "file": "026_File_MITSUBISHI_ELECTRIC_WINDOW_TYPE_AIR_CONDITIONER_OUTDOOR_UNIT_27_.jpg.jpg"
+        },
+        {
+          "sha1": "9c073cf4eb194047dc0b91b77f693052edbd0524",
+          "file": "027_File_MITSUBISHI_ELECTRIC_WINDOW_TYPE_AIR_CONDITIONER_OUTDOOR_UNIT_29_.jpg.jpg"
+        },
+        {
+          "sha1": "d8d1a994d04f017cd48599776013d01db925a068",
+          "file": "028_File_HITACHI_WINDOW_TYPE_AIR_CONDITIONER_OUTDOOR_UNIT_8_.jpg.jpg"
+        },
+        {
+          "sha1": "3cd9d63d283219549122dff7468a5cf29bcbc773",
+          "file": "029_File_HITACHI_WINDOW_TYPE_AIR_CONDITIONER_OUTDOOR_UNIT_9_.jpg.jpg"
+        },
+        {
+          "sha1": "403a28d950d19f4665e30ed886b8a8cdb39cc00a",
+          "file": "030_File_HITACHI_WINDOW_TYPE_AIR_CONDITIONER_OUTDOOR_UNIT_10_.jpg.jpg"
+        },
+        {
+          "sha1": "4635b9c1df98921245db403330c898317d5dd2ac",
+          "file": "031_File_HITACHI_WINDOW_TYPE_AIR_CONDITIONER_OUTDOOR_UNIT_12_.jpg.jpg"
+        },
+        {
+          "sha1": "0139ceac7a2ea8b091692b292daf9a116d5b6694",
+          "file": "032_File_HITACHI_WINDOW_TYPE_AIR_CONDITIONER_OUTDOOR_UNIT_11_.jpg.jpg"
+        },
+        {
+          "sha1": "2cc3dca34ca7ca5589b36561f8f1221a325bb969",
+          "file": "033_File_HITACHI_WINDOW_TYPE_AIR_CONDITIONER_OUTDOOR_UNIT_13_.jpg.jpg"
+        },
+        {
+          "sha1": "4e2e27686e36bfe3e3ca19c3198810bc95dcfcd7",
+          "file": "034_File_HITACHI_WINDOW_TYPE_AIR_CONDITIONER_OUTDOOR_UNIT_14_.jpg.jpg"
+        },
+        {
+          "sha1": "3d91d3bbb0602dcf3ab4283aec989530b8da562e",
+          "file": "035_File_HITACHI_WINDOW_TYPE_AIR_CONDITIONER_OUTDOOR_UNIT_15_.jpg.jpg"
+        },
+        {
+          "sha1": "8fc0f2a0f5627c9e68f600451d0684981fc8fe1b",
+          "file": "036_File_HITACHI_WINDOW_TYPE_AIR_CONDITIONER_OUTDOOR_UNIT_16_.jpg.jpg"
+        },
+        {
+          "sha1": "82b1615feaf2198128fa48db575184461e1d3061",
+          "file": "037_File_HITACHI_WINDOW_TYPE_AIR_CONDITIONER_OUTDOOR_UNIT_17_.jpg.jpg"
+        },
+        {
+          "sha1": "c5d8f27e134c857c2a2a22f23a309de9d57afab8",
+          "file": "038_File_CARRIER_WINDOW_TYPE_AIR_CONDITIONER_OUTDOOR_UNIT_3_.jpg.jpg"
+        },
+        {
+          "sha1": "80159a857aada6e1c5820b58b3749e9855acca0f",
+          "file": "039_File_HITACHI_WINDOW_TYPE_AIR_CONDITIONER_OUTDOOR_UNIT_20_.jpg.jpg"
+        },
+        {
+          "sha1": "d9ae4ac1dd08e30d8eb8d3ca8d35f7ac73001364",
+          "file": "040_File_HITACHI_WINDOW_TYPE_AIR_CONDITIONER_OUTDOOR_UNIT_19_.jpg.jpg"
+        }
+      ]
+    },
+    "refrigerator": {
+      "reviewed": 40,
+      "kept": 28,
+      "removed": 12,
+      "note": "13 of the kept images (16-28) are one home-improvement-store shoot, grouped. Removed: a railway refrigerator car, a motorcyclist, adverts, a logo badge, a display icon, food close-ups, an antique-shop interior.",
+      "keep": [
+        {
+          "sha1": "7fc5e55a6c59274a5f643001f8b46bd5d078f708",
+          "file": "001_File_LG_refrigerator_interior.jpg.jpg"
+        },
+        {
+          "sha1": "28260642186a1291f8379f2e7857fd2fa9562b4a",
+          "file": "002_File_An_Event_with_Four_Comedians_of_Gag_Concert_for_LG_DIOS_Refrigerator_on_September_21_2012_from_acrofan_5.jpg.jpg"
+        },
+        {
+          "sha1": "8d2ee024d6eaa1d6094af471503bd959719da283",
+          "file": "003_File_Fridge.jpg.jpg"
+        },
+        {
+          "sha1": "8185642f9d466ce36b202325463394359908448e",
+          "file": "007_File_Hisense_IFA_2018_Berlin_P1070179_.jpg.jpg"
+        },
+        {
+          "sha1": "98eb9a3f745a85cb3a9335951f35a830681782a6",
+          "file": "008_File_Antique_refrigerator_-_Hemingway_House.jpg.jpg"
+        },
+        {
+          "sha1": "9438e094241cefae71a33279a6acaed7c09ac07e",
+          "file": "011_File_Fly_tipping_white_goods_in_Parco_Alto_Milanese_-_Legnano_MI_Lombardy_Italy_-_2021-09-18.jpg.jpg"
+        },
+        {
+          "sha1": "005447ea3bf8592c5500b8ebaf6e602c8a7a2773",
+          "file": "013_File_Bruny_Island_Tasmania_-_Old_refrigerators_Left_-_Kelvinator_Right_-_Hallstrom_Silent_Knight_used_as_unattended_brea.jpg"
+        },
+        {
+          "sha1": "ce3b91c315233a1c409243360d37df296c385d54",
+          "file": "015_File_Edgware_Road_appliance_shop.jpg.jpg"
+        },
+        {
+          "sha1": "5c79358be1aa172812429b022b8f580e9625fca6",
+          "file": "016_File_Barking_dog_near_a_refrigerator_-_DPLA_-_9eec2f1b4e41c492df5f82300915349c.jpg.jpg"
+        },
+        {
+          "sha1": "deb151fdba55182180f829e7e1f59e7efbc8b2d6",
+          "file": "017_File_Large_Household_Appliances_in_a_Home_Improvement_Store_in_California_in_2024_01_.jpg.jpg"
+        },
+        {
+          "sha1": "35ef2019c2c24da8912a80b3395edde3eb9645d7",
+          "file": "018_File_Large_Household_Appliances_in_a_Home_Improvement_Store_in_California_in_2024_03_.jpg.jpg"
+        },
+        {
+          "sha1": "756ce62c7b83c264a635d24d97cc7fa8138b0403",
+          "file": "019_File_Large_Household_Appliances_in_a_Home_Improvement_Store_in_California_in_2024_02_.jpg.jpg"
+        },
+        {
+          "sha1": "94165ad972b111765adaa7a293772f61773244e1",
+          "file": "020_File_Large_Household_Appliances_in_a_Home_Improvement_Store_in_California_in_2024_04_.jpg.jpg"
+        },
+        {
+          "sha1": "e14144311764b5a96458e5731294d26360356822",
+          "file": "021_File_Large_Household_Appliances_in_a_Home_Improvement_Store_in_California_in_2024_05_.jpg.jpg"
+        },
+        {
+          "sha1": "1e2710fe8e7bb048784c3bcfa1830fd8a121472a",
+          "file": "022_File_Large_Household_Appliances_in_a_Home_Improvement_Store_in_California_in_2024_13_.jpg.jpg"
+        },
+        {
+          "sha1": "c185f1c31dfaae329f250baa74d48cd41560b9f2",
+          "file": "023_File_Large_Household_Appliances_in_a_Home_Improvement_Store_in_California_in_2024_17_.jpg.jpg"
+        },
+        {
+          "sha1": "96afa29fa55c210cacb150636c45559cea3dbb2b",
+          "file": "024_File_Large_Household_Appliances_in_a_Home_Improvement_Store_in_California_in_2024_18_.jpg.jpg"
+        },
+        {
+          "sha1": "584d51e16156d92e9c0e744698a43c18a1bc58d2",
+          "file": "025_File_Large_Household_Appliances_in_a_Home_Improvement_Store_in_California_in_2024_16_.jpg.jpg"
+        },
+        {
+          "sha1": "b7d192f4ca342d3c8debfe1649ace1141f65c61a",
+          "file": "026_File_Large_Household_Appliances_in_a_Home_Improvement_Store_in_California_in_2024_15_.jpg.jpg"
+        },
+        {
+          "sha1": "be3daedd0e094bdae376427a3dba3d0d5415ae01",
+          "file": "027_File_Large_Household_Appliances_in_a_Home_Improvement_Store_in_California_in_2024_19_.jpg.jpg"
+        },
+        {
+          "sha1": "e83e05eca85d6c548c4c0b331d0b4994066ab78f",
+          "file": "028_File_Large_Household_Appliances_in_a_Home_Improvement_Store_in_California_in_2024_21_.jpg.jpg"
+        },
+        {
+          "sha1": "7858716b7718d8bfba7c0d198b8c8a17b7507319",
+          "file": "029_File_Large_Household_Appliances_in_a_Home_Improvement_Store_in_California_in_2024_20_.jpg.jpg"
+        },
+        {
+          "sha1": "0930b69128c161cc94b90cf3149a7342721e7b38",
+          "file": "030_File_Fridge_Bitwaescherei_2025-03.png.jpg"
+        },
+        {
+          "sha1": "a5c15b3742589d5dc4dbf7bf95b3da1c9fe5488b",
+          "file": "032_File_EFTA00000104_-_Modern_kitchen_with_cream_cabinets_a_white_refrigerator_stainless_steel_appliances_and_gray_countert.jpg"
+        },
+        {
+          "sha1": "f7b752bf4afa9b0419717a9615da9de39bcaf05e",
+          "file": "035_File_Fridge_in_porch_with_cat.jpg.jpg"
+        },
+        {
+          "sha1": "3df37baa8178e0ef0161d7f4fdbb5f38cddffc15",
+          "file": "036_File_Empty_refrigerator.jpg.jpg"
+        },
+        {
+          "sha1": "ff6c0b07f59f03a27e5c1d16d771867a933517c2",
+          "file": "038_File_Drinks60CentsRefrigeratorSmithsCovingtonLA.JPG.jpg"
+        },
+        {
+          "sha1": "51d4762b7b68f80b2850c8c7ba715229109cb463",
+          "file": "039_File_Mandeville_Maxens_refrigerator.JPG.jpg"
+        }
+      ]
+    },
+    "washing_machine": {
+      "reviewed": 39,
+      "kept": 17,
+      "removed": 22,
+      "note": "Removed 9 installation photos of power sockets, pipes and taps (18-26), drum and door-seal close-ups, control-panel close-ups, shop fronts and street scenes, and antique wooden tub washers (museum artefacts).",
+      "keep": [
+        {
+          "sha1": "99dc7890232559191a3d7a831ffc61ad22a08e0b",
+          "file": "001_File_Fagor_washing_machine_front_FF6314.jpg.jpg"
+        },
+        {
+          "sha1": "052b39dfb72df004e7d9b30423e9b4c2f46023dc",
+          "file": "003_File_LGwashingmachine.jpg.jpg"
+        },
+        {
+          "sha1": "5f140d90e03befbc83d96f98dc1696a5e15112b5",
+          "file": "004_File_LG_CES_2012_Home_Appliance_Zone_.jpg.jpg"
+        },
+        {
+          "sha1": "2a9f5a14ef444652a2cf8373864a35b8b58f9af5",
+          "file": "011_File_Sanyo_Electric_Taiwan_SD-76U_20170606.jpg.jpg"
+        },
+        {
+          "sha1": "5a8023921ae75d4afef882209802421d24737857",
+          "file": "013_File_Hitachi_washing-maschine_BW-D8HV_20110503.jpg.jpg"
+        },
+        {
+          "sha1": "e73916db7c28ff40bf37ba9862a2688f8b637781",
+          "file": "014_File_Pracka_a_susicka.jpg.jpg"
+        },
+        {
+          "sha1": "3dedc8e5b5010a47d4d322718b92fee66f3b155d",
+          "file": "015_File_Ma_ina_za_pranje_ve_a_AEG.jpg.jpg"
+        },
+        {
+          "sha1": "daaff1978aa0ce99f5effa2cf6108e76a287980b",
+          "file": "016_File_Heran_HWM-1311_20190817.jpg.jpg"
+        },
+        {
+          "sha1": "ab3590ec6d140dbcf07094e69ceed317000dc697",
+          "file": "017_File_Laundry_time.jpg.jpg"
+        },
+        {
+          "sha1": "875c2dcf27a9176f93abe8d629c919734ed9aa45",
+          "file": "018_File_HITACHI_NW-KQ42_Drum_Washing_Machine.jpg.jpg"
+        },
+        {
+          "sha1": "7a221a5781d39bcef6c817a2e56007bd032a407a",
+          "file": "028_File_Ar_elikWashingMachine.jpg.jpg"
+        },
+        {
+          "sha1": "a5b7d0ec5ec89bb57a083a6a17ef32c14e4b8442",
+          "file": "030_File_Miele_washing_machine_2_.jpg.jpg"
+        },
+        {
+          "sha1": "c8ef504406dea33681d29b34c01ec9f075e558e5",
+          "file": "031_File_Panasonic_WASHING_MACHINE_XQB70-H710U.jpg.jpg"
+        },
+        {
+          "sha1": "7d187c537755371e7d6db38cb42b035f354bf2b8",
+          "file": "032_File_Large_Household_Appliances_in_a_Home_Improvement_Store_in_California_in_2024_22_.jpg.jpg"
+        },
+        {
+          "sha1": "e62a492b77c33aee4ef8b91756ae3825a329c3ee",
+          "file": "033_File_Panasonic_WASHING_MACHINE_XQB70-H710U_2_.jpg.jpg"
+        },
+        {
+          "sha1": "642723b082db56dfa6c075ad46aec88f2002e2f0",
+          "file": "034_File_Oldfashioned_AEG_wringer_washing_machine.jpg.jpg"
+        },
+        {
+          "sha1": "f2cdcdea603466f548fc7666ab32f3a038964af5",
+          "file": "036_File_HK_Whirlpool_brand_washing_machines_July_2026_N13P_01.jpg.jpg"
+        }
+      ]
+    },
+    "microwave_oven": {
+      "reviewed": 40,
+      "kept": 15,
+      "removed": 25,
+      "note": "Removed 7 countertop trim-kit installation photos (22-28) and 8 near-identical close-ups of one digital clock display reading 21:28 (32-39), which would teach red 7-segment digits as a microwave cue. Also a rating-label close-up, empty cabinets, an unrelated chrome object.",
+      "keep": [
+        {
+          "sha1": "6fb9e2308592cfbe4bcb5ef932a5624d239a034d",
+          "file": "003_File_247_Home_Rescue_appliance_cover.jpg.jpg"
+        },
+        {
+          "sha1": "690df729acbc18387fccd52a55260c4d289d7e19",
+          "file": "004_File_LG_Microwave_oven.jpg.jpg"
+        },
+        {
+          "sha1": "90b6426282ab1c01cfad777a2a2b85ca4ed1341e",
+          "file": "006_File_Matsui_MS-106SL.jpg.jpg"
+        },
+        {
+          "sha1": "8d6d5f0871c3664586ce5a83f2c0efe4736275a8",
+          "file": "007_File_Control_panel_on_an_open_microwave_oven_125wiki_.jpg.jpg"
+        },
+        {
+          "sha1": "88ca0478548ad583e1c25880918270ee51778505",
+          "file": "008_File_CombiMicroWaveOven.jpg.jpg"
+        },
+        {
+          "sha1": "8d23180e2492d0bad1acf447794fcc7cbeb0e4b3",
+          "file": "009_File_2021-06-18_12_31_32_The_exterior_of_a_General_Electric_Turntable_Microwave_Oven_Model_JES738WH_001_in_the_Franklin_.jpg"
+        },
+        {
+          "sha1": "235779f15e98f19026e119be9b62fb65d08c9d88",
+          "file": "010_File_2021-06-18_12_31_52_The_interior_of_a_General_Electric_Turntable_Microwave_Oven_Model_JES738WH_001_in_the_Franklin_.jpg"
+        },
+        {
+          "sha1": "574ea1e1403c821c8e1fa6d94afafa89f49b3589",
+          "file": "011_File_2021-06-18_12_32_12_The_rear_of_a_General_Electric_Turntable_Microwave_Oven_Model_JES738WH_001_in_the_Franklin_Farm.jpg"
+        },
+        {
+          "sha1": "f6a1a272c78332dfe60ae081807f0041825215de",
+          "file": "013_File_Kuchenmeister.jpg.jpg"
+        },
+        {
+          "sha1": "bcb87623a82eea04b38bcae8344a04a187311a65",
+          "file": "014_File_Amana_Radarange_Microwave_Oven.jpg.jpg"
+        },
+        {
+          "sha1": "29e00006b9858a0fce9d74540fe9ded142e01466",
+          "file": "015_File_Kitchen_island_embedded_microwave.jpg.jpg"
+        },
+        {
+          "sha1": "87609f4cb0b1b115e36ff46236bda8ac0f654fba",
+          "file": "016_File_Hamilton_Beach_Easy_Reach_Sure-Crisp_Toaster_Oven_-_01.jpg.jpg"
+        },
+        {
+          "sha1": "415bd279df9bbd84fb7ca2ca4a6e59503d851c0b",
+          "file": "017_File_California_Kitchen_Microwave_Oven.jpg.jpg"
+        },
+        {
+          "sha1": "2adfa185f924d82293ddafac620ff0118412c4e4",
+          "file": "018_File_Ikea_Sektion_Microwave_Oven_Installation_01.jpg.jpg"
+        },
+        {
+          "sha1": "991f09243ad35d8eabe915adc012f80913fce1e5",
+          "file": "030_File_California_Kitchen_Microwave_Backside.jpg.jpg"
+        }
+      ]
+    },
+    "dishwasher": {
+      "reviewed": 33,
+      "kept": 22,
+      "removed": 11,
+      "note": "Removed an EU energy-label graphic, a 'Don't be a Dishwasher - BUY ONE!' cartoon advert, detergent-dispenser, cutlery-basket, hinge and dial close-ups, an installation collage, commercial kitchen scenes.",
+      "keep": [
+        {
+          "sha1": "1e75c576e40f6b1c82d5db5ecc3c9b2e41d251b2",
+          "file": "001_File_Dishwasher_open_for_loading.jpg.jpg"
+        },
+        {
+          "sha1": "756f1ba0bed3e603ca8737480b5b734e28b85b8f",
+          "file": "002_File_Dishwasher_with_dishes.JPG.jpg"
+        },
+        {
+          "sha1": "535e785279cf4a6cd5797b3e3180784800a1b987",
+          "file": "003_File_Asko_D3112_dishwasher_closed.JPG.jpg"
+        },
+        {
+          "sha1": "fea4b89a88a08200e63e63688542c88fe65416ab",
+          "file": "004_File_Asko_D3112_dishwasher_open.JPG.jpg"
+        },
+        {
+          "sha1": "101f1177046145b136c50f68d458e1315e5e50d0",
+          "file": "005_File_Geschirrspuelmaschine.JPG.jpg"
+        },
+        {
+          "sha1": "9d8c9f51deedfebc7b47686b07ae0bf249bf2c33",
+          "file": "006_File_Countertop_dishwasher_7882.JPG.jpg"
+        },
+        {
+          "sha1": "f3a1a5ae633398c88d87019becfb318f3fc7e5f7",
+          "file": "008_File_Countertop_dishwasher_cropped_.jpg.jpg"
+        },
+        {
+          "sha1": "b5e0bd19a9b300ab620c6d0b2528e62fb460bfcc",
+          "file": "009_File_Dishwasher_on_the_Internet.jpg.jpg"
+        },
+        {
+          "sha1": "216ab50be9b8715148b02aed98b961f3329754e9",
+          "file": "010_File_Geschirrsp_ler_VEB_Elektro_Installation_Oberlind.jpg.jpg"
+        },
+        {
+          "sha1": "9b276821b9fa4712969753589d94a6060ca6215d",
+          "file": "012_File_General_Electric_Dishwasher_Model_GSD500D-03AW_img03.jpg.jpg"
+        },
+        {
+          "sha1": "41e995b42a713893a9c40c94a42608115f238b1e",
+          "file": "013_File_General_Electric_Dishwasher_Model_GSD500D-03AW_img02.jpg.jpg"
+        },
+        {
+          "sha1": "24da28acc260a7939f90075ba26b37ac01fba777",
+          "file": "015_File_General_Electric_Dishwasher_Model_GSD500D-03AW_img01.jpg.jpg"
+        },
+        {
+          "sha1": "2e7c898cc3396669c37c78e837b825adc87a519e",
+          "file": "017_File_Dish_washer.jpg.jpg"
+        },
+        {
+          "sha1": "b2d62a14cb291f161117e221c6f67eb6f6b12462",
+          "file": "018_File_Dishwasher_ketterer_1950_001.jpg.jpg"
+        },
+        {
+          "sha1": "4f385766c3934e1e632e85d931f414cce7acb1d6",
+          "file": "019_File_Dishwasher_ketterer_1950_002.jpg.jpg"
+        },
+        {
+          "sha1": "2e7ed2812716b26a6a2c6a46e51b39737281800a",
+          "file": "020_File_Dishwasher_ketterer_1950_003.jpg.jpg"
+        },
+        {
+          "sha1": "f94320d117015a69c6001244f5af886985d8e464",
+          "file": "022_File_Eisenhuettenstadt_asv2020-09_img18_Dokumentationszentrum.jpg.jpg"
+        },
+        {
+          "sha1": "b84df7cb1a63a8fd87cd61b99ba4887034005090",
+          "file": "023_File_24-inch_Built-In_Dishwasher_F89088VI-M-1_.jpg.jpg"
+        },
+        {
+          "sha1": "609c34cdc5ee00e7213dd567250f0f1d9fe8839c",
+          "file": "029_File_California_Kitchen_Dishwasher.jpg.jpg"
+        },
+        {
+          "sha1": "282f39d2ca8708fd37cef50e3a154319551d5f04",
+          "file": "031_File_Dishwasher_demonstration_1921.jpg.jpg"
+        },
+        {
+          "sha1": "ea5a4ffafb75298aebf181d5724189bf105cbf96",
+          "file": "032_File_Bosch_Dishwasher_2026-08-23_1.jpg.jpg"
+        },
+        {
+          "sha1": "f8a02866c2d1976662412392f39475153d2242ff",
+          "file": "033_File_Dishwasher_loaded_with_clean_dishes_at_a_home_kitchen_in_the_evening.jpg.jpg"
+        }
+      ]
+    },
+    "electric_fan": {
+      "reviewed": 40,
+      "kept": 17,
+      "removed": 23,
+      "note": "Keyword 'fan' matched sports fans (35,36), 'fan art' (28, a Godzilla cartoon), hand fans (0,2,19,29), cathedral fan vaulting (10), a butterfly, a bird, statues, alleyways and wall vents. Kept 17 electric fans, including a disassembled fan (37) that is ideal scrap context.",
+      "keep": [
+        {
+          "sha1": "677b2a9aa377da96ef84e42b71e37f5d2abf4eb9",
+          "file": "004_File_Electric_fan_early_GE.JPG.jpg"
+        },
+        {
+          "sha1": "eca63c40bb0e59558084cf2cc91d964ed4f64815",
+          "file": "006_File_Fan_series.jpg.jpg"
+        },
+        {
+          "sha1": "337ba16ad97f6199ced3b794477e2ee70421cba0",
+          "file": "007_File_Cooling_fan_800.JPG.jpg"
+        },
+        {
+          "sha1": "2b65d4e9cd5e6c1c73fde61a9642b56345c42977",
+          "file": "008_File_Element_Commercial_Fan_by_Big_Ass_Fans.jpg.jpg"
+        },
+        {
+          "sha1": "8ad2f075401ff8b2bba7dc5776c084643946f4ae",
+          "file": "010_File_Floor_fan.jpg.jpg"
+        },
+        {
+          "sha1": "994cd4ed40f26195e09335e0384fbf9f673750f4",
+          "file": "012_File_Brushless-motor-fan_Vetracek.png.jpg"
+        },
+        {
+          "sha1": "ba58f9aed5ddb7e67ddc9b8b3e4a276b042b0892",
+          "file": "013_File_Bipolar_Wall_Fan_Western_Electric_Company_Chicago_and_New_York_c._1880_-_Museum_of_Science_and_Industry_Chicago_-_D.jpg"
+        },
+        {
+          "sha1": "6bbc98fc7c93dfaca92e6ffa9a5f6e0de712597c",
+          "file": "014_File_Fan_with_Tesla_induction_motor_1892-1896_-_Museum_of_Science_and_Industry_Chicago_-_DSC06561.JPG.jpg"
+        },
+        {
+          "sha1": "1276a15d2e533374970de2d24f605176be0bfcd3",
+          "file": "016_File_Exhaust_fan_10.jpg.jpg"
+        },
+        {
+          "sha1": "ab5cedfec4f51e48983fd19de7a65ae701578d46",
+          "file": "017_File_Extractor_fan_4.jpg.jpg"
+        },
+        {
+          "sha1": "f2ed50cb2721a22a1593f5b4124d644fe9cc06a5",
+          "file": "021_File_Extractor_fan_10.jpg.jpg"
+        },
+        {
+          "sha1": "74ccc5a97c22151dddf59ddf3a828bade57aa40a",
+          "file": "024_File_Extractor_fan_17.jpg.jpg"
+        },
+        {
+          "sha1": "dcd5247a00e40a550996b4b400e52377fe0bbc76",
+          "file": "031_File_Fan_Safety_Net_Cover.jpg.jpg"
+        },
+        {
+          "sha1": "4d82a522aa8634e7f88ac2e14dbcb09e7011b937",
+          "file": "032_File_Almonard_fan_safety_cover.jpg.jpg"
+        },
+        {
+          "sha1": "4b107c3998c4d2b306d4cb3d54a2b5c1bf1055c1",
+          "file": "033_File_Almoanrd_fan_safety_cover.jpg.jpg"
+        },
+        {
+          "sha1": "d7eb94de0b9e1efec138065f2955f0ce55fe8ae8",
+          "file": "038_File_Fan_Parts_LEAP_ICT_Mumbai_Jul24_R16_07816.jpg.jpg"
+        },
+        {
+          "sha1": "3bac77398b72bdb61e4dff299740e0313f4109b3",
+          "file": "039_File_Fan_2024.jpg.jpg"
+        }
+      ]
+    },
+    "electric_motor": {
+      "reviewed": 40,
+      "kept": 16,
+      "removed": 24,
+      "note": "Keyword 'motor' matched an Amtrak locomotive (5-7), old trams, an electric car, a motorcycle wheelie (13), a motorcyclist, CGI rotor renders and N/S textbook diagrams, nameplate close-ups. Kept 16 real motors, including exposed windings (34) and coil rewinding (37): ideal scrap context.",
+      "keep": [
+        {
+          "sha1": "115ec38ff7dbf717f1d1291d371e32f5c1fae2ff",
+          "file": "018_File_Medion_MD8910_-_Capstan_motor-8589.jpg.jpg"
+        },
+        {
+          "sha1": "15ec11bf881fc2e69bb34ab6c988561e0c5c5827",
+          "file": "020_File_Lift_motor_room_of_40_Tank_Street_Brisbane.jpg.jpg"
+        },
+        {
+          "sha1": "516130a52bdd29896af49f4f611ed44accfadd91",
+          "file": "021_File_Aisin_Paris_Motor_Show_2018_Paris_1Y7A1812_.jpg.jpg"
+        },
+        {
+          "sha1": "bd2edea1492754c5dedf1e03df8ddd575e65c08a",
+          "file": "022_File_D_lmen_Heilig-Kreuz-Kirche_Glocken_--_2019_--_3070.jpg.jpg"
+        },
+        {
+          "sha1": "4ee6c9c725ee5e70eafad03dcdc9e0724924a026",
+          "file": "023_File_Machine_Gramme.jpg.jpg"
+        },
+        {
+          "sha1": "c54d0098aa4db47b3db466af09d64d6ed99c7873",
+          "file": "027_File_H-L_Data_Storage_GS31N_-_disc_motor-8958.jpg.jpg"
+        },
+        {
+          "sha1": "df91f08a6b7219bcdf2e19caff716fd1ed264bda",
+          "file": "028_File_FGC_700-1000_T21.jpg.jpg"
+        },
+        {
+          "sha1": "ff7c3d50743367a2c77f57d80a6c851202d95409",
+          "file": "029_File_EM57_motor.jpg.jpg"
+        },
+        {
+          "sha1": "87da047720e600ff319d86cd6c60e78aea84f96e",
+          "file": "033_File_Card_reader_unit_from_calculator_HP-67_with_motor_and_drive_train_el._connection_to_mainboard_above_.jpg.jpg"
+        },
+        {
+          "sha1": "0cb3693a5b3484538fef8b5baa0d28d2b100360e",
+          "file": "034_File_Electric_motor_on_the_slewing_bearing_of_a_remote_controlled_yellow_Liebherr_tower_crane.jpg.jpg"
+        },
+        {
+          "sha1": "c6200b6c27fd3561bb7b36e37e6acdd1cedb29de",
+          "file": "035_File_Elektromotor_0058_hg.jpg.jpg"
+        },
+        {
+          "sha1": "176b3c08dcc7cae3b1c03f245f457785ffbb7216",
+          "file": "036_File_Big_Dipper_motor.jpg.jpg"
+        },
+        {
+          "sha1": "a203c2404414288d6f880d4e0722a9f861d8f3dd",
+          "file": "037_File_FPT_eCD_140_Busworld_Europe_2023_Brussels_P1140028_.jpg.jpg"
+        },
+        {
+          "sha1": "27994a6a4468df2abe0f8eadd8ca5ab697a19c45",
+          "file": "038_File_Electrician_s_Mate_3rd_Class_Eric_Anderson_rewiring_the_coils_of_a_motor.jpg.jpg"
+        },
+        {
+          "sha1": "5e1c4a552b926141432ee900316d191253814355",
+          "file": "039_File_Lucid_500_KW_motor.jpg.jpg"
+        },
+        {
+          "sha1": "cc54fbe2f608370f8d3fb0bfcf8a811d43a46d54",
+          "file": "040_File_Clatronic_AR_687_CD_MP3_-_CD-ROM_drive_-_Mabuchi_Motor_FF-050SH-11190-2060.jpg.jpg"
+        }
+      ]
+    },
+    "generator": {
+      "reviewed": 9,
+      "kept": 4,
+      "removed": 5,
+      "note": "Critically starved. Only 4 genuine, and 7 and 8 are the same unit, so effectively 3 unique images. Removed technical drawings, a newspaper page, a 1920s Prest-O-Lite advert, an ambiguous hand-crank device.",
+      "keep": [
+        {
+          "sha1": "959ddaf7ea6f356ef141b7918a0b1a3e88cf6bb7",
+          "file": "006_File_Firman_Electric_Generator.jpg.jpg"
+        },
+        {
+          "sha1": "1f6c883d288fef46d152265515998f20319531e1",
+          "file": "007_File_Firman_WHO3242_Electric_Generator_52949706739_.jpg.jpg"
+        },
+        {
+          "sha1": "79a607b124ff8105c134b9077959566154c5775c",
+          "file": "008_File_Gasoline_Generator_2026-08-12_ROYU_Electrical_Inverter_Type_03.jpg.jpg"
+        },
+        {
+          "sha1": "d33663f721ae0f2bb63ba0aa3e3a34bf6a2f5a83",
+          "file": "009_File_Gasoline_Generator_2026-08-12_ROYU_Electrical_Inverter_Type_01.jpg.jpg"
+        }
+      ]
+    },
+    "air_cooler": {
+      "reviewed": 37,
+      "kept": 13,
+      "removed": 24,
+      "note": "Removed 8 1950s car-window 'swamp coolers' (evaporative coolers, but nothing like an Indian desert or room cooler), vintage cars, a VW Beetle, patent drawings and text pages, a spec label, a mosque interior, tents. Several kept units are one brand in transit stations, grouped by similarity.",
+      "keep": [
+        {
+          "sha1": "91e839365dcf81fd0a69454e1a2dfad6e1325a0c",
+          "file": "001_File_FB_910.JPG.jpg"
+        },
+        {
+          "sha1": "dd25b39cb7275fd836b3fb1726128c9b4ff57213",
+          "file": "006_File_Evaporative_cooler_CO_IMG_5681.JPG.jpg"
+        },
+        {
+          "sha1": "8f3984a865ba5d03e88c18f336fedcc01fe65db6",
+          "file": "008_File_Air_cooler.jpg.jpg"
+        },
+        {
+          "sha1": "3740116dcb7c1ce4b1015aa56aeecf3dc8feb905",
+          "file": "018_File_HK_TKO_Tseung_Kwan_O_PopCorn_mall_heavy_duty_fan_night_June_2019_IX2_01.jpg.jpg"
+        },
+        {
+          "sha1": "cebca70108b1b228ca59245d6cf255ebf8da31d6",
+          "file": "019_File_Detective_Conan_Caf_Taiwan_1.jpg.jpg"
+        },
+        {
+          "sha1": "2f423767ca0d1544d96cf477ab207251ab22f1d1",
+          "file": "020_File_Airbitat_City_Cooler_CTC01._Consumes_1300_watts_equivalent_of_60_light_bulbs_.jpg.jpg"
+        },
+        {
+          "sha1": "2c9b66869bf888226211a1a01d2ae453d10f1cc9",
+          "file": "021_File_HK_WTS_Wong_Tai_Sin_MTR_Station_platform_fresh_air_wind_machine_n_metal_door_September_2021_SS2_03.jpg.jpg"
+        },
+        {
+          "sha1": "16d2d74833e325e2c3d17d137074f1eff1464429",
+          "file": "022_File_HK_WTS_Wong_Tai_Sin_MTR_Station_platform_fresh_air_wind_machine_September_2021_SS2_01.jpg.jpg"
+        },
+        {
+          "sha1": "c5a30f66162ddad24b84b5cba1865d2f8ff20016",
+          "file": "023_File_HK_North_Point_MTR_Station_fan_air_supply_November_2021_SS2.jpg.jpg"
+        },
+        {
+          "sha1": "6749283e32004c62fae48cc29a90d31fc5af0188",
+          "file": "025_File_HK_MTR_Hong_Kong_passageway_Central_Station_concourse_machines_air_cooler_February_2022_Px3.jpg.jpg"
+        },
+        {
+          "sha1": "fc77b8cd3332cc9d367ad6c846648ff60c9ef56a",
+          "file": "027_File_95531_eilat_desert_cooler_PikiWiki_Israel.jpg.jpg"
+        },
+        {
+          "sha1": "e478a40529956c4cef891e0eb4940319c27647bd",
+          "file": "032_File_HK_KTD_Kwun_Tong_Yue_Man_Square_mall_air_supply_fan_September_2025_N13P.jpg.jpg"
+        },
+        {
+          "sha1": "20fa76a22f94ebb4f8fcea73d0ba211f74d006a7",
+          "file": "033_File_Air_cooler_standing_type.jpg.jpg"
+        }
+      ]
+    },
+    "inverter": {
+      "reviewed": 9,
+      "kept": 4,
+      "removed": 5,
+      "note": "Critically starved. Only 4 genuine inverter units and 4/5 are the same setup, so ~3 unique. Removed lead-acid and tubular batteries (2,3,8), a phone charger, a portable power station. Note: Indian home inverters are usually photographed with their tubular battery, which this data does not reflect.",
+      "keep": [
+        {
+          "sha1": "1c73aa8de3113474f7f4d6bc458d44cdb82eed9b",
+          "file": "005_File_Kabus_000247_171298_516088_4578_36775931206_.jpg.jpg"
+        },
+        {
+          "sha1": "8f5fb8517e6917bcbf50ee7e4d11248383ed852f",
+          "file": "006_File_Kabus_000248_171299_516093_4578_36775931036_.jpg.jpg"
+        },
+        {
+          "sha1": "a0e921c559423ed075efeec7e757d2ba640db404",
+          "file": "007_File_Inverter_Battery-_The_power_cut_fighter.jpg.jpg"
+        },
+        {
+          "sha1": "4a308395d574803aa0cd034c661dee237fee49db",
+          "file": "008_File_5.8kwh_Lithium_battery_wall_mounted_with_5kw_hybrid_inverter.jpg.jpg"
+        }
+      ]
+    },
+    "treadmill": {
+      "reviewed": 40,
+      "kept": 11,
+      "removed": 29,
+      "note": "Removed astronauts on the ISS (1-4,25), an underwater hydrotherapy pool (15,16), VR omni-treadmill renders and diagrams (26-28), a line chart (6), a historic treadwheel, a painting, a stage show, a hand-drawn sketch, and 10 handle or console close-ups.",
+      "keep": [
+        {
+          "sha1": "133c6d18326c02e78f5291d6c21e263ca6482f0b",
+          "file": "001_File_Simple_treadmill_-_Thailand.JPG.jpg"
+        },
+        {
+          "sha1": "5edf574ac715df7f91f81f0765d91db9b4bc08df",
+          "file": "010_File_Exercise_Treadmill_Convey_Motion.jpg.jpg"
+        },
+        {
+          "sha1": "a16c3154ee36e81c9b2ba1047600c1661734588f",
+          "file": "018_File_Academia_do_SESC_Guarulhos_Maratona_de_fotografia_junho_de_2019.jpg.jpg"
+        },
+        {
+          "sha1": "26d8a2f32d30f7b0a49fc478f997c55c8d42dbeb",
+          "file": "019_File_CHUCK_MITCHELL_ON_TREAD_MACHINE_-_NARA_-_17418296.jpg.jpg"
+        },
+        {
+          "sha1": "28ccc540157305f816d9f122f466f563f8c5c801",
+          "file": "022_File_A_treadmill.jpg.jpg"
+        },
+        {
+          "sha1": "a04fb56938d8ded46747ff643ec62440d72b460e",
+          "file": "024_File_A_woman_exercising_on_a_treadmill.jpg.jpg"
+        },
+        {
+          "sha1": "62f80fbf5a02a52b09dc60a6337209726b721e1a",
+          "file": "025_File_Fit_young_man_caucasian_running_on_machine_treadmill_workout_in_gym.jpg.jpg"
+        },
+        {
+          "sha1": "9777f65b12dfd54bf26fbe34d9f583371676437d",
+          "file": "030_File_ISS-23_Tracy_Caldwell_Dyson_exercises_on_the_COLBERT_treadmill_in_the_Harmony_node.jpg.jpg"
+        },
+        {
+          "sha1": "52cafee337b8d1d7692544cc613ec0df66fbfa79",
+          "file": "031_File_Cross_Runner_-_Curved_Treadmill_03.jpg.jpg"
+        },
+        {
+          "sha1": "c365b06d92e37f6684cec6a4d561119d9920a928",
+          "file": "032_File_Cross_Runner_-_Curved_Treadmill_02.jpg.jpg"
+        },
+        {
+          "sha1": "9a9983b024ff6b116f1bae9caae80de66e51a338",
+          "file": "033_File_Cross_Runner_-_Curved_Treadmill_01.jpg.jpg"
+        }
+      ]
+    },
+    "laptop_screen": {
+      "reviewed": 40,
+      "kept": 27,
+      "removed": 13,
+      "note": "Mostly genuine laptops; #5 (streaked, damaged LCD) is ideal scrap context. Removed a cat filling the frame, circuit internals, person-focused portraits, cartoon and line-art illustrations, video-call screenshots, a game screenshot, a monitor showing an error screen.",
+      "keep": [
+        {
+          "sha1": "2572810e972f8df35ee65678bb4fa32b541c3c89",
+          "file": "002_File_HK_Central_1_Shin_Hing_Street_Gallery_EXIT_art_shop_PopVote_Laptop_screen_map_paper_March-2012.jpg.jpg"
+        },
+        {
+          "sha1": "a7401aa03ddc58fc1ba5dff4603aba1bbff444e9",
+          "file": "003_File_Nikiski_Concept_Laptop_2_.jpg.jpg"
+        },
+        {
+          "sha1": "811216a52896b71c1e8dc3da64bab3c5adc13177",
+          "file": "004_File_BSoD_on_a_laptop_2.jpg.jpg"
+        },
+        {
+          "sha1": "a897b8d93699f25de090dafd54a4f1fdf9897663",
+          "file": "006_File_Laptop_LCD_with_a_faulty_connector.jpg.jpg"
+        },
+        {
+          "sha1": "359723e275754c172d7693f609e4b9992e16f8e7",
+          "file": "007_File_Laptop_with_many_charts_on_screen_on_cluttered_desk.jpg.jpg"
+        },
+        {
+          "sha1": "e908ef5ef9d74fb8f34cc77704477d994b8fa496",
+          "file": "008_File_Blue_screen_-_Flickr_-_Stiller_Beobachter.jpg.jpg"
+        },
+        {
+          "sha1": "2f489efc9fb88c82f5943e65103416d152897b86",
+          "file": "009_File_Macbook_apple_imac_computer_screen_laptop_notebook_technology-758989.jpg.jpg"
+        },
+        {
+          "sha1": "2ba827fc0bcb72763bd679a9477b193ae36126fa",
+          "file": "010_File_Laptop_with_Spanish_Wikipedia_screenshot.jpg.jpg"
+        },
+        {
+          "sha1": "eba6f069fae5c1402b7ab4a1e2ee8d61820c3f75",
+          "file": "011_File_Gateway_laptop_2009-02-07_3261457752_.jpg.jpg"
+        },
+        {
+          "sha1": "8217a35cfc899570848c5ff447f4e236add510cb",
+          "file": "012_File_Lenovo_3000_laptop_2380613704_.jpg.jpg"
+        },
+        {
+          "sha1": "8d8a62e9a380e954b386e20f40ca9369f53526a5",
+          "file": "013_File_Oscillogram_shown_on_laptop_screen.jpeg.jpg"
+        },
+        {
+          "sha1": "a6babeef7bfcb15e3f579d1d2446543b3df840c2",
+          "file": "014_File_Oscillogram_shown_on_laptop_screen_cropped_.jpeg.jpg"
+        },
+        {
+          "sha1": "4fd9654438298f91941f1c9cb5b2ae15035dbdfd",
+          "file": "015_File_Gateway_Solo_9300_-_Transparent_Laptop_Screen.jpg.jpg"
+        },
+        {
+          "sha1": "13dbf0e5028a92ad4a48c28fb51926fb0e11999e",
+          "file": "018_File_Image_with_nested_realities_of_a_laptop_showing_a_Wikimedia_Commons_file_with_the_same_laptop_showing_video_of_man_.jpg"
+        },
+        {
+          "sha1": "1c33305b890c2812790bcf491335c9eba3f99474",
+          "file": "021_File_Commodore_C286-LT_laptop_1_.jpg.jpg"
+        },
+        {
+          "sha1": "173da12dac72f0baa2c7813fe62c00f7c84ea6a6",
+          "file": "022_File_Dual_touch_screen_laptop.jpg.jpg"
+        },
+        {
+          "sha1": "af68f753de688c8bef67c083af6a19714023a814",
+          "file": "024_File_On-screen_Waterfalls.jpg.jpg"
+        },
+        {
+          "sha1": "9b0d2485bdd098b9cd30c51b4d5381c37e006bd6",
+          "file": "025_File_Acer_Aspire_4752_Laptop_-_05.jpg.jpg"
+        },
+        {
+          "sha1": "2999cf634eb0eb43b70e19107b6934fcff340502",
+          "file": "026_File_Dog_stares_at_laptop_screen.jpg.jpg"
+        },
+        {
+          "sha1": "bcb096dd000d07ead7bf5633adbd7f3479452e37",
+          "file": "027_File_Microsoft_Surface_Laptop_7.jpg.jpg"
+        },
+        {
+          "sha1": "f65c182c379ff1b1c865acdabfedb29b0666f504",
+          "file": "031_File_Laptop_with_external_screen_2026_jeh.jpg.jpg"
+        },
+        {
+          "sha1": "d03538815bba2a6c7268ee11ec129b2bfe948926",
+          "file": "034_File_Child_interacts_with_laptop_screen_while_seated_at_a_desk.jpg.jpg"
+        },
+        {
+          "sha1": "2e64a4b01deb4d9abe04b9632da8a50d8da06255",
+          "file": "036_File_A_young_child_is_focused_on_a_laptop_screen.jpg.jpg"
+        },
+        {
+          "sha1": "b53adc0db7075611539a96c16a964818796db8bc",
+          "file": "037_File_IBM_Thinkpad_R51.jpg.jpg"
+        },
+        {
+          "sha1": "6d37212050c4129de9326bffb669a4da7a25dc26",
+          "file": "038_File_Computer_shop_display_of_items_for_sale.jpg.jpg"
+        },
+        {
+          "sha1": "094e4793225cc38919a719204f8ea828f6147b56",
+          "file": "039_File_Laptop_Arima_Tastatur_abgenommen.jpg.jpg"
+        },
+        {
+          "sha1": "461f659d531e12d2b2f87ab069651216bbd1024a",
+          "file": "040_File_Laptop_Maintenance_Work_Area.jpg.jpg"
+        }
+      ]
+    },
+    "desktop_cpu": {
+      "reviewed": 36,
+      "kept": 14,
+      "removed": 22,
+      "note": "Keyword 'tower' matched 17 buildings: the Eiffel Tower, Golden Gate Bridge, castles, cathedrals, skyscrapers, an airport control tower, Brasilia's congress towers. Also a sunset, a solid red frame, a labelled case diagram, a monitor. Kept 14 towers; 34 and 35 (grimy, rusted cases) are ideal scrap context.",
+      "keep": [
+        {
+          "sha1": "5a1c94d24917c2c582ea438d4e3c0f5fbbe366fa",
+          "file": "005_File_Black_mid_tower_case.jpg.jpg"
+        },
+        {
+          "sha1": "657da1f7c716a09185de3af48d94fb3917fa007c",
+          "file": "006_File_Beige_mini_tower_case.jpg.jpg"
+        },
+        {
+          "sha1": "1b234439167ea79e19edb858473f924f86671fd1",
+          "file": "007_File_ATXDesktop.jpeg.jpg"
+        },
+        {
+          "sha1": "48b05415ea29f82d9040ee8f411ec20f47ecde1a",
+          "file": "020_File_Assemble_a_Desktop_PC_-_Jan._2013.jpg.jpg"
+        },
+        {
+          "sha1": "a1833cf3d0fe3271995415d2c8b0ef5f3554a7f2",
+          "file": "022_File_Desktop_PC_Tower_Vector_Image_Clipart.png.jpg"
+        },
+        {
+          "sha1": "67a8575b349aaa47f5469cdafdbc9bc3b38ac1ab",
+          "file": "024_File_Falcon_Northwest_Tiki_micro-tower_desktop_PC.png.jpg"
+        },
+        {
+          "sha1": "8abfd52f4a4fe9c822cbb72106b3e1ba7e4255d6",
+          "file": "025_File_Falcon_Northwest_Mach_V_full_tower_desktop_PC.png.jpg"
+        },
+        {
+          "sha1": "7db85c10a5a75460ae8ef6624b2f9262830892f0",
+          "file": "026_File_Falcon_Northwest_Talon.png.jpg"
+        },
+        {
+          "sha1": "19d02b1e1307e484fee17801529877a923820381",
+          "file": "027_File_Falcon_Northwest_Talon_desktop_PC.jpg.jpg"
+        },
+        {
+          "sha1": "22f1c576d6be8362fe9293b92a18364455b3da97",
+          "file": "028_File_Falcon_Northwest_Tiki_micro-tower_PCs_in_red_orange_and_blue.jpg.jpg"
+        },
+        {
+          "sha1": "fb634e0ba051de025ea221854ed34dae5f3e3eea",
+          "file": "029_File_Computer_case_-_Full_Tower.jpg.jpg"
+        },
+        {
+          "sha1": "a16d51312db8e8f74392d1d86021f6b92632002c",
+          "file": "030_File_GorillaWarfare_s_cat_Ruth.jpg.jpg"
+        },
+        {
+          "sha1": "1dfc096c49ee15644d2888cf0b44f67e80e1adf6",
+          "file": "035_File_EMachines_eTower.jpg.jpg"
+        },
+        {
+          "sha1": "9c0578bfb9c6e3ed81dd6c1910dbab60f6bb65b2",
+          "file": "036_File_Computer_Tower_Destroyed_in_9-11_Pentagon_Attack.jpg.jpg"
+        }
+      ]
+    },
+    "crt_monitor": {
+      "reviewed": 35,
+      "kept": 23,
+      "removed": 12,
+      "note": "Strong class with ideal e-waste examples: smashed monitors with exposed boards (22,23,25,26) and one dumped in water (24). Removed electron-gun, anode and deflection-coil textbook diagrams (1,7,8,18,32), phosphor pixel macros, bare laboratory vacuum tubes, a label close-up.",
+      "keep": [
+        {
+          "sha1": "8678af0d62465fee1443bf230811bdb6e8e8771c",
+          "file": "001_File_Computer_monitor_screen_image_simulated.jpg.jpg"
+        },
+        {
+          "sha1": "50e3484385682b0c245477a90702954e9fd0443e",
+          "file": "003_File_Cat-and-computer-monitor-3388.jpg.jpg"
+        },
+        {
+          "sha1": "033fd23564cc690a94e9b46cdfeddce25d395e75",
+          "file": "004_File_Cathode_ray_tube_with_deflection_coils.jpg.jpg"
+        },
+        {
+          "sha1": "7258f838f557e3819f93e5123d82739e38573c4a",
+          "file": "010_File_HP_Pavilion_v72_17_inch_CRT_Monitor_IMG_9377.JPG.jpg"
+        },
+        {
+          "sha1": "c55914d2fab0a9937368cd4b82e8daedfbbcd0cf",
+          "file": "011_File_HP_Pavilion_v72_17_inch_CRT_Monitor_IMG_9378.JPG.jpg"
+        },
+        {
+          "sha1": "155abbc21dea746fe2ac5850f14ba3901d33e82a",
+          "file": "012_File_HP_Pavilion_v72_17_inch_CRT_Monitor_and_Dell_E1505_Inspiron_top_down_view_IMG_9392.JPG.jpg"
+        },
+        {
+          "sha1": "9555e3283d874911952248056314d375512078a2",
+          "file": "013_File_HP_Pavilion_v72_17_inch_CRT_Monitor_and_Dell_E1505_Inspiron_IMG_9388.JPG.jpg"
+        },
+        {
+          "sha1": "aff10890362fb7473a30ec02772ca6481b6d63f7",
+          "file": "014_File_HP_Pavilion_v72_17_inch_CRT_Monitor_rear_view_IMG_9409.JPG.jpg"
+        },
+        {
+          "sha1": "30d732d5fc3de316184bf470d53263bc37875b1b",
+          "file": "016_File_HP_Pavilion_v72_17_inch_CRT_Monitor_bottom_view_base_attached_IMG_9400.JPG.jpg"
+        },
+        {
+          "sha1": "c2e3e9c603355958f6af5cf6f5acb2ef232e8a3c",
+          "file": "017_File_HP_Pavilion_v72_17_inch_CRT_Monitor_bottom_view_base_removed_IMG_9404.JPG.jpg"
+        },
+        {
+          "sha1": "a43cb4e9ecbfc7e4070c4262361915067837d6fe",
+          "file": "018_File_HP_Pavilion_v72_17_inch_CRT_Monitor_front_view_IMG_9419.JPG.jpg"
+        },
+        {
+          "sha1": "41cfc726dd5c07433d8d7dc6711c28938f1ac1a5",
+          "file": "021_File_CRT_Monitor_2014-01-01_23-42.jpg.jpg"
+        },
+        {
+          "sha1": "ad1b522bfef13da42051f1b7bd1bc16f86b29081",
+          "file": "022_File_Crisys_PACT_Nov_2013.png.jpg"
+        },
+        {
+          "sha1": "b14585321c5808f4b3d4149580c3d0b7947c95ad",
+          "file": "023_File_2007_broken_computer_347361369.jpg.jpg"
+        },
+        {
+          "sha1": "968b4fa72f5a6b75860bd01e329858ed8eab76cc",
+          "file": "024_File_Broken_NEC_CRT_computer_monitor_20080509c.jpg.jpg"
+        },
+        {
+          "sha1": "82db53b86cab9c0769a4346e8fbf2bead3cc8297",
+          "file": "025_File_2010_computer_monitor_in_water_4815380583.jpg.jpg"
+        },
+        {
+          "sha1": "94b8968a84d47bce297bf2cec1bc5f94235ff797",
+          "file": "026_File_Broken_NEC_CRT_computer_monitor_20080509b.jpg.jpg"
+        },
+        {
+          "sha1": "b37b699e3a38ceef50ad604f65dc0a955a61e569",
+          "file": "027_File_Broken_NEC_CRT_computer_monitor_20080509a.jpg.jpg"
+        },
+        {
+          "sha1": "dddaaf7c07803853b6ffd2e53033a5304f9e1bae",
+          "file": "029_File_Atari_800_XL_home_computer_with_monitor_and_tape_program_recorder_XC12.jpg.jpg"
+        },
+        {
+          "sha1": "8feafe94e8de29c84bf0703006316b374bc61ad4",
+          "file": "030_File_Atari_800_XL_home_computer_with_TV_monitor_and_tape_program_recorder_XC12_cropped_.jpg.jpg"
+        },
+        {
+          "sha1": "7eac38538daba19ca3463662133dc6190f73d431",
+          "file": "031_File_Cathode_ray_tube_screen_of_Tektronix_Oscilloscope_475A.jpg.jpg"
+        },
+        {
+          "sha1": "85ad8a8c95cc90d5488b05c63cbf68fcb3baa40e",
+          "file": "034_File_Frael_King_computer_ValorosoIT_collection_Philips_CRT_monitor_keyboard_2.jpg.jpg"
+        },
+        {
+          "sha1": "6278ae8c125f52991d9e9109fccc3017b8662519",
+          "file": "035_File_Frael_King_computer_ValorosoIT_collection_Philips_CRT_monitor_keyboard_1.jpg.jpg"
+        }
+      ]
+    },
+    "lcd_led_monitor": {
+      "reviewed": 39,
+      "kept": 9,
+      "removed": 30,
+      "note": "Weak. 'LCD' matched the technology rather than monitors: RGB subpixel and TFT circuit diagrams, pixel macros, a wristwatch, a camera rear screen, an Arduino character display, segment-LCD glass, timetable signage, a trading floor. 37 and 38 are solid red frames (Wikimedia thumbnail-render failures).",
+      "keep": [
+        {
+          "sha1": "9afb80c3439b2c159312da28a524650b29d7bba7",
+          "file": "004_File_LG_L194WT-SF_LCD_monitor.jpg.jpg"
+        },
+        {
+          "sha1": "48a7e017d35cce0927ed2253aa1fe8b20c7371b5",
+          "file": "005_File_Computer_monitor.jpg.jpg"
+        },
+        {
+          "sha1": "fc746c8588605daa837c629c8768a2330aebc2f7",
+          "file": "007_File_Computer_monitor_samsung.jpg.jpg"
+        },
+        {
+          "sha1": "3e4c7e6dae9366eecd3f9fad30d29833b154e750",
+          "file": "012_File_2010-01-21_MacBook_Pro_flat_panel_showing_Earth_background.jpg.jpg"
+        },
+        {
+          "sha1": "4162c330197e0a853f7e6f044384c164b48b9cc8",
+          "file": "013_File_2010-01-21_MacBook_Pro_Mac_OS_X_Snow_Leopard_with_Earth_background.jpg.jpg"
+        },
+        {
+          "sha1": "0da52dfe6aecbdf1d602ee3fc95944e56fc6e532",
+          "file": "019_File_EIZO_Foris_FG2421_VGA_computer_monitor_displaying_test_pattern.png.jpg"
+        },
+        {
+          "sha1": "775f4ab05083f6aa048ba967b1dc9b4f7be22fb8",
+          "file": "020_File_Computer_monitor_remix_transparent.png.jpg"
+        },
+        {
+          "sha1": "d8eac12745a3bc9bfcf2f13ba69496cb154cc8c3",
+          "file": "021_File_Computer_display_Rostov-on-Don_Russia.jpg.jpg"
+        },
+        {
+          "sha1": "d639acca965270e035cebffbe1c07a316bd4aca3",
+          "file": "034_File_Acer-v246hl-box.jpg.jpg"
+        }
+      ]
+    },
+    "crt_television": {
+      "reviewed": 38,
+      "kept": 26,
+      "removed": 12,
+      "note": "Strong; includes a TV dumped on a street (30). Vintage TVs in museum displays are kept: collectors genuinely handle old CRT TVs, unlike archaeological artefacts. Removed the electron-gun diagram also filed under crt_monitor (0), Casio pocket LCD TVs that are not CRT at all (7-9), test-pattern close-ups, internals, a classroom, a street festival, a vintage radio.",
+      "keep": [
+        {
+          "sha1": "0d1d78a358fba175307436c81a16703413a791d2",
+          "file": "002_File_Fernseher.jpg.jpg"
+        },
+        {
+          "sha1": "28bccd9f7bd6b74c367ddc5b1020e4e47d5ebe2c",
+          "file": "005_File_Early_1950s_Television_Set_Eugene_Oregon.jpg.jpg"
+        },
+        {
+          "sha1": "6797591a5e2c7829baa6d25aa946a39ae593c36c",
+          "file": "006_File_Museum_f_r_Kommunikation_-_Depot_Heusenstamm_-_Technik_12_-_Flickr_-_KlausNahr.jpg.jpg"
+        },
+        {
+          "sha1": "d39c0f7e341069150c8508d1c201d7d9efb6e785",
+          "file": "007_File_National_RANGER-505_1970s_small-sized_black-and-white_television_set.jpg.jpg"
+        },
+        {
+          "sha1": "282301a563ccf225935122dbe8c9a5b4c62c16fd",
+          "file": "011_File_CRT_ADMIRAL_Vision_2000.jpg.jpg"
+        },
+        {
+          "sha1": "ec5b43767d300207832162a8f3b9d6f5fcdab8d3",
+          "file": "014_File_Bush_TV53_television_1955.jpg.jpg"
+        },
+        {
+          "sha1": "c77aba4b033aae90c0595eef31048e9dc1853720",
+          "file": "015_File_Bush_TV62_television_set_UK_1956.jpg.jpg"
+        },
+        {
+          "sha1": "e09acf1800db51fb58545a5980d3bb8ea747c3c4",
+          "file": "016_File_Early_Philco_television_set_5956762228_.jpg.jpg"
+        },
+        {
+          "sha1": "1381fed91a1d3140fa3eb26cd2301c4a174d0b14",
+          "file": "017_File_Marconi_709_Baird_T-23_and_Baird_T-18C_at_the_Early_Television_Museum_June_2022.jpg.jpg"
+        },
+        {
+          "sha1": "049a1a01a5488176b9890935335e71e8d41c0bc6",
+          "file": "018_File_1940s_television_sets_at_the_Early_Television_Museum_June_2022.jpg.jpg"
+        },
+        {
+          "sha1": "888c02088bd21f1c5886faacefecca54373bb48f",
+          "file": "019_File_Multiple_post_WWII_television_sets_at_the_Early_Television_Museum_June_2022.jpg.jpg"
+        },
+        {
+          "sha1": "091e95164e39978a2480e37b52e6debb831aa7f9",
+          "file": "020_File_Multiple_early_portable_television_sets_at_the_Early_Television_Museum_June_2022.jpg.jpg"
+        },
+        {
+          "sha1": "7cbb9514311c876954ea12182cfd2c5310cfa5b9",
+          "file": "021_File_1940s_DuMont_television_set_in_Early_Television_Museum.jpg.jpg"
+        },
+        {
+          "sha1": "8d95e9599b63fe45a3b3c21a4921641e1fcc7322",
+          "file": "022_File_Mitsubishi_television_set_2022-12-25.jpg.jpg"
+        },
+        {
+          "sha1": "49afd034f926a49e514279c842ad5ea973c5e216",
+          "file": "023_File_Old_television_set_at_the_Finnish_Architecture_Museum.jpg.jpg"
+        },
+        {
+          "sha1": "8e25bc35d83eb8e0fd7073009841f1d6e7a1fcce",
+          "file": "026_File_DTV_Tonight_Phonenumber_-_Analog_to_digital_conversion_time_New_Orleans_12_June_2009.jpg.jpg"
+        },
+        {
+          "sha1": "c45688a5f27f2f3027d57b0f746a8162e4e6b8be",
+          "file": "027_File_1990s_Television_Set.jpg.jpg"
+        },
+        {
+          "sha1": "640bfabae3e7bc963a992724c34c66db678d5853",
+          "file": "028_File_19_Sylvania_CRT_television_with_Logitech_Harmony_remote.jpg.jpg"
+        },
+        {
+          "sha1": "451cd464d011772ed7c9ea587810355dfc7bff1c",
+          "file": "029_File_19_Crosley_television_set_with_NES.jpg.jpg"
+        },
+        {
+          "sha1": "b7970f2de0f281fae7dbd4727332b8bd5158eb8f",
+          "file": "031_File_Discarded_CRT_television.jpg.jpg"
+        },
+        {
+          "sha1": "dedf68b8f379c8b9fe944cf5d97f6e98bc0d69d3",
+          "file": "032_File_Cathode_ray_tube_telegraphic_vison_device_on_red_sheet_metal_television_console_2.jpg.jpg"
+        },
+        {
+          "sha1": "cb1c18d5c9a400e5a198426b3b8d76ad49be2f72",
+          "file": "033_File_Polytechnical_Museum_television_set_Svet-702_20150214_164956.JPG.jpg"
+        },
+        {
+          "sha1": "e17edf5749f587579a41b8281450fe1385965556",
+          "file": "034_File_Polytechnical_Museum_television_set_Raduga-5_20150214_165021.JPG.jpg"
+        },
+        {
+          "sha1": "ac2ad4b071f555780c82bad16805ca3e04fe60bf",
+          "file": "036_File_Polytechnical_Museum_television_set_Raduga-5_20150214_165044.JPG.jpg"
+        },
+        {
+          "sha1": "0db101e03cfdc3c2b6fc45b6c4a63a9910ead7c8",
+          "file": "037_File_Polytechnical_Museum_television_set_Temp-723_20150214_164935.JPG.jpg"
+        },
+        {
+          "sha1": "ade82ce171c78dd3c2e06b5e86d3cfb20376d672",
+          "file": "038_File_CRT_Television_playing_Yuujin_Janjuu_Gakuen_Super_Famicom_2026-08-01.jpg.jpg"
+        }
+      ]
+    },
+    "printer": {
+      "reviewed": 14,
+      "kept": 5,
+      "removed": 9,
+      "note": "Starved: 5 genuine. Removed a Game Boy printer accessory, a 3D printer, 1920s teletypes and a stock-ticker machine, photo-booth kiosks, an isolated print carriage, a paper ribbon, an unclear close-up.",
+      "keep": [
+        {
+          "sha1": "c67cee5c1a9128fb9c476833289b00cc62d40806",
+          "file": "001_File_Canon_S520_ink_jet_printer.jpg.jpg"
+        },
+        {
+          "sha1": "18693d97af71005a0fb6a44c6d41a5fd84850e2b",
+          "file": "002_File_Canon_PIXUS_560i_expand.jpg.jpg"
+        },
+        {
+          "sha1": "4ba49b32e22cbfff17580275289cd26d2661e5ee",
+          "file": "008_File_Epson_LX-300_dot_matrix_printer_with_colour_kit.JPG.jpg"
+        },
+        {
+          "sha1": "c5dcf09fb74160e875efe49bbba753008d4ee8d0",
+          "file": "010_File_HP_Deskjet_All_in_One_Printer.jpg.jpg"
+        },
+        {
+          "sha1": "bb08fd04e86bf95bb745117cd93e6984c9f0a58f",
+          "file": "011_File_Kyocera_Office_Printer_Maschine.jpg.jpg"
+        }
+      ]
+    },
+    "ups": {
+      "reviewed": 28,
+      "kept": 9,
+      "removed": 19,
+      "note": "Removed circuit diagrams and block diagrams labelled INVERTER (0,13-15), PCB and component close-ups (5-12,25,26), an oscilloscope trace, server-room and office scenes, rotating machinery. The inverter-labelled diagrams show why UPS and power inverter are hard to separate.",
+      "keep": [
+        {
+          "sha1": "be815ed09b187c4c84acd4eebe94249a26ffe903",
+          "file": "002_File_Apc_ups_rs500_02.jpg.jpg"
+        },
+        {
+          "sha1": "e535096278420dfb33c2b98022775ba1fb2240b6",
+          "file": "003_File_Apc_ups_rs500_10.jpg.jpg"
+        },
+        {
+          "sha1": "0998ca86693849a3791308fbe4e7bce909b0305e",
+          "file": "004_File_Apc_ups_rs500_11.jpg.jpg"
+        },
+        {
+          "sha1": "a38224f47fd4b00f24a871b738ef297f55bba015",
+          "file": "017_File_Cc25-2006-08-02-UPS.jpg.jpg"
+        },
+        {
+          "sha1": "34ae3cda95c1a3bd328e789fa44c6eb2797955ef",
+          "file": "018_File_MGE_Uninterruptible_Power_Supply_at_NERSC.jpg.jpg"
+        },
+        {
+          "sha1": "f9f7fdc4f8967fc359395ec9e4756ae53151de8d",
+          "file": "019_File_Circuits_of_a_UPS_with_transformer.JPG.jpg"
+        },
+        {
+          "sha1": "7150f5d973ee17a5d62e354b9f4711508223b3fb",
+          "file": "022_File_Champion_Online_UPS.jpg.jpg"
+        },
+        {
+          "sha1": "49fb7baa8c819a274083552a29e07870f2a6dadb",
+          "file": "023_File_Server-UPS-and-EA6350v3-in-a-shelf.jpg.jpg"
+        },
+        {
+          "sha1": "a63a28aaca02bad292e1d7e4d7e8c85ae090e603",
+          "file": "028_File_APC_Back-UPS_ES525.jpg.jpg"
+        }
+      ]
+    },
+    "smartphone": {
+      "reviewed": 35,
+      "kept": 26,
+      "removed": 9,
+      "note": "Good. Removed black abstract edge and screen shots with no recognisable phone, person-focused scenes (people at a railing, a hammock), a store advert poster, a ceiling interior, a speaker.",
+      "keep": [
+        {
+          "sha1": "f4bdb584bdd8af095df78f1ef85aa7da819e1d2a",
+          "file": "001_File_HTC_HT722G700375_20080211.jpg.jpg"
+        },
+        {
+          "sha1": "9628ce259c70f88fc7e751a809888330af8f5b83",
+          "file": "003_File_Phone_photography.jpg.jpg"
+        },
+        {
+          "sha1": "153b874cb41db56fed452ce7b0c8b300c03fa745",
+          "file": "004_File_Close_up_of_mobile_phone_with_a_hand_showing_a_camouflage_cuff._MOD_45155935.jpg.jpg"
+        },
+        {
+          "sha1": "7f1e6004a3ed2e2cbcb6ab15e5a5f53765464f1e",
+          "file": "005_File_BACtrack_Mobile_Smartphone_Breathalyzer.jpeg.jpg"
+        },
+        {
+          "sha1": "345857cc1b9802814121b5573ec4d60b49e7dea3",
+          "file": "006_File_A_comparison_between_a_smartphone_and_a_tablet-PC.jpg.jpg"
+        },
+        {
+          "sha1": "6d8c579371a463a91c5066586d6cd66c8bfee9c9",
+          "file": "007_File_5_different_Smartphones.jpg.jpg"
+        },
+        {
+          "sha1": "9d96b76d58aa6a781de2b3dd6c7e59d337e21870",
+          "file": "008_File_Oppo_R7_Plus_smartphone_26420357270_.jpg.jpg"
+        },
+        {
+          "sha1": "da929e82f0bbe6bd87609f100e7391c555977d50",
+          "file": "009_File_Lenovo_Vibe_X2_smartphone_15060938217_.jpg.jpg"
+        },
+        {
+          "sha1": "ae937a9837591a2926d6633d5d817c26593e0c5d",
+          "file": "010_File_DJI_OSMO_mobile_with_iPhone_7_.jpg.jpg"
+        },
+        {
+          "sha1": "3493842fea5bf3d75eaa340ed91f3c0534f7c0ff",
+          "file": "012_File_Man_with_smartphone_and_laptop_Unsplash_.jpg.jpg"
+        },
+        {
+          "sha1": "7d7d1a92cf7ab0a5f60b5ad522a20b2909b5ae32",
+          "file": "013_File_Bitcoin_Cash_wallets_on_mobile_phones.jpg.jpg"
+        },
+        {
+          "sha1": "513e4eb3d307937167970f8164778136cc6b1f83",
+          "file": "014_File_Indoor_location_services_on_mobile_phone_10928087126_.jpg.jpg"
+        },
+        {
+          "sha1": "ab1c1ef5bac05413c3646261356c88e52ade22f7",
+          "file": "015_File_Mobile_phone_case.jpg.jpg"
+        },
+        {
+          "sha1": "cc8fd77020452e9aaac3fcd407ecca62b3780044",
+          "file": "017_File_Back_of_Galaxy_Note_10_Galaxy_Note_10_and_Galaxy_Note_10_Lite_20200220a.jpg.jpg"
+        },
+        {
+          "sha1": "492e4bde3fab63d986c5383be44fefb12f7f391d",
+          "file": "018_File_Hands_of_a_person_making_photos_with_the_mobile_phone_with_valentine_Composition_49479080178_.jpg.jpg"
+        },
+        {
+          "sha1": "e8ed882fdb212a290c0e49860deab6a66589927f",
+          "file": "019_File_Galaxy_a01_russian_market.jpg.jpg"
+        },
+        {
+          "sha1": "fc25965eb227fdcfa8f3bd00c08a0bb8edc2104c",
+          "file": "020_File_Blackview_A60_Smartphone_Android_mobile_phone_and_folio_case.jpg.jpg"
+        },
+        {
+          "sha1": "275c09cda9e8683b2bec804fc102b932be49aff1",
+          "file": "023_File_Blackview_A60_Smartphone_Android_mobile_phone_front_face_lock_screen.jpg.jpg"
+        },
+        {
+          "sha1": "c04b1538d8527980dd9e7fbc95912bee9e322b48",
+          "file": "024_File_Blackview_A60_Smartphone_Android_mobile_phone_front_face_logged_in_screen.jpg.jpg"
+        },
+        {
+          "sha1": "441624ea4285283084954d84b31fa0e2601d8586",
+          "file": "026_File_Carbonmobile.jpg.jpg"
+        },
+        {
+          "sha1": "59ff1a6174c5f4d0ba8d09434cb0cc5d7487e0bb",
+          "file": "027_File_Instagram_app_on_smartphone_grass_background_cropped_.jpg.jpg"
+        },
+        {
+          "sha1": "62e180118140b82502869d49aa2b8fdb33c24f70",
+          "file": "028_File_Foldable_Smartphones.jpg.jpg"
+        },
+        {
+          "sha1": "f2bb941d7fa337e7371d95b37882b46d08c1219e",
+          "file": "030_File_2016-10-19_mobile_phones.jpg.jpg"
+        },
+        {
+          "sha1": "9aa484720af01506047e4b5a13f8e0fb158e6dc8",
+          "file": "032_File_Crosscall-Core-X4-byRundvald.jpg.jpg"
+        },
+        {
+          "sha1": "7be099e21cda55d5a4b1c1425d3d844c052283d3",
+          "file": "033_File_EMOBILE_LTE_phone_in_Japan.jpg.jpg"
+        },
+        {
+          "sha1": "592e088d107aa9f06cbc883537e3ef2e4838ef68",
+          "file": "034_File_Early_Android_phone_by_EMOBILE.jpg.jpg"
+        }
+      ]
+    },
+    "basic_mobile_phone": {
+      "reviewed": 36,
+      "kept": 12,
+      "removed": 24,
+      "note": "Search 'feature phone' matched Wikimedia's Featured Pictures, pulling in galaxies (32,33), a hot-air balloon, a red tractor, roller skates, a landscape painting, snowy mountains, birds at sunset, a collapsed house, a carpet, a Galileo plaque. Also lemons (27,28), likely via the Lemon phone brand, and two smartphones. Kept 12 keypad and flip phones.",
+      "keep": [
+        {
+          "sha1": "98c5872cb4bd36fdc770a1e59514445d707ce1b2",
+          "file": "001_File_Japanese_mobile_phone_keypad.jpg.jpg"
+        },
+        {
+          "sha1": "416f35fa3e3be19faf0986ff45e45c9c4449961f",
+          "file": "004_File_Anaglyph-handy-3D.JPG.jpg"
+        },
+        {
+          "sha1": "ba97264f0fc0c15602071d7a5f6b35d664ad13b0",
+          "file": "009_File_Nokia_130.jpg.jpg"
+        },
+        {
+          "sha1": "5411e40e1151c7b2f040a8eeafc0b8181315c875",
+          "file": "014_File_Badai_Y68.jpg.jpg"
+        },
+        {
+          "sha1": "8c9c05ad55a61750dce068c49bbdfcbfdb0488e1",
+          "file": "015_File_M-Pesa_service_screen_on_a_feature_phone.jpg.jpg"
+        },
+        {
+          "sha1": "9ddee8b9a555468f59f65f6443b5f20af6aa54ae",
+          "file": "016_File_NTT_docomo_FOMA_F-07A_close.jpg.jpg"
+        },
+        {
+          "sha1": "5753a0a411ec770e74636c9b8f0cc76830427164",
+          "file": "019_File_Nokia_105_A_feature_phone_.jpg.jpg"
+        },
+        {
+          "sha1": "d895066500ee85b0cf4f0405421cd68aa8535940",
+          "file": "021_File_Banana_Kaios_Phone.jpg.jpg"
+        },
+        {
+          "sha1": "639a83646bb7ee69102a38397fadf93295359330",
+          "file": "022_File_Green_mobile_phone_of_brand_Lecom_in_India.jpg.jpg"
+        },
+        {
+          "sha1": "fcbd5646e2b9f43f519a8566c6519593ff2c9507",
+          "file": "024_File_2_Nokia_dumb_phones.jpg.jpg"
+        },
+        {
+          "sha1": "b0878008509e2a068df132a4259814599a55a39b",
+          "file": "027_File_Cat_S22_Flip_open.jpg.jpg"
+        },
+        {
+          "sha1": "085c129c247b583d3752e6e832531a6b93108380",
+          "file": "036_File_Bagian_belakang_Nokia_3210_rusak.jpg.jpg"
+        }
+      ]
+    },
+    "tablet": {
+      "reviewed": 29,
+      "kept": 5,
+      "removed": 24,
+      "note": "Starved: 5 genuine. 'Tablet' matched Wacom drawing tablets and pen displays (0,10,13,15-17,22,27), a real word ambiguity, plus stylus pens, a power adapter, sketches, a galaxy painting, laboratory scenes, a laptop, a desktop monitor, and two solid red frames (23,28).",
+      "keep": [
+        {
+          "sha1": "2286c982e437cb9de35738ccfe65df9d13116f8a",
+          "file": "004_File_Device_pile.jpg.jpg"
+        },
+        {
+          "sha1": "7156f18efe7c2374d2be1490e36f97cc5ea500a1",
+          "file": "007_File_Kindergarten_iPad.jpg.jpg"
+        },
+        {
+          "sha1": "5811edcdcd4e88815cc0ac9751bcdf841478c1f1",
+          "file": "009_File_BUQUE_HUMBOLDT_11573753704_.jpg.jpg"
+        },
+        {
+          "sha1": "3ca5b8cd84f88ada254e9f608b25d3146fe5ab87",
+          "file": "020_File_Ordering_system_using_tablet_device_at_Yoshinoya.jpg.jpg"
+        },
+        {
+          "sha1": "3857c168203affa9ee37e3d04a4e6b883df98967",
+          "file": "021_File_Ordering_system_using_tablet_device_at_Marugen_Ramen.jpg.jpg"
+        }
+      ]
+    },
+    "car": {
+      "reviewed": 40,
+      "kept": 27,
+      "removed": 13,
+      "note": "Good and on-target: scrapyards, crushed-car bales, rusted cars in fields. Removed a horse carriage, 'Tow Mater' from the Cars film at a theme park (38,39), a wing-mirror reflection, empty fields and skies, aerial landfill, and scrap-metal crane yards with no cars (4,5) that would contradict iron scrap.",
+      "keep": [
+        {
+          "sha1": "1d3019530017ac99999f66e9603eb871226c99f4",
+          "file": "001_File_Deritend_Car_Park.jpg.jpg"
+        },
+        {
+          "sha1": "fb0c74112f4706ecf8beec5c209e045a30a550c8",
+          "file": "002_File_Metal_scrap_in_Rusko_Oulu_2008.jpg.jpg"
+        },
+        {
+          "sha1": "740f747d464d3de9b8f5843fb50251b2093a52ad",
+          "file": "004_File_A_compact_car_.jpg.jpg"
+        },
+        {
+          "sha1": "471653de3030db6a6dcaad75a08f8b01a8a98645",
+          "file": "007_File_Scrap_Cars_15293492569_.jpg.jpg"
+        },
+        {
+          "sha1": "324f55fc9ae19f78c2c915c0c9523619ba5b62ee",
+          "file": "008_File_Scrap_Cars_14399490812_.jpg.jpg"
+        },
+        {
+          "sha1": "b4f606d1dfa16619c17ae4053b83e2b05e54d83c",
+          "file": "009_File_Scrap_Cars_14181060739_.jpg.jpg"
+        },
+        {
+          "sha1": "db80d6c77938a97e7213737c93548cee0c0d8286",
+          "file": "010_File_Scrap_Cars_14176537666_.jpg.jpg"
+        },
+        {
+          "sha1": "ac8e20ea7c87fb378eb124dfe51d0cbca9733ecb",
+          "file": "014_File_A_Fiji_Patrol_car_by_scrap_metal_AM_86373-1_.jpg.jpg"
+        },
+        {
+          "sha1": "a2ae059bc849a367cdc1ae44b8295708aa2bd51f",
+          "file": "015_File_A_Fiji_Patrol_car_by_scrap_metal_AM_86373-2_.jpg.jpg"
+        },
+        {
+          "sha1": "ed68a98fb607d1a6fce6cfe58f0623ddb80ad6b9",
+          "file": "016_File_Salangsverket_Ruins_of_iron_ore_mining_industry_1907_1912_Langneset_Salangen_Troms_Norway_Rusty_old_scrap_metal_Car.jpg"
+        },
+        {
+          "sha1": "a417648dd15f654af7fcba3cfdc17bea0687e5c2",
+          "file": "017_File_Salangsverket_Ruins_of_iron_ore_mining_industry_1907_1912_Langneset_Salangen_Troms_Norway_Rusty_old_scrap_metal_Car.jpg"
+        },
+        {
+          "sha1": "41091479906db2a73f6ad847c6a75328d7b0aded",
+          "file": "018_File_Salangsverket_Ruins_of_iron_ore_mining_industry_1907_1912_Langneset_Salangen_Troms_Norway_Rusty_old_scrap_metal_Car.jpg"
+        },
+        {
+          "sha1": "a2e93cf9c321d41ce9385da39e4cdf947d32da85",
+          "file": "020_File_Car_cemetery_-_geograph.org.uk_-_2640575.jpg.jpg"
+        },
+        {
+          "sha1": "c51fe4bd3c30dd233b174678c00e99fb60e6f5c9",
+          "file": "023_File_Cars_for_scrapping_at_the_Port_of_Cardiff_geograph_7173139_.jpg.jpg"
+        },
+        {
+          "sha1": "f841e5a3c7972a42fb41d457623aa76327ed1853",
+          "file": "024_File_Car_Scrap_in_Ghana.jpg.jpg"
+        },
+        {
+          "sha1": "804f26b024548b2d5feca91f0c8520a05ba31dbf",
+          "file": "025_File_Car_Scrap_in_Ghana_2.jpg.jpg"
+        },
+        {
+          "sha1": "6d79436c9cc1d63e8d894916638adfbbe4ccee3f",
+          "file": "026_File_A_truck_of_scrap_cars_near_Andrew_s_Farm_-_geograph.org.uk_-_5045042.jpg.jpg"
+        },
+        {
+          "sha1": "997f0a5eda67c46c53f7e4ad577b9ce0080dcc17",
+          "file": "027_File_Cars_for_scrap_parked_outside_Andrew_s_Farm_-_geograph.org.uk_-_5045055.jpg.jpg"
+        },
+        {
+          "sha1": "fbea8b19c2a769a9038107d5e1e5381efb42552f",
+          "file": "028_File_Car_Scrap_Yard_Annison_Street_Bradford_-_geograph.org.uk_-_7374437.jpg.jpg"
+        },
+        {
+          "sha1": "7ee1ad85bc994a6682fdec11ccf9fed8412aff67",
+          "file": "029_File_Abbey_Scrap_Cars_vehicle_Malpas_Newport_-_geograph.org.uk_-_7602400.jpg.jpg"
+        },
+        {
+          "sha1": "57483bd2950050827fd8d21632f6a57c6915368e",
+          "file": "030_File_Car_scrap_yard_near_Stourton_in_Staffordshire_-_geograph.org.uk_-_7823688.jpg.jpg"
+        },
+        {
+          "sha1": "cfe00d3ce7b6be7c80468bd803a18fc698d93e9d",
+          "file": "031_File_A_pile_of_scrap_-_geograph.org.uk_-_8102855.jpg.jpg"
+        },
+        {
+          "sha1": "1a0905e0fb1d21f8479f17626088646eeb0ba5fd",
+          "file": "032_File_An_old_scrapped_car_on_Great_Portwood_Street_-_geograph.org.uk_-_8110819.jpg.jpg"
+        },
+        {
+          "sha1": "bbd66d1c966cfd3841bfa0b425791b6dec98bad2",
+          "file": "034_File_Car_parts_and_scrap_metal_piled_inside_a_vehicle.jpg.jpg"
+        },
+        {
+          "sha1": "aba0efe1052e4aa0c474bceaebd19d2d9b757215",
+          "file": "035_File_SAL_-_Abandoned_trains_at_the_Uyuni_Railway_Scrap_Yard_Bolivia_2013.jpg.jpg"
+        },
+        {
+          "sha1": "0be9ba5a0bff873686b9f5c85014ec752df7b4e7",
+          "file": "036_File_Junkyard_in_Nashville.jpg.jpg"
+        },
+        {
+          "sha1": "b37aad36bbd872c3c52ecf318670aaf3966655bb",
+          "file": "037_File_AUTO_JUNKYARD_WHERE_CARS_ARE_SHREDDED_AND_COMPACTED_-_NARA_-_544819.jpg.jpg"
+        }
+      ]
+    },
+    "scooter": {
+      "reviewed": 40,
+      "kept": 23,
+      "removed": 17,
+      "note": "'Scooter' matched mobility scooters for the elderly (26-29), kick e-scooters (32,33), a Segway-like police vehicle (16-19), a utility cart, an e-scooter ban sign, fuel-gauge close-ups. Kept motor scooters only (the Indian sense, e.g. Activa); 9 is a burnt-out frame, ideal scrap context.",
+      "keep": [
+        {
+          "sha1": "086e789752bf5760c9697694ece345942bd55d79",
+          "file": "001_File_Motor_Scooter_on_Ibiza.jpg.jpg"
+        },
+        {
+          "sha1": "b8a8078cce038d6ea973c542330d91eefa5f4dc5",
+          "file": "003_File_Electrical_scooter_at_Formentera.JPG.jpg"
+        },
+        {
+          "sha1": "de5b5dd08724f3b270a8adc6039775fa17d531ce",
+          "file": "004_File_Baotian_Scooter_Lifestyle.JPG.jpg"
+        },
+        {
+          "sha1": "e66a25e288a2de3ecf29275b65e18d42f665b1b2",
+          "file": "005_File_Old_Scooter_at_Automobile_museum_Reims.JPG.jpg"
+        },
+        {
+          "sha1": "03df7b127cf55e07d8ef182e37d84775bba8fd29",
+          "file": "006_File_Lots_of_small_motor_vehicle_4037454040_.jpg.jpg"
+        },
+        {
+          "sha1": "e1a6b77ce92d13154ded466261586c1130d6ea06",
+          "file": "007_File_Poste_Italiane_scooter_Piaggio_Liberty_01.JPG.jpg"
+        },
+        {
+          "sha1": "0fe74905fa7832741b77734e7238d899ab8977da",
+          "file": "008_File_Angoul_me_16_Scooter_LML-Star_2014.jpg.jpg"
+        },
+        {
+          "sha1": "a004d65396ba5cb7af157d5058ec222058737967",
+          "file": "010_File_Burnt_motor_scooter_at_bridge_over_Cripsey_Brook_at_Moreton_village_Essex_England.jpg.jpg"
+        },
+        {
+          "sha1": "c87e65a7916799c7192fe7c709a064a7939301af",
+          "file": "013_File_Italian_brand_scooter_Fortepan_15990.jpg.jpg"
+        },
+        {
+          "sha1": "a9dac5f2031e799b9a3c7dc97ae7d23ff2e84f57",
+          "file": "014_File_Blinkee_electric_scooter_in_Burjassot._03.jpg.jpg"
+        },
+        {
+          "sha1": "ef6f65d8bcb9051df99fce774d50207d0b404551",
+          "file": "015_File_Blinkee_electric_scooter_in_Burjassot._01.jpg.jpg"
+        },
+        {
+          "sha1": "9e3a3b8739a6e4b1c59b67aee23a90ec8a133018",
+          "file": "016_File_Blinkee_electric_scooter_in_Burjassot._02.jpg.jpg"
+        },
+        {
+          "sha1": "0e0380d54ecafd1e062a0cbfdbb70e265f92714c",
+          "file": "021_File_Night_on_the_town_Revel_scooter_in_New_York_City_.jpg.jpg"
+        },
+        {
+          "sha1": "95b85bcc9cc6faac40946839f7aec00a92dea629",
+          "file": "022_File_Revel_scooter_parked_on_E90_jeh.jpg.jpg"
+        },
+        {
+          "sha1": "8e8be70f23f168d882d7c44cb2ccb15f9ba1dd13",
+          "file": "023_File_Rusty_Bajaj_scooter.jpg.jpg"
+        },
+        {
+          "sha1": "11c461f19e16a0bb730403ff9d26a084a0d4a87d",
+          "file": "024_File_Jinan_scooter-20150519-RM-184932.jpg.jpg"
+        },
+        {
+          "sha1": "961945b92a3cf468672f1927f4ba832d5d80977a",
+          "file": "025_File_Blinkee_electric_scooter_in_Budapest_a_.jpg.jpg"
+        },
+        {
+          "sha1": "48d1c99d798c5d06cbbc2c37b5d60a3b7a79bb31",
+          "file": "026_File_Red_Vespa_scooter_in_front_of_Rocca_Maggiore_Assisi.jpg.jpg"
+        },
+        {
+          "sha1": "055fe6d40ff4550dbf5ecf186a7ba93c798c1689",
+          "file": "031_File_Motor_scooters_in_Florence_1992.jpg.jpg"
+        },
+        {
+          "sha1": "f56f94556b00d0dcd7508ee42df53359190cc4e9",
+          "file": "037_File_Honda_electric_scooter_sold_in_China.jpg.jpg"
+        },
+        {
+          "sha1": "bffe1e54c05a94533343ccfd4e01bfb86f5e0c4f",
+          "file": "038_File_Honda_electric_scooter_sold_in_China_2.jpg.jpg"
+        },
+        {
+          "sha1": "b7117dcfb53718827398b9885113b2aeee6d17c2",
+          "file": "039_File_Honda_electric_scooter_sold_in_China_3.jpg.jpg"
+        },
+        {
+          "sha1": "96db9eade9280c1107897ee1e1e4b57fae307aa0",
+          "file": "040_File_1954_Zundapp_Bella_4200_Scooter_Lane_Motor_Museum.jpg.jpg"
+        }
+      ]
+    },
+    "motorcycle": {
+      "reviewed": 40,
+      "kept": 21,
+      "removed": 19,
+      "note": "Label conflict: 23-34 are 12 near-identical shots of one parking lot of SCOOTERS, removed (they would inflate the test score and teach scooter as motorcycle). Also removed an art car, an alloy wheel, a river boat, a mountain landscape, an exhaust close-up. Kept includes a family on one bike (11) and a wrecked frame in snow (13).",
+      "keep": [
+        {
+          "sha1": "49d90eb41de45bfa4f72b46c1ef20e756c6dace8",
+          "file": "001_File_MotoX_racing03_edit.jpg.jpg"
+        },
+        {
+          "sha1": "044ab81732bd41ea5930095e51accb653bd2aa91",
+          "file": "002_File_Motorbike_rider_mono.jpg.jpg"
+        },
+        {
+          "sha1": "9e700aa82c70ec4b87c4e9ff750f301aa9b6b863",
+          "file": "004_File_Castle_Hill_Lincoln_-_Vehicle_-_geograph.org.uk_-_1804898.jpg.jpg"
+        },
+        {
+          "sha1": "3314d06c73a164b726a5bc0267aac4579dba7642",
+          "file": "005_File_Dark_red_Indian_motorcycle_pic1.JPG.jpg"
+        },
+        {
+          "sha1": "7214cfa905adeebe002e41ba757bdf572464768e",
+          "file": "006_File_Dark_red_Indian_motorcycle_pic2.JPG.jpg"
+        },
+        {
+          "sha1": "554a9fc56458adc398faf99d4bd85785b16eb7df",
+          "file": "007_File_Dark_red_Indian_motorcycle_pic3.JPG.jpg"
+        },
+        {
+          "sha1": "cfef5679a8a948e1d3af8f32aa817a8255574753",
+          "file": "009_File_Arkhangelskoye_Vadim_Zadorozhnys_Vehicle_Museum_IMG_9644_2175.jpg.jpg"
+        },
+        {
+          "sha1": "b4aea9509c9e0748ffb667df4509e376e75d71c0",
+          "file": "010_File_BMW_motorcycles_Main_Street_downtown_Montpelier_VT_July_2016_side.jpg.jpg"
+        },
+        {
+          "sha1": "e739beb7b824acc43b7722f9118f0ed29e186bfb",
+          "file": "011_File_Bredevoort_NL_Motorrad_an_Het_Zand_--_2016_--_4171.jpg.jpg"
+        },
+        {
+          "sha1": "4b593d9d5f64716a5ba023e9ce4bc7a9916ff3e3",
+          "file": "012_File_Five_children_on_a_motorcycle.jpg.jpg"
+        },
+        {
+          "sha1": "352b268c9c78b5a9472c54d50fb9d920e2a54ed8",
+          "file": "013_File_2018_FIM_Ice_Speedway_Gladiators_World_Championship_-_GP_7_Niedermaier-5563.jpg.jpg"
+        },
+        {
+          "sha1": "eb35ad5f6f3ca4e340d8ea9554b7e14aa7a57e67",
+          "file": "014_File_Abandoned_motorcycle_in_snow.jpg.jpg"
+        },
+        {
+          "sha1": "599e6e1d5ea4c48014866d3a1dcfe45751267790",
+          "file": "015_File_A_motorcycle_dropping_children.jpg.jpg"
+        },
+        {
+          "sha1": "6a90292e090212a3384fafffe5d198af813d7ba5",
+          "file": "016_File_A_motorcycle_and_a_moving_vehicle.jpg.jpg"
+        },
+        {
+          "sha1": "0bcab03ed9a12bba5cce1b20d363a951f7e035ef",
+          "file": "019_File_Male_Motorcycle_rider_posing_with_a_Coventry_Eagle_racing_bike_No._116.jpg.jpg"
+        },
+        {
+          "sha1": "d16ca91ca809df16de01d0a4ecbfcbefe64acf5d",
+          "file": "020_File_2019_Ural_motorcycle_Woodstock_VT_May_2021_02.jpg.jpg"
+        },
+        {
+          "sha1": "6bbf6702a1222b2af5677f68370f6b369b663451",
+          "file": "021_File_2021-07-16_Bahnradsport_Steherrennen_O_wald_Steher_Cup_1DX_6750_by_Stepro.jpg.jpg"
+        },
+        {
+          "sha1": "d8e5d6ef734b0374721a5c8c7247dfc345d6456d",
+          "file": "022_File_Couple_Riding_Motorcycle_in_Bike_lane_W_Lone_Mountain_Rd.jpg.jpg"
+        },
+        {
+          "sha1": "91b6af3c7a6a3c6903cb9123a8c6e628de33d209",
+          "file": "038_File_Honda_motorcycles_in_Wako.jpg.jpg"
+        },
+        {
+          "sha1": "9b8fd9b2d8e68849780a30269d616ee0b1e98794",
+          "file": "039_File_Honda_motorcycles_in_Wako_2.jpg.jpg"
+        },
+        {
+          "sha1": "3193ac2d4c1c4d208a9a766c15a91f0f660e780e",
+          "file": "040_File_Honda_motorcycles_in_Wako_3.jpg.jpg"
+        }
+      ]
+    },
+    "bicycle": {
+      "reviewed": 40,
+      "kept": 31,
+      "removed": 9,
+      "note": "Cleanest class. Removed a puddle reflection, a stair ramp, a parking sign, a crankset and a saddle close-up, a bike-rack sculpture, a silhouette sculpture, a car, and a race photo that also appears under motorcycle (23).",
+      "keep": [
+        {
+          "sha1": "0e8c4999c95c5cd606fe281f8216109b01dd707a",
+          "file": "001_File_African_boy_transporting_fodder_by_bicycle_edit.jpg.jpg"
+        },
+        {
+          "sha1": "a51ea2d51527e60e707a844f2d1d1fbde16780f2",
+          "file": "002_File_20080804_freight_bicycle_Shanghai_2383.jpg.jpg"
+        },
+        {
+          "sha1": "0e5b4509115632dbf9dc55c1148ab451506a404c",
+          "file": "004_File_Hue_Vietnam_Nun-with-bicycle-01.jpg.jpg"
+        },
+        {
+          "sha1": "9b176c4b86ac96189a4eb8f04bee88ac789ba80d",
+          "file": "005_File_Cycling_Amsterdam_03.jpg.jpg"
+        },
+        {
+          "sha1": "a7f88d68fd9df8148d2a2cc23b3ff13d0386a5d9",
+          "file": "006_File_Hue_Vietnam_Citadel-of-Hu_-21.jpg.jpg"
+        },
+        {
+          "sha1": "1449f20780ce1e53dd324cdc17beaab4a6679433",
+          "file": "007_File_Commuting_by_bicycle.jpg.jpg"
+        },
+        {
+          "sha1": "a5735a21a66aeb5ac9daa3188e7052abd633f641",
+          "file": "009_File_00_8327_Historisches_Fahrrad.jpg.jpg"
+        },
+        {
+          "sha1": "233fdb4406c3d31fd1a9bfc7e3ecee2d258eeba4",
+          "file": "010_File_Dutch_bicycle.jpg.jpg"
+        },
+        {
+          "sha1": "31f90f2aafc7f25792060fba93022629a2ed47c0",
+          "file": "011_File_2018-06-19_139_KTM_Bicycle_at_Bahnhof_Herzogenburg.jpg.jpg"
+        },
+        {
+          "sha1": "ae16af7f6982868a56f33199e8aae0f6e5f6ea28",
+          "file": "012_File_2018-08-16_707_Old_bicycle_in_Pfunds_Tyrol_Austria.jpg.jpg"
+        },
+        {
+          "sha1": "1a57034e8285ae4d7f3604538206a2ec6c8489c6",
+          "file": "013_File_20180924_UCI_Road_World_Championships_Innsbruck_Women_Juniors_ITT_Tetyana_Yaschenko_UKR_DSC_7564.jpg.jpg"
+        },
+        {
+          "sha1": "4fb7f34d6d617cc0772f2ae05960137eaba7b095",
+          "file": "014_File_20180924_UCI_Road_World_Championships_Innsbruck_Men_U23_ITT_Callum_Scotson_850_8281.jpg.jpg"
+        },
+        {
+          "sha1": "e7514090e230fb91df31d69e73dd0d7ec39d131b",
+          "file": "015_File_20180929_UCI_Road_World_Championships_Innsbruck_Women_Elite_Road_Race_Charlotte_Becker_850_7872.jpg.jpg"
+        },
+        {
+          "sha1": "151f6e243a71bc5a4ab7c3f6e9babb0e4d5b1e5b",
+          "file": "016_File_Bicycle_5.jpg.jpg"
+        },
+        {
+          "sha1": "4b1fc1ef16c95be2345807bd19d2efbefe99d469",
+          "file": "017_File_Bike_share_2019_Berlin_P1080139_.jpg.jpg"
+        },
+        {
+          "sha1": "c49087d8663b5c3667967f55a99c42d3575ff6ec",
+          "file": "019_File_Esta_o_Poeta_Manuel_Bandeira_com_auto_atendimento_-_Bike_Rio_Bike_Ita_.jpg.jpg"
+        },
+        {
+          "sha1": "4eef135e0da5787cfae0dbaa3385c15319f711b0",
+          "file": "020_File_Bicycle_Transportation_06.jpg.jpg"
+        },
+        {
+          "sha1": "9998d6e16f83443f723f138a8598979a94dc9807",
+          "file": "021_File_Dirt_jump_IMG_7609.jpg.jpg"
+        },
+        {
+          "sha1": "98435e7e306bb964e992e77e21bc770ce4258a7c",
+          "file": "023_File_Bike_workshop_-_bicycle_repair_shop.jpg.jpg"
+        },
+        {
+          "sha1": "10c8cade0de945e883e3290872dcce4ace23dea2",
+          "file": "025_File_Bicycle_belonging_to_the_bicycle-sharing_system_Bolt_in_Kaunas_Lithuania_in_2022.jpg.jpg"
+        },
+        {
+          "sha1": "f8250714e4deff2daabc3592cb1a4825da149ec1",
+          "file": "027_File_Clustered_Spires_High-wheel_bicycle_race_2023_MD6.jpg.jpg"
+        },
+        {
+          "sha1": "667e05bed5a3497a284fd38b46ee88d58736dbc1",
+          "file": "028_File_Clustered_Spires_High-wheel_bicycle_race_2023_MD7.jpg.jpg"
+        },
+        {
+          "sha1": "f103ded9e15ef0c29688053a85bfdb0edff669e1",
+          "file": "029_File_Bicycle_chained_to_a_tree_Meqqal.jpg.jpg"
+        },
+        {
+          "sha1": "621769b92e6c96162b801cd26f4ca71cfa03a44b",
+          "file": "030_File_Bicycle_from_India_01.jpg.jpg"
+        },
+        {
+          "sha1": "7bc132835351dd6b3d934e5d9b6620507baea204",
+          "file": "031_File_Bicycle_bicycle.jpg.jpg"
+        },
+        {
+          "sha1": "ebae64312b49625eaf6a020dd43a76cce026ad2e",
+          "file": "033_File_Bike_on_a_snowy_street_in_Quebec_City_at_night.jpg.jpg"
+        },
+        {
+          "sha1": "3157792772186eab3d6cd3ba674a8f33737f12c8",
+          "file": "035_File_Bicycle_02.jpg.jpg"
+        },
+        {
+          "sha1": "35119c86878cf23f95b0934245c0c37e2125a633",
+          "file": "037_File_Icecream_bicycle_on_Prvi_Luka.jpg.jpg"
+        },
+        {
+          "sha1": "472c88987d1746e79833ee51e474c2d89a36e99b",
+          "file": "038_File_Bicycle_parked_at_the_Lower_Agoda_Fort.jpg.jpg"
+        },
+        {
+          "sha1": "2ea1003bd2edfc5abd135781369bd5ff65518627",
+          "file": "039_File_Bicycle_chain_has_fallen_off_Location-Lakhimpur_Assam.jpg.jpg"
+        },
+        {
+          "sha1": "557f209a3340cbd39bd7d416d90911bc683ceb2e",
+          "file": "040_File_Bicycle_bike_Fahrrad_v_lo_Amsterdam_Armbrug.jpg.jpg"
+        }
+      ]
+    }
+  },
+  "updatedAt": "2026-09-11T06:54:48.353Z"
+}

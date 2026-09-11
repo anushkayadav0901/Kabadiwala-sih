@@ -1,6 +1,45 @@
 # Offline Model Training Status
 
-Last updated: 2026-09-10 (training pipeline in progress)
+Last updated: 2026-09-11 (diagnosis done, retraining in progress)
+
+## 2026-09-11 handoff: why the 32-class run scored 10.7%
+
+Root causes, each verified in code or data rather than assumed:
+
+1. **About half the training images show the wrong object.** Every image was
+   reviewed by eye (`ml/offline/label-review.json`): 1,276 reviewed, 630 kept,
+   646 removed. Wikimedia keyword search matches words in file titles, not image
+   content, e.g. "iron scrap" = 22 pages of an 1895 ledger, "desktop tower" =
+   Eiffel Tower and cathedrals, "fan" = sports fans, "stainless" = P-51 fighter
+   planes, "feature phone" = Wikimedia Featured Pictures (galaxies, a tractor).
+2. **No transfer learning.** A 3-layer CNN was trained from scratch at 64x64 on
+   ~19 images per class. The working 10-class model is MobileNetV2 (ImageNet)
+   at 224x224 plus a small head.
+3. **Train/app preprocessing mismatch.** Training stretched images to 64x64 and
+   scaled pixels to [0,1]. The app (@teachablemachine/image) centre-crops to
+   224x224 and scales to [-1,1]. A model trained that way fails silently in the app.
+4. No augmentation, no class-imbalance handling, a biased sort-based shuffle,
+   independent splitting of near-duplicate and same-series photos (leakage), and
+   blank red "thumbnail failed" frames saved as valid JPEGs.
+
+Done so far (all in `ml/offline/`, nothing in the app or `frontend/public/AI_Model/` touched):
+
+- Teachable-Machine-parity preprocessing, measured against Chrome's real `cropTo`.
+- Image-by-image label review with SHA-1 keys (the downloader truncates titles,
+  so distinct files can share a filename).
+- The app's own quality gate applied to training data; leakage-safe group splits.
+- Parallel MobileNetV2 feature extraction; a verified fast head trainer
+  (gradient check passes, 6.3x faster than tfjs).
+- Export that matches the deployed model layout exactly (checked structurally
+  and numerically).
+
+Not done yet: final retrain and evaluation, browser parity test with the real
+TM library, testing on internet images, the final report.
+
+Data verdict so far: 29 classes are trainable. **Too little clean data to train:**
+Geyser (0), Stainless Steel (3), Copper Scrap (3), Iron Scrap (4), Generator (4,
+~3 unique), Power Inverter (4), Printer (5), Tablet (5). Keep these as manual
+selection until real photos are collected.
 
 ## Goal
 
