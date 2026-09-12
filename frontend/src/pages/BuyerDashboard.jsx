@@ -8,7 +8,7 @@ import { Loader } from "../components/Loader";
 import { QRScannerModal } from "../components/QRScannerModal";
 import { DepotIllustration } from "../components/icons/Illustrations";
 import { getCurrentBuyer, logoutBuyer } from "../services/authService";
-import { getOpenLots, matchLot, completeHandover } from "../services/lotService";
+import { getOpenLots, matchLot, completeHandover, getOpenAuctions, placeAuctionBid } from "../services/lotService";
 import { getAllRecyclers } from "../services/recyclerService";
 import { getRecyclerRatingStats } from "../services/reviewService";
 import { formatCurrency, formatWeight } from "../utils/helpers";
@@ -16,7 +16,7 @@ import { FaStar } from "react-icons/fa";
 import {
   HiOutlineQrCode, HiCheckCircle, HiOutlineDocumentText, HiXMark,
   HiArrowRight, HiOutlineShieldCheck, HiArrowRightOnRectangle,
-  HiOutlineBuildingStorefront
+  HiOutlineBuildingStorefront, HiOutlineBolt, HiOutlineClock
 } from "react-icons/hi2";
 
 export const BuyerDashboard = () => {
@@ -57,6 +57,54 @@ export const BuyerDashboard = () => {
   useEffect(() => {
     loadData();
   }, []);
+
+  // ---- live bidding --------------------------------------------------------
+  const [auctions, setAuctions] = useState([]);
+  const [bidInputs, setBidInputs] = useState({});
+  const [bidBusy, setBidBusy] = useState(null);
+  const [bidMessages, setBidMessages] = useState({});
+  const [clock, setClock] = useState(Date.now());
+
+  const loadAuctions = async () => {
+    try {
+      setAuctions(await getOpenAuctions());
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    loadAuctions();
+    const poll = window.setInterval(loadAuctions, 10000);
+    const tick = window.setInterval(() => setClock(Date.now()), 1000);
+    return () => {
+      window.clearInterval(poll);
+      window.clearInterval(tick);
+    };
+  }, []);
+
+  const liveAuctions = auctions.filter((a) => a.status === "open" && new Date(a.closesAt).getTime() > clock);
+  const formatClock = (closesAt) => {
+    const s = Math.max(0, Math.floor((new Date(closesAt).getTime() - clock) / 1000));
+    return `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
+  };
+
+  const handlePlaceBid = async (auction) => {
+    const amount = Number(bidInputs[auction.lotId] || auction.minimumNextBid);
+    setBidBusy(auction.lotId);
+    setBidMessages((m) => ({ ...m, [auction.lotId]: null }));
+    try {
+      const updated = await placeAuctionBid(auction.lotId, amount);
+      setAuctions((list) => list.map((a) => (a.lotId === auction.lotId ? updated : a)));
+      setBidInputs((inputs) => ({ ...inputs, [auction.lotId]: "" }));
+      setBidMessages((m) => ({ ...m, [auction.lotId]: { ok: true, text: `You're leading at ${formatCurrency(updated.myBid)}` } }));
+    } catch (err) {
+      setBidMessages((m) => ({ ...m, [auction.lotId]: { ok: false, text: err.message } }));
+      loadAuctions();
+    } finally {
+      setBidBusy(null);
+    }
+  };
 
   const handleScanSuccess = (payload) => {
     setIsScannerOpen(false);
@@ -309,6 +357,85 @@ export const BuyerDashboard = () => {
           </section>
         )}
 
+        {/* ---- live bidding ------------------------------------------------- */}
+        <section>
+          <div className="sec-head">
+            <h3 className="sec-title flex items-center gap-1.5">
+              <HiOutlineBolt className="text-brand-600" /> Live bidding
+            </h3>
+            <span className="text-[12.5px] font-medium text-faint tnum">{liveAuctions.length} open</span>
+          </div>
+
+          {liveAuctions.length === 0 ? (
+            <Card className="text-center py-6">
+              <p className="text-[13.5px] font-semibold text-ink">No lots open for bidding</p>
+              <p className="text-[12.5px] text-muted mt-1 max-w-[32ch] mx-auto leading-snug">
+                When a collector starts bidding, their lot appears here for 15 minutes.
+              </p>
+            </Card>
+          ) : (
+            <div className="flex flex-col gap-2.5">
+              {liveAuctions.map((auction) => {
+                const message = bidMessages[auction.lotId];
+                const title = auction.materials.map((m) => m.name).filter(Boolean).join(", ") || "Scrap lot";
+                return (
+                  <Card key={auction.lotId}>
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="min-w-0">
+                        <h4 className="font-semibold text-[14.5px] text-ink truncate">{title}</h4>
+                        <p className="text-[12.5px] text-faint tnum mt-0.5">
+                          {formatWeight(auction.totalWeight)} · fair {formatCurrency(auction.fairRange.min)}–{formatCurrency(auction.fairRange.max)}
+                        </p>
+                      </div>
+                      <span className="shrink-0 inline-flex items-center gap-1 text-[13px] font-bold tnum text-ink">
+                        <HiOutlineClock className="text-faint" /> {formatClock(auction.closesAt)}
+                      </span>
+                    </div>
+
+                    <div className="mt-3 flex items-center justify-between gap-3 text-[12.5px]">
+                      <span className="text-muted">
+                        {auction.bestAmount
+                          ? <>Best bid <strong className="text-ink tnum">{formatCurrency(auction.bestAmount)}</strong> · {auction.bidCount} bid{auction.bidCount === 1 ? "" : "s"}</>
+                          : "No bids yet"}
+                      </span>
+                      {auction.myBid != null && (
+                        <span className={`badge ${auction.leading ? "bg-emerald-50 text-emerald-700" : "bg-amber-50 text-amber-800"}`}>
+                          {auction.leading ? "You're leading" : `Outbid · yours ${formatCurrency(auction.myBid)}`}
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="mt-3 flex gap-2">
+                      <input
+                        type="number"
+                        inputMode="numeric"
+                        min={auction.minimumNextBid}
+                        value={bidInputs[auction.lotId] ?? ""}
+                        onChange={(e) => setBidInputs((inputs) => ({ ...inputs, [auction.lotId]: e.target.value }))}
+                        placeholder={`Min ${formatCurrency(auction.minimumNextBid)}`}
+                        className="field flex-1 min-w-0 text-[14px]"
+                        aria-label="Your bid in rupees"
+                      />
+                      <Button
+                        size="sm"
+                        variant="primary"
+                        fullWidth={false}
+                        onClick={() => handlePlaceBid(auction)}
+                        loading={bidBusy === auction.lotId}
+                      >
+                        Bid
+                      </Button>
+                    </div>
+                    {message && (
+                      <p className={`mt-2 text-[12.5px] ${message.ok ? "text-emerald-700" : "text-alert-700"}`}>{message.text}</p>
+                    )}
+                  </Card>
+                );
+              })}
+            </div>
+          )}
+        </section>
+
         {/* ---- incoming lots ------------------------------------------------ */}
         <section>
           <div className="sec-head">
@@ -348,7 +475,10 @@ export const BuyerDashboard = () => {
                   </div>
 
                   <div className="flex gap-2 mt-3">
-                    {lot.status === "created" && (
+                    {lot.status === "created" && lot.auction_status === "open" && (
+                      <span className="badge bg-brand-50 text-brand-700">In live bidding — bid above</span>
+                    )}
+                    {lot.status === "created" && lot.auction_status !== "open" && (
                       <Button size="sm" variant="primary" fullWidth={false} onClick={() => handleAcceptLot(lot)}>
                         Accept lot
                       </Button>

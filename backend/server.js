@@ -16,7 +16,7 @@ import Price from "./models/Price.js";
 import PickupRoute from "./models/PickupRoute.js";
 import Recycler from "./models/Recycler.js";
 import Transaction from "./models/Transaction.js";
-import { requireAuth, requireRole } from "./middleware/auth.js";
+import { requireAuth, requireRole, optionalAuth } from "./middleware/auth.js";
 import { detectAnomalies } from "./services/anomalyDetector.js";
 import { classifyImage as geminiClassify, estimatePrice as geminiEstimate, compareHandoverImages, isGeminiConfigured } from "./services/geminiService.js";
 import { bountyQuote, calculateCriticalMineralBounty } from "./services/criticalMineralBounty.js";
@@ -26,6 +26,8 @@ import { deepClassify, isGroqConfigured } from "./services/groqVisionService.js"
 import { getEprDashboard, getCollectorEprContribution } from "./services/eprComplianceService.js";
 import { computeCollectorAnalytics, computeCpcbReport } from "./services/analyticsService.js";
 import { generateRouteForRecycler } from "./services/routeOptimizer.js";
+import { AuctionError, auctionState, openAuction, placeBid, acceptBid, collectorAuctionView, recyclerAuctionView } from "./services/auctionService.js";
+import { askKabadiMitra, isChatConfigured, sanitizeChatMessages, ChatServiceError, SUPPORTED_CHAT_LANGUAGES } from "./services/chatService.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const uploadsDir = path.join(__dirname, "uploads");
@@ -138,6 +140,7 @@ const lotDto = (lot) => ({
   gps_lat: lot.gpsLat,
   gps_lng: lot.gpsLng,
   status: lot.status,
+  auction_status: auctionState(lot),
   recycler_id: lot.matchedRecycler?._id?.toString() || lot.matchedRecycler?.toString(),
   handover_reference: lot.handoverReference,
   handover_signature: lot.handoverSignature,
@@ -338,6 +341,8 @@ app.post("/api/lots/:id/passport", requireAuth, requireRole("collector"), async 
     if (!lot) return res.status(404).json({ message: "Lot not found" });
     if (lot.collector.toString() !== req.auth.sub) return res.status(403).json({ message: "You can only prepare your own handover" });
     if (["handover", "completed", "cancelled"].includes(lot.status)) return res.status(409).json({ message: "This lot can no longer be prepared for handover" });
+    const auctionWinner = lot.auction?.winner?.recycler?.toString();
+    if (auctionWinner && auctionWinner !== req.body.recyclerId) return res.status(409).json({ message: "You accepted another recycler's bid for this lot" });
     if (!asObjectId(req.body.recyclerId)) return res.status(400).json({ message: "Choose an authorized recycler" });
     const recycler = await Recycler.findOne({ _id: req.body.recyclerId, authorized: true }).select("name");
     if (!recycler) return res.status(400).json({ message: "The selected recycler is not currently authorized" });
@@ -356,6 +361,7 @@ app.put("/api/lots/:id/match", requireAuth, requireRole("recycler"), async (req,
     if (!asObjectId(req.params.id)) return res.status(400).json({ message: "Invalid lot id" });
     const lot = await Lot.findById(req.params.id);
     if (!lot || lot.status !== "created") return res.status(404).json({ message: "Pending lot not found" });
+    if (auctionState(lot) === "open") return res.status(409).json({ message: "This lot is in live bidding — place a bid instead" });
     const recyclerAccount = await Recycler.findOne({ _id: req.auth.sub, authorized: true }).select("name criticalMineralCertified criticalMineralsCertified");
     if (!recyclerAccount) return res.status(403).json({ message: "Only an authorized recycler account can accept a lot" });
     lot.status = "matched"; lot.matchedRecycler = req.auth.sub;
@@ -430,6 +436,88 @@ app.put("/api/lots/:id/destination", requireAuth, requireRole("recycler"), async
     if (!transaction) return res.status(404).json({ message: "Transaction not found" });
     res.json({ transaction });
   } catch (error) { next(error); }
+});
+
+// ---- live bidding (reverse auction) on a lot ------------------------------
+const sendAuctionError = (error, res, next) =>
+  error instanceof AuctionError ? res.status(error.status).json({ message: error.message }) : next(error);
+
+const biddersFor = async (lot) => {
+  const ids = (lot.auction?.bids || []).map((bid) => bid.recycler);
+  if (!ids.length) return new Map();
+  const recyclers = await Recycler.find({ _id: { $in: ids } }).select("name rating authorized locationLat locationLng");
+  return new Map(recyclers.map((recycler) => [recycler._id.toString(), recyclerDto(recycler, lot.gpsLat, lot.gpsLng)]));
+};
+
+app.post("/api/lots/:id/auction", requireAuth, requireRole("collector"), async (req, res, next) => {
+  try {
+    if (!asObjectId(req.params.id)) return res.status(400).json({ message: "Invalid lot id" });
+    const lot = await openAuction(req.params.id, req.auth.sub);
+    res.status(201).json({ auction: collectorAuctionView(lot, await biddersFor(lot)) });
+  } catch (error) { sendAuctionError(error, res, next); }
+});
+
+app.get("/api/lots/:id/auction", requireAuth, async (req, res, next) => {
+  try {
+    if (!asObjectId(req.params.id)) return res.status(400).json({ message: "Invalid lot id" });
+    const lot = await Lot.findById(req.params.id);
+    if (!lot) return res.status(404).json({ message: "Lot not found" });
+    if (req.auth.role === "collector") {
+      if (lot.collector.toString() !== req.auth.sub) return res.status(403).json({ message: "You can only view your own auction" });
+      return res.json({ auction: collectorAuctionView(lot, await biddersFor(lot)) });
+    }
+    if (req.auth.role === "recycler") {
+      if (auctionState(lot) === "none") return res.status(404).json({ message: "This lot is not up for bidding" });
+      return res.json({ auction: recyclerAuctionView(lot, req.auth.sub) });
+    }
+    res.status(403).json({ message: "You cannot view this auction" });
+  } catch (error) { next(error); }
+});
+
+app.get("/api/auctions/open", requireAuth, requireRole("recycler"), async (req, res, next) => {
+  try {
+    const now = new Date();
+    const lots = await Lot.find({ status: "created", "auction.status": "open", "auction.closesAt": { $gt: now } })
+      .sort({ "auction.closesAt": 1 })
+      .limit(50);
+    res.json({ auctions: lots.map((lot) => recyclerAuctionView(lot, req.auth.sub, now)) });
+  } catch (error) { next(error); }
+});
+
+app.post("/api/lots/:id/bids", requireAuth, requireRole("recycler"), async (req, res, next) => {
+  try {
+    if (!asObjectId(req.params.id)) return res.status(400).json({ message: "Invalid lot id" });
+    const recycler = await Recycler.exists({ _id: req.auth.sub, authorized: true });
+    if (!recycler) return res.status(403).json({ message: "Only an authorized recycler account can bid" });
+    const lot = await placeBid(req.params.id, req.auth.sub, req.body?.amount);
+    res.status(201).json({ auction: recyclerAuctionView(lot, req.auth.sub) });
+  } catch (error) { sendAuctionError(error, res, next); }
+});
+
+app.post("/api/lots/:id/auction/accept", requireAuth, requireRole("collector"), async (req, res, next) => {
+  try {
+    if (!asObjectId(req.params.id) || !asObjectId(req.body?.recyclerId)) return res.status(400).json({ message: "Choose a bid to accept" });
+    const recycler = await Recycler.findOne({ _id: req.body.recyclerId, authorized: true });
+    if (!recycler) return res.status(400).json({ message: "That recycler is no longer authorized" });
+    const { lot, amount } = await acceptBid(req.params.id, req.auth.sub, req.body.recyclerId);
+    // Same outcome as a direct match: bind the lot to the winner and re-sign the passport.
+    lot.matchedRecycler = recycler._id;
+    lot.status = "matched";
+    const collector = await Collector.findById(lot.collector).select("name");
+    const { signature } = passportFor(lot, collector, recycler);
+    lot.handoverSignature = signature;
+    await lot.save();
+    await Transaction.findOneAndUpdate(
+      { lot: lot._id },
+      {
+        lot: lot._id, collector: lot.collector, recycler: recycler._id, quotedPrice: amount, status: "matched",
+        handoverReference: lot.handoverReference, materialCategory: lot.materials[0]?.category,
+        collectionLocation: lot.collectionLocation, collectionGps: { lat: lot.gpsLat, lng: lot.gpsLng }, signature
+      },
+      { new: true, upsert: true, runValidators: true, setDefaultsOnInsert: true }
+    );
+    res.json({ lot: lotDto(lot), recycler: recyclerDto(recycler, lot.gpsLat, lot.gpsLng), auction: collectorAuctionView(lot, await biddersFor(lot)) });
+  } catch (error) { sendAuctionError(error, res, next); }
 });
 
 // Classification is also available before a collector account is created.
@@ -672,6 +760,42 @@ app.get("/api/reports/cpcb", requireAuth, async (req, res, next) => {
     const { from, to, region } = req.query;
     res.json(await computeCpcbReport({ from, to, region }));
   } catch (error) { next(error); }
+});
+
+/* Kabadi Mitra assistant. The Groq key stays on this server — a key shipped in
+   the frontend bundle is readable by every visitor, so the app sends the
+   conversation here and only the reply travels back. */
+const CHAT_WINDOW_MS = 60_000;
+const CHAT_MAX_PER_WINDOW = 12;
+const chatHits = new Map();
+
+const withinChatLimit = (key) => {
+  const now = Date.now();
+  const recent = (chatHits.get(key) || []).filter((at) => now - at < CHAT_WINDOW_MS);
+  if (recent.length >= CHAT_MAX_PER_WINDOW) return false;
+  recent.push(now);
+  chatHits.set(key, recent);
+  // Drop callers who have gone quiet so the map cannot grow without bound.
+  if (chatHits.size > 2000) for (const [caller, hits] of chatHits) if (!hits.some((at) => now - at < CHAT_WINDOW_MS)) chatHits.delete(caller);
+  return true;
+};
+
+app.post("/api/chat", optionalAuth, async (req, res, next) => {
+  try {
+    if (!isChatConfigured()) return res.status(503).json({ message: "Kabadi Mitra is not set up on this server yet." });
+    if (!withinChatLimit(req.auth?.sub || req.ip)) return res.status(429).json({ message: "That is a lot of questions at once — please wait a moment." });
+
+    const messages = sanitizeChatMessages(req.body?.messages);
+    if (!messages) return res.status(400).json({ message: "Please send a question for Kabadi Mitra." });
+    const language = SUPPORTED_CHAT_LANGUAGES.includes(req.body?.language) ? req.body.language : "en";
+
+    const reply = await askKabadiMitra(messages, language);
+    if (!reply) return res.status(502).json({ message: "Kabadi Mitra could not answer that. Please try again." });
+    res.json({ reply });
+  } catch (error) {
+    if (error instanceof ChatServiceError) return res.status(error.status).json({ message: error.message });
+    next(error);
+  }
 });
 
 app.use((error, _req, res, _next) => {

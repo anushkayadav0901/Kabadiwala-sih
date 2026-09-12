@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { useLocation as useRouterLocation } from "react-router-dom";
+import { useLocation as useRouterLocation, useNavigate } from "react-router-dom";
 import { Navbar } from "../components/Navbar";
 import { BottomNavigation } from "../components/BottomNavigation";
 import { RecyclerCard } from "../components/RecyclerCard";
 import { Loader } from "../components/Loader";
+import { Button } from "../components/Button";
 import { getNearbyRecyclers } from "../services/recyclerService";
+import { openAuction } from "../services/lotService";
 import { SCRAP_CATEGORIES } from "../utils/constants";
 import { useApp } from "../context/AppContext";
 import { MapContainer, TileLayer, Marker, Popup, CircleMarker } from "react-leaflet";
 import L from "leaflet";
-import { HiOutlineMapPin, HiOutlineBuildingOffice2, HiXMark } from "react-icons/hi2";
+import { HiOutlineMapPin, HiOutlineBuildingOffice2, HiXMark, HiOutlineBolt, HiOutlineExclamationTriangle } from "react-icons/hi2";
 
 /* A depot pin drawn to match the design system rather than Leaflet's default
    blue teardrop — indigo body, white core, soft drop shadow. */
@@ -31,6 +33,7 @@ const depotPin = new L.DivIcon({
 export const NearbyRecyclers = () => {
   const { userLocation, activeLot, t } = useApp();
   const routerLocation = useRouterLocation();
+  const navigate = useNavigate();
   const eprState = routerLocation.state;
   const [recyclers, setRecyclers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -38,6 +41,12 @@ export const NearbyRecyclers = () => {
     eprState?.eprCategories ? "e_waste" : "all"
   );
   const [eprBanner, setEprBanner] = useState(!!eprState?.eprProducer);
+  const [auctionBusy, setAuctionBusy] = useState(false);
+  const [auctionError, setAuctionError] = useState("");
+
+  const lotId = activeLot?.id || activeLot?._id;
+  // Bidding needs a lot the server knows about that no recycler has taken yet.
+  const canAuction = Boolean(lotId) && !activeLot?.isOffline && (!activeLot?.status || activeLot.status === "created");
 
   useEffect(() => {
     const fetchRecyclers = async () => {
@@ -54,6 +63,19 @@ export const NearbyRecyclers = () => {
     };
     fetchRecyclers();
   }, [selectedCategory, userLocation, activeLot?.id]);
+
+  const handleStartBidding = async () => {
+    setAuctionBusy(true);
+    setAuctionError("");
+    try {
+      await openAuction(lotId);
+      navigate(`/auction/${lotId}`);
+    } catch (err) {
+      setAuctionError(err.message);
+    } finally {
+      setAuctionBusy(false);
+    }
+  };
 
   return (
     <div className="screen pb-nav">
@@ -76,6 +98,37 @@ export const NearbyRecyclers = () => {
             <button onClick={() => setEprBanner(false)} className="shrink-0 text-green-600 tap">
               <HiXMark className="text-base" />
             </button>
+          </div>
+        )}
+
+        {/* ---- live bidding ------------------------------------------------ */}
+        {canAuction && (
+          <section className="card p-4 flex flex-col gap-3 border-brand-200">
+            <div className="flex items-start gap-3">
+              <span className="w-10 h-10 shrink-0 rounded-xl bg-brand-50 text-brand-600 grid place-items-center">
+                <HiOutlineBolt className="text-xl" />
+              </span>
+              <div className="min-w-0">
+                <p className="text-[14.5px] font-semibold text-ink leading-snug">Let recyclers bid for your lot</p>
+                <p className="text-[12.5px] text-muted leading-snug mt-0.5">
+                  Authorized recyclers get 15 minutes to send offers. You see every bid and pick the one you trust.
+                </p>
+              </div>
+            </div>
+            <Button size="lg" variant="primary" onClick={handleStartBidding} loading={auctionBusy} icon={HiOutlineBolt}>
+              Start 15-minute bidding
+            </Button>
+            {auctionError && <p className="text-[12.5px] text-alert-700">{auctionError}</p>}
+            <p className="text-[12px] text-faint text-center">Or choose a recycler yourself below.</p>
+          </section>
+        )}
+
+        {activeLot?.isOffline && (
+          <div className="card p-3.5 flex items-start gap-2.5 bg-sunken">
+            <HiOutlineExclamationTriangle className="text-amber-600 text-lg shrink-0 mt-0.5" />
+            <p className="text-[12.5px] text-muted leading-snug">
+              Live bidding needs internet. Your lot is saved on this phone and will sync first — until then, pick a recycler below.
+            </p>
           </div>
         )}
 

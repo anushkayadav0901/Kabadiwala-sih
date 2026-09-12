@@ -11,6 +11,15 @@ export const requireAuth = (req, res, next) => {
   }
 };
 
+// Attaches req.auth when a valid token is present, but never blocks the request.
+export const optionalAuth = (req, _res, next) => {
+  const token = req.headers.authorization?.replace(/^Bearer\s+/i, "");
+  if (token) {
+    try { req.auth = jwt.verify(token, process.env.JWT_SECRET); } catch { /* treat as anonymous */ }
+  }
+  next();
+};
+
 export const requireRole = (...roles) => (req, res, next) => {
   if (!roles.includes(req.auth?.role)) return res.status(403).json({ message: "You do not have permission for this action" });
   next();

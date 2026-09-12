@@ -24,6 +24,25 @@ const lotSchema = new mongoose.Schema(
     status: { type: String, enum: ["created", "quoted", "matched", "handover", "completed", "cancelled"], default: "created", index: true },
     matchedRecycler: { type: mongoose.Schema.Types.ObjectId, ref: "Recycler", default: null },
     routeId: { type: mongoose.Schema.Types.ObjectId, ref: "PickupRoute", default: null },
+    // Timed bidding among recyclers. An auction past closesAt is treated as
+    // closed when read; the stored status only changes when it is awarded.
+    auction: {
+      status: { type: String, enum: ["none", "open", "awarded"], default: "none" },
+      openedAt: Date,
+      closesAt: Date,
+      reservePrice: { type: Number, default: 0 },
+      bestAmount: { type: Number, default: 0 },
+      bids: [{
+        recycler: { type: mongoose.Schema.Types.ObjectId, ref: "Recycler", required: true },
+        amount: { type: Number, required: true },
+        createdAt: { type: Date, default: Date.now }
+      }],
+      winner: {
+        recycler: { type: mongoose.Schema.Types.ObjectId, ref: "Recycler" },
+        amount: Number,
+        acceptedAt: Date
+      }
+    },
     handoverReference: String,
     handoverSignature: String,
     handoverPhotos: [String],

@@ -34,6 +34,7 @@ import { Analytics } from "../pages/Analytics";
 import { CPCBReport } from "../pages/CPCBReport";
 import { Training } from "../pages/Training";
 import { PickupRoute } from "../pages/PickupRoute";
+import { Auction } from "../pages/Auction";
 
 const PageWrapper = ({ children }) => (
   <motion.div
@@ -82,6 +83,7 @@ export const AppRoutes = () => {
         <Route path="/estimated-value" element={<CollectorRoute><EstimatedValue /></CollectorRoute>} />
         <Route path="/recyclers" element={<CollectorRoute><NearbyRecyclers /></CollectorRoute>} />
         <Route path="/recycler/:id" element={<CollectorRoute><RecyclerDetails /></CollectorRoute>} />
+        <Route path="/auction/:lotId" element={<CollectorRoute><Auction /></CollectorRoute>} />
         <Route path="/prices" element={<CollectorRoute><PriceBoard /></CollectorRoute>} />
         <Route path="/earnings" element={<CollectorRoute><Earnings /></CollectorRoute>} />
         <Route path="/safety" element={<CollectorRoute><SafetyGuide /></CollectorRoute>} />

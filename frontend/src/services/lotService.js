@@ -109,6 +109,13 @@ export const updateLotStatus = async (lotId, status, recyclerId) => {
   if (status === "paid") return completeHandover(lotId, { recyclerId });
   throw new Error("Lot status updates must use matching or handover actions");
 };
+// Live bidding (reverse auction) on a lot.
+export const openAuction = async (lotId) => (await api(`/lots/${lotId}/auction`, { method: "POST", auth: true })).auction;
+export const getAuction = async (lotId) => (await api(`/lots/${lotId}/auction`, { auth: true })).auction;
+export const acceptAuctionBid = async (lotId, recyclerId) => api(`/lots/${lotId}/auction/accept`, { method: "POST", body: { recyclerId }, auth: true });
+export const getOpenAuctions = async () => (await api("/auctions/open", { auth: true })).auctions;
+export const placeAuctionBid = async (lotId, amount) => (await api(`/lots/${lotId}/bids`, { method: "POST", body: { amount }, auth: true })).auction;
+
 export const createTraceabilityRecord = async (record) => record;
 export const updateTraceabilityStatus = async (lotId, status) => ({ lot_id: lotId, status });
 export const subscribeToLotUpdates = () => () => {};
