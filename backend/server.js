@@ -1,3 +1,6 @@
+import dns from "node:dns";
+
+dns.setServers(["8.8.8.8"]);
 import "dotenv/config";
 import crypto from "node:crypto";
 import fs from "node:fs";
