@@ -267,12 +267,10 @@ const checkImageQuality = (image) => {
 export const scanMaterial = async (imageSrc) => {
   if (!imageSrc) throw new Error("Please take or upload a photo first.");
 
-  const image = await imageFromDataUrl(imageSrc);
-
-  const specialistResult = await attemptSpecialistScan(image);
-  if (specialistResult) return specialistResult;
-
-  const model = await loadScanModel();
+  const [model, image] = await Promise.all([
+    loadScanModel(),
+    imageFromDataUrl(imageSrc)
+  ]);
 
   const quality = checkImageQuality(image);
   if (!quality.valid) {
@@ -350,50 +348,6 @@ export const scanMaterial = async (imageSrc) => {
 };
 
 export const getSupportedMaterials = () => supportedMaterials;
-
-// PS-critical e-waste specialist (10 classes, 60.8% held-out). Loads lazily in
-// parallel with the broad model. If unavailable, everything falls through to
-// the broad model unchanged.
-const SPECIALIST_DIR = "/AI_Specialist/";
-let specialistModel = null;
-const loadSpecialistModel = async () => {
-  if (specialistModel) return specialistModel;
-  const meta = await (await fetch(`${SPECIALIST_DIR}metadata.json`)).json();
-  specialistModel = await tmImage.load(SPECIALIST_DIR, meta);
-  return specialistModel;
-};
-
-// The specialist never auto-accepts: its labels always go through user
-// confirmation, so no existing material rate can be borrowed or mispriced.
-const SPECIALIST_MIN_CONFIDENCE = 60;
-const SPECIALIST_MIN_MARGIN = 15;
-const attemptSpecialistScan = async (image) => {
-  try {
-    const specialist = await loadSpecialistModel();
-    const predictions = (await specialist.predict(image))
-      .map(({ className, probability }) => ({
-        label: className,
-        confidence: Math.round(probability * 100)
-      }))
-      .sort((a, b) => b.confidence - a.confidence);
-    const top = predictions[0];
-    const margin = top.confidence - (predictions[1]?.confidence || 0);
-    if (!top || top.confidence < SPECIALIST_MIN_CONFIDENCE || margin < SPECIALIST_MIN_MARGIN) return null;
-    const material = materialForModelLabel(top.label);
-    return {
-      success: false,
-      needsConfirmation: true,
-      requiresManualSelection: !material,
-      candidateMaterial: material || manualSelectionMaterial(top.label),
-      detectedLabel: material?.label || "",
-      confidence: top.confidence,
-      predictions: predictions.slice(0, 3),
-      message: "The AI is uncertain. Confirm the suggested category or choose the correct one before creating a lot."
-    };
-  } catch (error) {
-    return null; // Specialist unavailable — broad model handles it.
-  }
-};
 
 export { loadScanModel, modelMaterials };
 
