@@ -184,28 +184,52 @@ const modelMaterials = {
 // All manual and online-AI outcomes use this public-price-list catalogue.
 const supportedMaterials = materialCatalog;
 
-// The shipped model has only ten legacy labels. This mapping keeps it useful
-// until the expanded 21-class offline model is trained.
+// Map every label exported by the offline model to a catalogue entry.
+// Broad appliance labels intentionally map to a representative catalogue item;
+// the collector must still confirm the exact tonnage/variant before pricing.
 const modelLabelToCatalogId = {
-  Battery: "battery_scrap",
-  Keyboard: "mixed_e_waste",
-  Microwave: "mixed_e_waste",
-  Mobile: "mixed_e_waste",
-  Mouse: "mixed_e_waste",
+  AC: "mixed_e_waste",
+  "Air Cooler": "air_cooler_aluminium",
+  "Aluminium Scrap": "aluminium_scrap",
+  "Basic Mobile Phone": "basic_mobile_phone",
+  Bicycle: "bicycle_scrap",
+  Books: "books",
+  "Brass Scrap": "brass_scrap",
+  Car: "car_scrap_full",
+  Cardboard: "cardboard",
+  "Copper Scrap": "copper_scrap",
+  "CRT Monitor": "crt_monitor",
+  "CRT Television": "crt_television",
+  "Desktop CPU": "desktop_cpu",
+  Dishwasher: "dishwasher",
+  "Electric Fan": "copper_fan",
+  "Electric Motor": "electric_motor_copper",
+  Generator: "generator_scrap",
+  "Geyser / Water Heater": "geyser_steel_iron",
+  "Hard Plastic": "hard_plastic",
+  "Power Inverter": "copper_inverter",
+  "Iron Scrap": "iron_scrap",
+  "Laptop Screen": "laptop_screen",
+  "LCD/LED Monitor": "lcd_led_monitor",
+  Magazine: "magazine",
+  "Microwave Oven": "microwave_oven",
+  Motorcycle: "bike_motorcycle_scrap",
+  Newspaper: "newspaper",
+  Printer: "printer_scan",
+  Battery: "lithium_battery",
+  Cables: "copper_wire_scrap",
+  "Magnet Assembly": "electric_motor_copper",
+  "Mixed E-waste": "mixed_e_waste",
   PCB: "mixed_e_waste",
-  Player: "mixed_e_waste",
-  Printer: "mixed_e_waste",
-  Television: "mixed_e_waste",
-  "Washing Machine": "washing_machine_scrap",
-  Newspaper: "newspaper", Books: "books", Cardboard: "cardboard", Magazine: "magazine",
-  "Hard Plastic": "hard_plastic", "Soft Plastic Film": "soft_plastic_film",
-  "Iron Scrap": "iron_scrap", "Stainless Steel": "stainless_steel",
-  "Copper Scrap": "copper_scrap", "Aluminium Scrap": "aluminium_scrap", "Brass Scrap": "brass_scrap",
-  "Laptop Screen": "laptop_screen", "Desktop CPU": "desktop_cpu", "CRT Monitor": "crt_monitor",
-  "LCD/LED Monitor": "lcd_led_monitor", "CRT Television": "crt_television", Printer: "printer_scan",
-  UPS: "ups_e_waste", "Smart Phone": "smartphone_scrap", "Basic Mobile Phone": "basic_mobile_phone",
-  Tablet: "tablet_scrap", Car: "car_scrap_full", Scooter: "scooter_scrap",
-  Motorcycle: "bike_motorcycle_scrap", Bicycle: "bicycle_scrap"
+  Refrigerator: "refrigerator_single_door",
+  Scooter: "scooter_scrap",
+  "Smart Phone": "smartphone_scrap",
+  "Soft Plastic Film": "soft_plastic_film",
+  "Stainless Steel": "stainless_steel",
+  Tablet: "tablet_scrap",
+  Treadmill: "treadmill",
+  UPS: "ups_e_waste",
+  "Washing Machine": "washing_machine_top_load"
 };
 
 const materialForModelLabel = (label) => {
