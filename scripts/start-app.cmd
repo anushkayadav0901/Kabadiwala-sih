@@ -1,6 +1,6 @@
 @echo off
 REM ---------------------------------------------------------------
-REM Start the full Kabadiwala Connect app stack on this PC.
+REM Start the full Kabadiwala Connect app stack on this PC
 REM Everything is LOCAL - the app works without internet once up.
 REM
 REM 1. portable in-memory MongoDB on 127.0.0.1:27017
