@@ -39,7 +39,34 @@ fs.mkdirSync(uploadsDir, { recursive: true });
 
 const app = express();
 const port = Number(process.env.PORT || 5000);
-app.use(cors({ origin: process.env.CLIENT_ORIGIN?.split(",") || true }));
+const configuredOrigins = process.env.CLIENT_ORIGIN
+  ? process.env.CLIENT_ORIGIN.split(",").map((s) => s.trim()).filter(Boolean)
+  : [];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // Allow non-browser requests, same-origin, or wildcard
+      if (!origin || configuredOrigins.length === 0 || configuredOrigins.includes("*")) {
+        return callback(null, true);
+      }
+      // Allow exact match with configured origins
+      if (configuredOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      // Allow localhost or 127.0.0.1 on any port
+      if (/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) {
+        return callback(null, true);
+      }
+      // Allow preview and production deployments on common platforms
+      if (origin.endsWith(".vercel.app") || origin.endsWith(".netlify.app") || origin.endsWith(".onrender.com")) {
+        return callback(null, true);
+      }
+      return callback(null, true);
+    },
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use("/uploads", express.static(uploadsDir));

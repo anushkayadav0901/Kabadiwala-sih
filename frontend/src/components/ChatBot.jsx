@@ -96,7 +96,7 @@ export function ChatBot() {
   /* ── detect speech API support ───────────────────────────────────── */
   useEffect(() => {
     const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-    setSpeechSupported(!!SR && !!window.speechSynthesis);
+    setSpeechSupported(Boolean(SR));
   }, []);
 
   /* ── sync chatLang when app language changes ─────────────────────── */
@@ -125,64 +125,140 @@ export function ChatBot() {
     if (open) setTimeout(() => inputRef.current?.focus(), 320);
   }, [open]);
 
-  /* ── voice picker — prefers Google neural voices ─────────────────── */
-  const pickVoice = useCallback((targetLang) => {
+  /* ── speech text pre-processor ──────────────────────────────────── */
+  const prepareTextForSpeech = (text, lang) => {
+    let cleaned = stripMarkdown(text);
+    // Remove emojis
+    cleaned = cleaned.replace(/[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu, "");
+
+    if (lang === "hi" || lang === "mr") {
+      cleaned = cleaned
+        .replace(/₹\s*(\d+(?:,\d+)*(?:\.\d+)?)/g, "$1 रुपये")
+        .replace(/\/kg\b/gi, " प्रति किलो ")
+        .replace(/\bper kg\b/gi, " प्रति किलो ")
+        .replace(/–|-/g, " से ");
+    } else {
+      cleaned = cleaned
+        .replace(/₹\s*(\d+(?:,\d+)*(?:\.\d+)?)/g, "Rupees $1")
+        .replace(/\/kg\b/gi, " per kg ")
+        .replace(/–|-/g, " to ");
+    }
+    return cleaned.replace(/\s+/g, " ").trim();
+  };
+
+  /* ── adaptive language detector for TTS voice ───────────────────── */
+  const detectSpokenLanguage = (text = "", defaultLang = "en") => {
+    if (!text) return defaultLang;
+    const lower = text.toLowerCase();
+
+    // 1. Marathi specific markers
+    const marathiMarkers = /\b(aahe|ahet|kay|kiti|bhav|sang|madhe|lohand|karava|tula|mala|aamhi|kasa|kashi|kashe|aale|aalo|आहे|आहेत|काय|किती|सांग|मध्ये|लोखंड)\b/i;
+    if (defaultLang === "mr" || marathiMarkers.test(text) || text.includes("ळ")) {
+      return "mr";
+    }
+
+    // 2. Devanagari script (Hindi)
+    if (/[\u0900-\u097F]/.test(text)) {
+      return "hi";
+    }
+
+    // 3. Roman Hindi / Hinglish keywords (handles queries written in English letters)
+    const hinglishMarkers = /\b(mein|me|ka|ki|ke|ko|se|kya|hai|hain|dam|daam|bhav|bhaav|loha|lohe|tamba|taamba|pital|peetal|sariya|kabaad|kabadi|kilo|rupaye|rupe|paisa|paise|chahiye|chal|raha|rahi|aaj|apna|apne|batao|bataye|milega|milegi|hoga|hogi|prati|kitna|kitne|dilli|delhi|mandi|rate|bhao)\b/i;
+    if (defaultLang === "hi" || hinglishMarkers.test(lower)) {
+      return "hi";
+    }
+
+    return "en";
+  };
+
+  /* ── voice picker — prioritizes Indian accents (Hindi, Marathi, Indian English) ── */
+  const pickAdaptiveVoice = useCallback((targetLang) => {
     const voices = window.speechSynthesis?.getVoices() || [];
     if (!voices.length) return null;
 
-    // Priority lists per language: most preferred locale first
-    const priorities = {
-      hi: ["hi-IN", "hi"],
-      mr: ["mr-IN", "mr", "hi-IN"],
-      en: ["en-IN", "en-GB", "en-US", "en"],
-    };
-    const prefs = priorities[targetLang] || priorities.en;
-
-    // Score each voice: +100 for Google, +50 for locale match, +10 for lang match
     let best = null;
     let bestScore = -1;
+
     for (const v of voices) {
+      const vLang = (v.lang || "").toLowerCase().replace("_", "-");
+      const vName = (v.name || "").toLowerCase();
       let score = 0;
-      const vLang = v.lang.toLowerCase();
-      const vName = v.name.toLowerCase();
-      if (vName.includes("google")) score += 100;
-      // Locale match (e.g. "hi-in")
-      const prefIdx = prefs.findIndex((p) => vLang.startsWith(p.toLowerCase()));
-      if (prefIdx !== -1) score += 50 - prefIdx * 5; // higher priority = higher score
-      // Avoid marked "novelty" or "compact" voices
+
+      if (targetLang === "hi") {
+        // Prioritize pure Hindi voices
+        if (vLang.startsWith("hi") || vName.includes("hindi") || vName.includes("हिन्दी")) {
+          score += 300;
+          if (vName.includes("google")) score += 60; // Google हिन्दी is exceptionally clear and natural
+          if (vName.includes("natural") || vName.includes("online")) score += 40;
+        } else if (vLang === "en-in" || vName.includes("india")) {
+          // Indian English voices pronounce Hinglish / Indic words far better than US/UK
+          score += 120;
+        }
+      } else if (targetLang === "mr") {
+        // Prioritize Marathi if installed
+        if (vLang.startsWith("mr") || vName.includes("marathi")) {
+          score += 350;
+        } else if (vLang.startsWith("hi") || vName.includes("hindi") || vName.includes("हिन्दी")) {
+          // Hindi voice accurately renders Devanagari and Indic phonetics for Marathi
+          score += 260;
+        } else if (vLang === "en-in" || vName.includes("india")) {
+          score += 120;
+        }
+      } else {
+        // English: prioritize Indian English (en-IN) for natural domestic accent
+        if (vLang === "en-in" || vName.includes("india")) {
+          score += 300;
+          if (vName.includes("heera") || vName.includes("ravi")) score += 50; // Authentic Indian English
+          if (vName.includes("google")) score += 40;
+        } else if (vLang.startsWith("en-gb")) {
+          score += 80;
+        } else if (vLang.startsWith("en")) {
+          score += 60;
+        }
+      }
+
+      // Penalize robotic compact or whisper voices
       if (vName.includes("compact") || vName.includes("whisper")) score -= 30;
-      if (score > bestScore) { bestScore = score; best = v; }
+
+      if (score > bestScore) {
+        bestScore = score;
+        best = v;
+      }
     }
+
     return best;
   }, []);
 
-  /* ── speak helper ────────────────────────────────────────────────── */
+  /* ── speak helper with adaptive accent ───────────────────────────── */
   const speak = useCallback(
     (text) => {
       if (!ttsEnabled || !window.speechSynthesis) return;
       window.speechSynthesis.cancel();
 
+      const langToUse = detectSpokenLanguage(text, chatLang);
+      const textToSpeak = prepareTextForSpeech(text, langToUse);
+
       const doSpeak = () => {
-        const utt = new SpeechSynthesisUtterance(text);
-        const voice = pickVoice(chatLang);
+        const utt = new SpeechSynthesisUtterance(textToSpeak);
+        const voice = pickAdaptiveVoice(langToUse);
         if (voice) {
           utt.voice = voice;
           utt.lang = voice.lang;
         } else {
-          utt.lang = SPEECH_LOCALES[chatLang] || "en-IN";
+          utt.lang = langToUse === "hi" ? "hi-IN" : langToUse === "mr" ? "mr-IN" : "en-IN";
         }
-        // Natural-sounding tuning
-        utt.rate  = chatLang === "en" ? 0.92 : 0.88; // slightly slower for Indic
+
+        // Natural conversational rate & pitch
+        utt.rate = langToUse === "en" ? 0.94 : 0.92;
         utt.pitch = 1.0;
         utt.volume = 1.0;
         utt.onstart = () => setIsSpeaking(true);
-        utt.onend   = () => setIsSpeaking(false);
+        utt.onend = () => setIsSpeaking(false);
         utt.onerror = () => setIsSpeaking(false);
         utteranceRef.current = utt;
         window.speechSynthesis.speak(utt);
       };
 
-      // Voices may not be loaded yet — wait for the list if needed
       const voices = window.speechSynthesis.getVoices();
       if (voices.length > 0) {
         doSpeak();
@@ -190,7 +266,7 @@ export function ChatBot() {
         window.speechSynthesis.addEventListener("voiceschanged", doSpeak, { once: true });
       }
     },
-    [ttsEnabled, chatLang, pickVoice]
+    [ttsEnabled, chatLang, pickAdaptiveVoice]
   );
 
   const stopSpeaking = () => {
@@ -237,29 +313,79 @@ export function ChatBot() {
 
   /* ── voice input ─────────────────────────────────────────────────── */
   const startListening = useCallback(() => {
+    if (typeof window !== "undefined" && !window.isSecureContext && window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1") {
+      setError("Microphone input requires a secure HTTPS connection. Please load this site over https://");
+      return;
+    }
+
     const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SR) return;
+    if (!SR) {
+      setError("Voice input is not supported in this browser. Please use Google Chrome, Microsoft Edge, or Safari over HTTPS.");
+      return;
+    }
 
     stopSpeaking();
-    const rec = new SR();
-    rec.lang = SPEECH_LOCALES[chatLang] || "en-IN";
-    rec.interimResults = false;
-    rec.maxAlternatives = 1;
+    setError(null);
 
-    rec.onstart = () => setIsListening(true);
-    rec.onresult = (e) => {
-      const transcript = e.results[0][0].transcript;
-      setInput(transcript);
-    };
-    rec.onerror = () => setIsListening(false);
-    rec.onend = () => setIsListening(false);
+    // Safely abort any existing recognition instance to prevent InvalidStateError
+    if (recognitionRef.current) {
+      try {
+        recognitionRef.current.abort();
+      } catch (_) {}
+      recognitionRef.current = null;
+    }
 
-    recognitionRef.current = rec;
-    rec.start();
-  }, [chatLang]);
+    try {
+      const rec = new SR();
+      rec.lang = SPEECH_LOCALES[chatLang] || "en-IN";
+      rec.interimResults = true;
+      rec.continuous = false;
+      rec.maxAlternatives = 1;
+
+      rec.onstart = () => {
+        setIsListening(true);
+        setError(null);
+      };
+
+      rec.onresult = (e) => {
+        const transcript = Array.from(e.results)
+          .map((res) => res[0]?.transcript || "")
+          .join("");
+        if (transcript) setInput(transcript);
+      };
+
+      rec.onerror = (e) => {
+        setIsListening(false);
+        if (e.error === "not-allowed" || e.error === "service-not-allowed") {
+          setError("Microphone access was denied. Please click the lock icon in your address bar and allow Microphone access.");
+        } else if (e.error === "network") {
+          setError("Speech recognition network error. Please check your internet connection.");
+        } else if (e.error !== "no-speech" && e.error !== "aborted") {
+          setError(`Microphone issue: ${e.error}`);
+        }
+      };
+
+      rec.onend = () => {
+        setIsListening(false);
+      };
+
+      recognitionRef.current = rec;
+      rec.start();
+    } catch (err) {
+      console.warn("Speech recognition start failed:", err);
+      setIsListening(false);
+      setError("Could not start microphone. Please try tapping the microphone icon again.");
+    }
+  }, [chatLang, stopSpeaking]);
 
   const stopListening = useCallback(() => {
-    recognitionRef.current?.stop();
+    if (recognitionRef.current) {
+      try {
+        recognitionRef.current.stop();
+      } catch (_) {
+        try { recognitionRef.current.abort(); } catch (_) {}
+      }
+    }
     setIsListening(false);
   }, []);
 
@@ -675,39 +801,44 @@ export function ChatBot() {
             />
 
             {/* Mic button */}
-            {speechSupported && (
-              <button
-                id="chatbot-mic-btn"
-                onClick={isListening ? stopListening : startListening}
-                disabled={loading}
-                title={isListening ? "Stop listening" : "Speak your question"}
-                style={{
-                  width: 42,
-                  height: 42,
-                  borderRadius: "50%",
-                  border: "none",
-                  cursor: loading ? "not-allowed" : "pointer",
-                  background: isListening
-                    ? "linear-gradient(135deg, #E0384A, #C22334)"
-                    : "linear-gradient(135deg, #EEEDFC, #DEDCF9)",
-                  color: isListening ? "#fff" : "#3A34D4",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  flexShrink: 0,
-                  transition: "background 0.2s, transform 0.15s",
-                  boxShadow: isListening
-                    ? "0 2px 12px rgba(224,56,74,0.35)"
-                    : "0 1px 4px rgba(15,20,36,0.1)",
-                }}
-              >
-                {isListening ? (
-                  <HiOutlineStop size={18} />
-                ) : (
-                  <HiOutlineMicrophone size={18} />
-                )}
-              </button>
-            )}
+            <button
+              id="chatbot-mic-btn"
+              onClick={isListening ? stopListening : startListening}
+              disabled={loading}
+              title={
+                !speechSupported
+                  ? "Voice input requires Chrome, Edge, or Safari over HTTPS"
+                  : isListening
+                  ? "Stop listening"
+                  : "Speak your question"
+              }
+              style={{
+                width: 42,
+                height: 42,
+                borderRadius: "50%",
+                border: "none",
+                cursor: loading ? "not-allowed" : "pointer",
+                background: isListening
+                  ? "linear-gradient(135deg, #E0384A, #C22334)"
+                  : "linear-gradient(135deg, #EEEDFC, #DEDCF9)",
+                color: isListening ? "#fff" : "#3A34D4",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexShrink: 0,
+                opacity: speechSupported ? 1 : 0.7,
+                transition: "background 0.2s, transform 0.15s, opacity 0.2s",
+                boxShadow: isListening
+                  ? "0 2px 12px rgba(224,56,74,0.35)"
+                  : "0 1px 4px rgba(15,20,36,0.1)",
+              }}
+            >
+              {isListening ? (
+                <HiOutlineStop size={18} />
+              ) : (
+                <HiOutlineMicrophone size={18} />
+              )}
+            </button>
 
             {/* Send button */}
             <button
