@@ -13,7 +13,7 @@
 //      Used when BHASHINI_USER_ID and BHASHINI_API_KEY are set.
 //   2. Groq      — fallback, and always used to review Bhashini output for
 //                  scrap-trade vocabulary the generic models get wrong.
-//
+//frontend files
 // Output is committed to the repo, so the running app never calls a
 // translation API — PS 26229 requires the app to work offline.
 // ---------------------------------------------------------------------------
