@@ -3,6 +3,9 @@ import mongoose from "mongoose";
 const whatsappSessionSchema = new mongoose.Schema(
   {
     phoneNumber: { type: String, required: true, unique: true, index: true },
+    // Defaults to Hindi since most WhatsApp collectors prefer it; a user can
+    // switch anytime by texting HINDI/हिंदी or ENGLISH/इंग्लिश.
+    language: { type: String, enum: ["hi", "en"], default: "hi" },
     state: { type: String, enum: ["idle", "awaiting_weight", "awaiting_confirmation"], default: "idle" },
     pendingMaterial: { type: mongoose.Schema.Types.Mixed, default: null },
     pendingWeight: { type: Number, default: null },

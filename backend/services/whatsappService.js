@@ -9,6 +9,29 @@ import Recycler from "../models/Recycler.js";
 import WhatsAppSession from "../models/WhatsAppSession.js";
 import { calculateCriticalMineralBounty } from "./criticalMineralBounty.js";
 import { classifyImage, isGeminiConfigured, transcribeAudio } from "./geminiService.js";
+import {
+  categoryLabel,
+  detectLanguageSwitch,
+  languageSwitchedLine,
+  safetyLine,
+  invalidWeightLine,
+  priceNotFoundLine,
+  priceOnlyLine,
+  priceWithWeightLine,
+  recyclerFoundLine,
+  recyclerNotFoundLine,
+  confirmLotPrompt,
+  lotCancelledLine,
+  invalidConfirmationLine,
+  lotCreatedLine,
+  geminiNotConfiguredLine,
+  audioTranscribeFailedLine,
+  audioUnclearLine,
+  materialNotIdentifiedLine,
+  invalidImageLine,
+  materialIdentifiedLine,
+  defaultHelpLine
+} from "./whatsappPrompts.js";
 
 const SESSION_TIMEOUT_MS = 10 * 60 * 1000;
 const uploadsDir = path.resolve("uploads");
@@ -72,15 +95,18 @@ const findRecycler = async (material, collector) => {
   }) || null;
 };
 
-const getOrCreateCollector = async (phoneNumber) => {
+const getOrCreateCollector = async (phoneNumber, language) => {
   let collector = await Collector.findOne({ phone: phoneNumber });
   if (!collector) {
     collector = await Collector.create({
       name: `WhatsApp Collector ${phoneNumber.slice(-4)}`,
       phone: phoneNumber,
       channel: "whatsapp",
-      preferredLanguage: "en"
+      preferredLanguage: language || "hi"
     });
+  } else if (language && collector.preferredLanguage !== language) {
+    collector.preferredLanguage = language;
+    await collector.save();
   }
   return collector;
 };
@@ -103,15 +129,18 @@ const saveSession = async (session) => {
   await session.save();
 };
 
-const priceReply = async (category, weight = null) => {
+// Returns either a plain string (no weight given) or { price, estimate, text }
+// (weight given), same shape as before — now driven by the session's language.
+const priceReply = async (lang, category, weight = null) => {
   const price = await priceFor(category);
-  if (!price) return `I could not find today's price for ${category}. Try PCB, copper, battery, LCD, or metal.`;
+  const label = categoryLabel(lang, category);
+  if (!price) return priceNotFoundLine(lang, label);
   const low = price.marketRangeMin ?? price.buyingPrice;
   const high = price.marketRangeMax ?? price.quotedPrice;
   const range = `${formatMoney(low)}–${formatMoney(high)}/kg`;
-  if (!weight) return `Today's fair price for ${category}: ${range}. Send a photo or ask another material's rate.`;
+  if (!weight) return priceOnlyLine(lang, label, range);
   const estimate = Number(((low + high) / 2 * weight).toFixed(2));
-  return { price, estimate, text: `${weight}kg ${category} is approximately ${formatMoney(estimate)} at today's fair range (${range}).` };
+  return { price, estimate, text: priceWithWeightLine(lang, weight, label, range, formatMoney(estimate)) };
 };
 
 const materialFromClassification = (result) => {
@@ -162,71 +191,84 @@ const resetSession = (session) => {
 
 export const processWhatsAppMessage = async ({ from, body = "", mediaUrl, mediaType }) => {
   const phoneNumber = normalizePhone(from);
-  const collector = await getOrCreateCollector(phoneNumber);
   const session = await getSession(phoneNumber);
   const text = String(body).trim();
   const lower = text.toLowerCase();
+  const lang = session.language || "hi";
+  const collector = await getOrCreateCollector(phoneNumber, lang);
 
-  if (lower === "safety" || lower === "help") {
-    return "Safety: do not burn cables, break screens, or open batteries. Keep batteries dry and isolate swollen cells. Send a scrap photo to begin.";
+  // Language switching works from anywhere, regardless of conversation state.
+  const requestedLanguage = detectLanguageSwitch(text);
+  if (requestedLanguage && requestedLanguage !== lang) {
+    session.language = requestedLanguage;
+    await saveSession(session);
+    await getOrCreateCollector(phoneNumber, requestedLanguage);
+    return languageSwitchedLine(requestedLanguage);
+  }
+
+  if (lower === "safety" || lower === "सुरक्षा") {
+    return safetyLine(lang);
+  }
+  if (lower === "help" || lower === "मदद") {
+    return defaultHelpLine(lang);
   }
 
   if (session.state === "awaiting_weight") {
     const weight = parseWeight(text);
-    if (!weight || weight <= 0 || weight > 100000) return "Please reply with the weight in kg, for example: 5 or 5 kilo.";
-    const quote = await priceReply(session.pendingMaterial.category, weight);
+    if (!weight || weight <= 0 || weight > 100000) return invalidWeightLine(lang);
+    const quote = await priceReply(lang, session.pendingMaterial.category, weight);
     const recycler = await findRecycler(session.pendingMaterial, collector);
     session.pendingWeight = weight;
     session.pendingEstimate = quote.estimate;
     session.pendingRecycler = recycler?._id || null;
     session.state = "awaiting_confirmation";
     await saveSession(session);
-    const buyer = recycler ? `Nearest authorized recycler: ${recycler.name} (${recycler.rating.toFixed(1)}/5 trust rating).` : "No authorized recycler is currently listed for this material.";
-    return `${quote.text}\n${buyer}\nReply YES to create a lot, or SKIP to only check the price.`;
+    const buyer = recycler ? recyclerFoundLine(lang, recycler.name, recycler.rating.toFixed(1)) : recyclerNotFoundLine(lang);
+    return `${quote.text}\n${buyer}\n${confirmLotPrompt(lang)}`;
   }
 
   if (session.state === "awaiting_confirmation") {
-    if (["skip", "no", "cancel"].includes(lower)) {
+    if (["skip", "no", "cancel", "रद्द"].includes(lower)) {
       resetSession(session);
       await saveSession(session);
-      return "Okay, no lot was created. Send another material photo or ask a price anytime.";
+      return lotCancelledLine(lang);
     }
-    if (!["yes", "y", "haan", "हां"].includes(lower)) return "Reply YES to create this lot, or SKIP to cancel.";
+    if (!["yes", "y", "haan", "हां", "हाँ"].includes(lower)) return invalidConfirmationLine(lang);
     const lot = await createWhatsAppLot(collector, session);
     const reference = lot.handoverReference;
     resetSession(session);
     await saveSession(session);
-    return `Lot created! Reference: ${reference}\nShow this code to the recycler.\nSafety: don't burn cables or leak battery acid. Reply SAFETY for details.`;
+    return lotCreatedLine(lang, reference);
   }
 
   if (mediaUrl) {
-    if (!isGeminiConfigured()) return "Photo received, but image classification is not configured. Please ask the administrator to set GEMINI_API_KEY, then send the photo again.";
+    if (!isGeminiConfigured()) return geminiNotConfiguredLine(lang);
     const filePath = await downloadMedia(mediaUrl, mediaType);
     try {
       const isAudio = String(mediaType).toLowerCase().startsWith("audio/");
       const result = isAudio ? await transcribeAudio(filePath) : await classifyImage(filePath);
-      if (!result) return isAudio ? "I received your voice note but could not transcribe it. Please try a shorter voice note or type your query." : "I could not identify that material. Please send a clearer photo or ask its price by text.";
+      if (!result) return isAudio ? audioTranscribeFailedLine(lang) : materialNotIdentifiedLine(lang);
       if (isAudio) {
         const transcript = result.transcript || result.text || "";
-        return transcript ? processWhatsAppMessage({ from, body: transcript }) : "I could not hear the voice note clearly. Please try again or type your query.";
+        return transcript ? processWhatsAppMessage({ from, body: transcript }) : audioUnclearLine(lang);
       }
       if (result.invalidImage || !result.validImage) {
-        return "Invalid image: please send a clear photo of one supported e-waste material: PCB, cable, battery, LCD panel, CRT, motor/magnet assembly, or mixed plastic.";
+        return invalidImageLine(lang);
       }
       const material = materialFromClassification(result);
-      const price = await priceReply(material.category);
+      const price = await priceReply(lang, material.category);
       session.pendingMaterial = material;
       session.state = "awaiting_weight";
       await saveSession(session);
-      return `This looks like ${material.name} (${Math.round(material.classificationConfidence)}% confidence).\n${price}\nHow much weight do you have in kg?`;
+      return materialIdentifiedLine(lang, material.name, Math.round(material.classificationConfidence), price);
     } finally {
       await fs.unlink(filePath).catch(() => {});
     }
   }
 
   const category = findPriceQuery(text);
-  if (category) return priceReply(category);
-  return "Send a scrap photo for classification, or type a price query such as 'PCB rate?' or '5 kilo copper rate'. Reply SAFETY for handling guidance.";
+  if (category) return priceReply(lang, category);
+  return defaultHelpLine(lang);
 };
 
 export const whatsappPhone = normalizePhone;
