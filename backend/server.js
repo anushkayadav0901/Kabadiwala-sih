@@ -21,6 +21,7 @@ import { detectAnomalies } from "./services/anomalyDetector.js";
 import { classifyImage as geminiClassify, estimatePrice as geminiEstimate, compareHandoverImages, isGeminiConfigured } from "./services/geminiService.js";
 import { bountyQuote, calculateCriticalMineralBounty } from "./services/criticalMineralBounty.js";
 import { processWhatsAppMessage } from "./services/whatsappService.js";
+import { buildIncomingTwiml, buildGatherTwiml } from "./services/voiceService.js";
 import { getLiveScrapRates, syncLiveScrapRates } from "./services/metalMandiService.js";
 import { deepClassify, isGroqConfigured } from "./services/groqVisionService.js";
 import { getEprDashboard, getCollectorEprContribution } from "./services/eprComplianceService.js";
@@ -201,6 +202,50 @@ app.post("/api/whatsapp/webhook", async (req, res) => {
     twiml.message("Something went wrong while processing that message. Please try again or send SAFETY for handling guidance.");
   }
   res.type("text/xml").send(twiml.toString());
+});
+
+// Twilio calls this once, the moment someone dials the number. No Digits yet —
+// this only plays the 3-language welcome and starts the language-select gather.
+app.post("/api/voice/incoming", async (req, res) => {
+  try {
+    console.log("Voice call started:", { from: req.body.From, callSid: req.body.CallSid });
+    const twimlString = await buildIncomingTwiml({ from: req.body.From, callSid: req.body.CallSid });
+    res.type("text/xml").send(twimlString);
+  } catch (error) {
+    console.error("Voice incoming error:", error);
+    const fallback = new twilio.twiml.VoiceResponse();
+    fallback.say({ language: "en-IN" }, "Sorry, something went wrong. Please try calling again later.");
+    fallback.hangup();
+    res.type("text/xml").send(fallback.toString());
+  }
+});
+
+// Every keypress during the call — language choice, menu selection, PIN code,
+// weight, confirmation — comes back through this single endpoint.
+app.post("/api/voice/gather", async (req, res) => {
+  try {
+    console.log("Voice gather hit:", { from: req.body.From, callSid: req.body.CallSid, digits: req.body.Digits });
+    const twimlString = await buildGatherTwiml({
+      from: req.body.From,
+      callSid: req.body.CallSid,
+      digits: req.body.Digits
+    });
+    res.type("text/xml").send(twimlString);
+  } catch (error) {
+    console.error("Voice gather error:", error);
+    const fallback = new twilio.twiml.VoiceResponse();
+    fallback.say({ language: "en-IN" }, "Sorry, something went wrong. Please try calling again later.");
+    fallback.hangup();
+    res.type("text/xml").send(fallback.toString());
+  }
+});
+
+// Optional: Twilio can POST call status changes (completed, no-answer, busy,
+// failed) here if TWILIO_VOICE_NUMBER's status callback is configured to it.
+// Not required for the flow to work — just useful for logging/analytics.
+app.post("/api/voice/status", (req, res) => {
+  console.log("Voice call status:", { callSid: req.body.CallSid, status: req.body.CallStatus, duration: req.body.CallDuration });
+  res.sendStatus(200);
 });
 
 app.post("/api/auth/register", async (req, res, next) => {
