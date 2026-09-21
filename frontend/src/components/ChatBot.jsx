@@ -6,7 +6,7 @@
  *  • Text input with send button
  *  • Voice input via Web Speech API (SpeechRecognition)
  *  • Voice output via Web Speech API (SpeechSynthesis)
- *  • Vernacular — follows the app's active language (en / hi / mr)
+ *  • Vernacular — follows the app's active language (en / hi / marathi)
  *  • Animated slide-up sheet, glassmorphism header
  *  • Powered by Groq (llama-3.3-70b-versatile)
  */
