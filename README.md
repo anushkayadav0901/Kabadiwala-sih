@@ -17,6 +17,8 @@ Kabadiwala Connect solves this by putting AI-powered identification, market-link
 ---
 
 ## Key Features
+<img width="900" height="700" alt="image" src="https://github.com/user-attachments/assets/651fa02d-b793-459d-85c3-907310cac63e" />
+
 
 ### AI Material Scanner (On-Device)
 - **Live AR Camera Overlay** — Point the camera at scrap, get real-time material classification with confidence score and price/kg floating on the live feed
